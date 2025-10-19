@@ -1,108 +1,54 @@
+<div align="center">
+
 # Claude Code Setup
 
 > **Optimized for Vibe Coding** — AI-assisted development where you describe what you want and AI handles the implementation details.
->
-> Last Updated: 2025-10-19
+
+[![Agents](https://img.shields.io/badge/agents-19-blue)](#agents)
+[![Plugins](https://img.shields.io/badge/plugins-11-green)](#plugins)
+[![Skills](https://img.shields.io/badge/skills-21-orange)](#skills)
+[![MCPs](https://img.shields.io/badge/MCPs-1-purple)](#mcps)
+
+**Quick Links:** [Core Concepts](#core-concepts) • [Tool Categories](#tool-categories) • [Configuration](#configuration) • [Marketplaces](#marketplaces)
+
+*Last Updated: 2025-10-19*
+
+</div>
+
+---
+
+## Core Concepts
+
+Four key building blocks power this setup:
+
+| Concept | What It Is | How You Use It |
+|---------|------------|----------------|
+| **Agents** | Specialized AI assistants with domain expertise | Invoke via Task tool: `Task({ subagent_type: "frontend-developer", ... })` |
+| **Skills** | Process frameworks that guide how tasks are done | Auto-activate or explicit: `Skill({ command: "brainstorming" })` |
+| **Plugins** | Packages that bundle skills together | Enable in settings: `"superpowers@superpowers-marketplace": true` |
+| **MCPs** | External tools and data sources | Background services in `claude_desktop_config.json` |
+
+**Installation:** Agents via [Leamas](https://leamas.sh/), Skills/Plugins via marketplaces, MCPs via npm.
+
+---
 
 ## Table of Contents
 
-- [Introduction](#introduction)
-- [Core Concepts](#core-concepts)
-- [Marketplaces](#marketplaces)
 - [Prerequisites](#prerequisites)
 - [Tool Categories](#tool-categories)
-  - [Vibe Coding](#1-vibe-coding)
-  - [Development](#2-development)
-  - [Content & Marketing](#3-content--marketing)
-  - [Tools & Utilities](#4-tools--utilities)
+  - [Marketplaces](#marketplaces)
+  - [1. Vibe Coding](#1-vibe-coding)
+  - [2. Development](#2-development)
+  - [3. Content & Marketing](#3-content--marketing)
+  - [4. Tools & Utilities](#4-tools--utilities)
 - [Configuration](#configuration)
 - [Summary](#summary)
 
 ---
 
-## Introduction
-
-This reference documents a comprehensive Claude Code setup optimized for "vibe coding"—AI-assisted development where you describe what you want and AI handles the implementation details.
-
-## Core Concepts
-
-### Agents
-
-Specialized AI assistants with specific expertise (e.g., `frontend-developer`, `code-reviewer`). Invoked via the Task tool and installed via package managers like Leamas. Agents are standalone—not bundled in plugins.
-
-```typescript
-// Invoke an agent to handle a specific task
-Task({
-  subagent_type: "frontend-developer",
-  prompt: "Build a responsive navbar component"
-})
-```
-
-### Skills
-
-Process frameworks and workflows that guide how tasks should be done (e.g., `test-driven-development`, `brainstorming`). Skills activate automatically when relevant or via the Skill tool. They come bundled in plugins.
-
-```typescript
-// Explicitly invoke a skill to guide your process
-Skill({ command: "superpowers:brainstorming" })
-```
-
-### Plugins
-
-Packages that provide collections of skills. Enabled in your Claude Code settings to provide additional capabilities like systematic workflows or SEO tools.
-
-```json
-// Enable plugins in ~/.claude/settings.json
-{
-  "enabledPlugins": {
-    "superpowers@superpowers-marketplace": true
-  }
-}
-```
-
-### MCPs (Model Context Protocol)
-
-Extend Claude's capabilities with external tools and data sources. Run as background services providing functions like memory systems or structured reasoning.
-
-```json
-// Configure MCPs in ~/Library/Application Support/Claude/claude_desktop_config.json
-{
-  "mcpServers": {
-    "sequential-thinking": {
-      "command": "npx",
-      "args": ["-y", "@modelcontextprotocol/server-sequential-thinking"]
-    }
-  }
-}
-```
-
-## Marketplaces
-
-Claude Code has three primary plugin marketplaces providing agents, skills, and workflows:
-
-| Marketplace | Focus | Link |
-|------------|-------|------|
-| **Agent Kits** | Pre-configured agent collections | [leamas.sh](https://leamas.sh/) |
-| **Plugin Marketplace** | Community plugins and skills | [claudecodeplugins.io](https://claudecodeplugins.io/) |
-| **Plugin Toolkits** | Specialized toolkits | [claudemarketplaces.com](https://claudemarketplaces.com/) |
-
-### Key Repositories
-
-**Superpowers Marketplace**
-Community-driven framework for systematic, quality-driven development workflows. Provides core skills including TDD, debugging, code review, and collaborative development patterns.
-[github.com/Ejb503/multiverse-of-multiagents](https://github.com/Ejb503/multiverse-of-multiagents)
-
-**Claude Code Workflows**
-Official Anthropic workflows for language-specific development and specialized tasks (SEO, content creation, documentation).
-[github.com/anthropics/claude-code-workflows](https://github.com/anthropics/claude-code-workflows)
-
-**Claude Code Plugins**
-Core utilities and integrations for Git operations, commit workflows, and version control helpers.
-[github.com/anthropics/claude-code-plugins](https://github.com/anthropics/claude-code-plugins)
-
 ## Prerequisites
 
-Verify you have the required dependencies before installation:
+Verify required dependencies:
 
 ```bash
 # Verify Node.js (18+)
@@ -119,64 +65,66 @@ gh --version
 
 ## Tool Categories
 
+### Marketplaces
+
+Three primary sources for agents, skills, and workflows:
+
+| Marketplace | Focus | Link |
+|------------|-------|------|
+| **Agent Kits** | Pre-configured agent collections | [leamas.sh](https://leamas.sh/) |
+| **Plugin Marketplace** | Community plugins and skills | [claudecodeplugins.io](https://claudecodeplugins.io/) |
+| **Plugin Toolkits** | Specialized toolkits | [claudemarketplaces.com](https://claudemarketplaces.com/) |
+
+**Key Repositories:**
+
+- **[Superpowers Marketplace](https://github.com/Ejb503/multiverse-of-multiagents)** — Community framework for systematic development workflows • TDD, debugging, code review patterns
+- **[Claude Code Workflows](https://github.com/anthropics/claude-code-workflows)** — Official Anthropic workflows • Language-specific development, SEO, content creation
+- **[Claude Code Plugins](https://github.com/anthropics/claude-code-plugins)** — Core utilities • Git operations, commit workflows, version control helpers
+
+---
+
 ### 1. Vibe Coding
 
-Orchestrate agents, develop skills, manage memory, and plan implementations.
+**Orchestrate agents, develop skills, manage memory, plan implementations**
 
 #### Agents
 
 <details>
-<summary><strong>agent-organizer</strong> — Coordinate multiple AI agents working together</summary>
+<summary><strong>agent-organizer</strong> — Coordinate multiple AI agents (Sonnet)</summary>
 
-**Model:** Sonnet
-**Use Case:** Coordinating multiple agents for complex workflows
-
-Helps you organize and manage multiple AI agents working together. Think of it as your AI project manager that keeps track of which agents are doing what and coordinates their efforts.
+Your AI project manager that coordinates multiple agents working together on complex workflows.
 
 ```bash
-# Install via wshobson kit
 ~/leamas/leamas agent@wshobson
 ```
 </details>
 
 <details>
-<summary><strong>vibe-coding-coach</strong> — Personalized coding guidance and mentorship</summary>
+<summary><strong>vibe-coding-coach</strong> — Personalized coding mentorship (Sonnet)</summary>
 
-**Model:** Sonnet
-**Use Case:** Personalized coding guidance and mentorship
-
-Your friendly coding mentor with personality. Provides guidance while you code, offers suggestions, explains concepts, and helps improve your skills with a conversational approach.
+Friendly coding mentor with personality. Provides guidance, explains concepts, improves your skills conversationally.
 
 ```bash
-# Install via wshobson kit
 ~/leamas/leamas agent@wshobson
 ```
 </details>
 
 <details>
-<summary><strong>prompt-engineer</strong> — Craft and optimize prompts for AI systems</summary>
+<summary><strong>prompt-engineer</strong> — Craft optimized prompts (Opus)</summary>
 
-**Model:** Opus (highest reasoning)
-**Use Case:** Crafting and optimizing prompts for AI systems
-
-Expert prompt architect using the most powerful model. Specializes in advanced techniques like Chain-of-Thought and Tree-of-Thoughts. Always shows complete prompt text with implementation notes. Essential for building AI features.
+Expert prompt architect using advanced techniques like Chain-of-Thought and Tree-of-Thoughts. Shows complete prompt text with implementation notes.
 
 ```bash
-# Install via claude-code-sub-agents kit
 ~/leamas/leamas agent@claude-code-sub-agents
 ```
 </details>
 
 <details>
-<summary><strong>context-manager</strong> — Manage conversation context and memory</summary>
+<summary><strong>context-manager</strong> — Manage conversation context (Sonnet)</summary>
 
-**Model:** Sonnet
-**Use Case:** Managing conversation context and memory
-
-Optimizes how context is used and managed across conversations. Helps maximize available context windows and ensures important information is preserved and accessible.
+Optimizes context usage across conversations. Maximizes context windows and preserves important information.
 
 ```bash
-# Install via wshobson kit
 ~/leamas/leamas agent@wshobson
 ```
 </details>
@@ -185,112 +133,60 @@ Optimizes how context is used and managed across conversations. Helps maximize a
 
 ##### superpowers@superpowers-marketplace
 
-The core plugin providing the entire Superpowers skills ecosystem. Includes mandatory workflows, agent orchestration, planning tools, and collaborative development patterns.
+**Status:** ✅ ENABLED | **Provides:** 10 skills for systematic development
 
-**Status:** ENABLED
-**Provides:** 10 skills for systematic development
+The core plugin providing the entire Superpowers skills ecosystem. Mandatory workflows, agent orchestration, planning tools.
 
 ```bash
 # Enable in ~/.claude/settings.json
-# Add: "superpowers@superpowers-marketplace": true
+"superpowers@superpowers-marketplace": true
 ```
 
 <details>
-<summary>View all 10 Superpowers skills</summary>
+<summary><strong>View all 10 Superpowers skills</strong></summary>
 
-##### using-superpowers
+**using-superpowers** — Your mandatory starting point for any task
 
-**Triggers:** EVERY task (starting point)
+**subagent-driven-development** — Dispatch fresh subagents for plan tasks with code reviews
 
-Your mandatory starting point for any task. Forces you to search for and use existing skills before doing work. Prevents reinventing the wheel by ensuring you check if there's already a proven approach. Read → Announce → Follow.
+**dispatching-parallel-agents** — Launch multiple agents for 3+ independent failures
 
-##### subagent-driven-development
+**writing-skills** — Create bulletproof Claude skills with TDD
 
-**Triggers:** Executing implementation plans with independent tasks
+**testing-skills-with-subagents** — Validate skills resist rationalization
 
-Automatically dispatches fresh subagents to handle individual tasks from your plan, with code reviews between each task. Enables fast iteration while maintaining quality.
+**sharing-skills** — Contribute skills upstream via PR
 
-##### dispatching-parallel-agents
+**commands** — Command-line workflow automation utilities
 
-**Triggers:** Facing 3+ independent failures
+**brainstorming** — `/superpowers:brainstorm` — Refine ideas through Socratic questioning
 
-Launches multiple agents simultaneously to investigate different problems that don't depend on each other. Parallelizes problem-solving for faster resolution.
+**writing-plans** — `/superpowers:write-plan` — Create detailed implementation plans
 
-##### writing-skills
-
-**Use Case:** Creating bulletproof Claude skills
-
-Applies test-driven development methodology to creating Claude skills. Test the skill with subagents first to see where it fails, then write instructions that close those gaps.
-
-##### testing-skills-with-subagents
-
-**Use Case:** Validating skills resist rationalization
-
-Runs your skills through actual subagent sessions to verify they work. Uses RED-GREEN-REFACTOR cycle to ensure skills are bulletproof before deployment.
-
-##### sharing-skills
-
-**Use Case:** Contributing skills to upstream repositories
-
-Guides you through contributing your skill back to the community. Handles branching, committing, pushing, and creating pull requests.
-
-##### commands
-
-**Use Case:** Command-line workflow automation
-
-Provides utilities and helpers for command-line workflows. Streamlines common operations and automates repetitive tasks.
-
-##### brainstorming
-
-**Triggers:** Before writing code or implementation plans
-**Slash Command:** `/superpowers:brainstorm`
-
-Refines rough ideas into fully-formed designs through structured Socratic questioning. Explores alternatives, validates assumptions, and incrementally refines concepts before writing code.
-
-##### writing-plans
-
-**Triggers:** When design is complete
-**Slash Command:** `/superpowers:write-plan`
-
-Creates detailed, step-by-step implementation plans with exact file paths and complete code examples. Designed for engineers with zero codebase context.
-
-##### executing-plans
-
-**Triggers:** When given a complete implementation plan
-**Slash Command:** `/superpowers:execute-plan`
-
-Loads a complete plan, reviews it critically, then executes tasks in controlled batches with review checkpoints between each batch.
+**executing-plans** — `/superpowers:execute-plan` — Execute plans in controlled batches
 
 </details>
 
 ##### claude-mem@thedotmack
 
-Advanced memory system that remembers everything across sessions. Automatically captures what you do, processes it into searchable summaries, and injects relevant context when you start new sessions.
+**Status:** ✅ ENABLED | **Provides:** Persistent memory + 6 MCP search tools
 
-**Status:** ENABLED
-**Provides:** Persistent memory with full-text search, 6 MCP search tools
-**Technology:** SQLite with FTS5 for fast searching
+Advanced memory system with SQLite + FTS5. Automatically captures work, processes into searchable summaries, injects context across sessions.
 
 ```bash
-# Follow installation guide at:
-# https://github.com/thedotmack/claude-mem
-# Then enable in ~/.claude/settings.json:
-# "claude-mem@thedotmack": true
+# Installation guide: https://github.com/thedotmack/claude-mem
+"claude-mem@thedotmack": true
 ```
 
-**Features:**
-- Six specialized search tools (concept, file, type, full-text)
-- Automatic capture and processing
-- Session-to-session context injection
+**Features:** Six specialized search tools, automatic capture/processing, session-to-session context injection
 
 #### MCPs
 
 ##### sequential-thinking
 
 **Provider:** Official @modelcontextprotocol
-**Use Case:** Breaking down complex problems into logical steps
 
-Enables structured, step-by-step reasoning for complex problems. Helps break down challenges into manageable sequential steps with clear logical progression.
+Structured, step-by-step reasoning for complex problems. Breaks challenges into logical sequential steps.
 
 ```json
 // Add to ~/Library/Application Support/Claude/claude_desktop_config.json
@@ -304,106 +200,76 @@ Enables structured, step-by-step reasoning for complex problems. Helps break dow
 }
 ```
 
-```bash
-# Restart Claude Desktop after editing
-```
+---
 
 ### 2. Development
 
-Design, frontend, Next.js, and code review tools.
+**Design, frontend, Next.js, and code review tools**
 
 #### Agents
 
 <details>
-<summary><strong>ui-designer</strong> — Create design systems and visual interfaces</summary>
+<summary><strong>ui-designer</strong> — Design systems and visual interfaces (Sonnet, MCP: magic + context7)</summary>
 
-**Model:** Sonnet
-**MCP:** magic, context7
-**Use Case:** Creating design systems and visual interfaces
+Creates accessible interfaces using color theory, typography, layout principles. Generates UI components, researches design patterns. WCAG compliant.
 
-Creates beautiful, accessible interfaces using color theory, typography, and layout principles. Generates UI components with magic MCP and researches design patterns with context7. Ensures WCAG compliance.
-
-**Outputs:** High-fidelity mockups, interactive prototypes, mood boards, style guides, complete design systems
+**Outputs:** High-fidelity mockups, prototypes, mood boards, style guides, design systems
 
 ```bash
-# Install via claude-code-sub-agents kit
 ~/leamas/leamas agent@claude-code-sub-agents
 ```
 </details>
 
 <details>
-<summary><strong>ux-designer</strong> — User research, journey mapping, and usability testing</summary>
+<summary><strong>ux-designer</strong> — User research and journey mapping (Sonnet, MCP: context7 + sequential-thinking + playwright)</summary>
 
-**Model:** Sonnet
-**MCP:** context7, sequential-thinking, playwright
-**Use Case:** User research, journey mapping, and usability testing
-
-Your user advocate focused on making products intuitive through research and testing. Creates user personas, journey maps, and conducts usability testing.
+User advocate focused on intuitive products through research and testing. Creates personas, journey maps, conducts usability testing.
 
 **Outputs:** Research reports, wireframes, design specifications based on user needs
 
 ```bash
-# Install via claude-code-sub-agents kit
 ~/leamas/leamas agent@claude-code-sub-agents
 ```
 </details>
 
 <details>
-<summary><strong>frontend-developer</strong> — Build production-ready React components</summary>
+<summary><strong>frontend-developer</strong> — Production React components (Sonnet, MCP: magic + context7 + playwright)</summary>
 
-**Model:** Sonnet
-**MCP:** magic, context7, playwright
-**Use Case:** Building production-ready React components
-
-React specialist building complete, production-ready components with TypeScript and Tailwind CSS. Follows component-driven development with performance optimization built in.
+React specialist building complete production components with TypeScript and Tailwind CSS. Component-driven development with performance optimization.
 
 **Outputs:** Component code, tests, accessibility checklist, performance notes, deployment checklist
 
 ```bash
-# Install via claude-code-sub-agents kit
 ~/leamas/leamas agent@claude-code-sub-agents
 ```
 </details>
 
 <details>
-<summary><strong>ios-developer</strong> — Native iOS application development</summary>
+<summary><strong>ios-developer</strong> — Native iOS development (Sonnet)</summary>
 
-**Model:** Sonnet
-**Use Case:** Native iOS application development
-
-iOS specialist covering Swift, SwiftUI, and UIKit. Builds native iOS applications following Apple's design guidelines and platform-specific patterns.
+iOS specialist covering Swift, SwiftUI, and UIKit. Builds native iOS apps following Apple's design guidelines.
 
 ```bash
-# Install via claude-code-sub-agents kit
 ~/leamas/leamas agent@claude-code-sub-agents
 ```
 </details>
 
 <details>
-<summary><strong>nextjs-pro</strong> — Next.js applications with SSR, SSG, and routing</summary>
+<summary><strong>nextjs-pro</strong> — Next.js SSR/SSG/routing (Sonnet)</summary>
 
-**Model:** Sonnet
-**Use Case:** Next.js applications with SSR, SSG, and routing
-
-Next.js specialist covering server-side rendering, static site generation, API routes, and deployment. Understands Next.js-specific patterns and optimizations.
+Next.js specialist covering server-side rendering, static site generation, API routes, deployment optimizations.
 
 ```bash
-# Install via wshobson kit
 ~/leamas/leamas agent@wshobson
 ```
 </details>
 
 <details>
-<summary><strong>code-reviewer</strong> — Comprehensive code review before merging</summary>
+<summary><strong>code-reviewer</strong> — Comprehensive code review (Sonnet, MCP: context7 + sequential-thinking)</summary>
 
-**Model:** Sonnet
-**MCP:** context7, sequential-thinking
-**Use Case:** Comprehensive code review before merging
-
-Senior code reviewer analyzing code for quality, security, performance, and maintainability. Provides terminal-optimized reports organized by priority: Critical Issues, Warnings, and Suggestions.
+Senior code reviewer analyzing quality, security, performance, maintainability. Terminal-optimized reports: Critical Issues, Warnings, Suggestions.
 
 ```bash
-# Install via claude-code-sub-agents kit
 ~/leamas/leamas agent@claude-code-sub-agents
 ```
 </details>
@@ -412,233 +278,181 @@ Senior code reviewer analyzing code for quality, security, performance, and main
 
 ##### javascript-typescript@claude-code-workflows
 
-**Status:** ENABLED
-**Provides:** 3 skills (2 frontend, 1 backend)
+**Status:** ✅ ENABLED | **Provides:** 3 skills (frontend + backend)
 
-JavaScript and TypeScript development skills including frontend patterns and backend Node.js support.
+JavaScript and TypeScript development skills.
 
 ```bash
-# Enable in ~/.claude/settings.json
-# Add: "javascript-typescript@claude-code-workflows": true
+"javascript-typescript@claude-code-workflows": true
 ```
 
-**Skills included:**
-- **modern-javascript-patterns** — ES6+ features and patterns
-- **typescript-advanced-types** — Advanced TypeScript type system
-- **nodejs-backend-patterns** — Express, Fastify, API design
+**Skills:** modern-javascript-patterns, typescript-advanced-types, nodejs-backend-patterns
 
 ##### frontend-mobile-development@claude-code-workflows
 
-**Status:** ENABLED
-**Use Case:** Frontend and mobile development workflows
-
-Workflow agents specialized in frontend and mobile development patterns and best practices.
+**Status:** ✅ ENABLED | **Use Case:** Frontend and mobile development workflows
 
 ```bash
-# Enable in ~/.claude/settings.json
-# Add: "frontend-mobile-development@claude-code-workflows": true
+"frontend-mobile-development@claude-code-workflows": true
 ```
 
 ##### code-documentation@claude-code-workflows
 
-**Status:** ENABLED
-**Use Case:** Code documentation and quality workflows
-
-Three agents specialized in documentation generation and code review workflows for maintaining quality and documentation standards.
+**Status:** ✅ ENABLED | **Provides:** 3 agents for documentation + code review
 
 ```bash
-# Enable in ~/.claude/settings.json
-# Add: "code-documentation@claude-code-workflows": true
+"code-documentation@claude-code-workflows": true
 ```
+
+---
 
 ### 3. Content & Marketing
 
-SEO content creation, technical optimization, and writing.
+**SEO content creation, technical optimization, and writing**
 
 #### Plugins
 
 ##### seo-content-creation@claude-code-workflows
 
-**Status:** ENABLED
-**Provides:** 3 agents (writer, planner, auditor)
+**Status:** ✅ ENABLED | **Provides:** 3 agents (writer, planner, auditor)
 
-SEO content creation, planning, and auditing agents for comprehensive content workflow.
+SEO content creation, planning, and auditing agents.
 
 ```bash
-# Enable in ~/.claude/settings.json
-# Add: "seo-content-creation@claude-code-workflows": true
+"seo-content-creation@claude-code-workflows": true
 ```
 
 <details>
-<summary>View SEO Content Creation agents</summary>
+<summary><strong>View SEO Content Creation agents</strong></summary>
 
-**seo-content-writer** (Sonnet)
-Writes content optimized for search engines while maintaining quality. Integrates keywords naturally (0.5-1.5% density), includes E-E-A-T signals, and creates scannable content.
+**seo-content-writer** (Sonnet) — Writes optimized content with natural keyword integration (0.5-1.5% density), E-E-A-T signals, scannable formatting
 
-**seo-content-planner** (Haiku)
-Plans comprehensive content strategies with topic clusters, content calendars, and outlines. Identifies content gaps and maps search intent.
+**seo-content-planner** (Haiku) — Plans content strategies, topic clusters, content calendars, identifies gaps, maps search intent
 
-**seo-content-auditor** (Sonnet)
-Analyzes existing content for quality, E-E-A-T signals, readability, and keyword optimization. Scores content on 1-10 scale with actionable recommendations.
+**seo-content-auditor** (Sonnet) — Analyzes existing content for quality, E-E-A-T, readability, keywords. Scores 1-10 with actionable recommendations
 
 </details>
 
 ##### seo-technical-optimization@claude-code-workflows
 
-**Status:** ENABLED
-**Provides:** 4 agents (keywords, meta, snippets, structure)
+**Status:** ✅ ENABLED | **Provides:** 4 agents (keywords, meta, snippets, structure)
 
-Technical SEO optimization agents for keywords, metadata, featured snippets, and content structure.
+Technical SEO optimization agents.
 
 ```bash
-# Enable in ~/.claude/settings.json
-# Add: "seo-technical-optimization@claude-code-workflows": true
+"seo-technical-optimization@claude-code-workflows": true
 ```
 
 <details>
-<summary>View SEO Technical Optimization agents</summary>
+<summary><strong>View SEO Technical Optimization agents</strong></summary>
 
-**seo-keyword-strategist** (Haiku)
-Analyzes keyword usage, calculates density, generates 20-30 LSI keyword variations. Maps entities and related concepts.
+**seo-keyword-strategist** (Haiku) — Analyzes keyword usage, calculates density, generates 20-30 LSI variations, maps entities
 
-**seo-meta-optimizer** (Haiku)
-Creates optimized meta titles, descriptions, and URL structures within character limits. Provides 3-5 variations for A/B testing.
+**seo-meta-optimizer** (Haiku) — Creates optimized meta titles, descriptions, URLs within character limits. Provides 3-5 A/B test variations
 
-**seo-snippet-hunter** (Haiku)
-Formats content for featured snippets (position zero). Creates paragraph snippets, list formats, and table structures with schema markup.
+**seo-snippet-hunter** (Haiku) — Formats content for featured snippets (position zero). Creates paragraph snippets, lists, tables with schema markup
 
-**seo-structure-architect** (Haiku)
-Optimizes header hierarchy, implements schema markup (Article, FAQ, HowTo, Review), and identifies internal linking opportunities.
+**seo-structure-architect** (Haiku) — Optimizes header hierarchy, implements schema markup (Article, FAQ, HowTo, Review), identifies internal linking
 
 </details>
 
 ##### seo-analysis-monitoring@claude-code-workflows
 
-**Status:** ENABLED
-**Provides:** 3 agents (authority, refresher, cannibalization)
+**Status:** ✅ ENABLED | **Provides:** 3 agents (authority, refresher, cannibalization)
 
-SEO analysis and monitoring agents for building authority, detecting conflicts, and maintaining freshness.
+SEO analysis and monitoring agents.
 
 ```bash
-# Enable in ~/.claude/settings.json
-# Add: "seo-analysis-monitoring@claude-code-workflows": true
+"seo-analysis-monitoring@claude-code-workflows": true
 ```
 
 <details>
-<summary>View SEO Analysis & Monitoring agents</summary>
+<summary><strong>View SEO Analysis & Monitoring agents</strong></summary>
 
-**seo-authority-builder** (Sonnet)
-Analyzes content for E-E-A-T signals: Experience, Expertise, Authority, Trust. Creates enhancement plans with author bio templates and trust signal checklists.
+**seo-authority-builder** (Sonnet) — Analyzes E-E-A-T signals: Experience, Expertise, Authority, Trust. Creates enhancement plans with templates
 
-**seo-content-refresher** (Haiku)
-Scans content for outdated elements and prioritizes updates based on ranking decline. Creates refresh plans with update checklists.
+**seo-content-refresher** (Haiku) — Scans for outdated elements, prioritizes updates based on ranking decline, creates refresh plans
 
-**seo-cannibalization-detector** (Haiku)
-Identifies when multiple pages compete for the same keywords. Provides resolution strategies: consolidate, differentiate, or adjust targeting.
+**seo-cannibalization-detector** (Haiku) — Identifies pages competing for same keywords. Resolution strategies: consolidate, differentiate, adjust targeting
 
 </details>
 
 ##### elements-of-style@superpowers-marketplace
 
-**Status:** ENABLED
-**Provides:** 1 skill
+**Status:** ✅ ENABLED | **Provides:** 1 skill
 
-Single-purpose plugin providing the `writing-clearly-and-concisely` skill. Brings Strunk & White's timeless writing principles to all your prose.
+Single-purpose plugin providing the `writing-clearly-and-concisely` skill. Applies Strunk & White's principles to any prose.
 
 ```bash
-# Enable in ~/.claude/settings.json
-# Add: "elements-of-style@superpowers-marketplace": true
+"elements-of-style@superpowers-marketplace": true
 ```
 
-**Skill: writing-clearly-and-concisely**
-Applies classic writing principles from Strunk & White to any text: documentation, commit messages, error messages, reports, UI text.
+**Applies to:** Documentation, commit messages, error messages, reports, UI text
+
+---
 
 ### 4. Tools & Utilities
 
-Data analysis, databases, Git workflows, and learning extraction.
+**Data analysis, databases, Git workflows, and learning extraction**
 
 #### Agents
 
 <details>
-<summary><strong>data-scientist</strong> — Data analysis and machine learning</summary>
+<summary><strong>data-scientist</strong> — Data analysis and ML (Sonnet)</summary>
 
-**Model:** Sonnet
-**Use Case:** Data analysis and machine learning
-
-Handles data analysis, statistical modeling, and machine learning implementations.
+Handles data analysis, statistical modeling, machine learning implementations.
 
 ```bash
-# Install via wshobson kit
 ~/leamas/leamas agent@wshobson
 ```
 </details>
 
 <details>
-<summary><strong>quant-analyst</strong> — Quantitative and financial analysis</summary>
-
-**Model:** Sonnet
-**Use Case:** Quantitative and financial analysis
+<summary><strong>quant-analyst</strong> — Quantitative and financial analysis (Sonnet)</summary>
 
 Provides quantitative analysis and financial modeling expertise.
 
 ```bash
-# Install via wshobson kit
 ~/leamas/leamas agent@wshobson
 ```
 </details>
 
 <details>
-<summary><strong>python-pro</strong> — Python development and data analysis</summary>
+<summary><strong>python-pro</strong> — Python development and data analysis (Sonnet)</summary>
 
-**Model:** Sonnet
-**Use Case:** Python development and data analysis
-
-Python specialist for data analysis, scripting, automation, and Python-specific best practices.
+Python specialist for data analysis, scripting, automation, Python-specific best practices.
 
 ```bash
-# Install via wshobson kit
 ~/leamas/leamas agent@wshobson
 ```
 </details>
 
 <details>
-<summary><strong>database-admin</strong> — Database setup, configuration, and management</summary>
+<summary><strong>database-admin</strong> — Database setup and management (Sonnet)</summary>
 
-**Model:** Sonnet
-**Use Case:** Database setup, configuration, and management
-
-Manages database administration, setup, and ongoing maintenance.
+Manages database administration, setup, ongoing maintenance.
 
 ```bash
-# Install via wshobson kit
 ~/leamas/leamas agent@wshobson
 ```
 </details>
 
 <details>
-<summary><strong>database-optimizer</strong> — Query optimization and database performance</summary>
-
-**Model:** Sonnet
-**Use Case:** Query optimization and database performance
+<summary><strong>database-optimizer</strong> — Query optimization and performance (Sonnet)</summary>
 
 Optimizes database queries and overall database performance.
 
 ```bash
-# Install via wshobson kit
 ~/leamas/leamas agent@wshobson
 ```
 </details>
 
 <details>
-<summary><strong>payment-integration</strong> — Implementing payment systems</summary>
+<summary><strong>payment-integration</strong> — Payment systems (Sonnet)</summary>
 
-**Model:** Sonnet
-**Use Case:** Implementing payment systems
-
-Specializes in integrating payment systems like Stripe, PayPal, and other payment processors. Handles payment workflows and security considerations.
+Specializes in integrating Stripe, PayPal, payment processors. Handles payment workflows and security.
 
 ```bash
-# Install via wshobson kit
 ~/leamas/leamas agent@wshobson
 ```
 </details>
@@ -647,53 +461,33 @@ Specializes in integrating payment systems like Stripe, PayPal, and other paymen
 
 ##### git@claude-code-plugins
 
-**Status:** ENABLED
-**Use Case:** Git version control workflows
+**Status:** ✅ ENABLED | **Use Case:** Git version control workflows
 
-Provides helpers and workflow improvements for Git operations.
+Helpers and workflow improvements for Git operations.
 
 ```bash
-# Enable in ~/.claude/settings.json
-# Add: "git@claude-code-plugins": true
+"git@claude-code-plugins": true
 ```
 
 ##### commit-commands@claude-code-plugins
 
-**Status:** ENABLED
-**Use Case:** Better commit processes
+**Status:** ✅ ENABLED | **Use Case:** Better commit processes
 
 Enhances commit workflows with helpers and improved commit message handling.
 
 ```bash
-# Enable in ~/.claude/settings.json
-# Add: "commit-commands@claude-code-plugins": true
+"commit-commands@claude-code-plugins": true
 ```
 
 #### User-Created Skills
 
-##### article-extractor
+**article-extractor** — Extracts clean article content from URLs without ads, navigation, clutter
 
-**Triggers:** User provides article URL
+**ship-learn-next** — Transforms learning content into actionable implementation plans, practice reps, learning quests
 
-Extracts clean article content from URLs without ads, navigation, sidebars, or other clutter. Returns just the readable text from blog posts, articles, and tutorials.
+**tapestry** — Unified workflow: `tapestry <URL>` auto-detects content type, extracts, creates action plan
 
-##### ship-learn-next
-
-**Use Case:** Turning learning into action
-
-Transforms learning content (videos, articles, tutorials) into actionable implementation plans. Converts advice and lessons into concrete action steps, practice reps, and learning quests.
-
-##### tapestry
-
-**Triggers:** `tapestry <URL>`, `weave <URL>`, `make this actionable <URL>`
-
-Automatically detects content type (YouTube video, article, PDF), extracts the content, and creates an action plan—all in one step. Your unified workflow for extracting and planning from any learning material.
-
-##### youtube-transcript
-
-**Triggers:** User provides YouTube URL
-
-Downloads transcripts and captions from YouTube videos for analysis, summarization, or content extraction.
+**youtube-transcript** — Downloads transcripts and captions from YouTube videos
 
 ---
 
@@ -731,6 +525,8 @@ Claude-Mem Data:  ${CLAUDE_PLUGIN_ROOT}/data/
 }
 ```
 
+---
+
 ## Summary
 
 **Total Tools: 62**
@@ -749,5 +545,7 @@ Claude-Mem Data:  ${CLAUDE_PLUGIN_ROOT}/data/
 - 1 from elements-of-style
 - 3 from SEO plugins
 - 4 user-created
+
+---
 
 **Recently Removed (18 tools):** react-pro, mobile-developer, javascript-pro, debugger, security-auditor, 4 business agents, 4 duplicate data agents, content-writer
