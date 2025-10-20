@@ -78,95 +78,57 @@ MCP FLOW
 ## Example: How Tools Work Together
 ```
 USER: "Add authentication to my app"
-  ↓
-┌──────────────────────────────────┐
-│ Claude analyzes request          │
-│ Identifies: auth, OAuth, sessions│
-└────────────┬─────────────────────┘
-             ↓
-       ⚡ brainstorming
-       └─ Socratic questions:
-          • OAuth providers?
-          • Password reset flow?
-          • Session management?
-             ↓
-       ⚡ test-driven-development
-       └─ Write failing tests:
-          • login ✗
-          • logout ✗
-          • OAuth flow ✗
-             ↓
-       ┌─────┴─────┐
-       ↓           ↓
-   🤖 frontend- 🔌 context7
-   developer    └─ Lookup Auth0/
-   └─ Build        Supabase docs
-      login UI
-      (React +
-      TypeScript)
-       ↓
-   🤖 database-admin
-   └─ Create users table:
-      • email
-      • oauth_provider
-      • session_tokens
-       ↓
-   ⚡ requesting-code-review
-   └─ Spawn code-reviewer agent
-      • Check SQL injection
-      • Auth bypass vulnerabilities
-       ↓
-   ⚡ verification-before-completion
-   └─ Run tests:
-      • login ✓
-      • logout ✓
-      • OAuth flow ✓
-       ↓
-   ✅ Feature complete & secure
+  │
+  ▼ Claude analyzes → Identifies: auth, OAuth, sessions
+  │
+  ├─ ⚡ brainstorming
+  │  └─ Socratic questions: OAuth providers? Password reset? Sessions?
+  │
+  ├─ ⚡ test-driven-development
+  │  └─ Write failing tests: login✗ logout✗ OAuth✗
+  │
+  ├─ Parallel execution ────────────────────────────────────────────┐
+  │  🤖 frontend-developer    🤖 database-admin      🔌 context7     │
+  │  Build login UI           Create users table    Lookup Auth0/   │
+  │  (React + TypeScript)     (email, oauth_provider, sessions)     │
+  │                                                  Supabase docs   │
+  │
+  ├─ ⚡ requesting-code-review
+  │  └─ Spawn code-reviewer agent: Check SQL injection, auth bypass
+  │
+  ├─ ⚡ verification-before-completion
+  │  └─ Run tests: login✓ logout✓ OAuth✓
+  │
+  ✅ Feature complete & secure
 ```
 
 ---
 
 ## Quick Start (15 Minutes)
 
-Get a working setup with your first win.
-
-### Step 1: Prerequisites (2 min)
-
 ```bash
+# ============================================================================
+# QUICK START (15 Minutes)
+# ============================================================================
+
+# Step 1: Prerequisites (2 min)
+# Verify you have the basics
 node --version  # Need 18+
 git --version
-```
 
-### Step 2: Install Essentials (8 min)
+# Step 2: Install Essentials (8 min)
 
-Install these 3 core tools:
-
-**1. superpowers** - Core workflow skills (TDD, code review, planning)
-
-```bash
+# 2a. superpowers - Core workflow skills (TDD, code review, planning)
+# 2b. claude-mem - Persistent memory across sessions
 # Add to ~/.claude/settings.json:
 {
   "enabledPlugins": {
-    "superpowers@superpowers-marketplace": true
-  }
-}
-```
-
-**2. claude-mem** - Persistent memory across sessions
-
-```bash
-# Add to ~/.claude/settings.json:
-{
-  "enabledPlugins": {
+    "superpowers@superpowers-marketplace": true,
     "claude-mem@thedotmack": true
   }
 }
-```
 
-**3. sequential-thinking** - Structured reasoning for complex problems
-
-```bash
+# 2c. sequential-thinking - Structured reasoning for complex problems
 # Add to ~/Library/Application Support/Claude/claude_desktop_config.json:
 {
   "mcpServers": {
@@ -176,27 +138,16 @@ Install these 3 core tools:
     }
   }
 }
-```
 
-### Step 3: Verify (2 min)
-
-Restart Claude Desktop, then verify:
-
-```bash
-# Check plugins enabled
+# Step 3: Verify (2 min)
+# Restart Claude Desktop, then verify:
 cat ~/.claude/settings.json | grep enabledPlugins
-
-# Check MCP configured
 cat ~/Library/Application\ Support/Claude/claude_desktop_config.json
+
+# Step 4: Try It (3 min)
+# Ask Claude: "Use brainstorming to help me design a navbar component"
+# ✅ Expected: Claude invokes brainstorming skill and asks Socratic questions
 ```
-
-### Step 4: Try It (3 min)
-
-Ask Claude:
-
-> "Use brainstorming to help me design a navbar component"
-
-✅ **Expected:** Claude invokes the brainstorming skill and asks Socratic questions
 
 ---
 
