@@ -168,7 +168,7 @@ kit: wshobson
 ---
 ```
 
-**Key Capabilities:**
+Key Capabilities:
 - Acts as your AI project manager
 - Tracks which agents handle what
 - Ensures work doesn't overlap
@@ -191,7 +191,7 @@ kit: wshobson
 ---
 ```
 
-**Key Capabilities:**
+Key Capabilities:
 - Provides guidance while you code
 - Explains concepts in approachable ways
 - Helps improve your skills conversationally
@@ -214,7 +214,7 @@ kit: wshobson
 ---
 ```
 
-**Key Capabilities:**
+Key Capabilities:
 - Maximizes available context windows
 - Ensures important information is preserved when needed
 - Prevents context overflow
@@ -237,7 +237,7 @@ kit: claude-code-sub-agents
 ---
 ```
 
-**Key Capabilities:**
+Key Capabilities:
 - Specializes in Chain-of-Thought and Tree-of-Thoughts techniques
 - Essential when building AI features
 - Optimizes prompts for LLM performance
@@ -261,7 +261,7 @@ kit: claude-code-sub-agents
 ---
 ```
 
-**Key Capabilities:**
+Key Capabilities:
 - Color palettes, typography, spacing systems
 - Component libraries
 - WCAG accessibility compliance
@@ -285,7 +285,7 @@ kit: claude-code-sub-agents
 ---
 ```
 
-**Key Capabilities:**
+Key Capabilities:
 - User flows, pain points, and interaction patterns
 - Wireframes and prototypes
 - Design validation with users
@@ -309,7 +309,7 @@ kit: claude-code-sub-agents
 ---
 ```
 
-**Key Capabilities:**
+Key Capabilities:
 - State management, hooks, responsive design
 - Accessibility best practices
 - Testing with React Testing Library
@@ -332,7 +332,7 @@ kit: claude-code-sub-agents
 ---
 ```
 
-**Key Capabilities:**
+Key Capabilities:
 - iOS-specific patterns and navigation
 - Platform conventions
 - App Store optimization
@@ -356,7 +356,7 @@ kit: claude-code-sub-agents
 ---
 ```
 
-**Key Capabilities:**
+Key Capabilities:
 - Actionable feedback with line-by-line suggestions
 - Security vulnerability detection
 - Best practices enforcement
@@ -379,7 +379,7 @@ kit: wshobson
 ---
 ```
 
-**Key Capabilities:**
+Key Capabilities:
 - App Router, Server Components
 - Deployment best practices
 - Performance optimization
@@ -402,7 +402,7 @@ kit: wshobson
 ---
 ```
 
-**Key Capabilities:**
+Key Capabilities:
 - Machine learning implementations
 - Data transformation or analysis
 - Statistical analysis
@@ -424,7 +424,7 @@ kit: wshobson
 ---
 ```
 
-**Key Capabilities:**
+Key Capabilities:
 - Statistical analysis
 - Risk modeling
 - Financial calculations
@@ -447,7 +447,7 @@ kit: wshobson
 ---
 ```
 
-**Key Capabilities:**
+Key Capabilities:
 - Data analysis, scripting, automation
 - Python-specific best practices
 - Knows pandas, numpy, requests
@@ -470,7 +470,7 @@ kit: wshobson
 ---
 ```
 
-**Key Capabilities:**
+Key Capabilities:
 - Schema design, migrations, backups
 - Database administration tasks
 
@@ -492,7 +492,7 @@ kit: wshobson
 ---
 ```
 
-**Key Capabilities:**
+Key Capabilities:
 - Analyzes slow queries
 - Suggests indexes
 - Improves database efficiency
@@ -514,7 +514,7 @@ kit: wshobson
 ---
 ```
 
-**Key Capabilities:**
+Key Capabilities:
 - Payment workflows, webhooks
 - Security considerations
 - Checkout flows
@@ -537,7 +537,7 @@ plugin: seo-content-creation@claude-code-workflows
 ---
 ```
 
-**Key Capabilities:**
+Key Capabilities:
 - 0.5-1.5% keyword density
 - Structures content for readability and ranking
 
@@ -559,7 +559,7 @@ plugin: seo-content-creation@claude-code-workflows
 ---
 ```
 
-**Key Capabilities:**
+Key Capabilities:
 - Plans content strategy
 - Topic clustering and search intent mapping
 
@@ -581,7 +581,7 @@ plugin: seo-content-creation@claude-code-workflows
 ---
 ```
 
-**Key Capabilities:**
+Key Capabilities:
 - Actionable improvement recommendations
 - Quality scoring system
 
@@ -593,7 +593,8 @@ plugin: seo-content-creation@claude-code-workflows
 ---
 
 # Plugins
-**How to Enable Plugins:**
+
+How to Enable Plugins:
 
 Edit `~/.claude/settings.json` and add plugins to `enabledPlugins`:
 
@@ -609,131 +610,237 @@ Edit `~/.claude/settings.json` and add plugins to `enabledPlugins`:
 }
 ```
 
-**Plugin Locations:**
+Plugin Locations:
 - Installed to: `~/.claude/plugins/marketplaces/{marketplace-name}/{plugin-name}/`
 - Settings: `~/.claude/settings.json`
 
+---
 
+## 🔧 Core Development Workflows
+
+### Superpowers
 
 ```json
 {
   "enabledPlugins": {
-
-    // ═══════════════════════════════════════════════════════════════════
-    // 🔧 CORE DEVELOPMENT WORKFLOWS
-    // ═══════════════════════════════════════════════════════════════════
-
-    // superpowers@superpowers-marketplace
-    // Foundation of vibe coding with 10 systematic development skills
-    // Skills: using-superpowers, brainstorming, writing-plans,
-    //         executing-plans, subagent-driven-development,
-    //         dispatching-parallel-agents, writing-skills,
-    //         testing-skills-with-subagents, sharing-skills
-    // Repo: https://github.com/Ejb503/multiverse-of-multiagents
-    "superpowers@superpowers-marketplace": true,
-
-
-    // ═══════════════════════════════════════════════════════════════════
-    // 🧠 MEMORY & CONTEXT
-    // ═══════════════════════════════════════════════════════════════════
-
-    // claude-mem@thedotmack
-    // Persistent memory system using SQLite with full-text search
-    // Provides: 6 MCP search tools for querying stored knowledge
-    // Automatically captures work, processes into summaries
-    // Repo: https://github.com/thedotmack/claude-mem
-    "claude-mem@thedotmack": true,
-
-
-    // ═══════════════════════════════════════════════════════════════════
-    // 💻 JAVASCRIPT / TYPESCRIPT / FRONTEND
-    // ═══════════════════════════════════════════════════════════════════
-
-    // javascript-typescript@claude-code-workflows
-    // 4 skills covering modern JS patterns and TypeScript
-    // Skills: modern-javascript-patterns, javascript-testing-patterns,
-    //         nodejs-backend-patterns, typescript-advanced-types
-    "javascript-typescript@claude-code-workflows": true,
-
-    // frontend-mobile-development@claude-code-workflows
-    // 2 skills for building React and mobile apps
-    // Skills: frontend-developer, mobile-developer
-    "frontend-mobile-development@claude-code-workflows": true,
-
-    // code-documentation@claude-code-workflows
-    // 3 skills covering code review and documentation
-    // Skills: code-reviewer, docs-architect, tutorial-engineer
-    "code-documentation@claude-code-workflows": true,
-
-
-    // ═══════════════════════════════════════════════════════════════════
-    // 📝 SEO & CONTENT CREATION
-    // ═══════════════════════════════════════════════════════════════════
-
-    // seo-content-creation@claude-code-workflows
-    // Content writing optimized for search engines with E-E-A-T signals
-    // Agents: seo-content-writer, seo-content-planner, seo-content-auditor
-    "seo-content-creation@claude-code-workflows": true,
-
-    // seo-technical-optimization@claude-code-workflows
-    // Technical SEO optimization covering keywords, meta tags, snippets
-    // Agents: seo-keyword-strategist, seo-meta-optimizer,
-    //         seo-snippet-hunter, seo-structure-architect
-    "seo-technical-optimization@claude-code-workflows": true,
-
-    // seo-analysis-monitoring@claude-code-workflows
-    // SEO analysis and monitoring for authority building
-    // Agents: seo-authority-builder, seo-content-refresher,
-    //         seo-cannibalization-detector
-    "seo-analysis-monitoring@claude-code-workflows": true,
-
-    // elements-of-style@superpowers-marketplace
-    // Applies Strunk & White's timeless writing principles
-    // Skills: writing-clearly-and-concisely
-    // Works on: documentation, commit messages, error messages
-    "elements-of-style@superpowers-marketplace": true,
-
-
-    // ═══════════════════════════════════════════════════════════════════
-    // 🔧 GIT & VERSION CONTROL
-    // ═══════════════════════════════════════════════════════════════════
-
-    // git@claude-code-plugins
-    // 4 slash commands for Git operations
-    // Commands: /git:commit-push, /git:compact-commits,
-    //           /git:create-worktree, /git:rebase-pr
-    "git@claude-code-plugins": true,
-
-    // commit-commands@claude-code-plugins
-    // Enhanced Git commit workflows with automated conventions
-    // Improves commit message formatting, conventional commit support
-    "commit-commands@claude-code-plugins": true
-
-  },
-  "alwaysThinkingEnabled": false
+    "superpowers@superpowers-marketplace": true
+  }
 }
 ```
 
-**Plugin Breakdown by Category:**
+Foundation of vibe coding with 10 systematic development skills
 
-**Core Development Workflows (2 plugins):**
-- superpowers@superpowers-marketplace
-- claude-mem@thedotmack
+Skills:
+- using-superpowers
+- brainstorming
+- writing-plans
+- executing-plans
+- subagent-driven-development
+- dispatching-parallel-agents
+- writing-skills
+- testing-skills-with-subagents
+- sharing-skills
 
-**JavaScript/TypeScript/Frontend (3 plugins):**
-- javascript-typescript@claude-code-workflows
-- frontend-mobile-development@claude-code-workflows
-- code-documentation@claude-code-workflows
+Repository: https://github.com/Ejb503/multiverse-of-multiagents
 
-**SEO & Content Creation (4 plugins):**
-- seo-content-creation@claude-code-workflows
-- seo-technical-optimization@claude-code-workflows
-- seo-analysis-monitoring@claude-code-workflows
-- elements-of-style@superpowers-marketplace
+---
 
-**Git & Version Control (2 plugins):**
-- git@claude-code-plugins
-- commit-commands@claude-code-plugins
+### Claude Mem
+
+```json
+{
+  "enabledPlugins": {
+    "claude-mem@thedotmack": true
+  }
+}
+```
+
+Persistent memory system using SQLite with full-text search
+
+Key Capabilities:
+- Provides 6 MCP search tools for querying stored knowledge
+- Automatically captures work, processes into summaries
+- Injects relevant context in future sessions
+
+Repository: https://github.com/thedotmack/claude-mem
+
+---
+
+## 💻 JavaScript / TypeScript / Frontend
+
+### JavaScript TypeScript
+
+```json
+{
+  "enabledPlugins": {
+    "javascript-typescript@claude-code-workflows": true
+  }
+}
+```
+
+4 skills covering modern JS patterns and TypeScript
+
+Skills:
+- modern-javascript-patterns
+- javascript-testing-patterns
+- nodejs-backend-patterns
+- typescript-advanced-types
+
+---
+
+### Frontend Mobile Development
+
+```json
+{
+  "enabledPlugins": {
+    "frontend-mobile-development@claude-code-workflows": true
+  }
+}
+```
+
+2 skills for building React and mobile apps
+
+Skills:
+- frontend-developer
+- mobile-developer
+
+---
+
+### Code Documentation
+
+```json
+{
+  "enabledPlugins": {
+    "code-documentation@claude-code-workflows": true
+  }
+}
+```
+
+3 skills covering code review and documentation
+
+Skills:
+- code-reviewer
+- docs-architect
+- tutorial-engineer
+
+---
+
+## 📝 SEO & Content Creation
+
+### SEO Content Creation
+
+```json
+{
+  "enabledPlugins": {
+    "seo-content-creation@claude-code-workflows": true
+  }
+}
+```
+
+Content writing optimized for search engines with E-E-A-T signals
+
+Agents:
+- seo-content-writer
+- seo-content-planner
+- seo-content-auditor
+
+---
+
+### SEO Technical Optimization
+
+```json
+{
+  "enabledPlugins": {
+    "seo-technical-optimization@claude-code-workflows": true
+  }
+}
+```
+
+Technical SEO optimization covering keywords, meta tags, snippets
+
+Agents:
+- seo-keyword-strategist
+- seo-meta-optimizer
+- seo-snippet-hunter
+- seo-structure-architect
+
+---
+
+### SEO Analysis Monitoring
+
+```json
+{
+  "enabledPlugins": {
+    "seo-analysis-monitoring@claude-code-workflows": true
+  }
+}
+```
+
+SEO analysis and monitoring for authority building
+
+Agents:
+- seo-authority-builder
+- seo-content-refresher
+- seo-cannibalization-detector
+
+---
+
+### Elements of Style
+
+```json
+{
+  "enabledPlugins": {
+    "elements-of-style@superpowers-marketplace": true
+  }
+}
+```
+
+Applies Strunk & White's timeless writing principles
+
+Skills:
+- writing-clearly-and-concisely
+
+Works on: documentation, commit messages, error messages
+
+---
+
+## 🔧 Git & Version Control
+
+### Git
+
+```json
+{
+  "enabledPlugins": {
+    "git@claude-code-plugins": true
+  }
+}
+```
+
+4 slash commands for Git operations
+
+Commands:
+- /git:commit-push
+- /git:compact-commits
+- /git:create-worktree
+- /git:rebase-pr
+
+---
+
+### Commit Commands
+
+```json
+{
+  "enabledPlugins": {
+    "commit-commands@claude-code-plugins": true
+  }
+}
+```
+
+Enhanced Git commit workflows with automated conventions
+
+Key Capabilities:
+- Improves commit message formatting
+- Conventional commit support
 
 ---
 
@@ -750,7 +857,7 @@ documentation: https://github.com/modelcontextprotocol/servers/tree/main/src/seq
 ---
 ```
 
-**Key Capabilities:**
+Key Capabilities:
 - Claude invokes this when thinking through multi-step solutions
 - Structured reasoning framework
 - Helps with complex debugging and planning
