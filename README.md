@@ -100,11 +100,11 @@ Spawn parallel Claude instance with specialized knowledge. Can access MCPs and u
 ### Vibe Coding & Orchestration
 
 | Model | Agent | What It Does |
-|:------|:------|:-------------|
-| 🟦 Sonnet | **agent-organizer** | Coordinates multiple AI agents on complex workflows |
-| 🟦 Sonnet | **vibe-coding-coach** | Friendly mentor translating vision into implementation |
-| 🟥 Opus | **prompt-engineer** | Crafts optimized prompts with CoT, ToT patterns |
-| 🟦 Sonnet | **context-manager** | Optimizes context across conversations for 10k+ token projects |
+|-------|-------|--------------|
+| Sonnet | **agent-organizer** | Coordinates multiple AI agents on complex workflows |
+| Sonnet | **vibe-coding-coach** | Friendly mentor translating vision into implementation |
+| Opus | **prompt-engineer** | Crafts optimized prompts with CoT, ToT patterns |
+| Sonnet | **context-manager** | Optimizes context across conversations for 10k+ token projects |
 
 **Install:**
 
@@ -120,13 +120,13 @@ Spawn parallel Claude instance with specialized knowledge. Can access MCPs and u
 ### Development & Design
 
 | Model | Agent | What It Does | MCPs Used |
-|:------|:------|:-------------|:----------|
-| 🟦 Sonnet | **ui-designer** | Design systems, WCAG compliance, prototyping | magic, context7 |
-| 🟦 Sonnet | **ux-designer** | User research, journey mapping, usability testing | context7, sequential-thinking, playwright |
-| 🟦 Sonnet | **frontend-developer** | React + TypeScript + Tailwind implementation | magic, context7, playwright |
-| 🟦 Sonnet | **ios-developer** | Swift, SwiftUI, UIKit native development | — |
-| 🟦 Sonnet | **nextjs-pro** | Next.js SSR/SSG/App Router architecture | — |
-| 🟦 Sonnet | **code-reviewer** | Quality assurance, security, performance analysis | context7, sequential-thinking |
+|-------|-------|--------------|-----------|
+| Sonnet | **ui-designer** | Design systems, WCAG compliance, prototyping | magic, context7 |
+| Sonnet | **ux-designer** | User research, journey mapping, usability testing | context7, sequential-thinking, playwright |
+| Sonnet | **frontend-developer** | React + TypeScript + Tailwind implementation | magic, context7, playwright |
+| Sonnet | **ios-developer** | Swift, SwiftUI, UIKit native development | — |
+| Sonnet | **nextjs-pro** | Next.js SSR/SSG/App Router architecture | — |
+| Sonnet | **code-reviewer** | Quality assurance, security, performance analysis | context7, sequential-thinking |
 
 **Install:**
 
@@ -142,17 +142,17 @@ Spawn parallel Claude instance with specialized knowledge. Can access MCPs and u
 ### SEO & Content
 
 | Model | Agent | What It Does |
-|:------|:------|:-------------|
-| 🟦 Sonnet | **seo-content-writer** | E-E-A-T optimized content, 0.5-1.5% keyword density |
-| 🟩 Haiku | **seo-content-planner** | Content calendars, topic clusters, search intent |
-| 🟦 Sonnet | **seo-content-auditor** | Quality scores 1-10, actionable recommendations |
-| 🟩 Haiku | **seo-keyword-strategist** | Keyword density analysis, 20-30 LSI variations |
-| 🟩 Haiku | **seo-meta-optimizer** | Meta titles, descriptions, 3-5 A/B test variations |
-| 🟩 Haiku | **seo-snippet-hunter** | Featured snippet formatting strategies |
-| 🟩 Haiku | **seo-structure-architect** | Header hierarchy, schema markup planning |
-| 🟦 Sonnet | **seo-authority-builder** | E-E-A-T signals, credibility enhancement |
-| 🟩 Haiku | **seo-content-refresher** | Outdated element detection, freshness updates |
-| 🟩 Haiku | **seo-cannibalization-detector** | Keyword overlap analysis, differentiation strategies |
+|-------|-------|--------------|
+| Sonnet | **seo-content-writer** | E-E-A-T optimized content, 0.5-1.5% keyword density |
+| Haiku | **seo-content-planner** | Content calendars, topic clusters, search intent |
+| Sonnet | **seo-content-auditor** | Quality scores 1-10, actionable recommendations |
+| Haiku | **seo-keyword-strategist** | Keyword density analysis, 20-30 LSI variations |
+| Haiku | **seo-meta-optimizer** | Meta titles, descriptions, 3-5 A/B test variations |
+| Haiku | **seo-snippet-hunter** | Featured snippet formatting strategies |
+| Haiku | **seo-structure-architect** | Header hierarchy, schema markup planning |
+| Sonnet | **seo-authority-builder** | E-E-A-T signals, credibility enhancement |
+| Haiku | **seo-content-refresher** | Outdated element detection, freshness updates |
+| Haiku | **seo-cannibalization-detector** | Keyword overlap analysis, differentiation strategies |
 
 **Install:**
 
@@ -172,13 +172,13 @@ These agents are bundled in SEO plugins. Enable plugins in settings.json (see [P
 ### Tools & Data
 
 | Model | Agent | What It Does |
-|:------|:------|:-------------|
-| 🟦 Sonnet | **data-scientist** | Data analysis, SQL, BigQuery, ML workflows |
-| 🟦 Sonnet | **quant-analyst** | Quantitative & financial analysis, backtesting |
-| 🟦 Sonnet | **python-pro** | Python development, async patterns, design patterns |
-| 🟦 Sonnet | **database-admin** | Database setup, backups, replication, monitoring |
-| 🟦 Sonnet | **database-optimizer** | Query optimization, index design, N+1 solutions |
-| 🟦 Sonnet | **payment-integration** | Stripe, PayPal, webhooks, PCI compliance |
+|-------|-------|--------------|
+| Sonnet | **data-scientist** | Data analysis, SQL, BigQuery, ML workflows |
+| Sonnet | **quant-analyst** | Quantitative & financial analysis, backtesting |
+| Sonnet | **python-pro** | Python development, async patterns, design patterns |
+| Sonnet | **database-admin** | Database setup, backups, replication, monitoring |
+| Sonnet | **database-optimizer** | Query optimization, index design, N+1 solutions |
+| Sonnet | **payment-integration** | Stripe, PayPal, webhooks, PCI compliance |
 
 **Install:**
 
@@ -241,7 +241,7 @@ Load additional instructions into current Claude context. Transform behavior wit
 ### Core Development (superpowers@superpowers-marketplace)
 
 | Skill | What It Does | Trigger |
-|:------|:-------------|:--------|
+|-------|--------------|---------|
 | **using-superpowers** | Mandatory starting point for all tasks | Session start |
 | **brainstorming** | Socratic refinement before implementation | Manual `/superpowers:brainstorm` |
 | **writing-plans** | Detailed implementation plans with tasks | Manual `/superpowers:write-plan` |
@@ -257,7 +257,7 @@ Load additional instructions into current Claude context. Transform behavior wit
 ### Quality & Testing (superpowers@superpowers-marketplace)
 
 | Skill | What It Does | Trigger |
-|:------|:-------------|:--------|
+|-------|--------------|---------|
 | **requesting-code-review** | Dispatch code-reviewer before merging | Task completion |
 | **receiving-code-review** | Technical rigor, verify feedback | Receiving review |
 | **verification-before-completion** | Run verification commands before claims | Before "done" claims |
@@ -268,7 +268,7 @@ Load additional instructions into current Claude context. Transform behavior wit
 ### Workflow & Git (superpowers@superpowers-marketplace + git@claude-code-plugins)
 
 | Skill | What It Does | Source |
-|:------|:-------------|:-------|
+|-------|--------------|--------|
 | **using-git-worktrees** | Isolated workspace creation | superpowers |
 | **finishing-a-development-branch** | Structured options for merge/PR/cleanup | superpowers |
 | **sharing-skills** | PR contribution workflow | superpowers |
@@ -279,14 +279,14 @@ Load additional instructions into current Claude context. Transform behavior wit
 ### Writing & Content
 
 | Skill | What It Does | Source |
-|:------|:-------------|:-------|
+|-------|--------------|--------|
 | **writing-clearly-and-concisely** | Strunk & White principles for all prose | elements-of-style@superpowers-marketplace |
 
 
 ### Learning Extraction (User Skills)
 
 | Skill | What It Does | Location |
-|:------|:-------------|:---------|
+|-------|--------------|----------|
 | **tapestry** | Auto-detect content type, extract, plan | `~/.claude/skills/tapestry/` |
 | **youtube-transcript** | Download YouTube transcripts | `~/.claude/skills/youtube-transcript/` |
 | **article-extractor** | Clean article content from URLs | `~/.claude/skills/article-extractor/` |
@@ -350,7 +350,7 @@ Enable bundled skills. No manual invocation needed. Skills within activate based
 ### Available Plugins
 
 | Plugin | Skills Included | Repository |
-|:-------|:----------------|:-----------|
+|--------|-----------------|------------|
 | **superpowers@superpowers-marketplace** | 20 skills (TDD, debugging, planning, code review, git workflows) | [Repository](https://github.com/Ejb503/multiverse-of-multiagents) |
 | **elements-of-style@superpowers-marketplace** | 1 skill (clear writing for docs/commits/UI) | [Repository](https://github.com/Ejb503/multiverse-of-multiagents) |
 | **javascript-typescript@claude-code-workflows** | 4 skills (modern JS patterns, testing, Node.js backend, TypeScript types) | [Repository](https://github.com/anthropics/claude-code-workflows) |
@@ -450,7 +450,7 @@ Provide external capabilities:
 ### Installed MCPs
 
 | MCP | What It Provides | Repository |
-|:----|:-----------------|:-----------|
+|-----|------------------|------------|
 | **sequential-thinking** | `sequentialthinking` tool for structured reasoning | [Repository](https://github.com/modelcontextprotocol/servers/tree/main/src/sequential-thinking) |
 
 **Install:**
