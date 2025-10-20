@@ -5,7 +5,7 @@
 
 # Vibe Coding Claude Code Setup
 
-**Optimized for vibe coding**
+**Optimized for vibe coding**  
 Focused on orchestration, UI/UX design, content development, prototyping, and effiienct workflows for vibe coding.
 
 ---
