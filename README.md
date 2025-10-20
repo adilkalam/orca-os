@@ -127,9 +127,7 @@ I use **Leamas** to install agent kits. Each kit bundles multiple related agents
   
 ### How to Get Plugin Marketplaces
 
-Plugins come from **marketplaces** — collections of related plugins.
-
-**Marketplaces I Use:**
+Plugins come from **marketplaces** — collections of related plugins:
 
 1. **[Superpowers Marketplace](https://github.com/Ejb503/multiverse-of-multiagents)**
    - Community-driven framework for systematic development workflows
