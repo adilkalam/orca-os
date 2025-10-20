@@ -13,7 +13,7 @@
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│                    CLAUDE CODE ECOSYSTEM                     │
+│                    CLAUDE CODE ECOSYSTEM                    │
 └─────────────────────────────────────────────────────────────┘
 
 
@@ -36,16 +36,14 @@ MARKETPLACE FLOW
    Examples:
    • brainstorming → Socratic questioning before design
    • test-driven-development → Write tests first
-   • writing-plans → Create implementation roadmap
    • requesting-code-review → Spawn code-reviewer
-   • verification-before-completion → Validate before done
 
 
 AGENT KIT FLOW
 ───────────────
 
 📦 AGENT KIT
-   │  Installed via CLI (we use Leamas)
+   │  Installed via CLI (I use Leamas)
    │  Command: ~/leamas/leamas agent@kit-name
    ↓
 🤖 AGENT
@@ -71,7 +69,6 @@ MCP FLOW
    │
    Examples:
    • sequential-thinking → Step-by-step reasoning
-   • context7 → Library documentation lookup
    • magic → Component building assistance
    • playwright → Browser automation
 ```
@@ -79,9 +76,6 @@ MCP FLOW
 ---
 
 ## Example: How Tools Work Together
-
-Watch how these pieces collaborate on a real task:
-
 ```
 USER: "Add authentication to my app"
   ↓
@@ -207,8 +201,6 @@ Ask Claude:
 ---
 
 ## 🎨 Vibe Coding
-
-Agents, skills, and tools for AI-assisted development workflows
 
 ### Agents
 
