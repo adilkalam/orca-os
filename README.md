@@ -1,105 +1,154 @@
+ __      ___ _             _____          _         _     _____ _                 _         _____          _      
+ \ \    / (_) |           / ____|        | |       | |   / ____| |               | |       / ____|        | |     
+  \ \  / / _| |__   ___  | |     ___   __| | ___   | |  | |    | | __ _ _   _  __| | ___  | |     ___   __| | ___ 
+   \ \/ / | | '_ \ / _ \ | |    / _ \ / _` |/ _ \  | |  | |    | |/ _` | | | |/ _` |/ _ \ | |    / _ \ / _` |/ _ \
+    \  /  | | |_) |  __/ | |___| (_) | (_| |  __/  | |  | |____| | (_| | |_| | (_| |  __/ | |___| (_) | (_| |  __/
+     \/   |_|_.__/ \___|  \_____\___/ \__,_|\___|  | |   \_____|_|\__,_|\__,_|\__,_|\___|  \_____\___/ \__,_|\___|
+                                                   | |                                                            
+                                                   |_|                                                            
+
+
+
+
 [![Agents](https://img.shields.io/badge/agents-19-blue)](#agents)
 [![Plugins](https://img.shields.io/badge/plugins-11-green)](#plugins)
 [![Skills](https://img.shields.io/badge/skills-21-orange)](#plugins)
 [![MCPs](https://img.shields.io/badge/MCPs-1-purple)](#mcps)
 
-# Vibe Coding Claude Code Setup
-
-Focused on orchestration, UI/UX design, content development, prototyping, and effiienct workflows for vibe coding.
+# 🎛️ Vibe Coding Claude Code Setup: Focused on orchestration, UI/UX design, content development, prototyping, and efficient workflows for **vibe coding**.
 
 ---
 
-## How Claude Code Works
+## 🧭 Table of Contents
 
-```
-┌─────────────────────────────────────────────────────────────┐
-│                    CLAUDE CODE ECOSYSTEM                    │
-└─────────────────────────────────────────────────────────────┘
+- [Overview](#vibe-coding-claude-code-setup)
+- [How Claude Code Works](#how-claude-code-works)
+- [Example: How Tools Work Together](#example-how-tools-work-together)
+- [Installation](#installation)
+- [Agents](#agents)
+- [Plugins](#plugins-marketplaces-for-skills)
+- [MCPs](#mcps)
+- [Configuration](#configuration)
+- [Quick Start (15 Minutes)](#quick-start-15-minutes)
 
+---
 
-MARKETPLACE FLOW
-────────────────
+## 🧩 How Claude Code Works
 
-🏪 MARKETPLACE
-   │  Collection of related plugins
-   │  Examples: superpowers-marketplace, claude-code-workflows
-   ↓
-🔧 PLUGIN
-   │  Bundle of skills (or agents in SEO case)
-   │  Enabled in: ~/.claude/settings.json
-   │  Format: "plugin-name@marketplace-name"
-   ↓
-⚡ SKILL
-   │  Workflow framework that guides how Claude works
-   │  Auto-triggers OR slash commands
-   │
-   Examples:
-   • brainstorming → Socratic questioning before design
-   • test-driven-development → Write tests first
-   • requesting-code-review → Spawn code-reviewer
+```text
+╔═══════════════════════════════════════════════════════════════════════╗
+║                       CLAUDE CODE ECOSYSTEM                           ║
+╚═══════════════════════════════════════════════════════════════════════╝
 
 
-AGENT KIT FLOW
-───────────────
+┌─────────────────────────────────────────────────────────────────────┐
+│  MARKETPLACE FLOW                                                   │
+└─────────────────────────────────────────────────────────────────────┘
 
-📦 AGENT KIT
-   │  Installed via CLI (I use Leamas)
-   │  Command: ~/leamas/leamas agent@kit-name
-   ↓
-🤖 AGENT
-   │  Fresh Claude instance with domain expertise
-   │  Auto-invoked OR called via Task()
-   │
-   Examples:
-   • frontend-developer → Builds React components
-   • ui-designer → Creates design systems
-   • code-reviewer → Reviews code quality
+    🏪 MARKETPLACE
+       │
+       │  Collection of related plugins
+       │  Examples: superpowers-marketplace, claude-code-workflows
+       │
+       ▼
+    🔧 PLUGIN
+       │
+       │  Bundle of skills (or agents in SEO case)
+       │  Enabled in: ~/.claude/settings.json
+       │  Format: "plugin-name@marketplace-name"
+       │
+       ▼
+    ⚡ SKILL
+       │
+       │  Workflow framework that guides how Claude works
+       │  Auto-triggers OR slash commands
+       │
+       └──┬─► brainstorming → Socratic questioning before design
+          ├─► test-driven-development → Write tests first
+          └─► requesting-code-review → Spawn code-reviewer
 
-MCP FLOW
-────────
 
-🔌 MCP SERVER
-   │  External service (NOT AI)
-   │  Configured in: claude_desktop_config.json
-   ↓
-🛠️ TOOL/CAPABILITY
-   │  Claude queries these for enhanced capabilities
-   │
-   Examples:
-   • sequential-thinking → Step-by-step reasoning
-   • playwright → Browser automation
+┌─────────────────────────────────────────────────────────────────────┐
+│  AGENT KIT FLOW                                                     │
+└─────────────────────────────────────────────────────────────────────┘
+
+    📦 AGENT KIT
+       │
+       │  Installed via CLI (I use Leamas)
+       │  Command: ~/leamas/leamas agent@kit-name
+       │
+       ▼
+    🤖 AGENT
+       │
+       │  Fresh Claude instance with domain expertise
+       │  Auto-invoked OR called via Task()
+       │
+       └──┬─► frontend-developer → Builds React components
+          ├─► ui-designer → Creates design systems
+          └─► code-reviewer → Reviews code quality
+
+
+┌─────────────────────────────────────────────────────────────────────┐
+│  MCP FLOW                                                           │
+└─────────────────────────────────────────────────────────────────────┘
+
+    🔌 MCP SERVER
+       │
+       │  External service (NOT AI)
+       │  Configured in: claude_desktop_config.json
+       │
+       ▼
+    🛠️  TOOL/CAPABILITY
+       │
+       │  Claude queries these for enhanced capabilities
+       │
+       └──┬─► sequential-thinking → Step-by-step reasoning
+          └─► playwright → Browser automation
 ```
 
 ---
 
-## Example: How Tools Work Together
+## 💡 Example: How Tools Work Together
 
-```
-USER: "Add authentication to my app"
+```text
+USER: "Build a peptide protocols dashboard from this research article"
   │
-  ▼ Claude analyzes → Identifies: auth, OAuth, sessions
+  ▼ Claude analyzes → Identifies: content extraction, data viz, health tracking
+  │
+  ├─ ⚡ tapestry
+  │  └─ Extract article content + create action plan
   │
   ├─ ⚡ brainstorming
-  │  └─ Socratic questions: OAuth providers? Password reset? Sessions?
+  │  └─ Questions: Track protocols? Dosage calculator? Timeline view?
   │
-  ├─ ⚡ test-driven-development
-  │  └─ Write failing tests: login✗ logout✗ OAuth✗
+  ├─ Parallel agent execution ────────────────────────────────────────────────┐
+  │                                                                           │
+  │  ┌─────────────────────┐  ┌───────────────────────┐  ┌──────────────────┐ │
+  │  │ ui-designer         │  │ frontend-developer    │  │   vibe-coding    | │
+  │  │                     │  │                       │  │    coach         │ │
+  │  │  Design protocol    │  │  Build React          │  │                  │ │
+  │  │  cards + data viz   │  │  dashboard            │  │  Guide vision →  │ │
+  │  │                     │  │  (TypeScript +        │  │  implementation  │ │
+  │  │                     │  │   Tailwind)           │  │                  │ │
+  │  └─────────────────────┘  └────────────────────── ┘  └──────────────────┘ │
+  │                                                                           │
+  └───────────────────────────────────────────────────────────────────────────┘
   │
-  ├─ Parallel execution ───────────────────────────────────────────────────────┐
-  │  🤖 frontend-developer       🤖 database-admin          📦 context7        │
-  │     Build login UI              Create users table         Lookup Auth0/   │
-  │     (React + TypeScript)        (oauth, sessions)          Supabase docs   │
+  ├─ ⚡ design-with-precision
+  │  └─ OCD-level audit: Typography scale, 4px grid, contrast ratios (7:1 AAA)
+  │     ✗ "Card padding 13px → Must be 12px or 16px (--space-3 or --space-4)"
+  │     ✗ "H5 usage forbidden → Restructure to H4 max depth"
+  │     Score: 7.2/10 → Provide exact fixes with system values
   │
   ├─ ⚡ requesting-code-review
-  │  └─ Spawn code-reviewer agent: Check SQL injection, auth bypass
+  │  └─ Spawn code-reviewer agent: Check accessibility, performance
   │
   ├─ ⚡ verification-before-completion
-  │  └─ Run tests: login✓ logout✓ OAuth✓
+  │  └─ Run build: types✓ lint✓ visual regression✓
   │
-  ✅ Feature complete & secure
+  ✅ Pixel-perfect dashboard ready to deploy
 ```
 
----
 
 
 
@@ -154,6 +203,8 @@ Plugins come from **marketplaces** — collections of related plugins:
 Agents are installed to: `~/.claude/agents/leamas/{kit-name}/`
 
 
+---
+
 ### 🧠 Agent Organizer
 
 ```yaml
@@ -164,11 +215,11 @@ works-with: all agents
 use-when: Running complex multi-agent workflows
 kit: wshobson
 ---
-
-Key Capabilities:
-- Acts as your AI project manager
-- Tracks which agents handle what
-- Ensures work doesn't overlap
+# Key Capabilities:
+# - Acts as your AI project manager
+# - Tracks which agents handle what
+# - Ensures work doesn't overlap
+```
 
 ```bash
 # Included in wshobson kit
@@ -176,6 +227,8 @@ Key Capabilities:
 ```
 
 
+
+---
 
 ### 🎯 Vibe Coding Coach
 
@@ -186,11 +239,11 @@ description: Your friendly coding mentor with personality
 works-with: all development agents
 kit: wshobson
 ---
-
-Key Capabilities:
-- Provides guidance while you code
-- Explains concepts in approachable ways
-- Helps improve your skills conversationally
+# Key Capabilities:
+# - Provides guidance while you code
+# - Explains concepts in approachable ways
+# - Helps improve your skills conversationally
+```
 
 ```bash
 # Included in wshobson kit
@@ -198,6 +251,8 @@ Key Capabilities:
 ```
 
 
+
+---
 
 ### 📦 Context Manager
 
@@ -208,11 +263,11 @@ description: Optimizes how context is used across conversations
 use-when: Working on large codebases or long sessions
 kit: wshobson
 ---
-
-Key Capabilities:
-- Maximizes available context windows
-- Ensures important information is preserved when needed
-- Prevents context overflow
+# Key Capabilities:
+# - Maximizes available context windows
+# - Ensures important information is preserved when needed
+# - Prevents context overflow
+```
 
 ```bash
 # Included in wshobson kit
@@ -221,20 +276,22 @@ Key Capabilities:
 
 
 
+---
+
 ### 🎨 Prompt Engineer
 
 ```yaml
-
+---
 name: prompt-engineer
 description: Expert prompt architect using Opus model for maximum reasoning
 use-when: Building AI features or optimizing prompts
 kit: claude-code-sub-agents
 ---
-
-Key Capabilities:
-- Specializes in Chain-of-Thought and Tree-of-Thoughts techniques
-- Essential when building AI features
-- Optimizes prompts for LLM performance
+# Key Capabilities:
+# - Specializes in Chain-of-Thought and Tree-of-Thoughts techniques
+# - Essential when building AI features
+# - Optimizes prompts for LLM performance
+```
 
 ```bash
 # Included in claude-code-sub-agents kit
@@ -242,6 +299,8 @@ Key Capabilities:
 ```
 
 
+
+---
 
 ### 🎨 UI Designer
 
@@ -252,12 +311,12 @@ description: Creates design systems and visual interfaces with WCAG accessibilit
 requires: magic MCP, context7 MCP
 works-with: frontend-developer, ux-designer
 kit: claude-code-sub-agents
-
-
-Key Capabilities:
-- Color palettes, typography, spacing systems
-- Component libraries
-- WCAG accessibility compliance
+---
+# Key Capabilities:
+# - Color palettes, typography, spacing systems
+# - Component libraries
+# - WCAG accessibility compliance
+```
 
 ```bash
 # Included in claude-code-sub-agents kit
@@ -265,6 +324,8 @@ Key Capabilities:
 ```
 
 
+
+---
 
 ### 👤 UX Designer
 
@@ -275,12 +336,12 @@ description: Conducts user research, creates journey maps, and designs usability
 requires: context7 MCP, sequential-thinking MCP, playwright MCP
 works-with: ui-designer, frontend-developer
 kit: claude-code-sub-agents
-
-
-Key Capabilities:
-- User flows, pain points, and interaction patterns
-- Wireframes and prototypes
-- Design validation with users
+---
+# Key Capabilities:
+# - User flows, pain points, and interaction patterns
+# - Wireframes and prototypes
+# - Design validation with users
+```
 
 ```bash
 # Included in claude-code-sub-agents kit
@@ -288,6 +349,8 @@ Key Capabilities:
 ```
 
 
+
+---
 
 ### ⚛️ Frontend Developer
 
@@ -298,12 +361,12 @@ description: Builds production-ready React components with TypeScript and Tailwi
 requires: magic MCP, context7 MCP, playwright MCP
 works-with: ui-designer, code-reviewer, nextjs-pro
 kit: claude-code-sub-agents
-
-
-Key Capabilities:
-- State management, hooks, responsive design
-- Accessibility best practices
-- Testing with React Testing Library
+---
+# Key Capabilities:
+# - State management, hooks, responsive design
+# - Accessibility best practices
+# - Testing with React Testing Library
+```
 
 ```bash
 # Included in claude-code-sub-agents kit
@@ -311,6 +374,8 @@ Key Capabilities:
 ```
 
 
+
+---
 
 ### 📱 iOS Developer
 
@@ -320,12 +385,12 @@ name: ios-developer
 description: Native iOS development using Swift, SwiftUI, and UIKit
 works-with: ui-designer
 kit: claude-code-sub-agents
-
-
-Key Capabilities:
-- iOS-specific patterns and navigation
-- Platform conventions
-- App Store optimization
+---
+# Key Capabilities:
+# - iOS-specific patterns and navigation
+# - Platform conventions
+# - App Store optimization
+```
 
 ```bash
 # Included in claude-code-sub-agents kit
@@ -333,6 +398,8 @@ Key Capabilities:
 ```
 
 
+
+---
 
 ### 👁️ Code Reviewer
 
@@ -344,11 +411,11 @@ requires: context7 MCP, sequential-thinking MCP
 works-with: all development agents
 kit: claude-code-sub-agents
 ---
-
-Key Capabilities:
-- Actionable feedback with line-by-line suggestions
-- Security vulnerability detection
-- Best practices enforcement
+# Key Capabilities:
+# - Actionable feedback with line-by-line suggestions
+# - Security vulnerability detection
+# - Best practices enforcement
+```
 
 ```bash
 # Included in claude-code-sub-agents kit
@@ -356,6 +423,8 @@ Key Capabilities:
 ```
 
 
+
+---
 
 ### ⚡ Next.js Pro
 
@@ -366,17 +435,18 @@ description: Next.js specialist covering SSR, SSG, routing, and Next.js patterns
 works-with: frontend-developer
 kit: wshobson
 ---
-
-Key Capabilities:
-- App Router, Server Components
-- Deployment best practices
-- Performance optimization
+# Key Capabilities:
+# - App Router, Server Components
+# - Deployment best practices
+# - Performance optimization
+```
 
 ```bash
 # Included in wshobson kit
 ~/leamas/leamas agent@wshobson
-
 ```
+
+---
 
 ### 📊 Data Scientist
 
@@ -387,17 +457,19 @@ description: Handles data analysis, statistical modeling, SQL queries, BigQuery 
 works-with: python-pro, database-optimizer
 kit: wshobson
 ---
-
-Key Capabilities:
-- Machine learning implementations
-- Data transformation or analysis
-- Statistical analysis
+# Key Capabilities:
+# - Machine learning implementations
+# - Data transformation or analysis
+# - Statistical analysis
+```
 
 ```bash
 # Included in wshobson kit
 ~/leamas/leamas agent@wshobson
 ```
 
+
+---
 
 ### 📈 Quant Analyst
 
@@ -407,17 +479,19 @@ name: quant-analyst
 description: Quantitative analysis and financial modeling
 kit: wshobson
 ---
-
-Key Capabilities:
-- Statistical analysis
-- Risk modeling
-- Financial calculations
+# Key Capabilities:
+# - Statistical analysis
+# - Risk modeling
+# - Financial calculations
+```
 
 ```bash
 # Included in wshobson kit
 ~/leamas/leamas agent@wshobson
 ```
 
+
+---
 
 ### 🐍 Python Pro
 
@@ -428,16 +502,18 @@ description: Python development specialist
 works-with: data-scientist
 kit: wshobson
 ---
-
-Key Capabilities:
-- Data analysis, scripting, automation
-- Python-specific best practices
-- Knows pandas, numpy, requests
+# Key Capabilities:
+# - Data analysis, scripting, automation
+# - Python-specific best practices
+# - Knows pandas, numpy, requests
+```
 
 ```bash
 # Included in wshobson kit
 ~/leamas/leamas agent@wshobson
 ```
+
+---
 
 ### 🗄️ Database Admin
 
@@ -448,16 +524,18 @@ description: Database setup, configuration, and ongoing management
 works-with: database-optimizer
 kit: wshobson
 ---
-
-Key Capabilities:
-- Schema design, migrations, backups
-- Database administration tasks
+# Key Capabilities:
+# - Schema design, migrations, backups
+# - Database administration tasks
+```
 
 ```bash
 # Included in wshobson kit
 ~/leamas/leamas agent@wshobson
 ```
 
+
+---
 
 ### ⚡ Database Optimizer
 
@@ -468,11 +546,11 @@ description: Optimizes database queries and overall database performance
 works-with: database-admin, data-scientist
 kit: wshobson
 ---
-
-Key Capabilities:
-- Analyzes slow queries
-- Suggests indexes
-- Improves database efficiency
+# Key Capabilities:
+# - Analyzes slow queries
+# - Suggests indexes
+# - Improves database efficiency
+```
 
 ```bash
 # Included in wshobson kit
@@ -522,6 +600,8 @@ Plugin Locations:
 ---
 
 
+---
+
 ### Superpowers
 
 ```jsonc
@@ -530,24 +610,21 @@ Plugin Locations:
     "superpowers@superpowers-marketplace": true
   }
 }
-
-Foundation of vibe coding with 10 systematic development skills
-
-Skills:
-- using-superpowers
-- brainstorming
-- writing-plans
-- executing-plans
-- subagent-driven-development
-- dispatching-parallel-agents
-- writing-skills
-- testing-skills-with-subagents
-- sharing-skills
-
-Repository: https://github.com/Ejb503/multiverse-of-multiagents
+// Foundation of vibe coding with 10 systematic development skills
+// Skills:
+// - using-superpowers
+// - brainstorming
+// - writing-plans
+// - executing-plans
+// - subagent-driven-development
+// - dispatching-parallel-agents
+// - writing-skills
+// - testing-skills-with-subagents
+// - sharing-skills
+// Repository: https://github.com/Ejb503/multiverse-of-multiagents
+```
 
 ---
-```
 
 ### Claude Mem
 
@@ -557,18 +634,15 @@ Repository: https://github.com/Ejb503/multiverse-of-multiagents
     "claude-mem@thedotmack": true
   }
 }
-
-Persistent memory system using SQLite with full-text search
-
-Key Capabilities:
-- Provides 6 MCP search tools for querying stored knowledge
-- Automatically captures work, processes into summaries
-- Injects relevant context in future sessions
-
-Repository: https://github.com/thedotmack/claude-mem
-
-
+// Persistent memory system using SQLite with full-text search
+// Key Capabilities:
+// - Provides 6 MCP search tools for querying stored knowledge
+// - Automatically captures work, processes into summaries
+// - Injects relevant context in future sessions
+// Repository: https://github.com/thedotmack/claude-mem
 ```
+
+---
 
 ### JavaScript TypeScript
 
@@ -578,17 +652,15 @@ Repository: https://github.com/thedotmack/claude-mem
     "javascript-typescript@claude-code-workflows": true
   }
 }
-
-4 skills covering modern JS patterns and TypeScript
-
-Skills:
-- modern-javascript-patterns
-- javascript-testing-patterns
-- nodejs-backend-patterns
-- typescript-advanced-types
-
-
+// 4 skills covering modern JS patterns and TypeScript
+// Skills:
+// - modern-javascript-patterns
+// - javascript-testing-patterns
+// - nodejs-backend-patterns
+// - typescript-advanced-types
 ```
+
+---
 
 ### Frontend Mobile Development
 
@@ -598,15 +670,13 @@ Skills:
     "frontend-mobile-development@claude-code-workflows": true
   }
 }
-
-2 skills for building React and mobile apps
-
-Skills:
-- frontend-developer
-- mobile-developer
-
-
+// 2 skills for building React and mobile apps
+// Skills:
+// - frontend-developer
+// - mobile-developer
 ```
+
+---
 
 ### Code Documentation
 
@@ -616,16 +686,14 @@ Skills:
     "code-documentation@claude-code-workflows": true
   }
 }
-
-3 skills covering code review and documentation
-
-Skills:
-- code-reviewer
-- docs-architect
-- tutorial-engineer
-
-
+// 3 skills covering code review and documentation
+// Skills:
+// - code-reviewer
+// - docs-architect
+// - tutorial-engineer
 ```
+
+---
 
 ### SEO Content Creation
 
@@ -635,16 +703,14 @@ Skills:
     "seo-content-creation@claude-code-workflows": true
   }
 }
-
-Content writing optimized for search engines with E-E-A-T signals
-
-Agents:
-- seo-content-writer
-- seo-content-planner
-- seo-content-auditor
-
-
+// Content writing optimized for search engines with E-E-A-T signals
+// Agents:
+// - seo-content-writer
+// - seo-content-planner
+// - seo-content-auditor
 ```
+
+---
 
 ### SEO Technical Optimization
 
@@ -654,18 +720,15 @@ Agents:
     "seo-technical-optimization@claude-code-workflows": true
   }
 }
-
-
-Technical SEO optimization covering keywords, meta tags, snippets
-
-Agents:
-- seo-keyword-strategist
-- seo-meta-optimizer
-- seo-snippet-hunter
-- seo-structure-architect
-
-
+// Technical SEO optimization covering keywords, meta tags, snippets
+// Agents:
+// - seo-keyword-strategist
+// - seo-meta-optimizer
+// - seo-snippet-hunter
+// - seo-structure-architect
 ```
+
+---
 
 ### SEO Analysis Monitoring
 
@@ -675,17 +738,14 @@ Agents:
     "seo-analysis-monitoring@claude-code-workflows": true
   }
 }
-
-
-SEO analysis and monitoring for authority building
-
-Agents:
-- seo-authority-builder
-- seo-content-refresher
-- seo-cannibalization-detector
-
-
+// SEO analysis and monitoring for authority building
+// Agents:
+// - seo-authority-builder
+// - seo-content-refresher
+// - seo-cannibalization-detector
 ```
+
+---
 
 ### Elements of Style
 
@@ -695,16 +755,13 @@ Agents:
     "elements-of-style@superpowers-marketplace": true
   }
 }
-
-Applies Strunk & White's timeless writing principles
-
-Skills:
-- writing-clearly-and-concisely
-
-Works on: documentation, commit messages, error messages
-
-
+// Applies Strunk & White's timeless writing principles
+// Skills:
+// - writing-clearly-and-concisely
+// Works on: documentation, commit messages, error messages
 ```
+
+---
 
 ### Git
 
@@ -714,17 +771,15 @@ Works on: documentation, commit messages, error messages
     "git@claude-code-plugins": true
   }
 }
-
-4 slash commands for Git operations
-
-Commands:
-- /git:commit-push
-- /git:compact-commits
-- /git:create-worktree
-- /git:rebase-pr
-
-
+// 4 slash commands for Git operations
+// Commands:
+// - /git:commit-push
+// - /git:compact-commits
+// - /git:create-worktree
+// - /git:rebase-pr
 ```
+
+---
 
 ### Commit Commands
 
@@ -734,14 +789,10 @@ Commands:
     "commit-commands@claude-code-plugins": true
   }
 }
-
-Enhanced Git commit workflows with automated conventions
-
-Key Capabilities:
-- Improves commit message formatting
-- Conventional commit support
-
-
+// Enhanced Git commit workflows with automated conventions
+// Key Capabilities:
+// - Improves commit message formatting
+// - Conventional commit support
 ```
 
 # MCPs
@@ -755,13 +806,13 @@ description: Step-by-step reasoning for complex problems
 used-by: All agents and workflows
 documentation: https://github.com/modelcontextprotocol/servers/tree/main/src/sequential-thinking
 ---
+# Key Capabilities:
+# - Claude invokes this when thinking through multi-step solutions
+# - Structured reasoning framework
+# - Helps with complex debugging and planning
+```
 
-Key Capabilities:
-- Claude invokes this when thinking through multi-step solutions
-- Structured reasoning framework
-- Helps with complex debugging and planning
-
-```bash
+```jsonc
 # Add to ~/Library/Application Support/Claude/claude_desktop_config.json:
 {
   "mcpServers": {
