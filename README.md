@@ -85,10 +85,10 @@ USER: "Add authentication to my app"
   ├─ ⚡ test-driven-development
   │  └─ Write failing tests: login✗ logout✗ OAuth✗
   │
-  ├─ Parallel execution ──────────────────────────────────────────────────────┐
-  │  🤖 frontend-developer       🤖 database-admin          🔌 context7       │
-  │     Build login UI              Create users table         Lookup Auth0/  │
-  │     (React + TypeScript)        (oauth, sessions)          Supabase docs  │
+  ├─ Parallel execution ───────────────────────────────────────────────────────┐
+  │  🤖 frontend-developer       🤖 database-admin          🔌 context7        │
+  │     Build login UI              Create users table         Lookup Auth0/   │
+  │     (React + TypeScript)        (oauth, sessions)          Supabase docs   │
   │
   ├─ ⚡ requesting-code-review
   │  └─ Spawn code-reviewer agent: Check SQL injection, auth bypass
