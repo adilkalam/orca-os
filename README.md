@@ -58,12 +58,29 @@ Orchestrate agents, manage memory, plan implementations
 
 ### Agents
 
-| Agent | What It Does | Model | Install |
-|-------|--------------|-------|---------|
-| **agent-organizer** | Coordinates multiple AI agents on complex workflows | Sonnet | `~/leamas/leamas agent@wshobson` |
-| **vibe-coding-coach** | Friendly mentor with personality | Sonnet | `~/leamas/leamas agent@wshobson` |
-| **prompt-engineer** | Crafts optimized prompts (CoT, ToT) | Opus | `~/leamas/leamas agent@claude-code-sub-agents` |
-| **context-manager** | Optimizes context across conversations | Sonnet | `~/leamas/leamas agent@wshobson` |
+**agent-organizer** — Coordinates multiple AI agents on complex workflows (Sonnet)
+
+```bash
+~/leamas/leamas agent@wshobson
+```
+
+**vibe-coding-coach** — Friendly mentor with personality (Sonnet)
+
+```bash
+~/leamas/leamas agent@wshobson
+```
+
+**prompt-engineer** — Crafts optimized prompts (CoT, ToT) (Opus)
+
+```bash
+~/leamas/leamas agent@claude-code-sub-agents
+```
+
+**context-manager** — Optimizes context across conversations (Sonnet)
+
+```bash
+~/leamas/leamas agent@wshobson
+```
 
 
 ### Plugins
@@ -128,14 +145,45 @@ Design, frontend, Next.js, code review
 
 ### Agents
 
-| Agent | What It Does | Model | MCPs | Install |
-|-------|--------------|-------|------|---------|
-| **ui-designer** | Design systems, WCAG compliance | Sonnet | magic, context7 | `~/leamas/leamas agent@claude-code-sub-agents` |
-| **ux-designer** | User research, journey mapping | Sonnet | context7, sequential-thinking, playwright | `~/leamas/leamas agent@claude-code-sub-agents` |
-| **frontend-developer** | React + TypeScript + Tailwind | Sonnet | magic, context7, playwright | `~/leamas/leamas agent@claude-code-sub-agents` |
-| **ios-developer** | Swift, SwiftUI, UIKit | Sonnet | — | `~/leamas/leamas agent@claude-code-sub-agents` |
-| **nextjs-pro** | Next.js SSR/SSG/routing | Sonnet | — | `~/leamas/leamas agent@wshobson` |
-| **code-reviewer** | Quality, security, performance | Sonnet | context7, sequential-thinking | `~/leamas/leamas agent@claude-code-sub-agents` |
+**ui-designer** — Design systems, WCAG compliance (Sonnet)
+MCPs: magic, context7
+
+```bash
+~/leamas/leamas agent@claude-code-sub-agents
+```
+
+**ux-designer** — User research, journey mapping (Sonnet)
+MCPs: context7, sequential-thinking, playwright
+
+```bash
+~/leamas/leamas agent@claude-code-sub-agents
+```
+
+**frontend-developer** — React + TypeScript + Tailwind (Sonnet)
+MCPs: magic, context7, playwright
+
+```bash
+~/leamas/leamas agent@claude-code-sub-agents
+```
+
+**ios-developer** — Swift, SwiftUI, UIKit (Sonnet)
+
+```bash
+~/leamas/leamas agent@claude-code-sub-agents
+```
+
+**nextjs-pro** — Next.js SSR/SSG/routing (Sonnet)
+
+```bash
+~/leamas/leamas agent@wshobson
+```
+
+**code-reviewer** — Quality, security, performance (Sonnet)
+MCPs: context7, sequential-thinking
+
+```bash
+~/leamas/leamas agent@claude-code-sub-agents
+```
 
 
 ### Plugins
@@ -214,14 +262,41 @@ Data, databases, Git, learning extraction
 
 ### Agents
 
-| Agent | What It Does | Install |
-|-------|--------------|---------|
-| **data-scientist** | Data analysis, SQL, BigQuery, ML | `~/leamas/leamas agent@wshobson` |
-| **quant-analyst** | Quantitative & financial analysis | `~/leamas/leamas agent@wshobson` |
-| **python-pro** | Python development, scripting | `~/leamas/leamas agent@wshobson` |
-| **database-admin** | Database setup & management | `~/leamas/leamas agent@wshobson` |
-| **database-optimizer** | Query & performance optimization | `~/leamas/leamas agent@wshobson` |
-| **payment-integration** | Stripe, PayPal integration | `~/leamas/leamas agent@wshobson` |
+**data-scientist** — Data analysis, SQL, BigQuery, ML (Sonnet)
+
+```bash
+~/leamas/leamas agent@wshobson
+```
+
+**quant-analyst** — Quantitative & financial analysis (Sonnet)
+
+```bash
+~/leamas/leamas agent@wshobson
+```
+
+**python-pro** — Python development, scripting (Sonnet)
+
+```bash
+~/leamas/leamas agent@wshobson
+```
+
+**database-admin** — Database setup & management (Sonnet)
+
+```bash
+~/leamas/leamas agent@wshobson
+```
+
+**database-optimizer** — Query & performance optimization (Sonnet)
+
+```bash
+~/leamas/leamas agent@wshobson
+```
+
+**payment-integration** — Stripe, PayPal integration (Sonnet)
+
+```bash
+~/leamas/leamas agent@wshobson
+```
 
 
 ### Plugins
