@@ -200,9 +200,9 @@ MCPs: context7, sequential-thinking
 
 SEO content, technical optimization, writing
 
-### seo-content-creation@claude-code-workflows
+### SEO Content Creation
 
-3 agents: writer, planner, auditor
+Writer, planner, auditor
 
 ```json
 "seo-content-creation@claude-code-workflows": true
@@ -215,9 +215,9 @@ SEO content, technical optimization, writing
 | **seo-content-auditor** | Sonnet | Quality scores 1-10, actionable recommendations |
 
 
-### seo-technical-optimization@claude-code-workflows
+### SEO Technical Optimization
 
-4 agents: keywords, meta, snippets, structure
+Keywords, meta, snippets, structure
 
 ```json
 "seo-technical-optimization@claude-code-workflows": true
@@ -231,9 +231,9 @@ SEO content, technical optimization, writing
 | **seo-structure-architect** | Haiku | Header hierarchy, schema markup |
 
 
-### seo-analysis-monitoring@claude-code-workflows
+### SEO Analysis & Monitoring
 
-3 agents: authority, refresher, cannibalization
+Authority, refresher, cannibalization
 
 ```json
 "seo-analysis-monitoring@claude-code-workflows": true
@@ -246,9 +246,9 @@ SEO content, technical optimization, writing
 | **seo-cannibalization-detector** | Haiku | Keyword overlap resolution |
 
 
-### elements-of-style@superpowers-marketplace
+### Writing Style
 
-Applies Strunk & White principles to docs, commits, errors, UI text
+Strunk & White principles for docs, commits, errors, UI text
 
 ```json
 "elements-of-style@superpowers-marketplace": true
