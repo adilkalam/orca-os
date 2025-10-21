@@ -82,23 +82,23 @@ Same request, orchestrated across specialized agents:
         │   iOS work → ios-development      │
         └──────────────────────────────────┘
                            │
-        ┌──────────────────┴──────────────────────────┐
-        │                                              │
-        ▼                  ▼                           ▼
-┌──────────────┐  ┌──────────────┐          ┌──────────────┐
-│   PHASE 1    │  │   PHASE 2    │          │   PHASE 3    │
-│ Architecture │  │ Implementation│          │   Quality    │
-├──────────────┤  ├──────────────┤          ├──────────────┤
-│  ios-dev     │  │  ios-dev     │          │ code-reviewer│
-│              │  │              │          │     -pro     │
-│ • Plan arch  │→ │ • Build/TDD  │→         │              │
-│ • Setup tests│  │ • Components │          │ • Review all │
-└──────────────┘  └──────────────┘          │ • Verify     │
-       ↓                 ↓                   └──────────────┘
-swift-architect    swiftui-specialist               ↓
- (reviews)         (assists UI)              ┌──────────────┐
-                                             │  ✓ APPROVED  │
-                                             └──────────────┘
+        ┌──────────────────┴─────────────────────────┐
+        │                                            │
+        ▼                  ▼                         ▼
+┌──────────────┐    ┌───────────────┐       ┌──────────────┐
+│   PHASE 1    │    │   PHASE 2     │       │    PHASE 3   │
+│ Architecture │    │ Implementation│       │    Quality   │
+├──────────────┤    ├───────────────┤       ├──────────────┤
+│  ios-dev     │    │  ios-dev      │       │ code-reviewer│
+│              │    │               │       │     -pro     │
+│ • Plan arch  │ →  │ • Build/TDD   │  →    │              │
+│ • Setup tests│    │ • Components  │       │ • Review all │
+└──────────────┘    └───────────────┘       │ • Verify     │
+       ↓                   ↓                └──────────────┘
+swift-architect     swiftui-specialist              ↓
+  (reviews)           (assists UI)          ┌──────────────┐
+                                            │  ✓ APPROVED  │
+                                            └──────────────┘
                            │
                            ▼
         ┌──────────────────────────────────┐
