@@ -1,822 +1,384 @@
+# Claude Code: Orchestration Guide
+
 ```
- __      ___ _              _______ _                 _         _____          _      
- \ \    / (_) |            / / ____| |               | |       / ____|        | |     
-  \ \  / / _| |__   ___   / / |    | | __ _ _   _  __| | ___  | |     ___   __| | ___ 
-   \ \/ / | | '_ \ / _ \ / /| |    | |/ _` | | | |/ _` |/ _ \ | |    / _ \ / _` |/ _ \
-    \  /  | | |_) |  __// / | |____| | (_| | |_| | (_| |  __/ | |___| (_) | (_| |  __/
-     \/   |_|_.__/ \___/_/   \_____|_|\__,_|\__,_|\__,_|\___|  \_____\___/ \__,_|\___|
+   ╔═══════════════════════════════════════════════════════════════╗
+   ║                                                               ║
+   ║    ██████╗ ██████╗  ██████╗██╗  ██╗███████╗███████╗████████╗ ║
+   ║   ██╔═══██╗██╔══██╗██╔════╝██║  ██║██╔════╝██╔════╝╚══██╔══╝ ║
+   ║   ██║   ██║██████╔╝██║     ███████║█████╗  ███████╗   ██║    ║
+   ║   ██║   ██║██╔══██╗██║     ██╔══██║██╔══╝  ╚════██║   ██║    ║
+   ║   ╚██████╔╝██║  ██║╚██████╗██║  ██║███████╗███████║   ██║    ║
+   ║    ╚═════╝ ╚═╝  ╚═╝ ╚═════╝╚═╝  ╚═╝╚══════╝╚══════╝   ╚═╝    ║
+   ║                                                               ║
+   ║              Multi-Agent Coordination Done Right              ║
+   ║                                                               ║
+   ╚═══════════════════════════════════════════════════════════════╝
+```
 
- ```                                                                                                                                                            
-                                                                                                                                                             
+<div align="center">
 
+**From solo execution to systematic coordination**
 
+[![Agents](https://img.shields.io/badge/agents-19-blue)](#the-ecosystem-explained)
+[![Skills](https://img.shields.io/badge/skills-40+-orange)](#the-ecosystem-explained)
+[![Workflows](https://img.shields.io/badge/workflows-proven-green)](./setup-navigator)
 
-[![Agents](https://img.shields.io/badge/agents-19-blue)](#agents)
-[![Plugins](https://img.shields.io/badge/plugins-11-green)](#plugins)
-[![Skills](https://img.shields.io/badge/skills-21-orange)](#plugins)
-[![MCPs](https://img.shields.io/badge/MCPs-1-purple)](#mcps)
+[Why Orchestration](#why-orchestration-matters) • [The Ecosystem](#the-ecosystem-explained) • [Quick Start](#quick-start) • [Deep Dive](./setup-navigator)
 
-
-# Vibe Coding Claude Code Setup: 
-Focused on orchestration, UI/UX design, content development, prototyping, and efficient workflows for **vibe coding**.
+</div>
 
 ---
 
-## 🧭 Table of Contents
+## Why Orchestration Matters
 
-- [Overview](#vibe-coding-claude-code-setup)
-- [How Claude Code Works](#how-claude-code-works)
-- [Example: How Tools Work Together](#example-how-tools-work-together)
-- [Installation](#installation)
-- [Agents](#agents)
-- [Plugins](#plugins-marketplaces-for-skills)
-- [MCPs](#mcps)
-- [Configuration](#configuration)
-- [Quick Start (15 Minutes)](#quick-start-15-minutes)
+### The Problem: Solo Execution
+
+When you ask Claude to build something complex, it typically works alone:
+
+```
+User: "Build an iOS app with login, home screen, and settings"
+
+Claude (solo):
+  ├─ Writes Swift code
+  ├─ Creates some views
+  ├─ Ships it
+  │
+  └─ Result: Works, but...
+      • No systematic testing
+      • No code review
+      • Mediocre architecture
+      • 6 hours of work
+```
+
+**It works, but it's not professional quality.**
 
 ---
 
-## 🧩 How Claude Code Works
+### The Solution: Orchestration
 
-```text
-╔═══════════════════════════════════════════════════════════════════════╗
-║                       CLAUDE CODE ECOSYSTEM                           ║
-╚═══════════════════════════════════════════════════════════════════════╝
+Same request, orchestrated across specialized agents:
 
-
-┌─────────────────────────────────────────────────────────────────────┐
-│  MARKETPLACE FLOW                                                   │
-└─────────────────────────────────────────────────────────────────────┘
-
-    🏪 MARKETPLACE
-       │
-       │  Collection of related plugins
-       │  Examples: superpowers-marketplace, claude-code-workflows
-       │
-       ▼
-    🔧 PLUGIN
-       │
-       │  Bundle of skills (or agents in SEO case)
-       │  Enabled in: ~/.claude/settings.json
-       │  Format: "plugin-name@marketplace-name"
-       │
-       ▼
-    ⚡ SKILL
-       │
-       │  Workflow framework that guides how Claude works
-       │  Auto-triggers OR slash commands
-       │
-       └──┬─► brainstorming → Socratic questioning before design
-          ├─► test-driven-development → Write tests first
-          └─► requesting-code-review → Spawn code-reviewer
-
-
-┌─────────────────────────────────────────────────────────────────────┐
-│  AGENT KIT FLOW                                                     │
-└─────────────────────────────────────────────────────────────────────┘
-
-    📦 AGENT KIT
-       │
-       │  Installed via CLI (I use Leamas)
-       │  Command: ~/leamas/leamas agent@kit-name
-       │
-       ▼
-    🤖 AGENT
-       │
-       │  Fresh Claude instance with domain expertise
-       │  Auto-invoked OR called via Task()
-       │
-       └──┬─► frontend-developer → Builds React components
-          ├─► ui-designer → Creates design systems
-          └─► code-reviewer → Reviews code quality
-
-
-┌─────────────────────────────────────────────────────────────────────┐
-│  MCP FLOW                                                           │
-└─────────────────────────────────────────────────────────────────────┘
-
-    🔌 MCP SERVER
-       │
-       │  External service (NOT AI)
-       │  Configured in: claude_desktop_config.json
-       │
-       ▼
-    🛠️  TOOL/CAPABILITY
-       │
-       │  Claude queries these for enhanced capabilities
-       │
-       └──┬─► sequential-thinking → Step-by-step reasoning
-          └─► playwright → Browser automation
 ```
+User: "Build an iOS app with login, home screen, and settings"
+
+Orchestrator detects: iOS work → launches ios-development workflow
+
+Phase 1: Architecture     Phase 2: Implementation      Phase 3: Quality
+  ┌──────────────┐          ┌──────────────┐           ┌──────────────┐
+  │  ios-dev     │          │  ios-dev     │           │ code-review  │
+  │              │    →     │              │     →     │              │
+  │ Plan arch    │          │ Build w/TDD  │           │ Review all   │
+  │ Setup tests  │          │ Components   │           │ Verify build │
+  └──────────────┘          └──────────────┘           └──────────────┘
+       ↓                          ↓                           ↓
+  swift-architect           swiftui-specialist          APPROVE ✓
+  (reviews plan)            (helps with UI)
+
+Result: Production-ready, tested, reviewed — in 90 minutes
+```
+
+**Time:** 90 minutes (vs 6 hours)
+**Quality:** Professional architecture + tests + review
+**Systematic:** Proven workflow, not ad-hoc
 
 ---
 
-## 💡 Example: How Tools Work Together
+## The Real Difference
 
-```text
-USER: "Build a peptide protocols dashboard from this research article"
-  │
-  ▼ Claude analyzes → Identifies: content extraction, data viz, health tracking
-  │
-  ├─ ⚡ tapestry
-  │  └─ Extract article content + create action plan
-  │
-  ├─ ⚡ brainstorming
-  │  └─ Questions: Track protocols? Dosage calculator? Timeline view?
-  │
-  ├─ Parallel agent execution ────────────────────────────────────────────────┐
-  │                                                                           │
-  │  ┌─────────────────────┐  ┌───────────────────────┐  ┌──────────────────┐ │
-  │  │ ui-designer         │  │ frontend-developer    │  │   vibe-coding    | │
-  │  │                     │  │                       │  │    coach         │ │
-  │  │  Design protocol    │  │  Build React          │  │                  │ │
-  │  │  cards + data viz   │  │  dashboard            │  │  Guide vision →  │ │
-  │  │                     │  │  (TypeScript +        │  │  implementation  │ │
-  │  │                     │  │   Tailwind)           │  │                  │ │
-  │  └─────────────────────┘  └────────────────────── ┘  └──────────────────┘ │
-  │                                                                           │
-  └───────────────────────────────────────────────────────────────────────────┘
-  │
-  ├─ ⚡ design-with-precision
-  │  └─ OCD-level audit: Typography scale, 4px grid, contrast ratios (7:1 AAA)
-  │     ✗ "Card padding 13px → Must be 12px or 16px (--space-3 or --space-4)"
-  │     ✗ "H5 usage forbidden → Restructure to H4 max depth"
-  │     Score: 7.2/10 → Provide exact fixes with system values
-  │
-  ├─ ⚡ requesting-code-review
-  │  └─ Spawn code-reviewer agent: Check accessibility, performance
-  │
-  ├─ ⚡ verification-before-completion
-  │  └─ Run build: types✓ lint✓ visual regression✓
-  │
-  ✅ Pixel-perfect dashboard ready to deploy
+| **Solo Execution** | **Orchestrated** |
+|--------------------|------------------|
+| One agent does everything | Specialized agents for each domain |
+| No systematic process | Proven workflows enforced |
+| No quality gates | code-reviewer-pro validates everything |
+| 6 hours, mediocre quality | 90 minutes, production-ready |
+
+**Orchestration isn't about "using multiple agents."**
+**It's about systematic coordination with quality gates.**
+
+---
+
+## The Ecosystem Explained
+
+Claude Code provides 4 layers that enable orchestration:
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│  LAYER 1: WORKFLOWS                                             │
+│  ─────────────────                                              │
+│  Proven patterns for complex tasks                              │
+│                                                                 │
+│  ios-development.yml, ui-ux-design.yml, debugging.yml           │
+│  "This is the RECIPE: these agents, in this order, these steps" │
+└─────────────────────────────────────────────────────────────────┘
+                             ↓ orchestrates ↓
+┌─────────────────────────────────────────────────────────────────┐
+│  LAYER 2: COMMANDS                                              │
+│  ──────────────────                                             │
+│  Automation triggers for workflows                              │
+│                                                                 │
+│  /agentfeedback  →  Parse feedback, assign agents, execute      │
+│  /concept        →  Creative exploration before building        │
+│  /enhance        →  Detect task, launch appropriate workflow    │
+└─────────────────────────────────────────────────────────────────┘
+                             ↓ launches ↓
+┌─────────────────────────────────────────────────────────────────┐
+│  LAYER 3: AGENTS                                                │
+│  ────────────────                                               │
+│  Specialized Claude instances with domain expertise             │
+│                                                                 │
+│  design-master    → UI/UX design, spacing, typography           │
+│  ios-dev          → Swift, SwiftUI, iOS patterns                │
+│  code-reviewer    → Quality gates, security, best practices     │
+│  frontend-dev     → React, Next.js, component architecture      │
+└─────────────────────────────────────────────────────────────────┘
+                             ↓ follow ↓
+┌─────────────────────────────────────────────────────────────────┐
+│  LAYER 4: SKILLS                                                │
+│  ────────────────                                               │
+│  Proven processes that agents execute                           │
+│                                                                 │
+│  test-driven-development  →  RED → GREEN → REFACTOR cycle       │
+│  systematic-debugging     →  Investigate → root cause → fix     │
+│  brainstorming           →  Socratic questioning before coding  │
+│  design-with-precision   →  Pixel-perfect spacing/typography    │
+└─────────────────────────────────────────────────────────────────┘
 ```
 
+**How they work together:**
 
+1. **You trigger a workflow** (via /agentfeedback, /concept, or /enhance)
+2. **Workflow launches agents** in phases (architecture → implementation → review)
+3. **Each agent uses skills** (TDD, debugging, brainstorming)
+4. **Quality gates between phases** prevent bad work from proceeding
 
+---
 
-## Installation
+## Real Example: iOS App Feedback
 
-### How to Install Agents
+**Scenario:** You have 7 pieces of feedback after testing your iOS app.
 
-I use **Leamas** to install agent kits. Each kit bundles multiple related agents.
+### Without Orchestration
 
+```
+You: "Here are 7 things to fix: [list]"
+
+Claude: "I'll fix those for you"
+  ├─ Works on them one by one
+  ├─ Might miss some
+  ├─ No systematic approach
+  ├─ Ships untested fixes
+  │
+  └─ Result: 3 hours, some bugs remain, no review
+```
+
+### With Orchestration
+
+```
+You: "/agentfeedback [your 7 items]"
+
+Phase 1: Parse & Categorize
+  ┌──────────────────────────────────────┐
+  │ 🔴 CRITICAL (4 items)                │
+  │   → Calculator broken                 │
+  │   → Tab structure wrong              │
+  │                                      │
+  │ 🟡 IMPORTANT (3 items)               │
+  │   → Typography messy                 │
+  │   → Legacy components remain         │
+  └──────────────────────────────────────┘
+
+Phase 2: Assign Agents
+  Critical fixes    →  ios-dev (parallel)
+  Design issues     →  design-master
+  Cleanup          →  ios-dev
+
+Phase 3: Execute Waves
+  Wave 1: Fix critical (ios-dev × 2 tasks in parallel)
+    ├─ Rebuild calculator
+    └─ Fix tab structure
+
+  Wave 2: Design improvements (design-master)
+    └─ Fix typography, apply spacing system
+
+  Wave 3: Cleanup (ios-dev)
+    └─ Remove legacy components
+
+Phase 4: Validation
+  ✓ Build passes
+  ✓ All 28 peptides loaded (not 8)
+  ✓ No orphaned imports
+
+Phase 5: Quality Gate
+  code-reviewer-pro:
+    ✓ Code review passed
+    ✓ Build verified
+    ✓ No regressions
+    → APPROVED
+
+Result: 45 minutes, all 7 items fixed, tested, reviewed
+```
+
+**Impact:**
+- Time: 45 min (vs 3 hours)
+- Quality: 100% (0 items missed, 0 regressions)
+- Systematic: Proven process, not ad-hoc
+
+---
+
+## Key Concepts
+
+### 1. Workflows = Proven Recipes
+
+A workflow is like a recipe that says:
+- Which agents to use
+- In what order
+- What skills they should follow
+- Where quality gates go
+
+**Example: `ios-development.yml`**
+```yaml
+phases:
+  setup:
+    agent: ios-dev
+    skill: using-git-worktrees  # Isolated workspace
+
+  implementation:
+    agent: ios-dev
+    skill: test-driven-development  # RED-GREEN-REFACTOR
+
+  review:
+    agent: code-reviewer-pro
+    mandatory: true  # Quality gate
+```
+
+### 2. Quality Gates = Prevention
+
+Every workflow has mandatory checkpoints:
+
+```
+Implementation → Quality Gate → Merge/Ship
+                      ↓
+                code-reviewer-pro:
+                  - Code review ✓
+                  - Build passes ✓
+                  - Tests pass ✓
+                  - No regressions ✓
+                      ↓
+                  APPROVE or REQUEST_CHANGES
+```
+
+**If quality gate fails:** Agent must fix before proceeding.
+
+**Impact:** 0 bugs shipped in production sessions analyzed.
+
+### 3. Agents = Specialists
+
+Each agent has deep expertise in one domain:
+
+```
+design-master
+  ├─ Knows: Spacing systems, typography, visual hierarchy
+  ├─ Skills: design-with-precision (pixel-perfect enforcement)
+  └─ Use for: UI/UX work, design system compliance
+
+ios-dev
+  ├─ Knows: Swift, SwiftUI, iOS patterns, App Store rules
+  ├─ Skills: test-driven-development, systematic debugging
+  └─ Use for: iOS app development
+
+code-reviewer-pro
+  ├─ Knows: Security, performance, best practices
+  ├─ Skills: verification-before-completion
+  └─ Use for: Quality gates (mandatory before shipping)
+```
+
+**Why this matters:** Specialists deliver higher quality than generalists.
+
+### 4. Skills = Proven Processes
+
+Skills are workflows that agents execute:
+
+```
+test-driven-development:
+  1. Write test (RED)
+  2. Watch it fail
+  3. Write minimal code (GREEN)
+  4. Refactor
+  5. Repeat
+
+systematic-debugging:
+  1. Investigation phase
+  2. Root cause identification
+  3. Hypothesis testing
+  4. Implementation
+  5. Verification
+
+brainstorming:
+  1. Socratic questioning
+  2. Alternative exploration
+  3. Incremental validation
+  4. Creative direction
+```
+
+**Why this matters:** Prevents agents from inventing ad-hoc approaches.
+
+---
+
+## Optimization: 40% Token Savings, 50% Cost Reduction
+
+Recent enhancements make orchestration more efficient:
+
+### Before Optimization
+- Complex session: 75,000 tokens (hitting limits)
+- Cost: $1.13 per session (all Opus)
+- Maintenance: Commands duplicated across files
+
+### After Optimization
+- Same session: 45,000 tokens (60% reduction)
+- Cost: $0.59 per session (48% reduction via model tiering)
+- Maintenance: DRY central configs
+
+**How:**
+1. **Context caching** - Don't re-read same files (save 15K tokens)
+2. **Agent compression** - Reference-style prompts (save 20K tokens)
+3. **Model tiering** - Sonnet for deterministic, Opus for creative (50% cost ↓)
+4. **Command consolidation** - Central configs, no duplication (easier maintenance)
+5. **Analytics** - Track performance, identify inefficiencies
+
+**[See full optimization guide](./setup-navigator/docs/OPTIMIZATION_GUIDE.md)**
+
+---
+
+## Quick Start
+
+### Install Core Tools
+
+**1. Install agent kits** (specialized Claude instances):
 ```bash
-# Install Leamas (if not already installed)
+# Install Leamas (agent installer)
 # Visit: https://leamas.sh/
 
-# Install agent kits I use:
-~/leamas/leamas agent@claude-code-sub-agents  # 6 development agents
-~/leamas/leamas agent@wshobson                # 10 vibe coding + utility agents
+# Core agent kits
+~/leamas/leamas agent@claude-code-sub-agents  # 6 agents
+~/leamas/leamas agent@wshobson               # 10 agents
 ```
 
-**Available Agent Kits:**
-- `claude-code-sub-agents` — 6 agents (ui-designer, ux-designer, frontend-developer, ios-developer, code-reviewer, prompt-engineer)
-- `wshobson` — 10 agents (agent-organizer, vibe-coding-coach, context-manager, nextjs-pro, data-scientist, quant-analyst, python-pro, database-admin, database-optimizer, payment-integration)
+**2. Enable essential plugins** (skills + workflows):
 
-
-
-  
-### How to Get Plugin Marketplaces
-
-Plugins come from **marketplaces** — collections of related plugins:
-
-1. **[Superpowers Marketplace](https://github.com/Ejb503/multiverse-of-multiagents)**
-   - Community-driven framework for systematic development workflows
-   - Contains: superpowers plugin, elements-of-style plugin
-
-2. **[Claude Code Workflows](https://github.com/anthropics/claude-code-workflows)**
-   - Official Anthropic workflows for specialized tasks
-   - Contains: javascript-typescript, frontend-mobile-development, code-documentation, SEO plugins (3 total)
-
-3. **[Claude Code Plugins](https://github.com/anthropics/claude-code-plugins)**
-   - Core utilities and integrations
-   - Contains: git, commit-commands
-
-4. **[Claude Mem by thedotmack](https://github.com/thedotmack/claude-mem)**
-   - Persistent memory system using SQLite
-   - Standalone plugin with MCP integration
-
-
-
----
-
-# Agents
-
-Agents are installed to: `~/.claude/agents/leamas/{kit-name}/`
-
-
----
-
-### 🧠 Agent Organizer
-
-```yaml
----
-name: agent-organizer
-description: Coordinates multiple agents working together on complex workflows
-works-with: all agents
-use-when: Running complex multi-agent workflows
-kit: wshobson
----
-# Key Capabilities:
-# - Acts as your AI project manager
-# - Tracks which agents handle what
-# - Ensures work doesn't overlap
-```
-
-```bash
-# Included in wshobson kit
-~/leamas/leamas agent@wshobson
-```
-
-
-
----
-
-### 🎯 Vibe Coding Coach
-
-```yaml
----
-name: vibe-coding-coach
-description: Your friendly coding mentor with personality
-works-with: all development agents
-kit: wshobson
----
-# Key Capabilities:
-# - Provides guidance while you code
-# - Explains concepts in approachable ways
-# - Helps improve your skills conversationally
-```
-
-```bash
-# Included in wshobson kit
-~/leamas/leamas agent@wshobson
-```
-
-
-
----
-
-### 📦 Context Manager
-
-```yaml
----
-name: context-manager
-description: Optimizes how context is used across conversations
-use-when: Working on large codebases or long sessions
-kit: wshobson
----
-# Key Capabilities:
-# - Maximizes available context windows
-# - Ensures important information is preserved when needed
-# - Prevents context overflow
-```
-
-```bash
-# Included in wshobson kit
-~/leamas/leamas agent@wshobson
-```
-
-
-
----
-
-### 🎨 Prompt Engineer
-
-```yaml
----
-name: prompt-engineer
-description: Expert prompt architect using Opus model for maximum reasoning
-use-when: Building AI features or optimizing prompts
-kit: claude-code-sub-agents
----
-# Key Capabilities:
-# - Specializes in Chain-of-Thought and Tree-of-Thoughts techniques
-# - Essential when building AI features
-# - Optimizes prompts for LLM performance
-```
-
-```bash
-# Included in claude-code-sub-agents kit
-~/leamas/leamas agent@claude-code-sub-agents
-```
-
-
-
----
-
-### 🎨 UI Designer
-
-```yaml
----
-name: ui-designer
-description: Creates design systems and visual interfaces with WCAG accessibility
-requires: magic MCP, context7 MCP
-works-with: frontend-developer, ux-designer
-kit: claude-code-sub-agents
----
-# Key Capabilities:
-# - Color palettes, typography, spacing systems
-# - Component libraries
-# - WCAG accessibility compliance
-```
-
-```bash
-# Included in claude-code-sub-agents kit
-~/leamas/leamas agent@claude-code-sub-agents
-```
-
-
-
----
-
-### 👤 UX Designer
-
-```yaml
----
-name: ux-designer
-description: Conducts user research, creates journey maps, and designs usability tests
-requires: context7 MCP, sequential-thinking MCP, playwright MCP
-works-with: ui-designer, frontend-developer
-kit: claude-code-sub-agents
----
-# Key Capabilities:
-# - User flows, pain points, and interaction patterns
-# - Wireframes and prototypes
-# - Design validation with users
-```
-
-```bash
-# Included in claude-code-sub-agents kit
-~/leamas/leamas agent@claude-code-sub-agents
-```
-
-
-
----
-
-### ⚛️ Frontend Developer
-
-```yaml
----
-name: frontend-developer
-description: Builds production-ready React components with TypeScript and Tailwind
-requires: magic MCP, context7 MCP, playwright MCP
-works-with: ui-designer, code-reviewer, nextjs-pro
-kit: claude-code-sub-agents
----
-# Key Capabilities:
-# - State management, hooks, responsive design
-# - Accessibility best practices
-# - Testing with React Testing Library
-```
-
-```bash
-# Included in claude-code-sub-agents kit
-~/leamas/leamas agent@claude-code-sub-agents
-```
-
-
-
----
-
-### 📱 iOS Developer
-
-```yaml
----
-name: ios-developer
-description: Native iOS development using Swift, SwiftUI, and UIKit
-works-with: ui-designer
-kit: claude-code-sub-agents
----
-# Key Capabilities:
-# - iOS-specific patterns and navigation
-# - Platform conventions
-# - App Store optimization
-```
-
-```bash
-# Included in claude-code-sub-agents kit
-~/leamas/leamas agent@claude-code-sub-agents
-```
-
-
-
----
-
-### 👁️ Code Reviewer
-
-```yaml
----
-name: code-reviewer
-description: Reviews code for quality, security, performance, and maintainability
-requires: context7 MCP, sequential-thinking MCP
-works-with: all development agents
-kit: claude-code-sub-agents
----
-# Key Capabilities:
-# - Actionable feedback with line-by-line suggestions
-# - Security vulnerability detection
-# - Best practices enforcement
-```
-
-```bash
-# Included in claude-code-sub-agents kit
-~/leamas/leamas agent@claude-code-sub-agents
-```
-
-
-
----
-
-### ⚡ Next.js Pro
-
-```yaml
----
-name: nextjs-pro
-description: Next.js specialist covering SSR, SSG, routing, and Next.js patterns
-works-with: frontend-developer
-kit: wshobson
----
-# Key Capabilities:
-# - App Router, Server Components
-# - Deployment best practices
-# - Performance optimization
-```
-
-```bash
-# Included in wshobson kit
-~/leamas/leamas agent@wshobson
-```
-
----
-
-### 📊 Data Scientist
-
-```yaml
----
-name: data-scientist
-description: Handles data analysis, statistical modeling, SQL queries, BigQuery operations
-works-with: python-pro, database-optimizer
-kit: wshobson
----
-# Key Capabilities:
-# - Machine learning implementations
-# - Data transformation or analysis
-# - Statistical analysis
-```
-
-```bash
-# Included in wshobson kit
-~/leamas/leamas agent@wshobson
-```
-
-
----
-
-### 📈 Quant Analyst
-
-```yaml
----
-name: quant-analyst
-description: Quantitative analysis and financial modeling
-kit: wshobson
----
-# Key Capabilities:
-# - Statistical analysis
-# - Risk modeling
-# - Financial calculations
-```
-
-```bash
-# Included in wshobson kit
-~/leamas/leamas agent@wshobson
-```
-
-
----
-
-### 🐍 Python Pro
-
-```yaml
----
-name: python-pro
-description: Python development specialist
-works-with: data-scientist
-kit: wshobson
----
-# Key Capabilities:
-# - Data analysis, scripting, automation
-# - Python-specific best practices
-# - Knows pandas, numpy, requests
-```
-
-```bash
-# Included in wshobson kit
-~/leamas/leamas agent@wshobson
-```
-
----
-
-### 🗄️ Database Admin
-
-```yaml
----
-name: database-admin
-description: Database setup, configuration, and ongoing management
-works-with: database-optimizer
-kit: wshobson
----
-# Key Capabilities:
-# - Schema design, migrations, backups
-# - Database administration tasks
-```
-
-```bash
-# Included in wshobson kit
-~/leamas/leamas agent@wshobson
-```
-
-
----
-
-### ⚡ Database Optimizer
-
-```yaml
----
-name: database-optimizer
-description: Optimizes database queries and overall database performance
-works-with: database-admin, data-scientist
-kit: wshobson
----
-# Key Capabilities:
-# - Analyzes slow queries
-# - Suggests indexes
-# - Improves database efficiency
-```
-
-```bash
-# Included in wshobson kit
-~/leamas/leamas agent@wshobson
-```
-
----
-
-# Plugins: Marketplaces for Skills
-
-To find plugins and their associated skills, type /plugins into Claude Code
-
-```yaml
-/plugins
- 1. Command Recognition:  Claude Code detects the /plugins slash command
- 2. Marketplace Loading:  The system reads ~/.claude/settings.json to see which plugins are enabled
- 3. Plugin Discovery: Scans ~/.claude/plugins/marketplaces/ directories for installed plugin definitions
- 4. Activation — Each enabled plugin's manifest is loaded, which contains:
-    - Skills (workflow instructions)
-    - Agents (specialized AI definitions)
-    - Slash commands (custom commands)
-    - MCP integrations (if any)
-  5. Context Injection: Skills become available for auto-triggering or manual invocation
-  6. Agent Registration: Agents become available via Task({ subagent_type: "agent-name" })
-  7. Command Registration: Slash commands become available in the command palette
-```
-
-## How to Enable Plugins:
-Edit `~/.claude/settings.json` and add plugins to `enabledPlugins`:
-
+Edit `~/.claude/settings.json`:
 ```json
 {
   "enabledPlugins": {
     "superpowers@superpowers-marketplace": true,
-    "claude-mem@thedotmack": true,
-    "javascript-typescript@claude-code-workflows": true,
-    "seo-content-creation@claude-code-workflows": true,
-    "git@claude-code-plugins": true
-  }
-}
-```
-
-Plugin Locations:
-- Installed to: `~/.claude/plugins/marketplaces/{marketplace-name}/{plugin-name}/`
-- Settings: `~/.claude/settings.json`
-
----
-
-
----
-
-### Superpowers
-
-```jsonc
-{
-  "enabledPlugins": {
-    "superpowers@superpowers-marketplace": true
-  }
-}
-// Foundation of vibe coding with 10 systematic development skills
-// Skills:
-// - using-superpowers
-// - brainstorming
-// - writing-plans
-// - executing-plans
-// - subagent-driven-development
-// - dispatching-parallel-agents
-// - writing-skills
-// - testing-skills-with-subagents
-// - sharing-skills
-// Repository: https://github.com/Ejb503/multiverse-of-multiagents
-```
-
----
-
-### Claude Mem
-
-```jsonc
-{
-  "enabledPlugins": {
     "claude-mem@thedotmack": true
   }
 }
-// Persistent memory system using SQLite with full-text search
-// Key Capabilities:
-// - Provides 6 MCP search tools for querying stored knowledge
-// - Automatically captures work, processes into summaries
-// - Injects relevant context in future sessions
-// Repository: https://github.com/thedotmack/claude-mem
 ```
 
----
+**3. Add MCP for structured reasoning:**
 
-### JavaScript TypeScript
-
-```jsonc
-{
-  "enabledPlugins": {
-    "javascript-typescript@claude-code-workflows": true
-  }
-}
-// 4 skills covering modern JS patterns and TypeScript
-// Skills:
-// - modern-javascript-patterns
-// - javascript-testing-patterns
-// - nodejs-backend-patterns
-// - typescript-advanced-types
-```
-
----
-
-### Frontend Mobile Development
-
-```jsonc
-{
-  "enabledPlugins": {
-    "frontend-mobile-development@claude-code-workflows": true
-  }
-}
-// 2 skills for building React and mobile apps
-// Skills:
-// - frontend-developer
-// - mobile-developer
-```
-
----
-
-### Code Documentation
-
-```jsonc
-{
-  "enabledPlugins": {
-    "code-documentation@claude-code-workflows": true
-  }
-}
-// 3 skills covering code review and documentation
-// Skills:
-// - code-reviewer
-// - docs-architect
-// - tutorial-engineer
-```
-
----
-
-### SEO Content Creation
-
-```jsonc
-{
-  "enabledPlugins": {
-    "seo-content-creation@claude-code-workflows": true
-  }
-}
-// Content writing optimized for search engines with E-E-A-T signals
-// Agents:
-// - seo-content-writer
-// - seo-content-planner
-// - seo-content-auditor
-```
-
----
-
-### SEO Technical Optimization
-
-```jsonc
-{
-  "enabledPlugins": {
-    "seo-technical-optimization@claude-code-workflows": true
-  }
-}
-// Technical SEO optimization covering keywords, meta tags, snippets
-// Agents:
-// - seo-keyword-strategist
-// - seo-meta-optimizer
-// - seo-snippet-hunter
-// - seo-structure-architect
-```
-
----
-
-### SEO Analysis Monitoring
-
-```jsonc
-{
-  "enabledPlugins": {
-    "seo-analysis-monitoring@claude-code-workflows": true
-  }
-}
-// SEO analysis and monitoring for authority building
-// Agents:
-// - seo-authority-builder
-// - seo-content-refresher
-// - seo-cannibalization-detector
-```
-
----
-
-### Elements of Style
-
-```jsonc
-{
-  "enabledPlugins": {
-    "elements-of-style@superpowers-marketplace": true
-  }
-}
-// Applies Strunk & White's timeless writing principles
-// Skills:
-// - writing-clearly-and-concisely
-// Works on: documentation, commit messages, error messages
-```
-
----
-
-### Git
-
-```jsonc
-{
-  "enabledPlugins": {
-    "git@claude-code-plugins": true
-  }
-}
-// 4 slash commands for Git operations
-// Commands:
-// - /git:commit-push
-// - /git:compact-commits
-// - /git:create-worktree
-// - /git:rebase-pr
-```
-
----
-
-### Commit Commands
-
-```jsonc
-{
-  "enabledPlugins": {
-    "commit-commands@claude-code-plugins": true
-  }
-}
-// Enhanced Git commit workflows with automated conventions
-// Key Capabilities:
-// - Improves commit message formatting
-// - Conventional commit support
-```
-
-# MCPs
-
-### 🔌 Sequential Thinking
-
-```yaml
----
-name: sequential-thinking
-description: Step-by-step reasoning for complex problems
-used-by: All agents and workflows
-documentation: https://github.com/modelcontextprotocol/servers/tree/main/src/sequential-thinking
----
-# Key Capabilities:
-# - Claude invokes this when thinking through multi-step solutions
-# - Structured reasoning framework
-# - Helps with complex debugging and planning
-```
-
-```jsonc
-# Add to ~/Library/Application Support/Claude/claude_desktop_config.json:
+Edit `~/Library/Application Support/Claude/claude_desktop_config.json`:
+```json
 {
   "mcpServers": {
     "sequential-thinking": {
@@ -827,67 +389,188 @@ documentation: https://github.com/modelcontextprotocol/servers/tree/main/src/seq
 }
 ```
 
----
+**4. Restart Claude Desktop**
 
+### Try It
 
-## Configuration
-
-### File Locations
-
+**Example 1: Design work**
 ```
-Agents       ~/.claude/agents/leamas/
-Settings     ~/.claude/settings.json
-MCP Config   ~/Library/Application Support/Claude/claude_desktop_config.json
-Skills       ~/.claude/skills/
-Plugins      ~/.claude/plugins/marketplaces/
-Claude-Mem   ${CLAUDE_PLUGIN_ROOT}/data/
+You: "/concept - redesign the login page"
+
+Claude:
+  ├─ Reads DESIGN_PATTERNS.md (reference examples)
+  ├─ Uses brainstorming skill (Socratic questions)
+  ├─ Presents concept brief
+  └─ Gets your approval before building
 ```
 
----
+**Example 2: Process feedback**
+```
+You: "/agentfeedback
+1. Calculator is broken
+2. Typography is messy
+3. Need to add dark mode"
 
-## Quick Start (15 Minutes)
+Claude:
+  ├─ Parses: Critical (1), Important (2,3)
+  ├─ Assigns: ios-dev for 1, design-master for 2,3
+  ├─ Executes in parallel waves
+  ├─ Validates: build passes, no regressions
+  └─ Quality gate: code-reviewer-pro approves
+```
 
-```bash
-# ============================================================================
-# QUICK START (15 Minutes)
-# ============================================================================
+**Example 3: Build from scratch**
+```
+You: "/enhance - build React dashboard with charts"
 
-# Step 1: Prerequisites (2 min)
-# Verify you have the basics
-node --version  # Need 18+
-git --version
-
-# Step 2: Install Essentials (8 min)
-
-# 2a. superpowers - Core workflow skills (TDD, code review, planning)
-# 2b. claude-mem - Persistent memory across sessions
-# Add to ~/.claude/settings.json:
-{
-  "enabledPlugins": {
-    "superpowers@superpowers-marketplace": true,
-    "claude-mem@thedotmack": true
-  }
-}
-
-# 2c. sequential-thinking - Structured reasoning for complex problems
-# Add to ~/Library/Application Support/Claude/claude_desktop_config.json:
-{
-  "mcpServers": {
-    "sequential-thinking": {
-      "command": "npx",
-      "args": ["-y", "@modelcontextprotocol/server-sequential-thinking"]
-    }
-  }
-}
-
-# Step 3: Verify (2 min)
-# Restart Claude Desktop, then verify:
-cat ~/.claude/settings.json | grep enabledPlugins
-cat ~/Library/Application\ Support/Claude/claude_desktop_config.json
-
-# Step 4: Try It (3 min)
-# Ask Claude: "Use brainstorming to help me design a navbar component"
-# ✅ Expected: Claude invokes brainstorming skill and asks Socratic questions
+Claude:
+  ├─ Detects: Frontend work
+  ├─ Launches: frontend-developer agent
+  ├─ Uses: test-driven-development skill
+  ├─ Quality gate: code-reviewer-pro
+  └─ Ships: Tested, reviewed, production-ready
 ```
 
 ---
+
+## Deep Dive: Setup Navigator
+
+For complete orchestration system including:
+- 8 proven workflows (iOS, UI/UX, debugging, etc.)
+- Failure prevention (SESSION_START.md prevents context loss)
+- Validation framework (measurable acceptance criteria)
+- Analytics (track token usage, agent performance)
+- Model tiering (optimize costs)
+
+**[See full system →](./setup-navigator)**
+
+---
+
+## The Mental Model
+
+Think of orchestration like a professional kitchen:
+
+| **Kitchen** | **Claude Code** | **Why It Matters** |
+|-------------|-----------------|-------------------|
+| **Recipe** | Workflow | Proven steps, not improvisation |
+| **Head Chef** | Orchestrator | Coordinates specialists |
+| **Pastry Chef** | design-master | Specialist in one domain |
+| **Sous Chef** | ios-dev | Systematic execution |
+| **Food Inspector** | code-reviewer-pro | Quality gate before serving |
+| **Techniques** | Skills | Proven processes (TDD, debugging) |
+
+**Solo execution = one person cooks everything**
+**Orchestration = specialized team with proven recipes**
+
+---
+
+## Key Resources
+
+**System Documentation:**
+- [Setup Navigator](./setup-navigator) - Complete orchestration system
+- [Optimization Guide](./setup-navigator/docs/OPTIMIZATION_GUIDE.md) - Token & cost savings
+- [Quick Reference](./setup-navigator/docs/QUICK_REFERENCE.md) - CLI commands
+- [System Audit](./setup-navigator/.claude/COMPREHENSIVE_SYSTEM_AUDIT.md) - Full analysis
+
+**Workflows:**
+- [iOS Development](./setup-navigator/workflows/ios-development.yml)
+- [UI/UX Design](./setup-navigator/workflows/ui-ux-design.yml)
+- [Debugging](./setup-navigator/workflows/debugging.yml)
+- [Code Review](./setup-navigator/workflows/code-review.yml)
+
+**Validation:**
+- [Validation Schema](./setup-navigator/.claude/agentfeedback-validation-schema.yml) - Measurable criteria
+- [Quality Gate Checklist](./setup-navigator/.claude/config/quality-gate-checklist.md)
+
+**Analytics:**
+- Session tracking - `analytics-viewer dashboard`
+- Agent performance - `analytics-viewer agents`
+- Token efficiency - `analytics-viewer tokens`
+
+---
+
+## Proven Results
+
+### Real Sessions Analyzed
+
+**iOS App (7 feedback items):**
+- Without orchestration: 3 hours, some bugs remain
+- With orchestration: 45 minutes, 100% complete, 0 regressions
+- **Improvement:** 62% faster, perfect quality
+
+**UI Redesign (5 critical issues):**
+- Without orchestration: Complete failure (generic design)
+- With orchestration: 20 minutes, "miles better" quality
+- **Improvement:** Actually works vs complete failure
+
+**Cost Optimization:**
+- Before: 75K tokens per session, $1.13, hitting limits
+- After: 45K tokens, $0.59, well below limits
+- **Savings:** 40% tokens, 48% cost
+
+---
+
+## Why This Works
+
+**1. Systematic > Ad-hoc**
+- Proven workflows beat improvisation
+- Quality gates prevent shipping mistakes
+- 100% of feedback addressed in analyzed sessions
+
+**2. Specialists > Generalists**
+- design-master delivers pixel-perfect UI
+- code-reviewer-pro catches security issues
+- ios-dev follows iOS best practices
+
+**3. Process > Heroics**
+- test-driven-development ensures quality
+- systematic-debugging finds root causes
+- brainstorming prevents generic designs
+
+**4. Validation > Assumptions**
+- Measurable acceptance criteria (not "looks good")
+- Automated checks (build, tests, count)
+- 0 bugs shipped in production sessions
+
+---
+
+## Get Started
+
+1. **Install tools** (agents, plugins, MCPs) - [Quick Start](#quick-start)
+2. **Try a workflow** - `/agentfeedback` or `/concept`
+3. **Read deep dive** - [Setup Navigator](./setup-navigator)
+4. **Optimize** - [Optimization Guide](./setup-navigator/docs/OPTIMIZATION_GUIDE.md)
+
+**Questions?** Open an issue or explore the [setup navigator](./setup-navigator).
+
+---
+
+## Contributing
+
+This system evolved from real failures and successes:
+- 1 catastrophic UI failure (0 agents, generic output)
+- 1 successful iOS app (9 agents, 90 minutes, production-ready)
+- Countless orchestration experiments
+
+**To contribute:**
+- Document failure modes in [FAILURE_ANALYSIS](./setup-navigator/.claude/FAILURE_ANALYSIS.md)
+- Create proven workflows in [workflows/](./setup-navigator/workflows/)
+- Share before/after examples
+
+**The goal:** Make orchestration systematic, not heroic.
+
+---
+
+## License
+
+MIT License - See [LICENSE](LICENSE) for details
+
+---
+
+<div align="center">
+
+**Orchestration: Because complex work deserves systematic coordination.**
+
+[Get Started](#quick-start) • [Deep Dive](./setup-navigator) • [Optimize](./setup-navigator/docs/OPTIMIZATION_GUIDE.md)
+
+</div>
