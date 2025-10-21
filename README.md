@@ -649,6 +649,118 @@ Think of orchestration like a professional kitchen:
 
 ---
 
+## Troubleshooting
+
+### Common Issues
+
+#### xcodebuild Not Working (macOS/iOS Development)
+
+**Symptom:**
+```bash
+xcode-select: error: tool 'xcodebuild' requires Xcode, but active developer directory '/Library/Developer/CommandLineTools' is a command line tools instance
+```
+
+**Cause:**
+Your `xcode-select` path is pointing to Command Line Tools instead of full Xcode.app. This can happen after:
+- macOS system updates
+- Installing Command Line Tools separately
+- Xcode reinstallation
+
+**Fix:**
+```bash
+# Switch to full Xcode
+sudo xcode-select --switch /Applications/Xcode.app/Contents/Developer
+
+# Verify the fix
+xcode-select -p
+# Should show: /Applications/Xcode.app/Contents/Developer
+
+xcodebuild -version
+# Should show Xcode version without errors
+```
+
+**Impact:**
+- ✅ Xcode GUI works (it finds its own tools)
+- ❌ Terminal `xcodebuild` commands fail
+- ❌ iOS Simulator access from CLI broken
+- ❌ Agent automation for iOS builds fails
+
+#### Setup Verification Script
+
+Run this to check your system configuration:
+
+```bash
+# Create verification script
+cat > verify-setup.sh << 'EOF'
+#!/bin/bash
+echo "🔍 VERIFYING CLAUDE CODE SETUP"
+echo ""
+
+# Check Xcode path
+echo "📱 iOS Development:"
+XCODE_PATH=$(xcode-select -p 2>/dev/null)
+if [[ "$XCODE_PATH" == "/Applications/Xcode.app/Contents/Developer" ]]; then
+    echo "✅ Xcode path: $XCODE_PATH"
+    xcodebuild -version 2>/dev/null | head -1
+else
+    echo "❌ Xcode path incorrect: $XCODE_PATH"
+    echo "   Run: sudo xcode-select --switch /Applications/Xcode.app/Contents/Developer"
+fi
+echo ""
+
+# Check agents
+echo "🤖 Agents:"
+AGENT_COUNT=$(find ~/.claude/agents -name "*.md" 2>/dev/null | wc -l | tr -d ' ')
+echo "   Found: $AGENT_COUNT agent(s)"
+echo ""
+
+# Check commands
+echo "📝 Commands:"
+CMD_COUNT=$(find ~/.claude/commands -name "*.md" 2>/dev/null | wc -l | tr -d ' ')
+echo "   Found: $CMD_COUNT command(s)"
+echo ""
+
+# Check design inspiration
+echo "🎨 Design Inspiration:"
+if [ -d ~/.claude/design-inspiration ]; then
+    SCREENSHOT_COUNT=$(find ~/.claude/design-inspiration -name "*.png" 2>/dev/null | wc -l | tr -d ' ')
+    echo "✅ Gallery exists: $SCREENSHOT_COUNT screenshots"
+else
+    echo "⚠️  Gallery not found: ~/.claude/design-inspiration"
+fi
+echo ""
+
+echo "✅ VERIFICATION COMPLETE"
+EOF
+
+chmod +x verify-setup.sh
+./verify-setup.sh
+```
+
+#### MCP Server Issues
+
+If MCP servers aren't loading in Claude Desktop:
+
+1. **Check config location:**
+   ```bash
+   cat ~/Library/Application\ Support/Claude/claude_desktop_config.json
+   ```
+
+2. **Verify JSON syntax:**
+   - Use [JSONLint](https://jsonlint.com/) to validate
+   - Check for missing commas, brackets
+
+3. **Restart Claude Desktop:**
+   - Quit completely (Cmd+Q)
+   - Relaunch from Applications
+
+4. **Check MCP server logs:**
+   ```bash
+   ~/Library/Logs/Claude/mcp*.log
+   ```
+
+---
+
 ## Contributing
 
 This system evolved from real failures and successes:

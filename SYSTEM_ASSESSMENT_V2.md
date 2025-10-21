@@ -451,6 +451,50 @@ The Claude Code Orchestration System V2 is a mature, well-documented, cost-optim
 
 ---
 
+## Troubleshooting
+
+### Common Issues
+
+#### xcodebuild Not Working
+
+**Symptom:**
+```
+xcode-select: error: tool 'xcodebuild' requires Xcode
+```
+
+**Cause:**
+Developer path pointing to Command Line Tools instead of full Xcode.app
+
+**Fix:**
+```bash
+sudo xcode-select --switch /Applications/Xcode.app/Contents/Developer
+xcode-select -p  # Verify
+xcodebuild -version  # Test
+```
+
+**Impact:**
+- Xcode GUI: ✅ Works
+- Terminal builds: ❌ Fail
+- Simulator CLI: ❌ Broken
+- iOS agent automation: ❌ Fails
+
+#### Setup Verification
+
+Run the verification script:
+```bash
+./verify-setup.sh
+```
+
+Checks:
+- Xcode path configuration
+- Agent count (should be 28)
+- Command count (should be 9)
+- Skill count (should be 12)
+- Design gallery (should be 22 screenshots)
+- MCP server configuration
+
+---
+
 ## Appendix: Quick Reference
 
 ### Essential Commands
