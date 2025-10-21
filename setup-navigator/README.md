@@ -824,6 +824,343 @@ Time: 90 minutes
 
 ---
 
+## ✅ Validation & Quality Assurance System
+
+### The Problem: "Looks Good" Subjective Failures
+
+**Real failure from iOS session:**
+```
+Agent: "Library populated with peptides" ✅
+Reality: Only 8 peptides (needed 28)
+Caught by: code-reviewer-pro (lucky catch)
+```
+
+**Why it happened:** Agent can't judge "complete" without explicit, measurable criteria.
+
+### The Solution: Automated Validation Framework
+
+**Framework file:** `~/.claude/agentfeedback-validation-schema.yml`
+
+**Key principle:** Acceptance criteria must be **MEASURABLE**, not subjective.
+
+```yaml
+wave_example_populate_library:
+  task: "Populate peptide library with data from website"
+
+  acceptance_criteria:
+    - peptide_count: 28              # ✅ Measurable
+    - source_match: /lib/peptide-data.ts
+    - categories_minimum: 9
+    # NOT: "library should be good"  # ❌ Subjective
+
+  automated_validation:
+    # Count check
+    - type: count
+      command: "grep -c 'Peptide(' PeptideDatabase.swift"
+      expected: 28
+      failure_message: "Only {actual} peptides found, need 28"
+
+    # Build verification (mandatory)
+    - type: build
+      command: "xcodebuild -project X.xcodeproj -scheme Y build"
+      must_pass: true
+      failure_message: "Build failed after data population"
+
+  on_failure:
+    action: REQUEST_REWORK
+    agent: ios-dev
+    prompt: |
+      Validation failed: Only {actual} peptides, need 28.
+      Requirements:
+      - Must have exactly 28 peptides
+      - Must match website data structure
+      - Build must pass
+
+      Please fix and re-run validation.
+```
+
+### Validation Types Available
+
+| **Type** | **Purpose** | **Example** |
+|----------|-------------|-------------|
+| `count` | Count occurrences, compare to expected | Peptide count, component count |
+| `grep` | Search for pattern, verify matches | Check for unauthorized code |
+| `file_exists` | Verify file was created | New component files |
+| `file_not_exists` | Verify file was deleted | Legacy components removed |
+| `build` | Run build command (mandatory) | `xcodebuild build`, `npm run build` |
+| `test` | Run test suite | `xcodebuild test`, `npm test` |
+| `structure` | Validate data structure | Check required fields present |
+| `diff` | Compare two sources | Verify data matches reference |
+| `custom` | Custom validation script | Complex validation logic |
+
+### Build Verification (Mandatory)
+
+**Every wave must verify build passes before approval:**
+
+```bash
+# iOS example
+xcodebuild -project peptidefox-ios.xcodeproj -scheme PeptideFox build
+
+# Web example
+npm run build
+
+# If build fails → REQUEST_REWORK (not approve)
+```
+
+**Why this matters:**
+- Prevents shipping code that doesn't compile
+- Catches broken dependencies from deletions
+- Validates imports still resolve
+- No more "assumed it compiles"
+
+### Discovery Phase (Prevents Rebuilding What Exists)
+
+**Real failure from iOS session:**
+```
+Planned: "Rebuild GLP-1 tab with 3-step wizard"
+Discovery (later): "GLPJourneyView already exists!"
+Impact: Wasted planning, could have just exposed existing view
+```
+
+**Solution: Phase 3 in /agentfeedback**
+
+```bash
+# Before agent assignment, discover existing implementations:
+
+# Find similar components/views
+find . -name "*[SimilarPattern]*" -type f
+
+# Search for related functionality
+grep -r "related_functionality" --include="*.swift"
+
+# Check git history for similar work
+git log --all --oneline --grep="similar feature"
+```
+
+**Discovery output:**
+```
+📋 DISCOVERY REPORT
+
+Feedback: "Add GLP-1 tab"
+Found: GLPJourneyView.swift already exists!
+  - Has 3-step wizard
+  - Implements agent selection
+  - Just needs to be exposed in tab bar
+
+Plan: Expose existing view (not rebuild)
+Time saved: ~2 hours
+```
+
+### Changeset Manifests (Wave-to-Wave Context)
+
+**The problem:** Wave 2 doesn't know what Wave 1 changed.
+
+**Solution: Auto-generated JSON manifests**
+
+```json
+// changeset_wave_1.json (generated after Wave 1 completion)
+{
+  "wave": 1,
+  "agent": "ios-dev",
+  "task": "Rebuild calculator",
+  "timestamp": "2025-10-21T05:15:00Z",
+
+  "files_modified": [
+    "CalculatorView.swift",
+    "CalculatorViewModel.swift"
+  ],
+
+  "files_created": [
+    "CompoundPickerView.swift"
+  ],
+
+  "files_deleted": [
+    "DevicePickerView.swift",
+    "SyringeVisualView.swift"
+  ],
+
+  "features_removed": [
+    "frequency_picker (lines 145-189)",
+    "device_selector (lines 230-267)"
+  ],
+
+  "features_added": [
+    "compound_selection_modal (CompoundPickerView.swift)",
+    "reconstitution_flow (CalculatorView.swift:89-156)"
+  ],
+
+  "components_available_for_reuse": [
+    "CompoundPickerView - DO NOT recreate this component"
+  ],
+
+  "next_wave_context": "Calculator now uses CompoundPickerView for selection. Reuse this component."
+}
+```
+
+**Wave 2 reads this before executing:**
+```
+I see Wave 1 created CompoundPickerView.
+I won't recreate it - I'll use the existing component.
+```
+
+**Prevents:** Duplication, conflicts, context loss between waves
+
+### Parse Confirmation (Optional)
+
+**The risk:** Agent misunderstands feedback, wastes work.
+
+**Solution: Optional confirmation step**
+
+```bash
+/agentfeedback --confirm [your feedback]
+```
+
+**Shows parsed feedback with options:**
+```
+📋 I parsed your feedback as:
+
+🔴 CRITICAL (4):
+1. Calculator functionality lost - Type: Functionality
+   → Agent: ios-dev (rebuild calculator)
+
+2. Tab structure wrong - Type: Functionality
+   → Agent: ios-dev (replace Protocols with GLP-1)
+
+🟡 IMPORTANT (3):
+5. Typography/layout messy - Type: Design
+   → Agent: ios-dev (fix heading structure)
+
+Is this correct before I proceed?
+
+Options:
+- ✅ Yes, proceed with this plan
+- 🔄 No, let me clarify
+- 📝 Mostly correct, but...
+```
+
+**Trade-off:** Adds checkpoint (slower) vs prevents misunderstanding (safer)
+
+**Default:** Auto-proceed (like before)
+**Optional:** `--confirm` flag for safety
+
+### Enhanced /agentfeedback Workflow
+
+**All phases with new enhancements:**
+
+```
+Phase 1: Parse Feedback
+  → Categorize: Critical/Important/Nice-to-have
+  → Classify: Functionality/Design/Performance
+
+Phase 2: Confirm Parsing (if --confirm flag)
+  → Present parsed feedback
+  → Wait for user approval
+  → Adjust if needed
+
+Phase 3: DISCOVERY (NEW)
+  → Scan codebase for existing implementations
+  → Check for reusable components
+  → Update plan based on findings
+  → Present discovery report
+
+Phase 4: Agent Assignment
+  → Match agents to task types
+  → Group into waves
+
+Phase 4.5: Define Acceptance Criteria (NEW)
+  → Read agentfeedback-validation-schema.yml
+  → Define MEASURABLE criteria
+  → Create automated validation checks
+
+Phase 5: Execute Waves
+  → Wave 1: Critical fixes (parallel)
+  → Wave 2: Important improvements
+  → Wave 3: Nice-to-haves
+
+Phase 6: Validate & Verify (NEW)
+  → Run automated validation checks
+  → Verify build passes (mandatory)
+  → Generate changeset manifest
+  → If validation fails → REQUEST_REWORK
+
+Phase 7: Quality Gate
+  → code-reviewer-pro reviews all changes
+  → Must verify build passes
+  → Approve or request changes
+```
+
+### Quality Gate Enhancements
+
+**code-reviewer-pro now verifies:**
+
+```markdown
+Before APPROVE verdict:
+
+1. [ ] Code review passed (style, patterns, best practices)
+
+2. [ ] Build verification passed:
+   iOS: xcodebuild -project X -scheme Y build
+   Web: npm run build
+   Backend: pytest / cargo build
+
+   If build fails → REQUEST CHANGES with error output
+
+3. [ ] Tests passed (if applicable)
+
+4. [ ] Acceptance criteria met:
+   - All measurable thresholds verified
+   - All automated checks passed
+
+5. [ ] No regressions:
+   - Deleted files not referenced elsewhere
+   - Imports still resolve
+   - No orphaned dependencies
+
+IF ANY FAIL → REQUEST CHANGES (do not approve)
+```
+
+### Real-World Example: iOS Session With Validation
+
+**Without validation framework:**
+```
+Wave 2 Agent: "Library populated" ✅
+Reality: Only 8 peptides (need 28)
+Detection: code-reviewer-pro (manual catch)
+Risk: Could have been missed
+```
+
+**With validation framework:**
+```
+Wave 2 Agent: "Library populated" ✅
+
+Automated Validation:
+  CHECK 1: Peptide count
+    Command: grep -c 'Peptide(' PeptideDatabase.swift
+    Expected: 28
+    Actual: 8
+    Status: ❌ FAILED
+
+  CHECK 2: Build verification
+    Status: ⏭️ SKIPPED (previous check failed)
+
+VALIDATION FAILED
+
+Action: REQUEST_REWORK from ios-dev
+Prompt: "Only 8 peptides found, need 28. Please add remaining 20."
+
+Agent re-executes with explicit requirement.
+
+Re-validation:
+  CHECK 1: Peptide count → ✅ PASSED (28 found)
+  CHECK 2: Build → ✅ PASSED
+
+VALIDATION PASSED → Proceed to quality gate
+```
+
+**Impact:** Zero risk of critical misses, objective pass/fail criteria
+
+---
+
 ## 📈 Real Results
 
 ### Before This System
