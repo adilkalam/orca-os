@@ -1,0 +1,37 @@
+name: Bug Fixing & Debugging
+description: Systematic debugging workflow
+icon: 🐛
+
+phases:
+  - name: Investigation
+    agents:
+      - debugger (Sonnet)
+    skills:
+      - systematic-debugging
+      - root-cause-tracing
+    actions:
+      - Reproduce the bug
+      - Gather context
+      - Trace root cause
+
+  - name: Fix
+    agents:
+      - debugger (Sonnet)
+      - [domain-specific agent]
+    skills:
+      - test-driven-development
+      - defense-in-depth
+    actions:
+      - Write failing test
+      - Implement fix
+      - Verify solution
+
+  - name: Verification
+    agents:
+      - code-reviewer-pro (Sonnet)
+    skills:
+      - verification-before-completion
+    actions:
+      - Run full test suite
+      - Check for regressions
+      - Document fix

@@ -1,0 +1,27 @@
+{
+  "name": "setup-navigator",
+  "version": "0.1.0",
+  "description": "Discovery and documentation system for Claude Code global setup",
+  "main": "lib/scanner.js",
+  "bin": {
+    "setup": "./bin/setup"
+  },
+  "scripts": {
+    "scan": "node cli/scan.js",
+    "query": "node cli/query.js",
+    "docs": "node cli/generate-docs.js",
+    "test": "node cli/scan.js --output output/registry.json"
+  },
+  "keywords": [
+    "claude-code",
+    "agents",
+    "skills",
+    "discovery",
+    "documentation"
+  ],
+  "author": "Adil Kalam",
+  "license": "MIT",
+  "dependencies": {
+    "js-yaml": "^4.1.0"
+  }
+}

@@ -1,0 +1,36 @@
+name: Performance Optimization
+description: Optimize application performance
+icon: ⚡
+
+phases:
+  - name: Analysis
+    agents:
+      - debugger (Sonnet)
+      - [domain-specific agent]
+    skills:
+      - systematic-debugging
+    actions:
+      - Profile performance
+      - Identify bottlenecks
+      - Measure baselines
+
+  - name: Optimization
+    agents:
+      - dx-optimizer (Sonnet)
+      - [domain-specific agent]
+    skills:
+      - test-driven-development
+    actions:
+      - Implement optimizations
+      - Refactor hot paths
+      - Add caching
+
+  - name: Verification
+    agents:
+      - code-reviewer-pro (Sonnet)
+    skills:
+      - verification-before-completion
+    actions:
+      - Benchmark improvements
+      - Verify no regressions
+      - Document changes

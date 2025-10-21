@@ -1,0 +1,36 @@
+name: New Project Setup
+description: Start a new project from scratch
+icon: 🚀
+
+phases:
+  - name: Concept
+    agents:
+      - context-manager (Opus)
+    skills:
+      - brainstorming
+    actions:
+      - Clarify vision & requirements
+      - Explore alternatives
+      - Define scope
+
+  - name: Architecture
+    agents:
+      - agent-organizer (Sonnet)
+      - [domain-specific architect]
+    skills:
+      - using-git-worktrees
+    actions:
+      - Choose tech stack
+      - Design system architecture
+      - Set up project structure
+
+  - name: Foundation
+    agents:
+      - dx-optimizer (Sonnet)
+      - [domain-specific developer]
+    skills:
+      - test-driven-development
+    actions:
+      - Initialize repository
+      - Configure tooling
+      - Create base templates

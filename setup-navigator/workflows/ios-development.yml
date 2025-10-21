@@ -1,0 +1,51 @@
+name: iOS App Development
+description: Full-stack iOS development workflow
+icon: 📱
+
+phases:
+  - name: Architecture
+    agents:
+      - swift-architect (Opus)
+    skills:
+      - brainstorming
+      - using-git-worktrees
+    actions:
+      - Define system architecture
+      - Choose dependencies & patterns
+      - Design data models
+
+  - name: Implementation
+    agents:
+      - ios-dev (Sonnet)
+      - swiftui-specialist (Sonnet)
+    skills:
+      - test-driven-development
+    actions:
+      - Write tests first
+      - Implement core features
+      - Build UI components
+
+  - name: Testing
+    agents:
+      - ios-dev (Sonnet)
+    mcps:
+      - ios-simulator
+    skills:
+      - test-driven-development
+    actions:
+      - Launch iOS simulator via MCP
+      - Install app on simulator
+      - Run manual and automated tests
+      - Take screenshots for documentation
+      - Verify user flows on device
+
+  - name: Quality
+    agents:
+      - code-reviewer-pro (Sonnet)
+      - security-auditor (Sonnet)
+    skills:
+      - verification-before-completion
+    actions:
+      - Code review
+      - Security audit
+      - Performance check

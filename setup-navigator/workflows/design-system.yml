@@ -1,0 +1,36 @@
+name: Design System Creation
+description: Build comprehensive design system
+icon: 🎨
+
+phases:
+  - name: Foundation
+    agents:
+      - design-master (Sonnet)
+    skills:
+      - design-with-precision
+    actions:
+      - Define spacing system
+      - Create typography scale
+      - Establish color palette
+
+  - name: Components
+    agents:
+      - ui-designer (Sonnet)
+      - design-master (Sonnet)
+    skills:
+      - uxscii-component-creator
+    actions:
+      - Build base components
+      - Create interaction states
+      - Document patterns
+
+  - name: Implementation
+    agents:
+      - frontend-developer (Sonnet)
+      - react-pro (Sonnet)
+    skills:
+      - design-with-precision
+    actions:
+      - Implement in code
+      - Create Storybook
+      - Write component docs

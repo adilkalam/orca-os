@@ -1,0 +1,38 @@
+name: Web App Development
+description: React/Next.js web application workflow
+icon: 🌐
+
+phases:
+  - name: Design
+    agents:
+      - design-master (Sonnet)
+      - ux-designer (Sonnet)
+    skills:
+      - design-with-precision
+    actions:
+      - Create design system
+      - Build component library
+      - Establish spacing/typography
+
+  - name: Implementation
+    agents:
+      - nextjs-pro (Sonnet)
+      - react-pro (Sonnet)
+      - frontend-developer (Sonnet)
+    skills:
+      - test-driven-development
+    actions:
+      - Set up Next.js project
+      - Build components
+      - Implement routing & state
+
+  - name: Quality
+    agents:
+      - code-reviewer-pro (Sonnet)
+      - seo-specialist (Sonnet)
+    skills:
+      - verification-before-completion
+    actions:
+      - Code review
+      - SEO optimization
+      - Performance audit

@@ -1,0 +1,198 @@
+#!/usr/bin/env node
+
+/**
+ * Setup Navigator - Natural Language CLI
+ *
+ * Usage:
+ *   setup scan
+ *   setup query "Which agent for iOS?"
+ *   setup query ios architecture
+ *   setup list opus
+ *   setup analyze
+ *   setup docs
+ */
+
+const { spawn } = require('child_process');
+const path = require('path');
+
+const rootDir = path.join(__dirname, '..');
+
+// Parse arguments
+const args = process.argv.slice(2);
+
+if (args.length === 0 || args.includes('--help') || args.includes('-h')) {
+  printHelp();
+  process.exit(0);
+}
+
+const command = args[0].toLowerCase();
+const rest = args.slice(1);
+
+// Route commands
+switch (command) {
+  case 'scan':
+  case 's':
+    runScript('cli/scan.js', []);
+    break;
+
+  case 'query':
+  case 'q':
+  case 'search':
+  case 'find':
+    if (rest.length === 0) {
+      console.error('❌ Error: Query requires search terms');
+      console.error('   Usage: setup query "iOS development"');
+      process.exit(1);
+    }
+    runScript('cli/query.js', rest);
+    break;
+
+  case 'list':
+  case 'l':
+    handleList(rest);
+    break;
+
+  case 'analyze':
+  case 'a':
+  case 'optimize':
+    runScript('cli/analyze.js', []);
+    break;
+
+  case 'docs':
+  case 'd':
+  case 'documentation':
+    runScript('cli/generate-docs.js', []);
+    break;
+
+  case 'workflow':
+  case 'w':
+    if (rest.length === 0) {
+      console.error('❌ Error: Workflow requires a name');
+      console.error('   Usage: setup workflow ios-development');
+      process.exit(1);
+    }
+    runScript('cli/show-workflow.js', rest);
+    break;
+
+  case 'help':
+    printHelp();
+    break;
+
+  default:
+    // Treat everything as a natural language query
+    runScript('cli/query.js', [command, ...rest]);
+}
+
+function handleList(args) {
+  if (args.length === 0) {
+    // List all agents
+    runScript('cli/query.js', []);
+  } else {
+    const filter = args[0].toLowerCase();
+
+    // Check if it's a model
+    if (['opus', 'sonnet', 'haiku'].includes(filter)) {
+      runScript('cli/query.js', ['--model', filter]);
+    }
+    // Otherwise treat as category
+    else {
+      runScript('cli/query.js', ['--category', filter]);
+    }
+  }
+}
+
+function runScript(scriptPath, args) {
+  const script = path.join(rootDir, scriptPath);
+
+  const proc = spawn('node', [script, ...args], {
+    cwd: rootDir,
+    stdio: 'inherit'
+  });
+
+  proc.on('error', (err) => {
+    console.error(`❌ Error running ${scriptPath}:`, err.message);
+    process.exit(1);
+  });
+
+  proc.on('exit', (code) => {
+    process.exit(code || 0);
+  });
+}
+
+function printHelp() {
+  console.log(`
+🔍 Setup Navigator - Natural Language CLI
+
+QUICK COMMANDS:
+
+  setup scan                          Scan ~/.claude/ directory
+  setup workflow ios-development      Show iOS development workflow
+  setup "ios architecture"            Natural language query
+  setup list opus                     List Opus agents
+  setup analyze                       Analyze setup
+  setup docs                          Generate documentation
+
+DETAILED USAGE:
+
+  Scan & Build Registry:
+    setup scan
+    setup s
+
+  Natural Language Queries:
+    setup query "Which agent for iOS development?"
+    setup query pixel-perfect design
+    setup q ios architecture
+    setup find swiftui
+
+    Short form (no 'query' needed):
+    setup "ios development"
+    setup design ui
+
+  List Agents:
+    setup list                        List all agents
+    setup list opus                   List Opus agents
+    setup list sonnet                 List Sonnet agents
+    setup list ios-development        List by category
+    setup l design
+
+  Analyze Setup:
+    setup analyze                     Full analysis with recommendations
+    setup a
+
+  Generate Docs:
+    setup docs                        Generate complete documentation
+    setup d
+
+  View Workflows:
+    setup workflow ios-development    Show iOS workflow
+    setup workflow debugging          Show debug workflow
+    setup w web-development           Show web workflow
+
+EXAMPLES:
+
+  # Quick search
+  setup ios
+  setup design
+  setup "pixel-perfect ui"
+
+  # Filter by model
+  setup list opus
+  setup list sonnet
+
+  # Get optimization tips
+  setup analyze
+
+  # Build documentation
+  setup docs
+
+ALIASES:
+  scan    → s
+  query   → q, search, find
+  list    → l
+  analyze → a, optimize
+  docs    → d, documentation
+
+TIP: Most commands accept natural language!
+     Just type what you're looking for.
+`);
+}
