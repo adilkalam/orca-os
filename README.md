@@ -1,9 +1,8 @@
 # Claude Code: Orchestration Guide
 
 ```
-╔═══════════════════════════════════════════════╗
-
-                                                                        
+══════════════════════════════════════════════
+                                                                      
     .g8""8q. `7MM"""Mq.   .g8"""bgd     db      
   .dP'    `YM. MM   `MM..dP'     `M    ;MM:     
   dM'      `MM MM   ,M9 dM'       `   ,V^MM.    
@@ -11,12 +10,11 @@
   MM.      ,MP MM  YM.  MM.          AbmmmqMA   
   `Mb.    ,dP' MM   `Mb.`Mb.     ,' A'     VML  
     `"bmmd"' .JMML. .JMM. `"bmmmd'.AMA.   .AMMA.
-                                              
-                                              
-                                                                                                    
+  ═════════════════════════════════════════════                                                                                           
+                                                                                                   
   Multi-Agent Coordination Done Right              
                                                             
-╚══════════════════════════════════════════════╝
+
 ```
 
 <div align="center">
