@@ -16,7 +16,7 @@
 
 ```
 
-<div align="center">
+<div align="left">
 
 **From solo execution to systematic coordination**
 
