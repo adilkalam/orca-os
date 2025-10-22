@@ -23,7 +23,7 @@
                                                                                                     
 ```
 
-*Vibe-code multi-agent orchestration with Claude Code*
+**Vibe-code multi-agent orchestration with Claude Code**
 
 ---
 
