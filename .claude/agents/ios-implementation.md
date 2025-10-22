@@ -156,6 +156,204 @@ PKPaymentAuthorizationViewController(paymentRequest: request)
 - [ ] Tested on real devices
 - [ ] No private APIs used
 
+## Advanced Patterns
+
+### Dependency Injection
+```swift
+protocol NetworkServiceProtocol {
+    func fetch<T: Decodable>(_ type: T.Type) async throws -> T
+}
+
+@MainActor
+class ViewModel: ObservableObject {
+    private let networkService: NetworkServiceProtocol
+
+    init(networkService: NetworkServiceProtocol = NetworkService()) {
+        self.networkService = networkService
+    }
+}
+```
+
+### Error Handling Excellence
+```swift
+enum AppError: LocalizedError {
+    case networkFailure(underlying: Error)
+    case invalidData
+    case unauthorized
+
+    var errorDescription: String? {
+        switch self {
+        case .networkFailure: return "Network connection failed"
+        case .invalidData: return "Data format invalid"
+        case .unauthorized: return "Authentication required"
+        }
+    }
+
+    var recoverySuggestion: String? {
+        switch self {
+        case .networkFailure: return "Check your connection"
+        case .invalidData: return "Try updating the app"
+        case .unauthorized: return "Please sign in again"
+        }
+    }
+}
+```
+
+### Concurrent Operations
+```swift
+// Task groups for parallel operations
+await withTaskGroup(of: Result<Item, Error>.self) { group in
+    for id in ids {
+        group.addTask { await self.fetchItem(id) }
+    }
+
+    for await result in group {
+        switch result {
+        case .success(let item): items.append(item)
+        case .failure(let error): print(error)
+        }
+    }
+}
+
+// AsyncStream for continuous updates
+let stream = AsyncStream<Update> { continuation in
+    let observer = NotificationCenter.default.addObserver(
+        forName: .updateReceived,
+        object: nil,
+        queue: .main
+    ) { notification in
+        if let update = notification.object as? Update {
+            continuation.yield(update)
+        }
+    }
+
+    continuation.onTermination = { _ in
+        NotificationCenter.default.removeObserver(observer)
+    }
+}
+```
+
+### Performance Optimization
+```swift
+// Image caching
+@MainActor
+class ImageCache {
+    static let shared = ImageCache()
+    private var cache = NSCache<NSString, UIImage>()
+
+    func image(for url: URL) async throws -> UIImage {
+        let key = url.absoluteString as NSString
+
+        if let cached = cache.object(forKey: key) {
+            return cached
+        }
+
+        let (data, _) = try await URLSession.shared.data(from: url)
+        guard let image = UIImage(data: data) else {
+            throw AppError.invalidData
+        }
+
+        cache.setObject(image, forKey: key)
+        return image
+    }
+}
+
+// Lazy loading with pagination
+func loadMoreIfNeeded(currentItem: Item?) {
+    guard !isLoading,
+          hasMore,
+          let currentItem = currentItem,
+          items.firstIndex(of: currentItem) == items.count - 5 else { return }
+
+    Task {
+        isLoading = true
+        let newItems = await fetchPage(currentPage)
+        await MainActor.run {
+            items.append(contentsOf: newItems)
+            currentPage += 1
+            hasMore = !newItems.isEmpty
+            isLoading = false
+        }
+    }
+}
+```
+
+### Testing Best Practices
+```swift
+// Test doubles
+class MockNetworkService: NetworkServiceProtocol {
+    var shouldFail = false
+    var responseDelay: TimeInterval = 0
+
+    func fetch<T: Decodable>(_ type: T.Type) async throws -> T {
+        if responseDelay > 0 {
+            try await Task.sleep(nanoseconds: UInt64(responseDelay * 1_000_000_000))
+        }
+
+        if shouldFail {
+            throw AppError.networkFailure(underlying: URLError(.notConnectedToInternet))
+        }
+
+        // Return mock data
+        return try JSONDecoder().decode(T.self, from: mockData)
+    }
+}
+
+// UI Testing
+class UITests: XCTestCase {
+    var app: XCUIApplication!
+
+    override func setUp() {
+        app = XCUIApplication()
+        app.launchArguments = ["--uitesting"]
+        app.launchEnvironment = ["MOCK_API": "true"]
+        app.launch()
+    }
+
+    func testLoginFlow() {
+        let emailField = app.textFields["email"]
+        emailField.tap()
+        emailField.typeText("test@example.com")
+
+        let passwordField = app.secureTextFields["password"]
+        passwordField.tap()
+        passwordField.typeText("password123")
+
+        app.buttons["login"].tap()
+
+        XCTAssertTrue(app.staticTexts["Welcome"].waitForExistence(timeout: 5))
+    }
+}
+```
+
+### SwiftData (iOS 17+)
+```swift
+import SwiftData
+
+@Model
+class Item {
+    var name: String
+    var createdAt: Date
+
+    init(name: String) {
+        self.name = name
+        self.createdAt = Date()
+    }
+}
+
+// In App
+.modelContainer(for: Item.self)
+
+// In View
+@Query(sort: \Item.createdAt) private var items: [Item]
+@Environment(\.modelContext) private var modelContext
+
+func addItem(_ name: String) {
+    let item = Item(name: name)
+    modelContext.insert(item)
+}
+```
+
 ## Quality Checklist
 - [ ] Builds without warnings
 - [ ] No force unwrapping (!) unless absolutely necessary
@@ -165,5 +363,9 @@ PKPaymentAuthorizationViewController(paymentRequest: request)
 - [ ] Performance: <1s launch, 60fps scrolling
 - [ ] CI/CD pipeline configured
 - [ ] Tests: Unit + UI coverage >80%
+- [ ] Error handling with recovery suggestions
+- [ ] Offline mode support where applicable
+- [ ] Analytics events tracked
+- [ ] Crash reporting configured
 
 Always prioritize user experience, follow Apple HIG, and provide evidence for all work.

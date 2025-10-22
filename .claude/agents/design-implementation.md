@@ -144,6 +144,185 @@ GeometryReader { geometry in
 }
 ```
 
+## SwiftUI Advanced Patterns
+
+### State Management
+```swift
+@State private var localState = false              // View-local state
+@StateObject private var vm = ViewModel()          // Own the object
+@ObservedObject var sharedVM: ViewModel           // Reference existing
+@EnvironmentObject var globalVM: ViewModel        // From environment
+@Binding var externalValue: Bool                  // Two-way binding
+```
+
+### SwiftUI Previews
+```swift
+#Preview("Light Mode") {
+    ContentView()
+        .environment(\.colorScheme, .light)
+}
+
+#Preview("Dark Mode") {
+    ContentView()
+        .environment(\.colorScheme, .dark)
+}
+```
+
+### Environment Configuration
+```swift
+.environment(\.font, .custom("Helvetica", size: 18))
+.environmentObject(ThemeManager.shared)
+.preferredColorScheme(.dark)
+```
+
+### View Lifecycle & Performance
+```swift
+.onAppear { loadData() }
+.onDisappear { cleanup() }
+.task { await fetchAsync() }                      // Auto-cancelled
+.id(item.id)                                      // Force redraw
+LazyVStack { }                                     // Lazy loading
+.drawingGroup()                                    // Flatten view hierarchy
+```
+
+### Animations & Transitions
+```swift
+// Spring animations
+.animation(.spring(response: 0.3, dampingFraction: 0.7), value: state)
+
+// Custom transitions
+.transition(.asymmetric(
+    insertion: .move(edge: .trailing).combined(with: .opacity),
+    removal: .scale.combined(with: .opacity)
+))
+
+// Matched geometry effect
+@Namespace private var animation
+.matchedGeometryEffect(id: "hero", in: animation)
+
+// Phase animations
+.phaseAnimator([false, true]) { content, phase in
+    content
+        .scaleEffect(phase ? 1.1 : 1.0)
+        .opacity(phase ? 0.8 : 1.0)
+}
+```
+
+### Advanced Layouts
+```swift
+// ViewThatFits for adaptive UI
+ViewThatFits {
+    HStack { content }  // Try horizontal first
+    VStack { content }  // Fall back to vertical
+}
+
+// Grid layouts
+LazyVGrid(columns: [GridItem(.adaptive(minimum: 100))]) { }
+Grid {
+    GridRow { Text("A") ; Text("B") }
+    GridRow { Text("C") ; Text("D") }
+}
+```
+
+### Gesture Handling
+```swift
+.gesture(
+    DragGesture()
+        .onChanged { value in
+            offset = value.translation
+        }
+        .onEnded { value in
+            withAnimation(.spring()) {
+                offset = .zero
+            }
+        }
+)
+
+// Simultaneous gestures
+.simultaneousGesture(TapGesture().onEnded { })
+.highPriorityGesture(LongPressGesture())
+```
+
+### Custom ViewModifiers
+```swift
+struct CardStyle: ViewModifier {
+    func body(content: Content) -> some View {
+        content
+            .padding()
+            .background(Color.secondaryBackground)
+            .cornerRadius(12)
+            .shadow(radius: 4)
+    }
+}
+
+extension View {
+    func cardStyle() -> some View {
+        modifier(CardStyle())
+    }
+}
+```
+
+### Accessibility Excellence
+```swift
+.accessibilityLabel("Submit button")
+.accessibilityHint("Double tap to submit form")
+.accessibilityValue("\(count) items")
+.accessibilityAddTraits(.isButton)
+.accessibilityRemoveTraits(.isImage)
+.accessibilityAdjustableAction { direction in
+    switch direction {
+    case .increment: value += 1
+    case .decrement: value -= 1
+    @unknown default: break
+    }
+}
+```
+
+### Platform Adaptive Design
+```swift
+#if os(iOS)
+    .navigationBarTitleDisplayMode(.large)
+#elseif os(macOS)
+    .frame(minWidth: 400, minHeight: 300)
+#endif
+
+// Size class adaptation
+@Environment(\.horizontalSizeClass) var sizeClass
+if sizeClass == .compact {
+    // iPhone layout
+} else {
+    // iPad/Mac layout
+}
+```
+
+## Testing Patterns
+
+### Preview Providers
+```swift
+#Preview("Error State") {
+    ContentView(viewModel: .mockError)
+}
+
+#Preview("Loading State") {
+    ContentView(viewModel: .mockLoading)
+}
+
+#Preview("Multiple Devices", traits: .sizeThatFitsLayout) {
+    ContentView()
+        .previewDevice(PreviewDevice(rawValue: "iPhone 15 Pro"))
+}
+```
+
+### Snapshot Testing
+```swift
+func testViewAppearance() {
+    let view = ContentView()
+        .environment(\.colorScheme, .dark)
+
+    assertSnapshot(matching: view, as: .image(on: .iPhone13Pro))
+}
+```
+
 ## Quality Checklist
 
 After implementing, verify:
