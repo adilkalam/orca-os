@@ -23,7 +23,7 @@
                                                                                                     
 ```
 
-**Professional multi-agent orchestration for iOS development**
+**Vibe-code multi-agent orchestration with Claude Code*
 
 ---
 
