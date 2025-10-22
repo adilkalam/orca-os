@@ -1,260 +1,123 @@
-# Claude Code Orchestration
+# Claude Code Orchestration System
 
-**Multi-agent coordination for systematic, high-quality development**
+**Native Claude Code agents with evidence-based verification**
 
-```
-═══════════════════════════════════════════════
-   SOLO → SYSTEMATIC → ORCHESTRATED
-═══════════════════════════════════════════════
-```
+## Quick Start
 
-[![Agents](https://img.shields.io/badge/agents-19-blue)](#what-is-orchestration)
-[![Skills](https://img.shields.io/badge/skills-40+-orange)](#what-is-orchestration)
-[![Workflows](https://img.shields.io/badge/workflows-proven-green)](#what-is-orchestration)
+```bash
+# Main command for any coding task
+/enhance "Add a dark mode toggle to settings"
 
----
-
-## 📚 NAVIGATION
-
-**New to orchestration?**
-- **[Setup Guide](docs/SETUP.md)** - Complete installation with examples and explanations
-
-**Ready to use it?**
-- **[Quick Start](docs/QUICKSTART.md)** - Commands, examples, and basic workflows
-- **[Workflows Guide](docs/WORKFLOWS.md)** - Detailed scenario walkthroughs
-
-**Want to optimize?**
-- **[Optimization Guide](docs/OPTIMIZATION.md)** - 40% token savings, 50% cost reduction
-- **[Reference](docs/REFERENCE.md)** - CLI commands and API documentation
-
-**Having issues?**
-- **[Troubleshooting](docs/TROUBLESHOOTING.md)** - Common problems and solutions
-
----
-
-## What Is Orchestration?
-
-Instead of Claude working alone on complex tasks, orchestration coordinates **specialized agents** through **proven workflows** with **quality gates**.
-
-### Without Orchestration
-
-```
-You: "Build a user dashboard with charts"
-
-Claude (solo):
-  → Writes code
-  → Ships immediately
-
-Result: 6 hours, mediocre quality, no tests
+# Deep analysis without implementation
+/ultra-think "Why is the app slow?"
 ```
 
-### With Orchestration
-
-```
-You: /enhance "Build a user dashboard with charts"
-
-System:
-  Phase 1: Concept exploration
-    → design-master explores approaches
-
-  Phase 2: Implementation (parallel)
-    → frontend-developer builds components
-    → Uses test-driven-development skill
-
-  Quality Gate:
-    → code-reviewer-pro validates
-
-Result: 90 minutes, production-ready, tested
-```
-
-**Impact:** 75% faster, professional quality, systematic process
-
----
+The system automatically:
+- ✅ Orchestrates specialized agents
+- ✅ Requires evidence for all work
+- ✅ Verifies 100% completion
+- ✅ Never shows broken work
 
 ## How It Works
 
-**4 Layers:**
-
-1. **Commands** - `/enhance`, `/concept`, `/agentfeedback`
-   - Entry points that trigger workflows
-
-2. **Workflows** - Proven recipes for complex tasks
-   - iOS development, UI/UX design, debugging, etc.
-
-3. **Agents** - Specialized Claude instances
-   - design-master, ios-dev, code-reviewer-pro, etc.
-
-4. **Skills** - Proven processes agents follow
-   - test-driven-development, systematic-debugging, brainstorming
-
-**Example Flow:**
-
 ```
-/concept "redesign login page"
-   ↓
-concept workflow
-   ↓
-design-master agent
-   ↓
-brainstorming skill
-   ↓
-Quality gate (visual-review)
-   ↓
-Production-ready design
+Your Request → Orchestrator → Agents → Evidence → Verification → Results
 ```
 
----
+1. **workflow-orchestrator** coordinates everything
+2. Specialized agents do the work (iOS, design, etc.)
+3. Evidence collected (screenshots, tests)
+4. Quality gate verifies 100% complete
+5. Only then presented to you
 
-## Proven Results
+## Key Features
 
-**iOS App Development (7 bug fixes):**
-- Solo: 3 hours, some bugs remain
-- Orchestrated: 45 min, 100% complete, 0 regressions
-- **75% faster, perfect quality**
+### 🎯 Maintains Your Perspective
+- Your exact words saved in `.orchestration/user-request.md`
+- Orchestrator re-reads your request multiple times
+- Verifies your actual problem is solved
 
-**UI Redesign (5 critical issues):**
-- Solo: Complete failure (generic design)
-- Orchestrated: 20 minutes, "miles better" quality
-- **Works vs doesn't work**
+### 📸 Evidence-Based
+- Screenshots for UI changes
+- Test output for functionality
+- No claims without proof
 
-**Cost Optimization:**
-- Before: 75K tokens/session, $1.13
-- After: 45K tokens, $0.59
-- **40% token savings, 48% cost savings**
+### ✅ Quality Gate
+- 100% verification required
+- Blocks incomplete work
+- You never see failures
 
----
+## Documentation
 
-## Quick Example
+- [Quick Start Guide](docs/QUICKSTART.md) - Examples and usage
+- [Architecture](docs/ARCHITECTURE.md) - How the system works
+- [Setup](docs/SETUP.md) - Installation and configuration
+- [Workflows](docs/WORKFLOWS.md) - Common patterns
+- [Troubleshooting](docs/TROUBLESHOOTING.md) - Debugging help
 
-### Command: `/enhance`
+## What's New
 
-Detects your task and launches the right workflow.
+This system replaces the previous complex orchestration with a simpler, more reliable approach:
 
-**Input:**
-```bash
-/enhance "Build React dashboard with charts and user table"
+| Before | After |
+|--------|-------|
+| 1,284 line agents | <200 lines |
+| Guidelines buried | Critical rules first |
+| ~40% completion | 100% required |
+| No verification | Evidence mandatory |
+| Complex coordination | Simple file-based |
+
+## Project Structure
+
+```
+.claude/
+  agents/               # Specialized agents
+  commands/            # /enhance, /ultra-think
+
+.orchestration/
+  user-request.md      # Your exact words
+  work-plan.md        # How work is broken down
+  agent-log.md        # What each agent did
+  evidence/           # Proof of completion
+
+docs/
+  QUICKSTART.md       # Examples and usage
+  ARCHITECTURE.md     # System design
 ```
 
-**What Happens:**
+## Examples
+
+### Add a Feature
 ```
-🔍 Analyzing task...
-   → Detected: Frontend development
-   → Workflow: ui-ux-design
-   → Agents: frontend-developer, design-master
-
-📋 WAVE 1 - Architecture
-   → frontend-developer: Component structure
-   → Duration: 8 minutes
-
-🎨 WAVE 2 - Implementation (parallel)
-   → frontend-developer: Build components with TDD
-   → design-master: Spacing, typography, layout
-   → Duration: 25 minutes
-
-🛡️ QUALITY GATE
-   → code-reviewer-pro: Review code
-   → Checks: Build passes, tests pass, best practices
-   → Result: ✅ APPROVED
-
-✅ COMPLETE
-   Time: 45 minutes
-   Quality: Production-ready
-   Tests: Passing
+/enhance "Add a logout button to the profile"
 ```
+Result: Button added, screenshot provided, functionality tested
 
-**Output:**
-- Tested React components
-- Pixel-perfect design
-- Code-reviewed
-- Production-ready
-
----
-
-## Available Commands
-
-| Command | Purpose | Example |
-|---------|---------|---------|
-| `/enhance` | Auto-detect task, run workflow | `/enhance "build login page"` |
-| `/concept` | Explore approaches before coding | `/concept "redesign nav"` |
-| `/agentfeedback` | Process multiple feedback items | `/agentfeedback [7 bugs]` |
-| `/nav` | View your setup | `/nav` |
-| `/visual-review` | QA design work | `/visual-review` |
-
-**[See all commands with examples →](docs/QUICKSTART.md)**
-
----
-
-## Get Started
-
-**1. Install**
-```bash
-# Follow complete setup guide
-→ docs/SETUP.md
+### Fix a Problem
 ```
-
-**2. Try a command**
-```bash
-# See quick start examples
-→ docs/QUICKSTART.md
+/enhance "The text is too small to read"
 ```
+Result: Font size increased, before/after comparison, measurements provided
 
-**3. Learn workflows**
-```bash
-# See detailed walkthroughs
-→ docs/WORKFLOWS.md
+### Analyze an Issue
 ```
-
-**4. Optimize**
-```bash
-# Reduce costs, improve speed
-→ docs/OPTIMIZATION.md
+/ultra-think "Why does the calculator feel confusing?"
 ```
+Result: Multi-dimensional analysis with solution options
 
----
+## Contributing
 
-## Why This Works
-
-**Systematic > Ad-hoc**
-- Proven workflows beat improvisation
-- Quality gates prevent mistakes
-- 100% completion rate in analyzed sessions
-
-**Specialists > Generalists**
-- design-master: Pixel-perfect UI
-- ios-dev: iOS best practices
-- code-reviewer-pro: Security, performance
-
-**Process > Heroics**
-- test-driven-development ensures quality
-- systematic-debugging finds root causes
-- brainstorming prevents generic work
-
-**Validation > Assumptions**
-- Measurable criteria (not "looks good")
-- Automated checks (build, tests, metrics)
-- 0 bugs shipped in production
-
----
-
-## Navigation Summary
-
-| I Want To... | Go Here |
-|--------------|---------|
-| **Install the system** | [SETUP.md](docs/SETUP.md) |
-| **Learn commands quickly** | [QUICKSTART.md](docs/QUICKSTART.md) |
-| **See detailed examples** | [WORKFLOWS.md](docs/WORKFLOWS.md) |
-| **Reduce costs** | [OPTIMIZATION.md](docs/OPTIMIZATION.md) |
-| **Fix issues** | [TROUBLESHOOTING.md](docs/TROUBLESHOOTING.md) |
-| **API reference** | [REFERENCE.md](docs/REFERENCE.md) |
-
----
+The system is designed to be extended:
+1. Agents are simple markdown files in `.claude/agents/`
+2. Commands are markdown in `.claude/commands/`
+3. Keep agents under 200 lines
+4. Critical rules in first 30 lines
+5. Always require evidence
 
 ## License
 
-MIT License - See [LICENSE](LICENSE)
+MIT
 
 ---
 
-**Orchestration: Systematic coordination for complex work**
-
-[Setup →](docs/SETUP.md) • [Quick Start →](docs/QUICKSTART.md) • [Workflows →](docs/WORKFLOWS.md)
+Built to solve the actual problems, not just complete tasks.
