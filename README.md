@@ -31,7 +31,11 @@
 
 ```bash
 # Main command - orchestrates everything
-/enhance "Add a dark mode toggle to settings"
+/orca "Add a dark mode toggle to settings"
+
+# Support command - assists in engineering a prompt and triggers orchestration
+/enhance "Add loigin feature to iOS app"
+
 
 # Deep analysis - no code changes
 /ultra-think "Why is the app slow?"
