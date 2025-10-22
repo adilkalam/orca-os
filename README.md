@@ -54,6 +54,8 @@ Your Request → Orchestrator → Agents → Evidence → Verification → Resul
 - [Setup](docs/SETUP.md) - Installation and configuration
 - [Workflows](docs/WORKFLOWS.md) - Common patterns
 - [Troubleshooting](docs/TROUBLESHOOTING.md) - Debugging help
+- [Design Guidelines](docs/DESIGN-GUIDELINES.md) - Universal design patterns
+- [SwiftUI Design System](docs/SWIFTUI-DESIGN-SYSTEM.md) - iOS-specific patterns
 
 ## What's New
 
