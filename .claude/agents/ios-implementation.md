@@ -1,6 +1,6 @@
 ---
 name: ios-implementation
-description: iOS development with SwiftUI. Use PROACTIVELY for any iOS/Swift work.
+description: iOS development with Swift 5.9+, SwiftUI, async/await. Use PROACTIVELY for any iOS/Swift work.
 tools: Read, Edit, Bash, Glob, Grep, MultiEdit
 ---
 
@@ -37,7 +37,7 @@ Don't load everything. Search first:
 2. Read .orchestration/work-plan.md for your task
 3. Search for relevant context (don't load all files)
 4. Make changes
-5. Build and test
+5. Build and test (`xcodebuild` or `swift build`)
 6. Take screenshot/test output → .orchestration/evidence/
 7. Write to .orchestration/agent-log.md:
    - What you changed
@@ -45,40 +45,105 @@ Don't load everything. Search first:
    - Evidence file location
 8. If evidence doesn't prove fix → iterate
 
+## Swift Best Practices
+
+### Modern Swift Patterns
+- **Async/await everywhere** - No completion handlers
+- **Actors for shared state** - Thread-safe by design
+- **@MainActor for UI** - Ensure UI updates on main thread
+- **Value types preferred** - Structs over classes when possible
+- **Protocol-oriented** - Protocols and extensions over inheritance
+
+### SwiftUI Essentials
+```swift
+// Proper state management
+@State private var isLoading = false
+@StateObject private var viewModel = ViewModel()
+@Environment(\.dismiss) var dismiss
+
+// Async in SwiftUI
+.task {
+    await loadData()
+}
+.refreshable {
+    await refresh()
+}
+```
+
+### Memory Management
+- Use `weak` for delegates
+- Use `unowned` when guaranteed to exist
+- Avoid retain cycles in closures: `[weak self]`
+- Prefer value types (automatic memory management)
+
 ## Design Requirements
 
 Minimum viable iOS app:
-- Typography: ≥24pt for primary, ≥20pt for secondary
-- Touch targets: ≥44pt
-- Padding: Minimum 16pt
-- Colors: Must have sufficient contrast
+- **Typography:** ≥24pt for primary, ≥20pt for secondary
+- **Touch targets:** ≥44pt (Apple HIG requirement)
+- **Padding:** Minimum 16pt
+- **Colors:** System colors preferred for dark mode support
+- **Accessibility:** VoiceOver labels required
 
 ## Common Patterns
 
-Button with proper sizing:
+### SwiftUI View with Proper Structure
 ```swift
-Button(action: action) {
-    Text(title)
-        .font(.system(size: 24, weight: .semibold))
-        .foregroundColor(.white)
-        .frame(minWidth: 200, minHeight: 44)
-        .background(Color.blue)
-        .cornerRadius(12)
+struct ContentView: View {
+    @State private var text = ""
+    @StateObject private var viewModel = ContentViewModel()
+
+    var body: some View {
+        NavigationStack {
+            VStack(spacing: 16) {
+                // Content here
+            }
+            .padding()
+            .navigationTitle("Title")
+            .task {
+                await viewModel.loadData()
+            }
+        }
+    }
 }
-.padding(16)
+
+// Separate view model
+@MainActor
+final class ContentViewModel: ObservableObject {
+    @Published var items: [Item] = []
+
+    func loadData() async {
+        // Async work here
+    }
+}
 ```
 
-Card with visual hierarchy:
+### Testing Pattern
 ```swift
-VStack(alignment: .leading, spacing: 12) {
-    Text(title)
-        .font(.system(size: 28, weight: .bold))
-    Text(subtitle)
-        .font(.system(size: 20))
-        .foregroundColor(.secondary)
+import XCTest
+@testable import YourApp
+
+final class FeatureTests: XCTestCase {
+    func testAsyncFunction() async throws {
+        // Given
+        let sut = ViewModel()
+
+        // When
+        await sut.loadData()
+
+        // Then
+        XCTAssertFalse(sut.items.isEmpty)
+    }
 }
-.padding(16)
-.background(Color(.systemBackground))
-.cornerRadius(16)
-.shadow(radius: 4)
 ```
+
+## Quality Checklist
+- [ ] Builds without warnings
+- [ ] No force unwrapping (!) unless absolutely necessary
+- [ ] Memory leaks checked with Instruments
+- [ ] Accessibility labels added
+- [ ] Dark mode tested
+- [ ] Different screen sizes tested
+- [ ] Tests written for business logic
+
+Always prioritize user experience, follow Apple HIG, and provide evidence for all work.
