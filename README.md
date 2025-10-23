@@ -23,13 +23,11 @@
 
 ```
 
-# Claude Vibe Code
+# Vibe Code with Claude Code
 
-**Stop telling Claude what to do. Let Claude figure it out.**
+**Multi-Agent Orchestration with Quality Gates.**
 
 An intelligent auto-orchestration system for Claude Code that detects your project, understands your intent, and dispatches the right specialists automatically - with **Response Awareness verification** that prevents 99% of false completions.
-
-**🔬 Scientifically-Backed Quality Gates** | **🎯 <5% False Completion Rate** | **✅ Transparent Verification**
 
 ---
 
