@@ -374,28 +374,28 @@ User runs app: 💥 File doesn't exist, app crashes
 You: "The calculator buttons are broken on mobile"
 
 ┌─ Session Start ────────────────────────────────────────┐
-│ Detected: iOS project (*.xcodeproj found)             │
-│ Agent Team: ios-engineer, design-engineer             │
-│ Evidence: iOS Simulator screenshots required          │
+│ Detected: iOS project (*.xcodeproj found)              │
+│ Agent Team: ios-engineer, design-engineer              │
+│ Evidence: iOS Simulator screenshots required           │
 └────────────────────────────────────────────────────────┘
 
 ┌─ Auto-Orchestration ───────────────────────────────────┐
 │                                                        │
-│  Phase 1: Investigation                               │
-│  ├─ Read CalcView.swift                               │
-│  ├─ Identified: Button tap targets too small (30pt)   │
-│  └─ iOS HIG requires 44pt minimum                     │
+│  Phase 1: Investigation                                │
+│  ├─ Read CalcView.swift                                │
+│  ├─ Identified: Button tap targets too small (30pt)    │
+│  └─ iOS HIG requires 44pt minimum                      │
 │                                                        │
-│  Phase 2: Fix (ios-engineer)                          │
-│  ├─ Update button frame: .frame(height: 44)           │
-│  ├─ Add padding for visual balance                    │
-│  └─ Test on iPhone 15 simulator                       │
+│  Phase 2: Fix (ios-engineer)                           │
+│  ├─ Update button frame: .frame(height: 44)            │
+│  ├─ Add padding for visual balance                     │
+│  └─ Test on iPhone 15 simulator                        │
 │                                                        │
-│  Phase 3: Validation (quality-validator)              │
-│  ├─ Screenshot: Before (30pt) vs After (44pt)         │
-│  ├─ Build: ✓ Compiles successfully                    │
-│  ├─ Runtime: ✓ No crashes                             │
-│  └─ A11y: ✓ VoiceOver compatible                      │
+│  Phase 3: Validation (quality-validator)               │
+│  ├─ Screenshot: Before (30pt) vs After (44pt)          │
+│  ├─ Build: ✓ Compiles successfully                     │
+│  ├─ Runtime: ✓ No crashes                              │
+│  └─ A11y: ✓ VoiceOver compatible                       │
 │                                                        │
 └────────────────────────────────────────────────────────┘
 
@@ -415,34 +415,34 @@ You: "Add dark mode toggle"
 
 ┌─ Detected: Next.js project ────────────────────────────┐
 │ Agent Team: frontend-engineer, design-engineer         │
-│ Evidence: Browser screenshots required                │
+│ Evidence: Browser screenshots required                 │
 └────────────────────────────────────────────────────────┘
 
-┌─ Parallel Orchestration ───────────────────────────────┐
-│                                                        │
-│  Agent: system-architect (2 min)                      │
-│  └─ Design: Context API + CSS variables approach      │
-│                                                        │
-│  Agent: frontend-engineer (8 min)                     │
-│  ├─ ThemeContext.tsx (React Context)                  │
-│  ├─ ThemeToggle.tsx (Toggle component)                │
-│  ├─ globals.css (dark mode variables)                 │
-│  └─ _app.tsx (provider wrapper)                       │
-│                                                        │
-│  Agent: test-engineer (5 min)                         │
-│  ├─ ThemeToggle.test.tsx (user interactions)          │
-│  ├─ ThemeContext.test.tsx (state management)          │
-│  └─ Integration test (localStorage persistence)       │
-│                                                        │
-│  Agent: quality-validator (3 min)                     │
-│  ├─ Screenshot: Light mode ✓                          │
-│  ├─ Screenshot: Dark mode ✓                           │
-│  ├─ Screenshot: Toggle transition ✓                   │
-│  ├─ Test output: 12/12 passing ✓                      │
-│  ├─ Build: npm run build ✓                            │
-│  └─ No console errors ✓                               │
-│                                                        │
-└────────────────────────────────────────────────────────┘
+┌─ Parallel Orchestration ─────────────────────────────┐
+│                                                      │
+│  Agent: system-architect (2 min)                     │
+│  └─ Design: Context API + CSS variables approach     │
+│                                                      │
+│  Agent: frontend-engineer (8 min)                    │
+│  ├─ ThemeContext.tsx (React Context)                 │
+│  ├─ ThemeToggle.tsx (Toggle component)               │
+│  ├─ globals.css (dark mode variables)                │
+│  └─ _app.tsx (provider wrapper)                      │
+│                                                      │
+│  Agent: test-engineer (5 min)                        │
+│  ├─ ThemeToggle.test.tsx (user interactions)         │
+│  ├─ ThemeContext.test.tsx (state management)         │
+│  └─ Integration test (localStorage persistence)      │
+│                                                      │
+│  Agent: quality-validator (3 min)                    │
+│  ├─ Screenshot: Light mode ✓                         │
+│  ├─ Screenshot: Dark mode ✓                          │
+│  ├─ Screenshot: Toggle transition ✓                  │
+│  ├─ Test output: 12/12 passing ✓                     │
+│  ├─ Build: npm run build ✓                           │
+│  └─ No console errors ✓                              │
+│                                                      │
+└──────────────────────────────────────────────────────┘
 
 Files Created:
   - components/ThemeContext.tsx
