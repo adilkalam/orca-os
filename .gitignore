@@ -12,6 +12,16 @@ Thumbs.db
 # Orchestration
 .orchestration/
 
+# Design Memory (personal preferences, keep local)
+.design-memory/
+
 # Backups and deprecated files
 *-backup*.md
 deprecated/
+::deprecated/
+
+# Embedded git repositories (reference only)
+archive/claude-sub-agent/
+archive/originals/awesome-swift-claude-code-subagents/
+mcp/chrome-devtools-mcp/
+mcp/xcodebuildmcp/

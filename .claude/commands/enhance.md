@@ -14,26 +14,24 @@ You've been asked to: {{TASK}}
 - What problem are they trying to solve?
 - What would success look like to THEM?
 
-### Step 2: Orchestrate
+### Step 2: Execute
 
-Invoke the workflow-orchestrator to handle this task:
+Handle the task using appropriate specialized agents:
 
-"Please handle this user request: {{TASK}}
+1. Break complex work into manageable pieces
+2. Use Task tool to dispatch specialized agents when needed
+3. Collect evidence for significant changes
+4. Verify everything works before presenting
 
-Break it into 2-hour pieces, dispatch appropriate agents, collect evidence, and verify everything works before presenting."
+Available built-in agents: frontend-engineer, backend-engineer, ios-engineer, android-engineer, cross-platform-mobile, design-engineer, test-engineer, quality-validator, system-architect, requirement-analyst
 
-The orchestrator will coordinate all the work using specialized agents.
+### Step 3: Verify
 
-### Step 3: Monitor
-
-The orchestrator will:
-1. Set up the workflow
-2. Dispatch specialized agents
-3. Collect evidence
-4. Run quality gates
-5. Report back
-
-If the orchestrator reports issues, help resolve them.
+Before presenting results:
+1. Test the implementation
+2. Build verification for code changes
+3. Screenshots for UI changes
+4. Quality validation when needed
 
 ### Step 4: Final Check
 
@@ -44,25 +42,30 @@ Before presenting the orchestrator's results:
 
 Only present when you can confidently say the user's actual problem is solved.
 
-## Available Agents
+## Available Built-in Agents
 
-The orchestrator can dispatch:
-- **ios-expert**: Complete iOS development expertise
-- **swiftui-expert**: Expert SwiftUI UI/design development
-- **quality-gate**: Final verification before presenting
+Use Task tool with these subagent_type values:
+- **frontend-engineer**: React, Vue, Next.js development
+- **backend-engineer**: Node.js, Python, Go server development
+- **ios-engineer**: iOS/Swift development with Xcode
+- **android-engineer**: Android/Kotlin development
+- **design-engineer**: UI/UX design and implementation
+- **test-engineer**: Comprehensive testing
+- **quality-validator**: Final verification and validation
+- **system-architect**: Architecture and design decisions
 
 ## Evidence Requirements
 
-All work must include evidence in .orchestration/evidence/:
+For significant changes, provide:
 - Screenshots for UI changes
-- Test output for functionality
-- Build logs for compilation
-- Videos for complex interactions
+- Test output for functionality changes
+- Build verification for code changes
+- Clear explanation of what was done
 
 ## Success Criteria
 
 Task is complete when:
 - All user requirements addressed
-- Evidence provided for each requirement
-- Quality gate passes at 100%
+- Implementation verified (tests pass, builds succeed)
+- Quality validated when needed
 - User's actual problem is solved (not just code written)

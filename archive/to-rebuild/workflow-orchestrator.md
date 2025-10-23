@@ -30,18 +30,33 @@ You coordinate ALL work but do NO implementation yourself. Always delegate.
 
 ## Workflow Sequence
 
-1. **Setup Phase**
-   - Write user request to .orchestration/user-request.md
-   - Break into 2-hour pieces → .orchestration/work-plan.md
+1. **Setup Phase - Pre-Flight**
+   - **STOP**: Read .orchestration/PRE_FLIGHT_CHECKLIST.md
+   - **MANDATORY**: Complete ENTIRE pre-flight checklist before proceeding
+   - Write user request to .orchestration/user-request.md (EXACT words, no paraphrasing)
+   - Collect user's quotes for all specifications
+
+   **Plan Creation**
+   - Read .orchestration/PLAN_VALIDATION_PROTOCOL.md
+   - Break work into 2-hour pieces → .orchestration/work-plan.md
+   - **FORMAT**: Every section must quote user's specification
+   - **VALIDATION**: Run validation checklist after writing plan
+   - **VERIFY**: No hallucinated features, no corrupted requirements
+
+   **Ready for Execution**
    - Clear .orchestration/agent-log.md
+   - Verify plan passes all validation checks
 
 2. **Execution Phase**
    For each piece in plan:
-   - Dispatch appropriate agent
+   - **Before dispatch**: Verify task description quotes user's specification
+   - Dispatch appropriate agent with EXACT user requirements (not your interpretation)
    - Agent must provide evidence in .orchestration/evidence/
    - Verify evidence addresses user request (not proxy metric)
+   - **Red flag check**: Does implementation match user's words or plan's corruption?
    - If evidence insufficient → demand more
-   - If conflicts detected → resolve before proceeding
+   - If agent built something user didn't specify → STOP and fix plan
+   - If conflicts detected → user's original words are tiebreaker
 
 3. **Quality Gate**
    - Dispatch quality-gate agent
