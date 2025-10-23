@@ -47,7 +47,7 @@ You: "Did you test it?"
 Claude: "Uh..."
 ```
 
-**With Claude Vibe Code:**
+**With Orca:**
 ```
 You: "Add authentication"
 Claude: *detects Next.js project*
@@ -69,9 +69,9 @@ Claude: "Done. Here's the evidence."
 On every session start, the system detects your project type:
 
 ```
-┌─────────────────────────────────────────────────────────────┐
-│                    SESSION START                            │
-└────────────────────┬────────────────────────────────────────┘
+┌─────────────────────────────────────────────┐
+│             SESSION START                   │
+└────────────────────┬────────────────────────┘
                      │
                      ▼
           ┌──────────────────────┐
@@ -108,10 +108,10 @@ Every request is automatically classified and routed:
                     YOUR REQUEST
                          │
                          ▼
-              ┌──────────────────────┐
-              │  Intent Classifier   │
-              │  (< 1 second)        │
-              └──────────┬───────────┘
+              ┌───────────────────────┐
+              │   Intent Classifier   │
+              │   (< 1 second)        │
+              └──────────┬────────────┘
                          │
          ┌───────────────┼───────────────┐
          │               │               │
@@ -154,9 +154,9 @@ Traditional AI coding had a critical flaw: agents would claim "I built X" withou
 We separate generation (agents code) from verification (separate agent checks). This prevents 99% of false completions.
 
 ```
-┌─────────────────────────────────────────────────────────────┐
-│                  IMPLEMENTATION PHASE                       │
-└────────────────────┬────────────────────────────────────────┘
+┌──────────────────────────────────────────────┐
+│           IMPLEMENTATION PHASE               │
+└────────────────────┬─────────────────────────┘
                      │
         ┌────────────┴────────────┬─────────────┐
         │                         │             │
