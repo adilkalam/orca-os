@@ -154,26 +154,26 @@ Traditional AI coding had a critical flaw: agents would claim "I built X" withou
 We separate generation (agents code) from verification (separate agent checks). This prevents 99% of false completions.
 
 ```
-┌──────────────────────────────────────────────┐
-│           IMPLEMENTATION PHASE               │
-└────────────────────┬─────────────────────────┘
-                     │
-        ┌────────────┴────────────┬─────────────┐
-        │                         │             │
-        ▼                         ▼             ▼
-  ┌──────────┐            ┌──────────┐   ┌──────────┐
-  │ Frontend │            │ Backend  │   │  Tests   │
-  │ Engineer │            │ Engineer │   │ Engineer │
-  └────┬─────┘            └────┬─────┘   └────┬─────┘
-       │                       │              │
-       │ + Meta-Cognitive TAGS │              │
-       ▼                       ▼              ▼
-  ┌──────────────────────────────────────────────────┐
-  │    Implementation Log with Assumption Tags      │
-  │  #FILE_CREATED: src/Calculator.tsx               │
-  │  #COMPLETION_DRIVE: Assuming theme.colors exists │
-  │  #SCREENSHOT_CLAIMED: evidence/before.png        │
-  └───────────────────┬──────────────────────────────┘
+┌────────────────────────────────────────────────────┐
+│                IMPLEMENTATION PHASE                │
+└───────────────────────┬────────────────────────────┘
+                        │
+        ┌───────────────┴────────────┬─────────────┐
+        │                            │             │
+        ▼                            ▼             ▼
+  ┌──────────┐                  ┌──────────┐   ┌──────────┐
+  │ Frontend │                  │ Backend  │   │  Tests   │
+  │ Engineer │                  │ Engineer │   │ Engineer │
+  └────┬─────┘                  └────┬─────┘   └────┬─────┘
+       │                             │              │
+       │ + Meta-Cognitive TAGS       │              │
+       ▼                             ▼              ▼
+  ┌────────────────────────────────────────────────────┐
+  │    Implementation Log with Assumption Tags         │
+  │  #FILE_CREATED: src/Calculator.tsx                 │
+  │  #COMPLETION_DRIVE: Assuming theme.colors exists   │
+  │  #SCREENSHOT_CLAIMED: evidence/before.png          │
+  └───────────────────┬────────────────────────────────┘
                       │
                       ▼
            ┌────────────────────┐
