@@ -119,13 +119,13 @@ When this command is invoked with `/completion-drive [task]`, you MUST follow th
 ### Step 1: Parse Task and Identify Domains
 
 Analyze the task to determine which specialized agents are needed:
-- Frontend work → frontend-engineer
+- Web Frontend → Design specialists (tailwind-specialist, ui-engineer) + Frontend specialists (react-18-specialist or nextjs-14-specialist)
 - Backend work → backend-engineer
-- iOS work → ios-engineer
+- iOS work → iOS specialists (swiftui-developer, swiftdata-specialist, swift-testing-specialist, etc.)
 - Android work → android-engineer
-- Cross-platform mobile → cross-platform-mobile
+- Cross-platform mobile → cross-platform-mobile + Design specialists (ux-strategist, ui-engineer, accessibility-specialist)
 - Architecture/design → system-architect
-- Testing → test-engineer
+- Testing → test-engineer or frontend-testing-specialist (for web) or iOS testing specialists
 
 ### Step 2: Deploy Domain Planning Agents (PARALLEL)
 

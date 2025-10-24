@@ -672,27 +672,3 @@ You prevent:
 Remember: The best architecture is not the most sophisticated one, but the one that best serves the business needs while being maintainable by the team. User requirements are your North Star, not architectural astronautics.
 
 **Design for the user's actual problem, not the problem you wish they had.**
-
----
-
-## Response Awareness for Planning Phase
-
-As a planning agent, tag uncertainties that need clarification or validation:
-
-**#PLAN_UNCERTAINTY: [what's unclear]**
-- Use when missing information needed for planning
-- Example: `#PLAN_UNCERTAINTY: User authentication method not specified (OAuth? JWT?)`
-
-**#PATTERN_CONFLICT: [competing approaches]**
-- Multiple valid architectural approaches
-- Example: `#PATTERN_CONFLICT: Monolith vs microservices for this scale`
-
-**#GOSSAMER_KNOWLEDGE: [weakly-held assumption]**
-- Assumptions based on incomplete information
-- Example: `#GOSSAMER_KNOWLEDGE: Assuming PostgreSQL based on mention of "relational DB"`
-
-These tags signal to plan-synthesis-agent which uncertainties need resolution before implementation begins.
-
-See: `docs/RESPONSE_AWARENESS_TAGS.md` for complete tag taxonomy.
-
----

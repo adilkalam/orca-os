@@ -43,9 +43,9 @@ ACTION: Demand evidence before marking complete
 
 **#CARGO_CULT**: Dispatching agents without understanding context
 ```markdown
-DANGER SIGN: "Dispatch frontend-engineer to build UI"
-REQUIRED: "Dispatch frontend-engineer with: user's exact quote 'simple login form with email/password', design constraints from requirements.md, acceptance criteria from user-stories.md"
-ACTION: Provide complete context from user's actual requirements
+DANGER SIGN: "Dispatch react-18-specialist to build UI"
+REQUIRED: "Dispatch react-18-specialist with: user's exact quote 'simple login form with email/password', design constraints from design-system-architect, component specs from ui-engineer, acceptance criteria from user-stories.md"
+ACTION: Provide complete context from user's actual requirements AND design specifications
 ```
 
 **#CONTEXT_ROT**: Implementation details replacing user intent
@@ -134,7 +134,7 @@ Before ANY agent dispatch:
    Parallel dispatch:
    - requirement-analyst: Comprehensive requirements (already dispatched in pre-flight)
    - system-architect: Architecture design, tech stack selection
-   - (If UI required) design-engineer: UI/UX specifications
+   - (If UI required) Design specialists: ux-strategist (UX flows), design-system-architect (design tokens), visual-designer (visual design)
 
    For EACH agent:
    #COMPLETION_DRIVE: Demand evidence in .orchestration/evidence/
@@ -191,7 +191,7 @@ Before ANY agent dispatch:
      - Quote user's requirement in dispatch prompt
      - Specify evidence format required
 
-     Dispatch appropriate agent (frontend-engineer, backend-engineer, ios-engineer, etc.):
+     Dispatch appropriate specialists (react-18-specialist, nextjs-14-specialist, backend-engineer, swiftui-developer, etc.):
      - Task description: [from work-plan.md]
      - User requirement: [quote from user-request.md]
      - Acceptance criteria: [from user-stories.md]
@@ -533,14 +533,23 @@ quality-validator role:
 EVERY agent dispatch requires evidence specification:
 
 Example dispatch:
-"Dispatch frontend-engineer with:
+"Dispatch design + frontend specialists with:
+
+Design team (parallel):
+- tailwind-specialist: Create login form styling with daisyUI components
+- ui-engineer: Define form component API and validation patterns
+- accessibility-specialist: Ensure WCAG 2.1 AA keyboard navigation
+
+Frontend team (after design):
+- nextjs-14-specialist: Implement login form with Server Actions
 - Task: Implement login form
 - User requirement: [quote from user-request.md]
+- Design specs: [from tailwind-specialist, ui-engineer]
 - Acceptance criteria: [from user-stories.md]
 - Evidence required:
-  1. Screenshot showing login form
+  1. Screenshot showing login form (light + dark mode)
   2. Test output showing form validation working
-  3. Code snippet showing password hashing
+  3. Accessibility audit showing keyboard navigation works"
 - Evidence location: .orchestration/evidence/login-form/"
 
 #COMPLETION_DRIVE: Without evidence, task is NOT complete
@@ -665,19 +674,3 @@ Remember: Your success is measured by user's problem being solved with evidence-
 Every decision, every dispatch, every validation - all traced back to what the user actually asked for, not what you think they need.
 
 **The frame must hold. The user's intent must survive from first word to final deployment.**
-
----
-
-## Response Awareness Integration
-
-Tag relevant assumptions during your work:
-
-- Use `#COMPLETION_DRIVE:` for assumptions without verification
-- Use `#PATTERN_CONFLICT:` for competing valid approaches  
-- Use appropriate tags from your domain
-
-verification-agent checks tagged assumptions after implementation phases complete.
-
-See: `docs/RESPONSE_AWARENESS_TAGS.md` for complete 27+ tag taxonomy.
-
----

@@ -986,14 +986,14 @@ For each feedback point, determine which agent should fix it:
 ### Agent Selection by Issue Type
 
 **Functionality Issues:**
-- Business logic → Original implementation agent (e.g., ios-engineer, android-engineer, cross-platform-mobile, frontend-engineer, backend-engineer)
+- Business logic → Original implementation agent (e.g., iOS specialists like swiftui-developer, android-engineer, cross-platform-mobile, Frontend specialists like react-18-specialist or nextjs-14-specialist, backend-engineer)
 - Missing features → Domain-specific agent
-- Broken interactions → frontend-engineer or ios-engineer
+- Broken interactions → Frontend specialists (react-18-specialist/nextjs-14-specialist) or iOS specialists (swiftui-developer)
 
 **Design Issues:**
-- Visual/spacing/typography → design-engineer agent
-- Layout problems → design-engineer agent
-- Color/branding → design-engineer agent
+- Visual/spacing/typography → Design specialists (tailwind-specialist, ui-engineer, design-reviewer)
+- Layout problems → Design specialists (ux-strategist, ui-engineer, design-reviewer)
+- Color/branding → Design specialists (visual-designer, design-system-architect, design-reviewer)
 - All design → Run design-with-precision skill first
 
 **IMPORTANT for Design/UX agents:**
@@ -1007,7 +1007,7 @@ For each feedback point, determine which agent should fix it:
 
 ```javascript
 Task({
-  subagent_type: "design-engineer",
+  subagent_type: "ux-strategist",  // Or tailwind-specialist, ui-engineer, design-reviewer based on issue type
   description: "Fix design issues with design thinking",
   prompt: `Fix these design issues using the approved design understanding.
 
@@ -1066,10 +1066,10 @@ Only claim complete when design quality verified.`
 - Quality verification criteria (how to know when done)
 
 **UX Issues:**
-- Interaction flows → design-engineer agent
-- Navigation problems → design-engineer agent
-- Accessibility → design-engineer agent
-- Confusing patterns → design-engineer agent
+- Interaction flows → Design specialists (ux-strategist, ui-engineer)
+- Navigation problems → Design specialists (ux-strategist, design-reviewer)
+- Accessibility → Design specialists (accessibility-specialist, design-reviewer)
+- Confusing patterns → Design specialists (ux-strategist, ui-engineer)
 
 **Performance Issues:**
 - Optimization → Original implementation agent
@@ -1087,16 +1087,16 @@ Only claim complete when design quality verified.`
 AGENT ASSIGNMENT:
 
 🔴 Critical Fixes:
-1. [Issue] → design-engineer agent (design problem)
-2. [Issue] → ios-engineer agent (iOS functionality)
-3. [Issue] → design-engineer agent (interaction flow/UX)
+1. [Issue] → Design specialists (tailwind-specialist, design-reviewer) - design problem
+2. [Issue] → iOS specialists (swiftui-developer) - iOS functionality
+3. [Issue] → Design specialists (ux-strategist, ui-engineer) - interaction flow/UX
 
 🟡 Important Fixes:
-1. [Issue] → design-engineer agent (spacing)
+1. [Issue] → Design specialists (tailwind-specialist, ui-engineer) - spacing
 2. [Issue] → quality-validator agent (code quality)
 
 🟢 Nice-to-Have:
-1. [Issue] → frontend-engineer agent (polish)
+1. [Issue] → Frontend specialists (react-18-specialist or nextjs-14-specialist) - polish
 ```
 
 ---
@@ -1107,8 +1107,8 @@ Create wave-based execution plan:
 
 ### Wave 1 - Critical Design/UX Fixes (Parallel if different agents)
 ```
-If multiple design/UX issues → design-engineer agent handles ALL design and UX points
-(Design and UX are now integrated in the same agent)
+If multiple design/UX issues → Design specialists handle ALL design and UX points
+(Select appropriate specialists: ux-strategist, tailwind-specialist, ui-engineer, design-reviewer)
 Run all critical design/UX fixes together
 ```
 
@@ -1158,13 +1158,13 @@ If DESIGN_RULES.md exists and Design Guide Adherence ≥ 3:
 🎯 ORCHESTRATION PLAN
 
 Wave 1 - Critical Design/UX:
-  🔄 design-engineer → Fix all design/UX issues #1, #2, #3, #4, #5
+  🔄 Design specialists (ux-strategist, tailwind-specialist, design-reviewer) → Fix all design/UX issues #1, #2, #3, #4, #5
 
 Wave 2 - Critical Functionality (Sequential):
-  → ios-engineer → Fix issues #6, #7
+  → iOS specialists (swiftui-developer) → Fix issues #6, #7
 
 Wave 3 - Important Fixes (Parallel):
-  🔄 design-engineer → Fix issue #8
+  🔄 Design specialists (ui-engineer, design-reviewer) → Fix issue #8
   🔄 quality-validator → Address quality issue #9
 
 Wave 4 - Quality Gate (MANDATORY):
@@ -1276,23 +1276,23 @@ Use TodoWrite to create trackable tasks:
 TodoWrite([
   // Wave 1
   {
-    content: "Use design-engineer to fix all design/UX issues: [issues #1, #2, #3, #4, #5]",
+    content: "Use Design specialists (ux-strategist, tailwind-specialist, design-reviewer) to fix all design/UX issues: [issues #1, #2, #3, #4, #5]",
     status: "pending",
-    activeForm: "Fixing design/UX issues with design-engineer"
+    activeForm: "Fixing design/UX issues with Design specialists"
   },
 
   // Wave 2
   {
-    content: "Use ios-engineer to fix: [issues #6, #7]",
+    content: "Use iOS specialists (swiftui-developer) to fix: [issues #6, #7]",
     status: "pending",
-    activeForm: "Fixing functionality with ios-engineer"
+    activeForm: "Fixing functionality with iOS specialists"
   },
 
   // Wave 3
   {
-    content: "Use design-engineer to fix: [issue #8]",
+    content: "Use Design specialists (ui-engineer, design-reviewer) to fix: [issue #8]",
     status: "pending",
-    activeForm: "Polishing design with design-engineer"
+    activeForm: "Polishing design with Design specialists"
   },
 
   // Wave 4 - MANDATORY
@@ -1609,8 +1609,8 @@ Deploy verification-agent if ANY agent in the wave:
 - Integrated components
 
 **Wave examples requiring verification:**
-- ios-engineer fixed calculator view → verification-agent checks tags
-- frontend-engineer updated design system → verification-agent checks tags
+- iOS specialists (swiftui-developer) fixed calculator view → verification-agent checks tags
+- Frontend specialists (react-18-specialist, nextjs-14-specialist) updated design system → verification-agent checks tags
 - Any "implementation" or "fix" work → verification-agent checks tags
 
 ### Verification Process
@@ -2069,19 +2069,19 @@ and clicking cards has confusing behavior. Also spacing feels off.
 **Agent Assignment:**
 ```
 Wave 1:
-  🔄 design-engineer → Fix all UX/design issues (#1, #2, #3)
+  🔄 Design specialists (ux-strategist, tailwind-specialist, design-reviewer) → Fix all UX/design issues (#1, #2, #3)
 
 Wave 2:
-  → design-engineer → Adjust spacing (#4)
+  → Design specialists (tailwind-specialist, ui-engineer) → Adjust spacing (#4)
 
 Wave 3 (MANDATORY):
   → quality-validator → Review all changes
 ```
 
 **Execution:**
-- Launch design-engineer for all UX/design issues
+- Launch Design specialists for all UX/design issues
 - Wait for completion
-- Launch design-engineer for spacing adjustments
+- Launch Design specialists for spacing adjustments
 - Launch quality-validator
 - Present fixed work
 

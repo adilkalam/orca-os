@@ -398,7 +398,7 @@ Analyze the screenshot against design standards in this EXACT order:
 
 This is your SOURCE OF TRUTH. Any contradictions between project design system and /inspire principles are resolved in favor of the project design system.
 
-**AUDIT METHODOLOGY:** Use category-based analysis (learned from design-engineer comparison):
+**AUDIT METHODOLOGY:** Use category-based analysis (learned from design-reviewer specialist):
 
 ---
 
@@ -578,7 +578,7 @@ This is your SOURCE OF TRUTH. Any contradictions between project design system a
 - **20-29 points**: Poor compliance - major violations present
 - **0-19 points**: Critical failure - design system not followed
 
-**This scoring methodology learned from design-engineer's superior audit approach.**
+**This scoring methodology learned from design-reviewer specialist's superior audit approach.**
 
 ---
 
@@ -917,10 +917,10 @@ Agent:
 6. THEN mark work complete
 ```
 
-### After /concept → design-engineer:
+### After /concept → Design specialists:
 
 ```
-1. design-engineer creates design
+1. Design specialists (ux-strategist, visual-designer, tailwind-specialist, design-reviewer) create design
 2. Implementation complete
 3. **Run /visual-review** ← MANDATORY
 4. Verify it matches design brief

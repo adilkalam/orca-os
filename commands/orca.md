@@ -64,7 +64,7 @@ Phase 5: Quality Validation (reads verification results)
 
 **As Orca Orchestrator, you will:**
 
-1. **Deploy implementation agents** (ios-engineer, frontend-engineer, etc.)
+1. **Deploy implementation specialists** (iOS specialists like swiftui-developer, Frontend specialists like react-18-specialist/nextjs-14-specialist, backend-engineer, etc.)
 2. **Wait for them to create `.orchestration/implementation-log.md`** with tags
 3. **Deploy verification-agent** to check all tags
 4. **Read verification report** - if ANY verification fails → BLOCK → report to user
@@ -162,7 +162,8 @@ See: `docs/RESPONSE_AWARENESS_TAGS.md` for full tag system documentation
 - High ambiguity, many unknowns
 
 **Action**: **Full orchestration (7-15 agents)**
-- Complete team with requirement-analyst, system-architect, design-engineer
+- Complete team with requirement-analyst, system-architect
+- Design specialists (for web/React Native: ux-strategist, design-system-architect, tailwind-specialist, ui-engineer, design-reviewer; for iOS: optional ux-strategist only)
 - Multiple implementation specialists
 - Comprehensive verification
 - Time: Days/weeks
@@ -874,7 +875,7 @@ Based on detection, select the appropriate predefined team:
 
 **Team Composition**: Dynamic (7-15 agents based on complexity)
 
-#### Base Team (Always Included - 5 agents):
+#### Base Team (Always Included - 4 agents):
 
 1. **requirement-analyst** → Requirements analysis ONLY
    - Analyzes user request
@@ -888,23 +889,17 @@ Based on detection, select the appropriate predefined team:
    - Makes tech decisions (SwiftUI vs UIKit, SwiftData vs Core Data)
    - Creates API contracts and service boundaries
    - **Detects app complexity** → recommends iOS specialists
-   - Hands off to: design-engineer
+   - **Optional**: May recommend ux-strategist for complex UX flows
+   - Hands off to: iOS specialists (in parallel)
 
-3. **design-engineer** → UI/UX design ONLY
-   - Creates design system (colors, typography, spacing)
-   - Defines accessibility requirements (VoiceOver, Dynamic Type)
-   - Specifies UI components and interaction patterns
-   - Ensures WCAG 2.1 AA compliance
-   - Hands off to: iOS specialists
-
-4. **verification-agent** → Tag verification ONLY (MANDATORY)
+3. **verification-agent** → Tag verification ONLY (MANDATORY)
    - Searches for meta-cognitive tags (#COMPLETION_DRIVE, #FILE_CREATED, etc.)
    - Runs actual verification commands (ls, grep, xcodebuild)
    - Creates verification-report.md
    - Blocks if any verification fails
    - Hands off to: quality-validator
 
-5. **quality-validator** → Final validation ONLY (MANDATORY)
+4. **quality-validator** → Final validation ONLY (MANDATORY)
    - Reads user-request.md to verify ALL requirements met
    - Reviews verification-report.md for evidence
    - **Runs /visual-review BEFORE final validation** (MANDATORY for UI work)
@@ -956,27 +951,29 @@ Based on detection, select the appropriate predefined team:
 
 #### Team Composition Examples:
 
-**Simple App (Calculator, Converter)**: 7 agents total
+**Simple App (Calculator, Converter)**: 6 agents total
 ```
-Base (5): requirement-analyst, system-architect, design-engineer, verification-agent, quality-validator
+Base (4): requirement-analyst, system-architect, verification-agent, quality-validator
 iOS (2): swiftui-developer, swift-testing-specialist
 ```
 
-**Medium App (Notes, To-Do List)**: 9-10 agents
+**Medium App (Notes, To-Do List)**: 8-9 agents
 ```
-Base (5): requirement-analyst, system-architect, design-engineer, verification-agent, quality-validator
+Base (4): requirement-analyst, system-architect, verification-agent, quality-validator
 iOS (4-5): swiftui-developer, swiftdata-specialist, state-architect, swift-testing-specialist, [swift-code-reviewer]
 ```
 
-**Complex App (Social Network, E-commerce)**: 12-14 agents
+**Complex App (Social Network, E-commerce)**: 11-13 agents
 ```
-Base (5): requirement-analyst, system-architect, design-engineer, verification-agent, quality-validator
+Base (4): requirement-analyst, system-architect, verification-agent, quality-validator
+Design (0-1): [ux-strategist] (optional for complex UX flows)
 iOS (7-9): swiftui-developer, swiftdata-specialist, urlsession-expert, tca-specialist, swift-testing-specialist, ui-testing-expert, ios-performance-engineer, [ios-debugger], [xcode-cloud-expert]
 ```
 
-**Enterprise App (Banking, Healthcare)**: 15+ agents
+**Enterprise App (Banking, Healthcare)**: 14+ agents
 ```
-Base (5): requirement-analyst, system-architect, design-engineer, verification-agent, quality-validator
+Base (4): requirement-analyst, system-architect, verification-agent, quality-validator
+Design (0-1): [ux-strategist] (optional for complex UX flows)
 iOS (10+): swiftui-developer, coredata-expert, urlsession-expert, combine-networking, tca-specialist, swift-testing-specialist, xctest-pro, ui-testing-expert, swift-code-reviewer, ios-debugger, xcode-cloud-expert, fastlane-specialist, ios-performance-engineer, ios-security-tester, ios-penetration-tester
 ```
 
@@ -996,11 +993,12 @@ Prompt keywords → Specialists:
 ```
 requirement-analyst → system-architect (recommends iOS specialists) →
 [Present team to user for confirmation] →
-design-engineer → [iOS specialists in parallel] → verification-agent → quality-validator
+[iOS specialists in parallel] → verification-agent → quality-validator
+[Optional: ux-strategist for complex UX flows]
 ```
 
 **Cannot skip (mandatory):**
-- Base 5 agents (always required)
+- Base 4 agents (requirement-analyst, system-architect, verification-agent, quality-validator)
 - At least 1 UI specialist (swiftui-developer or uikit-specialist)
 - At least 1 testing specialist (swift-testing-specialist or xctest-pro)
 - verification-agent (Response Awareness)
@@ -1128,9 +1126,9 @@ Execute in phases (Foundation → Visual → Implementation → Quality Review)
 ```
 
 **Integration with Other Teams:**
-- **iOS Team**: design-engineer → design-system-architect (creates iOS-specific design system)
-- **Frontend Team**: design-engineer → design-system-architect + tailwind-specialist
-- **Mobile Team**: design-system-architect → (creates cross-platform design tokens)
+- **iOS Team**: NO design specialists for styling (SwiftUI handles styling natively). Optional: ux-strategist for complex UX flows.
+- **Frontend Team**: ux-strategist + design-system-architect + tailwind-specialist + ui-engineer + design-reviewer (MANDATORY)
+- **Mobile Team**: ux-strategist + ui-engineer + accessibility-specialist + design-reviewer (cross-platform design)
 - **Standalone**: Full design team for design-only projects (no code implementation)
 
 **Verification**: Screenshots + WCAG audit + design system documentation + Playwright tests
@@ -1141,7 +1139,9 @@ Execute in phases (Foundation → Visual → Implementation → Quality Review)
 
 **When to Use**: React, Next.js, Vue.js web frontends
 
-**Team Composition (7 agents):**
+**Team Composition**: Dynamic (10-15 agents based on complexity)
+
+**Phase 1: Planning (2 agents)**
 
 1. **requirement-analyst** → Requirements analysis ONLY
    - Analyzes user request
@@ -1152,54 +1152,101 @@ Execute in phases (Foundation → Visual → Implementation → Quality Review)
 2. **system-architect** → Frontend architecture ONLY
    - Designs frontend architecture (state management, routing, etc.)
    - Defines component hierarchy and data flow
-   - Makes tech decisions (Context API vs Redux, routing patterns)
+   - Makes tech decisions (React 18 vs Next.js 14, state approach)
    - Creates API integration contracts
-   - Hands off to: design-engineer
+   - **Recommends specialists** (design + frontend + testing)
+   - Hands off to: Design team (parallel) + Frontend team (after design)
 
-3. **design-engineer** → UI/UX design ONLY
-   - Creates design system (Tailwind v4 + daisyUI 5)
-   - Defines accessibility requirements (ARIA, keyboard navigation)
-   - Specifies UI components and interaction patterns
-   - Ensures WCAG 2.1 AA compliance
-   - Hands off to: frontend-engineer
+**Phase 2: Design (3-5 agents, in parallel)**
 
-4. **frontend-engineer** → React/Vue implementation ONLY
-   - Implements code per architecture spec
-   - Implements UI per design spec
+3. **ux-strategist** → UX flows and interaction design
+   - Information architecture
+   - User flows and navigation
+   - Interaction patterns
+
+4. **design-system-architect** → Design system foundation
+   - Design tokens (colors, spacing, typography)
+   - Component architecture
+   - Tailwind v4 configuration
+
+5. **tailwind-specialist** (MANDATORY) → Tailwind implementation
+   - Tailwind v4 + daisyUI 5 styling
+   - Responsive design patterns
+   - Theme configuration
+
+6. **ui-engineer** → Component patterns
+   - React component API design
+   - Component composition patterns
+   - Reusability strategy
+
+7. **accessibility-specialist** (MANDATORY) → WCAG 2.1 AA compliance
+   - ARIA patterns
+   - Keyboard navigation
+   - Screen reader support
+   - Hands off to: Frontend specialists
+
+**Phase 3: Implementation (2-4 agents, after design specs ready)**
+
+8. **react-18-specialist** OR **nextjs-14-specialist** (choose one)
+   - React 18: Server Components, Suspense, hooks
+   - Next.js 14: App Router, SSR/SSG, Server Actions
+   - Implements per architecture + design specs
    - Tags all assumptions with meta-cognitive tags
-   - Does NOT make architecture/design/testing decisions
-   - Hands off to: test-engineer
 
-5. **test-engineer** → Testing ONLY
-   - Writes unit tests (Vitest)
-   - Writes E2E tests (Playwright)
-   - Runs accessibility tests
-   - Measures performance
-   - Hands off to: verification-agent
+9. **state-management-specialist** (if complex state)
+   - UI/server/URL state separation
+   - Zustand, React Query, or state colocation
+   - State optimization
 
-6. **verification-agent** → Tag verification ONLY
-   - Searches for meta-cognitive tags (#COMPLETION_DRIVE, #FILE_CREATED, etc.)
-   - Runs actual verification commands (ls, grep, npm test)
-   - Creates verification-report.md
-   - Blocks if any verification fails
-   - Hands off to: quality-validator
+10. **frontend-performance-specialist** (if perf-critical)
+    - Code splitting
+    - Lazy loading
+    - Core Web Vitals optimization
 
-7. **quality-validator** → Final validation ONLY (MANDATORY)
-   - Reads user-request.md to verify ALL requirements met
-   - Reviews verification-report.md for evidence
-   - **Runs /visual-review BEFORE final validation** (MANDATORY for UI work)
-   - **Runs Reference Parity Gate if reference exists** (web app, design guide)
-   - Checks all acceptance criteria
-   - Blocks if <100% complete OR Reference Parity <70%
-   - Approves delivery to user
+**Phase 4: Testing + QA (3 agents)**
 
-**Verification**: Browser screenshots + **MANDATORY /visual-review** + build verification + tests passing + reference comparison (if applicable)
+11. **frontend-testing-specialist** (MANDATORY)
+    - React Testing Library (behavior-first)
+    - Vitest unit tests
+    - Playwright E2E tests
+    - Accessibility testing
+
+12. **design-reviewer** (MANDATORY) → Visual QA
+    - 7-phase OneRedOak review
+    - Playwright visual verification
+    - Design system compliance
+    - Cross-browser testing
+
+13. **verification-agent** (MANDATORY) → Tag verification
+    - Searches for meta-cognitive tags
+    - Runs ls, grep, npm test, npm build
+    - Creates verification-report.md
+    - Blocks if verification fails
+
+14. **quality-validator** (MANDATORY) → Final gate
+    - Reads verification-report.md
+    - **Runs /visual-review** (MANDATORY)
+    - Checks all acceptance criteria
+    - Blocks if <100% complete
+
+**Verification**: Browser screenshots + /visual-review + build passing + tests passing + WCAG audit
 
 **Workflow**:
 ```
-requirement-analyst → system-architect → design-engineer →
-frontend-engineer → test-engineer → verification-agent →
-/visual-review (MANDATORY) → quality-validator
+Phase 1: requirement-analyst → system-architect (recommends team)
+         ↓
+Phase 2: Design team (parallel):
+         ux-strategist + design-system-architect + tailwind-specialist +
+         ui-engineer + accessibility-specialist
+         ↓
+Phase 3: Frontend implementation (after design):
+         react-18-specialist OR nextjs-14-specialist
+         [+ state-management-specialist if needed]
+         [+ frontend-performance-specialist if needed]
+         ↓
+Phase 4: Testing + QA:
+         frontend-testing-specialist → design-reviewer →
+         verification-agent → /visual-review → quality-validator
 ```
 
 **When to add:**
@@ -1209,11 +1256,15 @@ frontend-engineer → test-engineer → verification-agent →
 **Can skip (if specs exist):**
 - requirement-analyst → If user provides detailed requirements
 - system-architect → If architecture already documented
-- design-engineer → If design system exists
+- design-system-architect, ux-strategist, visual-designer → If design system exists
+- state-management-specialist, frontend-performance-specialist → If not needed
 
 **Cannot skip (mandatory):**
-- frontend-engineer → Someone must write code
-- test-engineer → Code must be tested
+- tailwind-specialist → Styling is always required
+- accessibility-specialist → WCAG compliance is mandatory
+- react-18-specialist OR nextjs-14-specialist → Someone must write code
+- frontend-testing-specialist → Code must be tested
+- design-reviewer → Visual QA is mandatory
 - verification-agent → Tags must be verified (Response Awareness)
 - **/visual-review → MUST run before quality-validator for ALL UI work**
 - quality-validator → Final gate must run
@@ -1268,7 +1319,7 @@ frontend-engineer → test-engineer → verification-agent →
    - Blocks if <100% complete OR Reference Parity <70%
    - Approves delivery to user
 
-**Note**: Skip design-engineer unless building admin UI
+**Note**: Skip design specialists (ux-strategist, tailwind-specialist, ui-engineer, design-reviewer) unless building admin UI
 
 **Verification**: API tests + load tests + database verification + reference comparison (if applicable)
 
@@ -1279,7 +1330,7 @@ test-engineer → verification-agent → quality-validator
 ```
 
 **When to add:**
-- design-engineer → If building admin UI
+- Design specialists (ux-strategist, tailwind-specialist, ui-engineer, design-reviewer) → If building admin UI
 - infrastructure-engineer → For Docker, Kubernetes, cloud deployment
 
 **Can skip (if specs exist):**
@@ -1311,37 +1362,59 @@ test-engineer → verification-agent → quality-validator
    - Defines data models and platform-specific patterns
    - Makes tech decisions (navigation libraries, state solutions)
    - Creates API integration contracts
-   - Hands off to: design-engineer
+   - **Recommends specialists** (design + mobile + testing)
+   - Hands off to: Design team (parallel) + Mobile implementation (after design)
 
-3. **design-engineer** → UI/UX design ONLY
-   - Creates design system (platform-adaptive components)
-   - Defines accessibility requirements (TalkBack, VoiceOver)
-   - Specifies UI components and interaction patterns
-   - Ensures platform consistency (iOS & Android)
-   - Hands off to: cross-platform-mobile
+**Design Team (3-5 agents, in parallel):**
 
-4. **cross-platform-mobile** → React Native/Flutter implementation ONLY
+3. **ux-strategist** → Mobile-first UX design
+   - Mobile interaction patterns
+   - Gesture-based navigation
+   - Platform-adaptive flows
+
+4. **ui-engineer** → React Native/Flutter component patterns
+   - Component API design for cross-platform
+   - Platform-specific adaptations (iOS & Android)
+   - Reusability across platforms
+
+5. **accessibility-specialist** (MANDATORY) → Mobile accessibility
+   - VoiceOver (iOS) and TalkBack (Android)
+   - Touch target sizes
+   - Screen reader support
+   - Hands off to: Mobile implementation
+
+**Mobile Implementation:**
+
+6. **cross-platform-mobile** → React Native/Flutter implementation ONLY
    - Implements code per architecture spec
    - Implements UI per design spec
    - Tags all assumptions with meta-cognitive tags
    - Does NOT make architecture/design/testing decisions
    - Hands off to: test-engineer
 
-5. **test-engineer** → Testing ONLY
+**Testing + QA:**
+
+7. **test-engineer** → Testing ONLY
    - Writes unit tests
    - Writes integration tests (Detox, integration_test)
    - Tests on both iOS and Android
    - Measures performance
-   - Hands off to: verification-agent
+   - Hands off to: design-reviewer
 
-6. **verification-agent** → Tag verification ONLY
+8. **design-reviewer** (MANDATORY) → Visual QA
+   - Platform design guideline compliance (iOS HIG, Material Design)
+   - Visual verification on both iOS and Android
+   - Accessibility testing
+   - Cross-device testing
+
+9. **verification-agent** (MANDATORY) → Tag verification ONLY
    - Searches for meta-cognitive tags (#COMPLETION_DRIVE, #FILE_CREATED, etc.)
    - Runs actual verification commands (ls, grep, build commands)
    - Creates verification-report.md
    - Blocks if any verification fails
    - Hands off to: quality-validator
 
-7. **quality-validator** → Final validation ONLY (MANDATORY)
+10. **quality-validator** (MANDATORY) → Final validation ONLY
    - Reads user-request.md to verify ALL requirements met
    - Reviews verification-report.md for evidence
    - **Runs /visual-review BEFORE final validation** (MANDATORY for UI work)
@@ -1354,9 +1427,17 @@ test-engineer → verification-agent → quality-validator
 
 **Workflow**:
 ```
-requirement-analyst → system-architect → design-engineer →
-cross-platform-mobile → test-engineer → verification-agent →
-/visual-review (MANDATORY) → quality-validator
+Phase 1: requirement-analyst → system-architect (recommends team)
+         ↓
+Phase 2: Design team (parallel):
+         ux-strategist + ui-engineer + accessibility-specialist
+         ↓
+Phase 3: Mobile implementation (after design):
+         cross-platform-mobile
+         ↓
+Phase 4: Testing + QA:
+         test-engineer → design-reviewer → verification-agent →
+         /visual-review (MANDATORY) → quality-validator
 ```
 
 **When to add:**
@@ -1365,7 +1446,7 @@ cross-platform-mobile → test-engineer → verification-agent →
 **Can skip (if specs exist):**
 - requirement-analyst → If user provides detailed requirements
 - system-architect → If architecture already documented
-- design-engineer → If design system exists
+- ux-strategist, design-system-architect → If design system exists
 
 **Cannot skip (mandatory):**
 - cross-platform-mobile → Someone must write code
@@ -1392,12 +1473,12 @@ Phase 2: system-architect
 - Define data models and API contracts
 - Choose tech stack decisions
 - Write architecture-spec.md
-- Hands off to: design-engineer
+- Hands off to: Design specialists (parallel)
 
-Phase 3: design-engineer
-- Create design system (colors, typography, spacing)
-- Define platform-adaptive components
-- Specify accessibility requirements (VoiceOver, TalkBack)
+Phase 3: Design specialists (parallel)
+- ux-strategist: Mobile-first UX flows, gesture interactions
+- ui-engineer: React Native component patterns
+- accessibility-specialist: VoiceOver (iOS), TalkBack (Android)
 - Write design-spec.md
 - Hands off to: cross-platform-mobile
 
@@ -1481,8 +1562,13 @@ Options:
 3. "Suggest different team"
 
 Show proposed team:
-- ios-engineer → Comprehensive iOS development (Swift 6.0, SwiftUI, async/await, actors, networking, testing, UI/UX, design systems)
-- quality-validator → Final verification before presenting
+- requirement-analyst → Requirements analysis
+- system-architect → iOS architecture design
+- swiftui-developer → SwiftUI implementation
+- swiftdata-specialist → Data persistence (if needed)
+- swift-testing-specialist → Testing
+- verification-agent → Tag verification (MANDATORY)
+- quality-validator → Final validation (MANDATORY)
 ```
 
 ### If User Wants Modifications
@@ -1507,37 +1593,38 @@ Execute the workflow with the confirmed agent team:
 ### iOS Workflow Example
 
 ```
-Phase 1: ios-engineer
-- Analyze requirements
-- Set up Xcode project (if needed)
-- Implement core iOS functionality and SwiftUI views
-- Network layer, data models, services
-- State management (@Observable, @State)
-- Navigation patterns (NavigationStack)
-- Design system implementation
-- Accessibility support
-- Write to .orchestration/agent-log.md
+Phase 1: Planning (requirement-analyst → system-architect)
+- Analyze user requirements
+- Design iOS architecture (state-first or TCA)
+- Recommend iOS specialists based on complexity
+- Create architecture-spec.md
 
-Phase 2: Verification (MANDATORY)
-- Clean build (delete DerivedData if needed)
-- Build to simulator
-- Take screenshots → .orchestration/evidence/
-- Verify changes visible
+Phase 2: iOS Implementation (specialists in parallel)
+- swiftui-developer: SwiftUI views and navigation
+- swiftdata-specialist: Data persistence (if needed)
+- urlsession-expert: Networking (if API needed)
+- state-architect: State management patterns
+- Each writes to .orchestration/implementation-log.md with #tags
 
-Phase 3: Aggressive Review Gate (MANDATORY)
-- Capture BEFORE/AFTER states
-- Line-by-line promise verification
-- Concrete violations check
-- 100% completion required
-- Block if <95% complete
+Phase 3: Testing
+- swift-testing-specialist: Write Swift Testing tests
+- ui-testing-expert: XCUITest for UI flows (if complex)
+- Test output → .orchestration/evidence/
 
-Phase 4: quality-validator
-- Read .orchestration/user-request.md
-- Verify ALL requirements met
-- Check evidence in .orchestration/evidence/
-- Create verification table
-- BLOCK if <100% verified
-- Final approval for completion
+Phase 4: Verification (MANDATORY)
+- verification-agent searches for all #tags
+- Runs: rm -rf ~/Library/Developer/Xcode/DerivedData/*
+- Runs: xcodebuild clean && xcodebuild build
+- Takes screenshots → .orchestration/evidence/
+- Creates verification-report.md
+- BLOCKS if any verification fails
+
+Phase 5: Quality Validation
+- quality-validator reads verification-report.md
+- Runs /visual-review (MANDATORY for UI)
+- Checks ALL requirements met
+- BLOCKS if <100% complete
+- Final approval
 ```
 
 ---
@@ -1805,7 +1892,7 @@ Completion = (Fully Delivered Promises) / (Total Promises) × 100%
 
 ❌ **WRONG**: Trying to do all iOS work yourself
 
-✅ **RIGHT**: Dispatch ios-engineer for complete iOS implementation (core functionality + SwiftUI UI/design)
+✅ **RIGHT**: Dispatch iOS specialists based on system-architect recommendations (swiftui-developer, swiftdata-specialist, swift-testing-specialist, etc.)
 
 ### ALWAYS Confirm Team First
 
@@ -1843,12 +1930,18 @@ Ask user directly:
 ### Progress Updates
 
 ```
-🎯 Phase 1/4: iOS Implementation (ios-engineer)
-⏳ In Progress...
-✅ Complete: Project setup, data models, services, SwiftUI views, state management, navigation implemented
+🎯 Phase 1/5: Planning (requirement-analyst → system-architect)
+✅ Complete: Requirements analyzed, iOS architecture designed, specialists recommended
 
-🎯 Phase 2/4: Verification
-⏳ Testing in simulator...
+🎯 Phase 2/5: iOS Implementation (swiftui-developer, swiftdata-specialist, state-architect)
+⏳ In Progress...
+✅ Complete: SwiftUI views, data models, state management, navigation implemented
+
+🎯 Phase 3/5: Testing (swift-testing-specialist)
+⏳ Writing tests...
+
+🎯 Phase 4/5: Verification
+⏳ Running verification...
 ✅ Complete: Screenshots captured, changes verified
 
 🎯 Phase 3/4: Aggressive Review Gate
@@ -1866,7 +1959,13 @@ Ask user directly:
 ✅ Workflow Complete
 
 Agent Team:
-- ios-engineer: Complete iOS implementation (core functionality + SwiftUI UI) ✅
+- requirement-analyst: Requirements analysis ✅
+- system-architect: iOS architecture design ✅
+- swiftui-developer: SwiftUI views and navigation ✅
+- swiftdata-specialist: Data persistence ✅
+- swift-testing-specialist: Testing ✅
+- verification-agent: Tag verification ✅
+- quality-validator: Final validation ✅
 - quality-validator: 100% requirements verified ✅
 
 Verification:

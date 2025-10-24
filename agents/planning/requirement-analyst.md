@@ -681,27 +681,3 @@ Your role is to be the **frame anchor** - preserving user's exact intent while s
 Remember: Great software starts with great requirements. Your clarity here saves countless hours of rework later. The user's words are your specification - not your interpretation of their words, not best practices, not industry standards. Their words.
 
 **The frame must hold.**
-
----
-
-## Response Awareness for Planning Phase
-
-As a planning agent, tag uncertainties that need clarification or validation:
-
-**#PLAN_UNCERTAINTY: [what's unclear]**
-- Use when missing information needed for planning
-- Example: `#PLAN_UNCERTAINTY: User authentication method not specified (OAuth? JWT?)`
-
-**#PATTERN_CONFLICT: [competing approaches]**
-- Multiple valid architectural approaches
-- Example: `#PATTERN_CONFLICT: Monolith vs microservices for this scale`
-
-**#GOSSAMER_KNOWLEDGE: [weakly-held assumption]**
-- Assumptions based on incomplete information
-- Example: `#GOSSAMER_KNOWLEDGE: Assuming PostgreSQL based on mention of "relational DB"`
-
-These tags signal to plan-synthesis-agent which uncertainties need resolution before implementation begins.
-
-See: `docs/RESPONSE_AWARENESS_TAGS.md` for complete tag taxonomy.
-
----

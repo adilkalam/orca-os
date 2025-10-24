@@ -86,7 +86,7 @@ On every session start, the system detects your project type:
    *.xcodeproj   package.json  requirements.txt
         │            │            │
         ▼            ▼            ▼
- iOS Team (7)  Frontend Team (7)  Backend Team (6)
+ iOS Team (8-16)  Frontend Team (10-15)  Backend Team (6)
         │            │            │
         └────────────┴────────────┘
                      │
@@ -219,49 +219,48 @@ See `docs/METACOGNITIVE_TAGS.md` for complete documentation.
 
 ## What's Included
 
-### 🤖 Agents (46 Total)
+### 🤖 Agents (45 Total)
 
-**Active agents: 12 base + 21 iOS + 5 frontend + 8 design = 46 total**
+**Active agents: 11 base + 21 iOS + 5 frontend + 8 design = 45 total**
 
 ```
-                    AGENT ECOSYSTEM (46 Total)
+                    AGENT ECOSYSTEM (45 Total)
                             │
         ┌───────────────────┼───────────────────┐
         │                   │                   │
         ▼                   ▼                   ▼
    BASE AGENTS      iOS SPECIALISTS    FRONTEND/DESIGN
-     (12)               (21)            (5 + 8 = 13)
+     (11)               (21)            (5 + 8 = 13)
         │                   │                   │
         │                   │                   │
-┌───────┴────────┐  ┌───────┴────────┐  ┌───────┴──────┐
-│                │  │                │  │              │
-│ Planning (2)   │  │ UI (3)         │  │ React (2)    │
-│ Implementation │  │ Data (2)       │  │ State (1)    │
-│   Backend (1)  │  │ Network (3)    │  │ Perf (1)     │
-│   Mobile (2)   │  │ Arch (3)       │  │ Test (1)     │
-│   Android (1)  │  │ Testing (3)    │  │              │
-│ Quality (3)    │  │ Quality (2)    │  │ Design (8)   │
-│ Specialized (2)│  │ DevOps (2)     │  │   Found (2)  │
-│ Orchestration  │  │ Perf (1)       │  │   Visual(1)  │
-│   (1)          │  │ Security (2)   │  │   Impl (3)   │
-│                │  │                │  │   QA (2)     │
-└────────────────┘  └────────────────┘  └──────────────┘
+┌───────┴────────┐  ┌───────┴────────┐  ┌──────┴──────┐
+│                │  │                │  │             │
+│ Planning (3)   │  │ UI (3)         │  │ React (2)   │
+│ Implementation │  │ Data (2)       │  │ State (1)   │
+│   Backend (1)  │  │ Network (3)    │  │ Perf (1)    │
+│   Mobile (2)   │  │ Arch (3)       │  │ Test (1)    │
+│ Quality (3)    │  │ Testing (3)    │  │             │
+│ Specialized (1)│  │ Quality (2)    │  │ Design (8)  │
+│ Orchestration  │  │ DevOps (2)     │  │   Found (2) │
+│   (1)          │  │ Perf (1)       │  │   Visual(1) │
+│                │  │ Security (2)   │  │   Impl (3)  │
+│                │  │                │  │   QA (2)    │
+└────────────────┘  └────────────────┘  └─────────────┘
 ```
 
 All agents live in `agents/` and are organized by function.
 
-**System Architecture: 46 Total Agents**
+**System Architecture: 45 Total Agents**
 
 - **iOS Specialists** (21 agents in `ios-specialists/`) - SwiftUI, SwiftData, networking, testing, architecture, performance, security, deployment
 - **Frontend Specialists** (5 agents in `frontend-specialists/`) - React 18, Next.js 14, state management, performance optimization, testing
 - **Design Specialists** (8 agents in `design-specialists/`) - Design systems, UX strategy, Tailwind v4, UI engineering, CSS, accessibility, design review, visual design
-- **Base Agents** (12 agents):
-  - **Planning**: requirement-analyst, system-architect
+- **Base Agents** (11 agents):
+  - **Planning**: requirement-analyst, system-architect, plan-synthesis-agent
   - **Quality**: verification-agent (🆕 meta-cognitive tag verification), test-engineer, quality-validator
-  - **Backend**: backend-engineer
-  - **Mobile**: android-engineer, cross-platform-mobile
+  - **Implementation**: backend-engineer, android-engineer, cross-platform-mobile
   - **DevOps**: infrastructure-engineer
-  - **Orchestration**: workflow-orchestrator, plan-synthesis-agent
+  - **Orchestration**: workflow-orchestrator
 
 See the `agents/` directory for detailed agent specifications and the complete file structure below.
 
@@ -630,7 +629,7 @@ cp -r skills/* ~/.claude/skills/
 ```
 
 **What you get:**
-- **13 specialized agents** for implementation, planning, quality (including verification-agent), and orchestration
+- **45 specialized agents** (11 base + 21 iOS + 5 frontend + 8 design) for implementation, planning, quality, and orchestration
 - **13 slash commands** for enhanced workflows
 - **Response Awareness verification** system (meta-cognitive tags + verification)
 - **Project-specific skills** from the superpowers plugin
@@ -807,7 +806,7 @@ Build Changes:
 
 ## Available Agents
 
-**46 Total Agents organized into specialized teams:**
+**45 Total Agents organized into specialized teams:**
 
 ### iOS Specialists (21 agents)
 SwiftUI, SwiftData, Core Data, networking (URLSession), testing (Swift Testing, XCTest, XCUITest), architecture (State-first, TCA), performance optimization, security, code review, debugging, deployment (Xcode Cloud, Fastlane), accessibility, and API design.
@@ -818,13 +817,12 @@ React 18+ (Server Components, Suspense, hooks), Next.js 14 (App Router, Server A
 ### Design Specialists (8 agents)
 Design system architecture, UX strategy, Tailwind CSS v4 + daisyUI 5, UI engineering, pure CSS (when Tailwind insufficient), accessibility (WCAG 2.1 AA), design review (visual QA with Playwright), and visual design (hierarchy, typography, composition).
 
-### Base Agents (12 agents)
-- **Planning**: requirement-analyst, system-architect
+### Base Agents (11 agents)
+- **Planning**: requirement-analyst, system-architect, plan-synthesis-agent
 - **Quality**: verification-agent (meta-cognitive tag verification), test-engineer, quality-validator
-- **Backend**: backend-engineer
-- **Mobile**: android-engineer, cross-platform-mobile
+- **Implementation**: backend-engineer, android-engineer, cross-platform-mobile
 - **DevOps**: infrastructure-engineer
-- **Orchestration**: workflow-orchestrator, plan-synthesis-agent
+- **Orchestration**: workflow-orchestrator
 
 For detailed agent specifications, see the `agents/` directory.
 
@@ -834,7 +832,7 @@ For detailed agent specifications, see the `agents/` directory.
 
 ### iOS Development
 
-**Total System: 46 Agents** (12 base + 21 iOS + 5 frontend + 8 design)
+**Total System: 45 Agents** (11 base + 21 iOS + 5 frontend + 8 design)
 
 **iOS Team**: Dynamic composition (8-16 agents) based on app complexity:
 
@@ -983,11 +981,9 @@ Remove the hook from `.claude/settings.local.json`:
 claude-vibe-code/
 ├── README.md                          # You are here
 │
-├── agents/                            # All active agents (46 total)
-│   ├── implementation/                # 5 implementation specialists
-│   │   ├── frontend-engineer.md       # (DEPRECATED - use frontend-specialists/)
+├── agents/                            # All active agents (45 total)
+│   ├── implementation/                # 3 implementation specialists
 │   │   ├── backend-engineer.md
-│   │   ├── ios-engineer.md            # (DEPRECATED - use ios-specialists/)
 │   │   ├── android-engineer.md
 │   │   └── cross-platform-mobile.md
 │   ├── planning/                      # 2 planning specialists
@@ -997,11 +993,11 @@ claude-vibe-code/
 │   │   ├── test-engineer.md
 │   │   ├── verification-agent.md       # NEW: Response Awareness verification
 │   │   └── quality-validator.md
-│   ├── specialized/                   # 2 specialized agents
-│   │   ├── design-engineer.md         # (DEPRECATED - use design-specialists/)
+│   ├── specialized/                   # 1 specialized agent
 │   │   └── infrastructure-engineer.md
-│   ├── orchestration/                 # 1 orchestrator
-│   │   └── workflow-orchestrator.md
+│   ├── orchestration/                 # 2 orchestrators
+│   │   ├── workflow-orchestrator.md
+│   │   └── plan-synthesis-agent.md
 │   ├── ios-specialists/               # 21 iOS specialists (NEW)
 │   │   ├── ui/                        # swiftui-developer, uikit-specialist, ios-accessibility-tester
 │   │   ├── data/                      # swiftdata-specialist, coredata-expert
@@ -1049,7 +1045,7 @@ claude-vibe-code/
 ```
 
 **Key Directories:**
-- `agents/` - Copy to `~/.claude/agents/` for active use (46 total agents)
+- `agents/` - Copy to `~/.claude/agents/` for active use (45 total agents)
 - `commands/` - Copy to `~/.claude/commands/` for slash commands (13 total)
 - `hooks/` - Copy to `~/.claude/hooks/` for auto-detection hook
 
@@ -1101,7 +1097,7 @@ A: Yes. Questions and ideation work too (auto-classified).
 
 **Current Phase:** System Architecture & Agent Implementation
 
-This repository contains the architectural design and documentation for a comprehensive multi-agent orchestration system. The full implementation (46 agents, 13 commands, auto-detection hooks) is being built and tested locally before public release.
+This repository contains the architectural design and documentation for a comprehensive multi-agent orchestration system. The full implementation (45 agents, 14 commands, auto-detection hooks) is being built and tested locally before public release.
 
 **What's Complete:**
 - ✅ System architecture and workflow design
@@ -1110,8 +1106,8 @@ This repository contains the architectural design and documentation for a compre
 - ✅ Agent taxonomy and specialization design
 
 **In Progress:**
-- 🔨 46 specialized agents (iOS, Frontend, Design, Backend)
-- 🔨 13 slash commands with quality gates
+- 🔨 45 specialized agents (iOS, Frontend, Design, Backend)
+- 🔨 14 slash commands with quality gates
 - 🔨 Auto-detection and orchestration system
 - 🔨 Integration testing and validation
 

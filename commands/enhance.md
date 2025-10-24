@@ -231,11 +231,11 @@ ORCHESTRATION PLAN:
 
 Wave 1 - Planning & Analysis:
   🔄 [If needs architecture] → system-architect agent
-  🔄 [If needs design/UX] → design-engineer agent
+  🔄 [If needs design/UX] → Design specialists (ux-strategist, tailwind-specialist, ui-engineer)
 
 Wave 2 - Implementation:
-  → [domain-specific agent] (e.g., ios-engineer, frontend-engineer, backend-engineer, android-engineer, cross-platform-mobile)
-  [Implementation agents run sequentially after planning completes]
+  → [domain-specific specialists] (iOS: swiftui-developer; Web: react-18-specialist/nextjs-14-specialist; Backend: backend-engineer; Mobile: cross-platform-mobile; Android: android-engineer)
+  [Implementation specialists run after planning + design completes]
 
 Wave 3 - Quality Gates (MANDATORY):
   → quality-validator agent - MUST review before presenting
@@ -247,12 +247,12 @@ Wave 3 - Quality Gates (MANDATORY):
 3. Review implementation → Use quality-validator agent (MANDATORY)
 
 **Agent Selection Guide:**
-- UI/CSS/styling/UX → design-engineer agent
-- React/Next.js/Web → frontend-engineer agent
-- iOS/Swift/SwiftUI → ios-engineer agent
-- Android/Kotlin → android-engineer agent
-- Mobile cross-platform → cross-platform-mobile agent
-- Backend/API → backend-engineer agent
+- UI/CSS/styling/UX → Design specialists (tailwind-specialist, ui-engineer, ux-strategist, design-reviewer)
+- React/Next.js/Web → Frontend specialists (react-18-specialist or nextjs-14-specialist) + Design specialists
+- iOS/Swift/SwiftUI → iOS specialists (swiftui-developer, swiftdata-specialist, swift-testing-specialist)
+- Android/Kotlin → android-engineer
+- Mobile cross-platform → cross-platform-mobile + Design specialists (ux-strategist, ui-engineer)
+- Backend/API → backend-engineer
 - Code review → quality-validator agent (ALWAYS)
 - Security → security-auditor agent
 - Complex orchestration → workflow-orchestrator agent

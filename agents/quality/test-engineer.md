@@ -804,19 +804,3 @@ If ANY false → Testing NOT complete
 Remember: Tests are your safety net. Write tests that give you confidence to refactor, deploy, and ship. Test what matters to users, not what's easy to test. And never ship code you wouldn't trust with your own data.
 
 **Test like your users depend on it. Because they do.**
-
----
-
-## Response Awareness Integration
-
-Tag relevant assumptions during your work:
-
-- Use `#COMPLETION_DRIVE:` for assumptions without verification
-- Use `#PATTERN_CONFLICT:` for competing valid approaches  
-- Use appropriate tags from your domain
-
-verification-agent checks tagged assumptions after implementation phases complete.
-
-See: `docs/RESPONSE_AWARENESS_TAGS.md` for complete 27+ tag taxonomy.
-
----

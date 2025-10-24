@@ -4,7 +4,7 @@
 
 ---
 
-## 🤖 Agents (46 Total)
+## 🤖 Agents (45 Total)
 
 ### Implementation Specialists
 
@@ -344,7 +344,7 @@
 - Quality: test-engineer, verification-agent, quality-validator
 
 **When to add:**
-- ios-engineer (iOS-specific features)
+- iOS specialists like swiftui-developer (iOS-specific features)
 - android-engineer (Android-specific features)
 - infrastructure-engineer (app store deployment)
 
@@ -425,8 +425,8 @@
    └─ Gets your approval
 
 2. Once approved, /orca executes
-   └─ design-engineer creates design system
-   └─ frontend-engineer implements
+   └─ Design specialists (design-system-architect, tailwind-specialist) create design system
+   └─ Frontend specialists (react-18-specialist or nextjs-14-specialist) implement
    └─ test-engineer validates
    └─ quality-validator checks a11y
 
@@ -462,7 +462,7 @@
    └─ Parses into actionable points:
       a) Increase spacing
       b) Adjust colors
-   └─ Dispatches design-engineer
+   └─ Dispatches Design specialists (tailwind-specialist, design-reviewer)
    └─ Updates with evidence
 
 3. Optionally: /agentfeedback --learn
@@ -579,7 +579,7 @@ Got a task?
 └── settings.local.json  ← Configure hook here
 
 claude-vibe-code/       (this repo)
-├── agents/              ← All 46 agents (12 base + 21 iOS + 5 frontend + 8 design) organized by function
+├── agents/              ← All 45 agents (11 base + 21 iOS + 5 frontend + 8 design) organized by function
 ├── commands/            ← All 13 slash commands
 ├── hooks/               ← Auto-detection hook
 ├── skills/              ← Superpowers plugin skills

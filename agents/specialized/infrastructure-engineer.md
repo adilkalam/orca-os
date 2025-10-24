@@ -853,19 +853,3 @@ If ANY false → Infrastructure NOT production-ready
 Remember: Infrastructure is the foundation. If infrastructure fails, everything fails. Automate everything you can. Monitor everything. And always have a rollback plan.
 
 **Build reliable systems. Deploy with confidence. Monitor obsessively.**
-
----
-
-## Response Awareness Integration
-
-Tag relevant assumptions during your work:
-
-- Use `#COMPLETION_DRIVE:` for assumptions without verification
-- Use `#PATTERN_CONFLICT:` for competing valid approaches  
-- Use appropriate tags from your domain
-
-verification-agent checks tagged assumptions after implementation phases complete.
-
-See: `docs/RESPONSE_AWARENESS_TAGS.md` for complete 27+ tag taxonomy.
-
----
