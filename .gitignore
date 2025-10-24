@@ -26,11 +26,8 @@ archive/originals/awesome-swift-claude-code-subagents/
 mcp/chrome-devtools-mcp/
 mcp/xcodebuildmcp/
 
-# Implementation (not ready for public GitHub yet)
-agents/
-commands/
-hooks/
-!obdn-design-automation/enforcement/hooks/
+# Separate project (not part of claude-vibe-code)
+obdn-design-automation/
 
 # Internal documentation and logs
 .claude-session-context.md
