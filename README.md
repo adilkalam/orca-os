@@ -855,17 +855,17 @@ For detailed agent specifications, see the `agents/` directory.
         └────┬─────┘  └────┬─────┘  └────┬─────┘
              │             │             │
              │             │             │
-    ┌────────┴─────┐  ┌────┴─────┐  ┌──┴──┐
-    │ design-sys   │  │ UI       │  │ ver │
-    │ ux-strat     │  │ Data     │  │ qua │
-    │ visual       │  │ Network  │  │     │
-    │ tailwind     │  │ Arch     │  │     │
-    │ a11y         │  │ Testing  │  │     │
-    │ reviewer*    │  │ Quality  │  │     │
-    │              │  │ DevOps   │  │     │
-    │              │  │ Perf     │  │     │
-    │              │  │ Security │  │     │
-    └──────────────┘  └──────────┘  └─────┘
+    ┌────────┴─────┐  ┌────────┴─────┐  ┌────────┴─────┐
+    │ design-sys   │  │ UI           │  │ verification │
+    │ ux-strat     │  │ Data         │  │ quality      │
+    │ visual       │  │ Network      │  │              │
+    │ tailwind     │  │ Arch         │  │              │
+    │ a11y         │  │ Testing      │  │              │
+    │ reviewer*    │  │ Quality      │  │              │
+    │              │  │ DevOps       │  │              │
+    │              │  │ Perf         │  │              │
+    │              │  │ Security     │  │              │
+    └──────────────┘  └──────────────┘  └──────────────┘
          OPTIONAL        CHOOSE       MANDATORY
          (design         2-10 FROM    (verification-agent
           reviewer       21 TOTAL      quality-validator)
@@ -894,19 +894,19 @@ For detailed agent specifications, see the `agents/` directory.
         (Calculator)  (Notes App)   (Social)      (Banking)
             8            10            14            16+
             │            │             │             │
-     ┌──────┴───┐  ┌─────┴────┐  ┌─────┴────┐  ┌─────┴──────┐
-     │          │  │          │  │          │  │            │
-     │ Plan: 2  │  │ Plan: 2  │  │ Plan: 2  │  │ Plan:  2   │
-     │ iOS:  2  │  │ iOS:  4  │  │ iOS:  7  │  │ iOS:  10+  │
-     │ Design:1 │  │ Design:1 │  │ Design:2 │  │ Design: 2  │
-     │ Qual: 2  │  │ Qual: 2  │  │ Qual: 2  │  │ Qual:  2   │
-     │          │  │          │  │          │  │            │
-     │ SwiftUI  │  │ + Data   │  │ + Net    │  │ + Security │
-     │ Testing  │  │ + State  │  │ + TCA    │  │ + DevOps   │
-     │          │  │ + Review │  │ + UITest │  │ + Perf     │
-     │          │  │          │  │ + Perf   │  │ + PenTest  │
-     │          │  │          │  │ + Vis    │  │ + Advanced │
-     └──────────┘  └──────────┘  └──────────┘  └────────────┘
+     ┌──────┴────┐  ┌──────┴────┐  ┌──────┴────┐  ┌──────┴────┐
+     │           │  │           │  │           │  │           │
+     │ Plan: 2   │  │ Plan: 2   │  │ Plan: 2   │  │ Plan:  2  │
+     │ iOS:  2   │  │ iOS:  4   │  │ iOS:  7   │  │ iOS:  10+ │
+     │ Design: 1 │  │ Design: 1 │  │ Design: 2 │  │ Design: 2 │
+     │ Qual: 2   │  │ Qual: 2   │  │ Qual: 2   │  │ Qual:  2  │
+     │           │  │           │  │           │  │           │
+     │ SwiftUI   │  │ + Data    │  │ + Net     │  │ + Security│
+     │ Testing   │  │ + State   │  │ + TCA     │  │ + DevOps  │
+     │           │  │ + Review  │  │ + UITest  │  │ + Perf    │
+     │           │  │           │  │ + Perf    │  │ + PenTest │
+     │           │  │           │  │ + Vis     │  │ + Advanced│
+     └───────────┘  └───────────┘  └───────────┘  └───────────┘
 ```
 
 **Examples**:
