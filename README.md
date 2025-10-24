@@ -224,6 +224,31 @@ See `docs/METACOGNITIVE_TAGS.md` for complete documentation.
 
 **Active agents: 12 base + 21 iOS + 5 frontend + 8 design = 46 total**
 
+```
+                    AGENT ECOSYSTEM (46 Total)
+                            │
+        ┌───────────────────┼───────────────────┐
+        │                   │                   │
+        ▼                   ▼                   ▼
+   BASE AGENTS      iOS SPECIALISTS    FRONTEND/DESIGN
+     (12)               (21)            (5 + 8 = 13)
+        │                   │                   │
+        │                   │                   │
+┌───────┴────────┐  ┌───────┴────────┐  ┌──────┴──────┐
+│                │  │                │  │             │
+│ Planning (2)   │  │ UI (3)         │  │ React (2)   │
+│ Implementation │  │ Data (2)       │  │ State (1)   │
+│   Backend (1)  │  │ Network (3)    │  │ Perf (1)    │
+│   Mobile (2)   │  │ Arch (3)       │  │ Test (1)    │
+│   Android (1)  │  │ Testing (3)    │  │             │
+│ Quality (3)    │  │ Quality (2)    │  │ Design (8)  │
+│ Specialized (2)│  │ DevOps (2)     │  │   Found (2) │
+│ Orchestration  │  │ Perf (1)       │  │   Visual(1) │
+│   (1)          │  │ Security (2)   │  │   Impl (3)  │
+│                │  │                │  │   QA (2)    │
+└────────────────┘  └────────────────┘  └─────────────┘
+```
+
 All agents live in `agents/` and are organized by function:
 
 #### Implementation Specialists (`agents/implementation/`)
@@ -363,6 +388,84 @@ User runs app: 💥 File doesn't exist, app crashes
 4. **Typhren:** Tag-based verification achieved 99.2% accuracy in production
 
 ---
+
+## Complete Workflow Visualization
+
+```
+                    USER REQUEST: "Add dark mode"
+                              │
+                              ▼
+                    ┌─────────────────┐
+                    │  AUTO-DETECT    │
+                    │  Project Type   │
+                    └────────┬────────┘
+                             │
+                             ▼
+              ┌──────────────────────────┐
+              │   LOAD AGENT TEAM        │
+              │   iOS: 8-16 agents       │
+              │   Frontend: 10-15 agents │
+              │   Mobile: 10-13 agents   │
+              └───────────┬──────────────┘
+                          │
+          ┌───────────────┼───────────────┐
+          ▼               ▼               ▼
+    ┌─────────┐    ┌─────────┐    ┌─────────┐
+    │ PHASE 1 │    │ PHASE 2 │    │ PHASE 3 │
+    │ PLANNING│    │ DESIGN  │    │  CODE   │
+    └────┬────┘    └────┬────┘    └────┬────┘
+         │              │              │
+         │              │              │
+    requirement    design-system    Implementation
+    analyst        architect        agents (parallel)
+         │              │              │
+    system-        ux-strategist    + Meta tags
+    architect           │              │
+         │         visual-design       │
+         └──────────────┴──────────────┘
+                        │
+                        ▼
+              ┌─────────────────┐
+              │    PHASE 4      │
+              │  VERIFICATION   │ ← NEW: Response Awareness
+              └────────┬────────┘
+                       │
+                Runs actual commands:
+                ls, grep, build, test
+                       │
+              ┌────────┴────────┐
+              │                 │
+              ▼                 ▼
+         Files exist?      Tests pass?
+              │                 │
+              └────────┬────────┘
+                       │
+              ┌────────┴────────┐
+              │                 │
+              ▼                 ▼
+          ✅ PASS          ❌ FAIL
+              │                 │
+              │                 └──→ BLOCK, report issues
+              │
+              ▼
+    ┌──────────────────┐
+    │    PHASE 5       │
+    │ QUALITY-VALIDATOR│
+    └────────┬─────────┘
+             │
+    Evidence validation:
+    - Screenshots ✓
+    - Tests ✓
+    - Build ✓
+    - Requirements ✓
+             │
+             ▼
+    ┌────────────────┐
+    │  DELIVERY TO   │
+    │     USER       │
+    │ + Evidence     │
+    └────────────────┘
+```
 
 ## Real-World Examples
 
@@ -755,6 +858,44 @@ Build Changes:
 **Total System: 46 Agents** (12 base + 21 iOS + 5 frontend + 8 design)
 
 **iOS Team**: Dynamic composition (8-16 agents) based on app complexity:
+
+```
+            iOS TEAM COMPOSITION (Dynamic 8-16 Agents)
+
+┌─────────────────────────────────────────────────────────────┐
+│                     CORE PLANNING (2)                       │
+│         requirement-analyst → system-architect              │
+│                            ↓                                │
+│              (Analyzes complexity, recommends specialists)  │
+└────────────────────────────┬────────────────────────────────┘
+                             │
+                ┌────────────┼────────────┐
+                │            │            │
+                ▼            ▼            ▼
+        ┌──────────┐  ┌──────────┐  ┌──────────┐
+        │ DESIGN   │  │   iOS    │  │ QUALITY  │
+        │ (1-2)    │  │ (2-10)   │  │  (2)     │
+        └────┬─────┘  └────┬─────┘  └────┬─────┘
+             │             │             │
+             │             │             │
+    ┌────────┴─────┐  ┌────┴─────┐  ┌──┴──┐
+    │ design-sys   │  │ UI       │  │ ver │
+    │ ux-strat     │  │ Data     │  │ qua │
+    │ visual       │  │ Network  │  │     │
+    │ tailwind     │  │ Arch     │  │     │
+    │ a11y         │  │ Testing  │  │     │
+    │ reviewer*    │  │ Quality  │  │     │
+    │              │  │ DevOps   │  │     │
+    │              │  │ Perf     │  │     │
+    │              │  │ Security │  │     │
+    └──────────────┘  └──────────┘  └─────┘
+         OPTIONAL        CHOOSE       MANDATORY
+         (design         2-10 FROM    (verification-agent
+          reviewer       21 TOTAL      quality-validator)
+          MANDATORY      SPECIALISTS
+          for prod)
+```
+
 - **Core Planning (2)**: requirement-analyst, system-architect
 - **Design Specialists (1-2)**: design-system-architect, ux-strategist, visual-designer, tailwind-specialist, accessibility-specialist, design-reviewer (MANDATORY for production)
 - **iOS Specialists (2-10)**: Chosen from 21 specialists:
@@ -768,6 +909,28 @@ Build Changes:
   - Performance & Security: ios-performance-engineer, ios-security-tester, ios-penetration-tester
 
 - **Quality Gates (2)**: verification-agent (MANDATORY), quality-validator (MANDATORY)
+
+**Team Scaling by App Complexity:**
+
+```
+         SIMPLE       MEDIUM        COMPLEX       ENTERPRISE
+        (Calculator)  (Notes App)   (Social)      (Banking)
+            8            10            14            16+
+            │            │             │             │
+     ┌──────┴───┐  ┌────┴────┐  ┌────┴────┐  ┌─────┴─────┐
+     │          │  │         │  │         │  │           │
+     │ Plan: 2  │  │ Plan: 2 │  │ Plan: 2 │  │ Plan:  2  │
+     │ iOS:  2  │  │ iOS:  4 │  │ iOS:  7 │  │ iOS:  10+ │
+     │ Design:1 │  │ Design:1│  │ Design:2│  │ Design: 2 │
+     │ Qual: 2  │  │ Qual: 2 │  │ Qual: 2 │  │ Qual:  2  │
+     │          │  │         │  │         │  │           │
+     │ SwiftUI  │  │ + Data  │  │ + Net   │  │ + Security│
+     │ Testing  │  │ + State │  │ + TCA   │  │ + DevOps  │
+     │          │  │ + Review│  │ + UITest│  │ + Perf    │
+     │          │  │         │  │ + Perf  │  │ + PenTest │
+     │          │  │         │  │ + Vis   │  │ + Advanced│
+     └──────────┘  └─────────┘  └─────────┘  └───────────┘
+```
 
 **Examples**:
 - Simple app (calculator): 8 agents (planning 2 + iOS 2 + design 1 + quality 2)
