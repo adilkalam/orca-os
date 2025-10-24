@@ -85,7 +85,7 @@ On every session start, the system detects your project type:
    *.xcodeproj   package.json  requirements.txt
         │            │            │
         ▼            ▼            ▼
-    iOS Team    Frontend Team  Backend Team
+ iOS Team (7)  Frontend Team (7)  Backend Team (6)
         │            │            │
         └────────────┴────────────┘
                      │
@@ -94,11 +94,11 @@ On every session start, the system detects your project type:
 ```
 
 **Supported Project Types:**
-- iOS/Swift → ios-engineer, design-engineer
-- Next.js/React → frontend-engineer, design-engineer
-- Python → backend-engineer, test-engineer
-- Flutter/React Native → cross-platform-mobile, design-engineer
-- Unknown → system-architect, test-engineer (general purpose)
+- iOS/Swift → 7-agent team (requirement-analyst, system-architect, design-engineer, ios-engineer, test-engineer, verification-agent, quality-validator)
+- Next.js/React → 7-agent team (same structure, frontend-engineer instead of ios-engineer)
+- Python/Backend → 6-agent team (skips design-engineer unless admin UI)
+- Flutter/React Native → 7-agent team (cross-platform-mobile instead of ios-engineer)
+- Unknown → General purpose team (system-architect, test-engineer, verification-agent, quality-validator)
 
 ### 2. Smart Request Routing
 
@@ -220,7 +220,9 @@ See `docs/METACOGNITIVE_TAGS.md` for complete documentation.
 
 ## What's Included
 
-### 🤖 Agents (13 Total)
+### 🤖 Agents (46 Total)
+
+**Active agents: 12 base + 21 iOS + 5 frontend + 8 design = 46 total**
 
 All agents live in `agents/` and are organized by function:
 
@@ -245,7 +247,7 @@ All agents live in `agents/` and are organized by function:
 
 | Agent | Expertise | File |
 |-------|-----------|------|
-| **verification-agent** | 🆕 Meta-cognitive tag verification, runs actual grep/ls commands, blocks on failures | `verification-agent.md` |
+| **verification-agent** | 🆕 Meta-cognitive tag verification, runs actual grep/ls commands, blocks on failures (part of base team for all projects) | `verification-agent.md` |
 | **test-engineer** | Unit, integration, E2E, security, performance testing | `test-engineer.md` |
 | **quality-validator** | Final validation (post-verification), requirements compliance, quality scoring | `quality-validator.md` |
 
@@ -746,6 +748,48 @@ Build Changes:
 
 ---
 
+## Team Compositions
+
+### iOS Development
+
+**Total System: 46 Agents** (12 base + 21 iOS + 5 frontend + 8 design)
+
+**iOS Team**: Dynamic composition (8-16 agents) based on app complexity:
+- **Core Planning (2)**: requirement-analyst, system-architect
+- **Design Specialists (1-2)**: design-system-architect, ux-strategist, visual-designer, tailwind-specialist, accessibility-specialist, design-reviewer (MANDATORY for production)
+- **iOS Specialists (2-10)**: Chosen from 21 specialists:
+  - UI: swiftui-developer, uikit-specialist, ios-accessibility-tester
+  - Data: swiftdata-specialist, coredata-expert
+  - Networking: urlsession-expert, combine-networking, ios-api-designer
+  - Architecture: state-architect, tca-specialist, observation-specialist
+  - Testing: swift-testing-specialist, xctest-pro, ui-testing-expert
+  - Quality: swift-code-reviewer, ios-debugger
+  - DevOps: xcode-cloud-expert, fastlane-specialist
+  - Performance & Security: ios-performance-engineer, ios-security-tester, ios-penetration-tester
+
+- **Quality Gates (2)**: verification-agent (MANDATORY), quality-validator (MANDATORY)
+
+**Examples**:
+- Simple app (calculator): 8 agents (planning 2 + iOS 2 + design 1 + quality 2)
+- Medium app (notes): 10 agents (planning 2 + iOS 4 + design 1 + quality 2)
+- Complex app (social network): 14 agents (planning 2 + iOS 7 + design 2 + quality 2)
+- Enterprise app (banking): 16+ agents (planning 2 + iOS 10+ + design 2 + quality 2)
+
+**Capabilities**:
+- Swift 6.2 native patterns (@Observable, approachable concurrency)
+- Modern architecture (state-first, not MVVM)
+- SwiftData (iOS 17+) and Core Data (iOS 16 and earlier)
+- Swift Testing framework (modern) and XCTest (legacy)
+- Performance profiling with Instruments
+- Security testing with CryptoKit, Keychain, biometric auth
+- CI/CD with Xcode Cloud and Fastlane
+- Accessibility compliance (WCAG 2.1 AA)
+- iOS simulator integration (96-99% token efficiency)
+
+See `QUICK_REFERENCE.md` for full specialist list and `/orca` for team composition logic.
+
+---
+
 ## Advanced Usage
 
 ### Custom Project Detection
@@ -797,24 +841,45 @@ Remove the hook from `.claude/settings.local.json`:
 claude-vibe-code/
 ├── README.md                          # You are here
 │
-├── agents/                            # All active agents (12 total)
+├── agents/                            # All active agents (46 total)
 │   ├── implementation/                # 5 implementation specialists
-│   │   ├── frontend-engineer.md
+│   │   ├── frontend-engineer.md       # (DEPRECATED - use frontend-specialists/)
 │   │   ├── backend-engineer.md
-│   │   ├── ios-engineer.md
+│   │   ├── ios-engineer.md            # (DEPRECATED - use ios-specialists/)
 │   │   ├── android-engineer.md
 │   │   └── cross-platform-mobile.md
 │   ├── planning/                      # 2 planning specialists
 │   │   ├── requirement-analyst.md
 │   │   └── system-architect.md
-│   ├── quality/                       # 2 quality specialists
+│   ├── quality/                       # 3 quality specialists
 │   │   ├── test-engineer.md
+│   │   ├── verification-agent.md       # NEW: Response Awareness verification
 │   │   └── quality-validator.md
 │   ├── specialized/                   # 2 specialized agents
-│   │   ├── design-engineer.md
+│   │   ├── design-engineer.md         # (DEPRECATED - use design-specialists/)
 │   │   └── infrastructure-engineer.md
-│   └── orchestration/                 # 1 orchestrator
-│       └── workflow-orchestrator.md
+│   ├── orchestration/                 # 1 orchestrator
+│   │   └── workflow-orchestrator.md
+│   ├── ios-specialists/               # 21 iOS specialists (NEW)
+│   │   ├── ui/                        # swiftui-developer, uikit-specialist, ios-accessibility-tester
+│   │   ├── data/                      # swiftdata-specialist, coredata-expert
+│   │   ├── networking/                # urlsession-expert, combine-networking, ios-api-designer
+│   │   ├── architecture/              # state-architect, tca-specialist, observation-specialist
+│   │   ├── testing/                   # swift-testing-specialist, xctest-pro, ui-testing-expert
+│   │   ├── quality/                   # swift-code-reviewer, ios-debugger
+│   │   ├── devops/                    # xcode-cloud-expert, fastlane-specialist
+│   │   ├── performance/               # ios-performance-engineer
+│   │   └── security/                  # ios-security-tester, ios-penetration-tester
+│   ├── frontend-specialists/          # 5 frontend specialists (NEW)
+│   │   ├── frameworks/                # react-18-specialist, nextjs-14-specialist
+│   │   ├── state/                     # state-management-specialist
+│   │   ├── performance/               # frontend-performance-specialist
+│   │   └── testing/                   # frontend-testing-specialist
+│   └── design-specialists/            # 8 design specialists (NEW)
+│       ├── foundation/                # design-system-architect, ux-strategist
+│       ├── visual/                    # visual-designer
+│       ├── implementation/            # tailwind-specialist, css-specialist, ui-engineer
+│       └── quality/                   # accessibility-specialist, design-reviewer
 │
 ├── commands/                          # All slash commands (13 total)
 │   ├── orca.md                       # Multi-agent orchestration
@@ -854,10 +919,11 @@ claude-vibe-code/
 ```
 
 **Key Directories:**
-- `agents/` - Copy to `~/.claude/agents/` for active use
-- `commands/` - Copy to `~/.claude/commands/` for slash commands
+- `agents/` - Copy to `~/.claude/agents/` for active use (46 total agents)
+- `commands/` - Copy to `~/.claude/commands/` for slash commands (13 total)
 - `hooks/` - Copy to `~/.claude/hooks/` for auto-detection
-- `archive/` - Historical/deprecated files (don't copy)
+- `skills/` - Optional: Copy to `~/.claude/skills/` for superpowers skills
+- `archive/` - Historical/deprecated files (internal only, not for deployment)
 
 ---
 
