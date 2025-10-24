@@ -615,7 +615,7 @@ Add to your `.claude/settings.local.json`:
 }
 ```
 
-### 4. Install agents and commands
+### 4. Install agents, commands, and scripts
 
 ```bash
 # Copy all agents (organized by function)
@@ -623,6 +623,9 @@ cp -r agents/* ~/.claude/agents/
 
 # Copy all commands
 cp commands/*.md ~/.claude/commands/
+
+# Copy custom scripts (statusline, design tools)
+cp -r scripts/* ~/.claude/scripts/
 
 # Optional: Copy skills
 cp -r skills/* ~/.claude/skills/
