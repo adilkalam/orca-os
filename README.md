@@ -741,33 +741,33 @@ Three mandatory validation checkpoints:
 
 ```
 ┌─ Quality Gate 1: Planning (95% threshold) ─────────────┐
-│ ☑ Requirements documented?                            │
-│ ☑ Architecture designed?                              │
-│ ☑ APIs specified?                                     │
-│ ☑ User stories clear?                                 │
-│ ☑ Tech stack decided?                                 │
+│ ☑ Requirements documented?                             │
+│ ☑ Architecture designed?                               │
+│ ☑ APIs specified?                                      │
+│ ☑ User stories clear?                                  │
+│ ☑ Tech stack decided?                                  │
 │                                                        │
-│ If < 95%: Loop back with specific gaps identified     │
+│ If < 95%: Loop back with specific gaps identified      │
 └────────────────────────────────────────────────────────┘
 
 ┌─ Quality Gate 2: Implementation (80% threshold) ───────┐
-│ ☑ Code matches specs?                                 │
-│ ☑ Tests written?                                      │
-│ ☑ Tests passing?                                      │
-│ ☑ Build succeeds?                                     │
-│ ☑ No critical bugs?                                   │
+│ ☑ Code matches specs?                                  │
+│ ☑ Tests written?                                       │
+│ ☑ Tests passing?                                       │
+│ ☑ Build succeeds?                                      │
+│ ☑ No critical bugs?                                    │
 │                                                        │
-│ If < 80%: Identify failures, re-dispatch agents       │
+│ If < 80%: Identify failures, re-dispatch agents        │
 └────────────────────────────────────────────────────────┘
 
 ┌─ Quality Gate 3: Production (85% threshold) ───────────┐
-│ ☑ Security validated?                                 │
-│ ☑ Performance acceptable?                             │
-│ ☑ Accessibility compliant?                            │
-│ ☑ Documentation complete?                             │
-│ ☑ Evidence provided?                                  │
+│ ☑ Security validated?                                  │
+│ ☑ Performance acceptable?                              │
+│ ☑ Accessibility compliant?                             │
+│ ☑ Documentation complete?                              │
+│ ☑ Evidence provided?                                   │
 │                                                        │
-│ If < 85%: Block deployment, fix issues                │
+│ If < 85%: Block deployment, fix issues                 │
 └────────────────────────────────────────────────────────┘
 ```
 
@@ -896,19 +896,19 @@ For detailed agent specifications, see the `agents/` directory.
         (Calculator)  (Notes App)   (Social)      (Banking)
             8            10            14            16+
             │            │             │             │
-     ┌──────┴───┐  ┌────┴────┐  ┌────┴────┐  ┌─────┴─────┐
-     │          │  │         │  │         │  │           │
-     │ Plan: 2  │  │ Plan: 2 │  │ Plan: 2 │  │ Plan:  2  │
-     │ iOS:  2  │  │ iOS:  4 │  │ iOS:  7 │  │ iOS:  10+ │
-     │ Design:1 │  │ Design:1│  │ Design:2│  │ Design: 2 │
-     │ Qual: 2  │  │ Qual: 2 │  │ Qual: 2 │  │ Qual:  2  │
-     │          │  │         │  │         │  │           │
-     │ SwiftUI  │  │ + Data  │  │ + Net   │  │ + Security│
-     │ Testing  │  │ + State │  │ + TCA   │  │ + DevOps  │
-     │          │  │ + Review│  │ + UITest│  │ + Perf    │
-     │          │  │         │  │ + Perf  │  │ + PenTest │
-     │          │  │         │  │ + Vis   │  │ + Advanced│
-     └──────────┘  └─────────┘  └─────────┘  └───────────┘
+     ┌──────┴───┐  ┌─────┴────┐  ┌─────┴────┐  ┌─────┴──────┐
+     │          │  │          │  │          │  │            │
+     │ Plan: 2  │  │ Plan: 2  │  │ Plan: 2  │  │ Plan:  2   │
+     │ iOS:  2  │  │ iOS:  4  │  │ iOS:  7  │  │ iOS:  10+  │
+     │ Design:1 │  │ Design:1 │  │ Design:2 │  │ Design: 2  │
+     │ Qual: 2  │  │ Qual: 2  │  │ Qual: 2  │  │ Qual:  2   │
+     │          │  │          │  │          │  │            │
+     │ SwiftUI  │  │ + Data   │  │ + Net    │  │ + Security │
+     │ Testing  │  │ + State  │  │ + TCA    │  │ + DevOps   │
+     │          │  │ + Review │  │ + UITest │  │ + Perf     │
+     │          │  │          │  │ + Perf   │  │ + PenTest  │
+     │          │  │          │  │ + Vis    │  │ + Advanced │
+     └──────────┘  └──────────┘  └──────────┘  └────────────┘
 ```
 
 **Examples**:
