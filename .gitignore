@@ -37,7 +37,7 @@ QA_AUDIT_*.md
 archive/
 examples/
 skills/
-docs/
+# docs/ - now tracked (contains permanent system documentation)
 qa-logs/
 ::archive/
 
