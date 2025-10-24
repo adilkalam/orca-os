@@ -1,0 +1,12 @@
+{
+  "name": "eslint-plugin-design-system",
+  "version": "1.0.0",
+  "description": "Universal ESLint plugin for design system enforcement",
+  "main": "index.js",
+  "keywords": ["eslint", "eslintplugin", "design-system", "hardcoded-colors"],
+  "author": "OBDN Design Automation",
+  "license": "MIT",
+  "peerDependencies": {
+    "eslint": ">=7.0.0"
+  }
+}

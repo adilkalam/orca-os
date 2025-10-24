@@ -1,0 +1,854 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "OBDN Design System Rules v3.0",
+  "description": "Structured design system rules for automated compliance checking and agent training",
+  "version": "3.0.0",
+  "lastUpdated": "2025-01-24",
+
+  "instant_fail_rules": {
+    "description": "Violations that result in immediate rejection",
+    "rules": [
+      {
+        "id": "rule_9d_bento_grid",
+        "name": "Bento Grid Structural Integrity",
+        "severity": "INSTANT_FAIL",
+        "description": "Cards must be direct children of .bento-grid with exact child count matching CSS grid rows",
+        "requirements": [
+          "All cards are direct children of .bento-grid container",
+          "NO wrapper divs (.bentoRow, .bento-content, etc.)",
+          "Card sizing via classes (.bento-small, .bento-medium, etc.)",
+          "Cards of same type use IDENTICAL grid-template-rows",
+          "Flexible spacer row (1fr) before footer",
+          "TSX children count matches CSS grid rows EXACTLY",
+          "Empty spacer is <div></div> NOT <div className=\"spacer\">"
+        ],
+        "violation_patterns": [
+          ".bento-grid > *:not(.bento-card)",
+          ".bento-grid .bentoRow",
+          ".bento-grid .bento-content",
+          "<div className=\"spacer\">",
+          "grid-template-rows count != children count"
+        ],
+        "correct_example": {
+          "css": ".bento-small {\n  display: grid;\n  grid-template-rows: auto auto 1fr auto;\n}",
+          "tsx": "<div className=\"bento-card bento-small\">\n  <div>{/* Header */}</div>\n  <div>{/* Description */}</div>\n  <div>{/* Spacer */}</div>\n  <div>{/* Footer */}</div>\n</div>"
+        }
+      },
+      {
+        "id": "domaine_minimum_24px",
+        "name": "Domaine Sans Display Minimum Size",
+        "severity": "INSTANT_FAIL",
+        "description": "Domaine Sans Display must never be used below 24px - it becomes illegible",
+        "requirements": [
+          "Minimum size: 24px",
+          "Usage: Card titles ONLY",
+          "Weights: Thin 200 or Light 300",
+          "Never for body text, paragraphs, or flow diagrams"
+        ],
+        "violation_patterns": [
+          "font-family.*Domaine.*font-size.*(1[0-9]|2[0-3])px",
+          "className.*domaine.*text-(xs|sm|base|lg)"
+        ],
+        "allowed_sizes": [24, 32, 40, 48, 64, 72, 96, 280]
+      },
+      {
+        "id": "supreme_labels_regular_400",
+        "name": "Supreme LL Labels Weight Restriction",
+        "severity": "INSTANT_FAIL",
+        "description": "Supreme LL labels must use Regular 400 weight and NEVER italic",
+        "requirements": [
+          "Labels: Supreme LL Regular 400",
+          "Size: 11-14px",
+          "Transform: UPPERCASE",
+          "Letter-spacing: 0.12em-0.2em",
+          "Style: NEVER italic",
+          "Weight: NEVER Light 300, NEVER Medium 500"
+        ],
+        "violation_patterns": [
+          "text-transform.*uppercase.*font-weight.*(?!400)",
+          "label.*font-style.*italic",
+          "uppercase.*supreme.*(?!font-weight.*400)"
+        ]
+      },
+      {
+        "id": "css_variables_mandatory",
+        "name": "CSS Variables Required",
+        "severity": "INSTANT_FAIL",
+        "description": "All colors and spacing must use CSS variables - NO hardcoded values",
+        "requirements": [
+          "Colors: var(--color-*)",
+          "Spacing: var(--space-*)",
+          "Radius: var(--radius-*)",
+          "Transitions: var(--transition-*)"
+        ],
+        "violation_patterns": [
+          "background.*rgba?\\(",
+          "color.*#[0-9a-fA-F]{3,8}(?!.*var\\()",
+          "padding.*[0-9]+px(?!.*var\\()",
+          "margin.*[0-9]+px(?!.*var\\()",
+          "gap.*[0-9]+px(?!.*var\\()"
+        ],
+        "exceptions": [
+          "opacity values (standalone)",
+          "transform values",
+          "micro-adjustments (1-2px optical corrections)"
+        ]
+      },
+      {
+        "id": "spacing_tokens_only",
+        "name": "Spacing Token Enforcement",
+        "severity": "INSTANT_FAIL",
+        "description": "Only approved spacing tokens allowed - no random pixel values",
+        "requirements": [
+          "Use var(--space-1) through var(--space-64)",
+          "No arbitrary values: 17px, 23px, 35px, etc.",
+          "Exceptions: 1-2px optical corrections only"
+        ],
+        "allowed_values": [4, 8, 12, 16, 20, 24, 32, 40, 48, 64, 80, 96, 120, 144, 160, 256],
+        "violation_patterns": [
+          "padding.*(?<!var\\(--space-)(?:5|6|7|9|1[01345789]|2[1235789]|3[013-9])px",
+          "margin.*(?<!var\\(--space-)(?:5|6|7|9|1[01345789]|2[1235789]|3[013-9])px",
+          "gap.*(?<!var\\(--space-)(?:5|6|7|9|1[01345789]|2[1235789]|3[013-9])px"
+        ]
+      }
+    ]
+  },
+
+  "typography": {
+    "fonts": {
+      "domaine_sans_display": {
+        "family": "Domaine Sans Display",
+        "weights": [200, 300],
+        "weight_names": ["Thin 200", "Light 300"],
+        "usage": "CARD HEADINGS/TITLES ONLY",
+        "min_size": 24,
+        "allowed_sizes": [24, 32, 40, 48, 64, 72, 96, 280],
+        "forbidden_usage": ["body text", "paragraphs", "flow diagrams", "lists"],
+        "examples": ["Bento card titles", "Visual card titles", "Protocol card titles", "Page hero titles"]
+      },
+      "gt_pantheon_display": {
+        "family": "GT Pantheon Display",
+        "weights": [300, 400],
+        "weight_names": ["Light 300", "Regular 400"],
+        "usage": "TEXT HEADINGS in prose (non-card contexts) at 20px or larger",
+        "min_size": 20,
+        "context": "Section headings, article headers, subsection titles that are NOT inside cards",
+        "examples": ["'How It Works' heading above prose", "'Protocol Overview' section header"]
+      },
+      "gt_pantheon_text": {
+        "family": "GT Pantheon Text",
+        "weights": [300],
+        "weight_names": ["Light 300", "Light Italic 300", "Regular 400"],
+        "usage": {
+          "italic": {
+            "purpose": "Taglines, subtitles, notes, quotes",
+            "sizes": [14, 16, 18, 20, 24],
+            "style": "italic",
+            "examples": ["'Premium longevity peptides' tagline", "pull quotes", "card mechanisms"]
+          },
+          "regular": {
+            "purpose": "Text headings below 20px OR alternative body text",
+            "sizes": [16, 18],
+            "style": "regular (not italic)",
+            "note": "When used for body → Supreme LL becomes heading"
+          }
+        }
+      },
+      "supreme_ll": {
+        "family": "Supreme LL",
+        "weights": [300, 400, 500, 700],
+        "weight_names": ["Light 300", "Regular 400", "Medium 500", "Bold 700"],
+        "primary_usage": "ALL labels, descriptions, lists, MOST body content",
+        "default_weight": 400,
+        "light_300_rule": "Only for sizes 18px+",
+        "specifics": {
+          "labels": {
+            "size": [11, 12, 14],
+            "weight": 400,
+            "letter_spacing": "0.12em-0.2em",
+            "transform": "UPPERCASE",
+            "style": "NEVER italic"
+          },
+          "section_descriptions": {
+            "size": 20,
+            "weight": 400
+          },
+          "body_text": {
+            "size": [14, 16],
+            "weight": 400
+          },
+          "lists": {
+            "size": [14, 16],
+            "weight": 400
+          }
+        }
+      },
+      "brown_ll_mono": {
+        "family": "Brown LL Mono",
+        "weights": [400],
+        "weight_names": ["Regular 400"],
+        "usage": "ONLY technical specs and code",
+        "forbidden_usage": ["tables", "dosing data"],
+        "sizes": [14, 15],
+        "line_height": 1.7
+      }
+    },
+    "decision_tree": {
+      "description": "Font selection algorithm",
+      "questions": [
+        {
+          "q": "Is it a card title?",
+          "yes": {
+            "font": "Domaine Sans Display",
+            "size": ">=24px",
+            "weight": [200, 300]
+          },
+          "no": "next"
+        },
+        {
+          "q": "Is it a text heading in prose >=20px?",
+          "yes": {
+            "font": "GT Pantheon Display",
+            "size": ">=20px",
+            "weight": [300, 400]
+          },
+          "no": "next"
+        },
+        {
+          "q": "Is it a text heading in prose <20px?",
+          "yes": {
+            "font": "GT Pantheon Text",
+            "style": "regular",
+            "size": "16-18px"
+          },
+          "no": "next"
+        },
+        {
+          "q": "Is it a tagline/quote?",
+          "yes": {
+            "font": "GT Pantheon Text",
+            "style": "italic",
+            "size": "14-24px"
+          },
+          "no": "next"
+        },
+        {
+          "q": "Is it code/specs?",
+          "yes": {
+            "font": "Brown LL Mono",
+            "weight": 400,
+            "size": "14-15px"
+          },
+          "no": {
+            "font": "Supreme LL",
+            "weight": 400,
+            "size": "14-16px"
+          }
+        }
+      ]
+    },
+    "type_scale": {
+      "display": {
+        "font": "Domaine Sans Display",
+        "weight": 200,
+        "size": { "desktop": 280, "tablet": 80, "mobile": 48 },
+        "line_height": 1.05,
+        "letter_spacing": "0.08em",
+        "transform": "UPPERCASE",
+        "usage": "Logo, hero brand moments"
+      },
+      "h1": {
+        "font": "Domaine Sans Display",
+        "weight": 200,
+        "size": { "desktop": 72, "tablet": 56, "mobile": 36 },
+        "line_height": 1.1,
+        "usage": "Page titles, primary headlines"
+      },
+      "h2": {
+        "font": "GT Pantheon Text",
+        "weight": 300,
+        "style": "italic",
+        "size": { "desktop": 56, "tablet": 40, "mobile": 28 },
+        "line_height": 1.2,
+        "color": "rgba(255, 255, 255, 0.9)",
+        "usage": "Empathetic questions, emotional connection"
+      },
+      "h3": {
+        "font": "GT Pantheon Display",
+        "weight": 300,
+        "size": { "desktop": 36, "tablet": 28, "mobile": 20 },
+        "line_height": 1.3,
+        "usage": "Major section headers"
+      },
+      "h4": {
+        "font": "Domaine Sans Display",
+        "weight": 200,
+        "size": 24,
+        "line_height": 1.4,
+        "usage": "Card titles, subsection headers"
+      },
+      "heading_label": {
+        "font": "Supreme LL",
+        "weight": 400,
+        "size": 14,
+        "transform": "UPPERCASE",
+        "letter_spacing": "0.01em",
+        "color": "#C9A961",
+        "usage": "Section eyebrows, category labels"
+      },
+      "section_description": {
+        "font": "Supreme LL",
+        "weight": 400,
+        "size": 20,
+        "color": "rgba(255, 255, 255, 0.85)",
+        "usage": "Brief summaries below section titles"
+      },
+      "body_primary": {
+        "font": "Supreme LL",
+        "weight": 400,
+        "size": { "desktop": 16, "tablet": 16, "mobile": 14 },
+        "line_height": 1.6,
+        "letter_spacing": "0.03em",
+        "color": "rgba(255, 255, 255, 0.75)",
+        "max_width": "700px",
+        "usage": "Primary content, descriptions"
+      },
+      "body_alternative": {
+        "font": "GT Pantheon Text",
+        "weight": 300,
+        "size": { "desktop": 18, "tablet": 18, "mobile": 16 },
+        "line_height": 1.8,
+        "style": "regular (not italic)",
+        "color": "rgba(255, 255, 255, 0.75)",
+        "usage": "Alternative body for typographic variation"
+      },
+      "ui_label": {
+        "font": "Supreme LL",
+        "weight": 400,
+        "size": { "desktop": 14, "tablet": 14, "mobile": 12 },
+        "line_height": 1.3,
+        "letter_spacing": "0.08em",
+        "transform": "UPPERCASE",
+        "color": "rgba(255, 255, 255, 0.6)",
+        "usage": "Interface labels, form labels"
+      },
+      "technical_specs": {
+        "font": "Brown LL Mono",
+        "weight": 400,
+        "size": { "desktop": 15, "tablet": 14, "mobile": 14 },
+        "line_height": 1.7,
+        "color": "rgba(255, 255, 255, 0.85)",
+        "usage": "Code, technical specifications"
+      }
+    },
+    "bento_card_typography": {
+      "tagline": {
+        "font": "GT Pantheon Text",
+        "weight": 300,
+        "style": "italic",
+        "size": { "standard": 14, "mega": 16 },
+        "color": "rgba(255, 255, 255, 0.5)"
+      },
+      "titles": {
+        "small": { "font": "Domaine Sans Display", "weight": 200, "size": 32 },
+        "medium": { "font": "Domaine Sans Display", "weight": 200, "size": 40 },
+        "large": { "font": "Domaine Sans Display", "weight": 200, "size": 48 },
+        "hero": { "font": "Domaine Sans Display", "weight": 200, "size": 48 },
+        "mega": { "font": "Domaine Sans Display", "weight": 200, "size": 120 }
+      },
+      "mechanism": {
+        "font": "GT Pantheon Text",
+        "weight": 300,
+        "style": "italic",
+        "size": { "small": 14, "medium": 14, "large": 14, "hero": 16 },
+        "color": "#C9A961"
+      },
+      "body": {
+        "font": "Supreme LL",
+        "weight": 400,
+        "size": { "small": 14, "medium": 16, "large": 16, "hero": 16 },
+        "color": "rgba(255, 255, 255, 0.8)"
+      },
+      "labels": {
+        "font": "Supreme LL",
+        "weight": 400,
+        "size": 14,
+        "transform": "UPPERCASE",
+        "letter_spacing": "0.15em",
+        "color": "#C9A961"
+      }
+    }
+  },
+
+  "colors": {
+    "foundation": {
+      "background": {
+        "hex": "#0c051c",
+        "rgb": "rgb(12, 5, 28)",
+        "css_var": "--color-background",
+        "usage": "Primary page background"
+      },
+      "background_variant": {
+        "hex": "rgba(12, 5, 28, 0.95)",
+        "css_var": "--color-background-variant",
+        "usage": "Elevated surfaces"
+      }
+    },
+    "text": {
+      "primary": {
+        "value": "#ffffff",
+        "opacity": 1.0,
+        "css_var": "--color-text-primary",
+        "usage": "Titles, headings",
+        "contrast_ratio": "21:1"
+      },
+      "high": {
+        "value": "rgba(255, 255, 255, 0.9)",
+        "opacity": 0.9,
+        "css_var": "--color-text-high",
+        "usage": "Hero subtitles",
+        "contrast_ratio": "18.5:1"
+      },
+      "medium": {
+        "value": "rgba(255, 255, 255, 0.85)",
+        "opacity": 0.85,
+        "css_var": "--color-text-medium",
+        "usage": "Descriptions, data",
+        "contrast_ratio": "17:1"
+      },
+      "body": {
+        "value": "rgba(255, 255, 255, 0.75)",
+        "opacity": 0.75,
+        "css_var": "--color-text-body",
+        "usage": "Primary content",
+        "contrast_ratio": "14.8:1"
+      },
+      "subdued": {
+        "value": "rgba(255, 255, 255, 0.6)",
+        "opacity": 0.6,
+        "css_var": "--color-text-subdued",
+        "usage": "Labels, helpers",
+        "contrast_ratio": "11.5:1",
+        "min_size": "18px"
+      },
+      "subtle": {
+        "value": "rgba(255, 255, 255, 0.5)",
+        "opacity": 0.5,
+        "css_var": "--color-text-subtle",
+        "usage": "Taglines, fine print",
+        "contrast_ratio": "9.2:1",
+        "min_size": "24px"
+      },
+      "faint": {
+        "value": "rgba(255, 255, 255, 0.4)",
+        "opacity": 0.4,
+        "css_var": "--color-text-faint",
+        "usage": "Very low emphasis",
+        "contrast_ratio": "7:1",
+        "min_size": "24px bold"
+      }
+    },
+    "accent": {
+      "gold": {
+        "hex": "#C9A961",
+        "rgb": "rgb(201, 169, 97)",
+        "css_var": "--color-accent-gold",
+        "usage": "Primary accent, data, metrics, labels",
+        "contrast_ratio": "8.2:1",
+        "restraint_rule": "<10% of page"
+      },
+      "gold_bright": {
+        "hex": "#D4AF37",
+        "css_var": "--color-accent-gold-bright",
+        "usage": "Active badges, highlights",
+        "contrast_ratio": "10.1:1"
+      },
+      "gold_soft": {
+        "value": "rgba(201, 169, 97, 0.3)",
+        "css_var": "--color-accent-gold-soft",
+        "usage": "Hover borders, dividers"
+      },
+      "gold_softer": {
+        "value": "rgba(201, 169, 97, 0.15)",
+        "css_var": "--color-accent-gold-softer",
+        "usage": "Subtle backgrounds, tints"
+      },
+      "gold_faint": {
+        "value": "rgba(201, 169, 97, 0.1)",
+        "css_var": "--color-accent-gold-faint",
+        "usage": "Very subtle backgrounds"
+      }
+    },
+    "surfaces": {
+      "raised": {
+        "value": "rgba(255, 255, 255, 0.05)",
+        "css_var": "--color-surface-raised",
+        "usage": "Hover states, elevated cards"
+      },
+      "base": {
+        "value": "rgba(255, 255, 255, 0.03)",
+        "css_var": "--color-surface-base",
+        "usage": "Default card background"
+      },
+      "subtle": {
+        "value": "rgba(255, 255, 255, 0.02)",
+        "css_var": "--color-surface-subtle",
+        "usage": "Tables, subtle containers"
+      }
+    },
+    "borders": {
+      "default": {
+        "value": "rgba(255, 255, 255, 0.1)",
+        "css_var": "--color-border-default",
+        "usage": "Primary borders, dividers"
+      },
+      "subtle": {
+        "value": "rgba(255, 255, 255, 0.08)",
+        "css_var": "--color-border-subtle",
+        "usage": "Spec boxes, low emphasis"
+      },
+      "faint": {
+        "value": "rgba(255, 255, 255, 0.05)",
+        "css_var": "--color-border-faint",
+        "usage": "Table rows, minimal separation"
+      }
+    },
+    "usage_guidelines": {
+      "hierarchy": "Use opacity to create visual hierarchy — higher opacity = more important",
+      "gold_good": ["Data values", "Call-to-action buttons", "Category labels", "Active states"],
+      "gold_avoid": ["Body text", "All headings", "Large background areas"],
+      "wcag_standards": {
+        "body_text": "4.5:1 for 14-16px",
+        "large_text": "3:1 for 18px+",
+        "ui_components": "3:1"
+      }
+    }
+  },
+
+  "spacing": {
+    "tokens": {
+      "space-1": { "value": "4px", "css_var": "--space-1", "usage": "Tight spacing between related elements" },
+      "space-2": { "value": "8px", "css_var": "--space-2", "usage": "Small gaps, badge padding" },
+      "space-3": { "value": "12px", "css_var": "--space-3", "usage": "Button padding vertical" },
+      "space-4": { "value": "16px", "css_var": "--space-4", "usage": "Default gap between elements" },
+      "space-5": { "value": "20px", "css_var": "--space-5", "usage": "Medium gaps" },
+      "space-6": { "value": "24px", "css_var": "--space-6", "usage": "Button padding horizontal, card padding" },
+      "space-8": { "value": "32px", "css_var": "--space-8", "usage": "Grid gaps, section spacing" },
+      "space-10": { "value": "40px", "css_var": "--space-10", "usage": "Large card padding" },
+      "space-12": { "value": "48px", "css_var": "--space-12", "usage": "Major section gaps" },
+      "space-16": { "value": "64px", "css_var": "--space-16", "usage": "Section spacing" },
+      "space-20": { "value": "80px", "css_var": "--space-20", "usage": "Section dividers" },
+      "space-24": { "value": "96px", "css_var": "--space-24", "usage": "Large section spacing" },
+      "space-30": { "value": "120px", "css_var": "--space-30", "usage": "Page section spacing" },
+      "space-36": { "value": "144px", "css_var": "--space-36", "usage": "Extra large spacing" },
+      "space-40": { "value": "160px", "css_var": "--space-40", "usage": "Maximum spacing" },
+      "space-64": { "value": "256px", "css_var": "--space-64", "usage": "Hero spacing" }
+    },
+    "hierarchy": {
+      "description": "Spacing stack from largest to smallest",
+      "stack": [
+        { "level": "Page sections", "token": "space-30", "value": "120px", "context": "Between major page sections" },
+        { "level": "Card padding (large)", "token": "space-12", "value": "48px", "context": "Hero/mega cards" },
+        { "level": "Card padding (medium)", "token": "space-10", "value": "40px", "context": "Large cards" },
+        { "level": "Card padding (small)", "token": "space-8", "value": "32px", "context": "Small/medium cards" },
+        { "level": "Section-to-section", "token": "space-8", "value": "32px", "context": "Between content sections within card" },
+        { "level": "Related elements", "token": "space-4", "value": "16px", "context": "Default gap" },
+        { "level": "Label-to-content", "token": "space-2", "value": "8px", "context": "Label above its content" },
+        { "level": "List items", "token": "space-2", "value": "8px", "context": "Between bullet points" },
+        { "level": "Tight", "token": "space-1", "value": "4px", "context": "Very related elements" }
+      ]
+    },
+    "responsive": {
+      "page_padding": {
+        "desktop": { "vertical": "80px", "horizontal": "40px" },
+        "tablet": { "vertical": "60px", "horizontal": "32px" },
+        "mobile": { "vertical": "40px", "horizontal": "20px" }
+      },
+      "section_spacing": {
+        "desktop": "120px",
+        "tablet": "80px",
+        "mobile": "60px"
+      },
+      "grid_gap": {
+        "desktop": "var(--space-6)",
+        "tablet": "var(--space-5)",
+        "mobile": "var(--space-4)"
+      }
+    }
+  },
+
+  "components": {
+    "cards": {
+      "default": {
+        "background": "var(--color-surface-base)",
+        "hover_background": "var(--color-surface-raised)",
+        "border": "1px solid var(--color-border-default)",
+        "hover_border": "var(--color-accent-gold-soft)",
+        "border_radius": "var(--radius-md)",
+        "padding": "var(--space-8)",
+        "hover_transform": "translateY(-2px)",
+        "transition": "var(--transition-base)"
+      },
+      "large": {
+        "padding": "var(--space-10)"
+      },
+      "hero": {
+        "padding": "var(--space-12)"
+      }
+    },
+    "buttons": {
+      "base": {
+        "font": "Supreme LL",
+        "weight": 400,
+        "size": "14px",
+        "letter_spacing": "0.02em",
+        "padding": "var(--space-3) var(--space-6)",
+        "border_radius": "var(--radius-sm)",
+        "transition": "var(--transition-base)"
+      },
+      "primary": {
+        "background": "var(--color-accent-gold-softer)",
+        "color": "var(--color-accent-gold-bright)",
+        "border": "1px solid var(--color-accent-gold-soft)",
+        "hover": {
+          "background": "var(--color-accent-gold-soft)",
+          "border": "1px solid var(--color-accent-gold)",
+          "transform": "translateY(-1px)"
+        }
+      },
+      "secondary": {
+        "background": "transparent",
+        "color": "var(--color-text-primary)",
+        "border": "1px solid var(--color-border-default)",
+        "hover": {
+          "background": "var(--color-surface-raised)",
+          "border": "1px solid var(--color-accent-gold-soft)"
+        }
+      }
+    },
+    "inputs": {
+      "base": {
+        "font": "Supreme LL",
+        "weight": 400,
+        "size": "16px",
+        "padding": "var(--space-3) var(--space-4)",
+        "border_radius": "var(--radius-sm)",
+        "min_height": "48px"
+      },
+      "default": {
+        "background": "var(--color-surface-base)",
+        "border": "1px solid var(--color-border-default)",
+        "color": "var(--color-text-medium)",
+        "placeholder": "var(--color-text-faint)"
+      },
+      "focus": {
+        "background": "var(--color-surface-raised)",
+        "border": "1px solid var(--color-accent-gold-soft)",
+        "outline": "0 0 0 3px var(--color-accent-gold-faint)",
+        "color": "var(--color-text-high)"
+      },
+      "disabled": {
+        "background": "var(--color-surface-subtle)",
+        "border": "1px solid var(--color-border-faint)",
+        "color": "var(--color-text-faint)",
+        "cursor": "not-allowed"
+      }
+    },
+    "labels": {
+      "font": "Supreme LL",
+      "weight": 400,
+      "size": "14px",
+      "letter_spacing": "0.08em",
+      "transform": "UPPERCASE",
+      "color": "var(--color-text-subdued)",
+      "margin_bottom": "var(--space-2)"
+    },
+    "badges": {
+      "font": "Supreme LL",
+      "weight": 400,
+      "size": "14px",
+      "transform": "UPPERCASE",
+      "letter_spacing": "0.08em",
+      "padding": "6px 12px",
+      "border_radius": "var(--radius-md)",
+      "active": {
+        "background": "var(--color-accent-gold-softer)",
+        "color": "var(--color-accent-gold-bright)",
+        "border": "1px solid var(--color-accent-gold-soft)"
+      },
+      "pending": {
+        "background": "var(--color-surface-raised)",
+        "color": "var(--color-text-subdued)",
+        "border": "1px solid var(--color-border-default)"
+      }
+    }
+  },
+
+  "grid_systems": {
+    "bento_grid": {
+      "parent": {
+        "display": "grid",
+        "grid_template_columns": "repeat(4, minmax(0, 1fr))",
+        "grid_auto_rows": "minmax(200px, auto)",
+        "grid_auto_flow": "dense",
+        "gap": "var(--space-6)"
+      },
+      "card_types": {
+        "small": {
+          "class": "bento-small",
+          "grid_span": "span 1 / span 1",
+          "padding": "var(--space-8)",
+          "grid_template_rows": "auto auto 1fr auto",
+          "children_count": 4,
+          "structure": ["Header", "Description", "Spacer (empty div)", "Footer"]
+        },
+        "medium": {
+          "class": "bento-medium",
+          "grid_span": "span 2 / span 1",
+          "padding": "var(--space-8)",
+          "grid_template_rows": "auto auto 1fr auto",
+          "children_count": 4
+        },
+        "large": {
+          "class": "bento-large",
+          "grid_span": "span 1 / span 2",
+          "padding": "var(--space-10)",
+          "grid_template_rows": "auto auto auto minmax(var(--space-12), 1fr) auto",
+          "children_count": 5,
+          "structure": ["Header", "Description", "Benefits", "Spacer (empty div)", "Note"]
+        },
+        "hero": {
+          "class": "bento-hero",
+          "grid_span": "span 2 / span 2",
+          "padding": "var(--space-10)",
+          "grid_template_rows": "auto auto auto minmax(var(--space-12), 1fr) auto",
+          "children_count": 5
+        },
+        "mega": {
+          "class": "bento-mega",
+          "grid_span": "span 4 / span 2",
+          "padding": "var(--space-12)",
+          "note": "Custom layout, not standard grid template"
+        }
+      },
+      "critical_rules": [
+        "All cards MUST be direct children of .bento-grid",
+        "NO wrapper divs (.bentoRow, .bento-content)",
+        "Empty spacer is <div></div> NOT <div className=\"spacer\">",
+        "TSX children count MUST match grid-template-rows count",
+        "Cards of same type use IDENTICAL grid-template-rows"
+      ]
+    },
+    "regular_grid": {
+      "two_column": {
+        "parent": {
+          "display": "grid",
+          "grid_template_columns": "repeat(2, 1fr)",
+          "gap": "var(--space-8)"
+        },
+        "card_template": "auto auto auto 1fr auto"
+      },
+      "three_column": {
+        "parent": {
+          "display": "grid",
+          "grid_template_columns": "repeat(3, 1fr)",
+          "gap": "var(--space-6)"
+        }
+      },
+      "four_column": {
+        "parent": {
+          "display": "grid",
+          "grid_template_columns": "repeat(4, 1fr)",
+          "gap": "var(--space-6)"
+        }
+      }
+    }
+  },
+
+  "animations": {
+    "principles": {
+      "philosophy": "Restrained luxury — animation serves clarity, not spectacle",
+      "max_duration": "0.3s",
+      "max_movement": "2px translate",
+      "easing": "ease-out",
+      "forbidden": ["Auto-playing animations", "Bouncing", "Spinning", "Pulsing", "Excessive movement"]
+    },
+    "transitions": {
+      "fast": { "css_var": "--transition-fast", "value": "0.15s ease-out" },
+      "base": { "css_var": "--transition-base", "value": "0.2s ease-out" },
+      "slow": { "css_var": "--transition-slow", "value": "0.3s ease-out" }
+    },
+    "hover_states": {
+      "cards": {
+        "transform": "translateY(-2px)",
+        "border": "var(--color-accent-gold-soft)",
+        "background": "var(--color-surface-raised)"
+      },
+      "buttons": {
+        "transform": "translateY(-1px)"
+      }
+    }
+  },
+
+  "alignment_rules": {
+    "base_grid": "4px",
+    "optical_adjustments": "1-2px for micro-corrections only",
+    "triangle_shift": "5-8% toward pointed direction",
+    "icon_text_nudge": "1-2px upward",
+    "icon_text_gap": "50% larger than text-only (12px instead of 8px)",
+    "border_compensation": "adjustedPadding = originalPadding - borderWidth",
+    "heavy_elements_spacing": "+4px extra spacing",
+    "bullet_alignment": {
+      "size": "0.75em",
+      "positioning": "rem-based (NOT em)",
+      "offsets": {
+        "14px_text": "0.175rem",
+        "16px_text": "0.25rem",
+        "18px_text": "0.3rem"
+      }
+    }
+  },
+
+  "verification_patterns": {
+    "grep_searches": {
+      "wrapper_divs_in_bento": {
+        "pattern": "\\.bento-grid.*bentoRow|\\.bento-grid.*bento-content",
+        "severity": "INSTANT_FAIL",
+        "message": "Wrapper divs detected in bento grid"
+      },
+      "hardcoded_colors": {
+        "pattern": "(?<!var\\()rgba?\\([0-9, ]+\\)|#[0-9a-fA-F]{3,8}(?!.*var\\()",
+        "severity": "INSTANT_FAIL",
+        "message": "Hardcoded color values detected - use CSS variables"
+      },
+      "random_spacing": {
+        "pattern": "(?<!var\\(--space-)(?:5|6|7|9|1[01345789]|2[1235789]|3[013-9])px",
+        "severity": "INSTANT_FAIL",
+        "message": "Random spacing values detected - use spacing tokens"
+      },
+      "domaine_below_24px": {
+        "pattern": "Domaine.*(?:1[0-9]|2[0-3])px|domaine.*text-(xs|sm|base)",
+        "severity": "INSTANT_FAIL",
+        "message": "Domaine Sans Display used below 24px minimum"
+      },
+      "supreme_label_italic": {
+        "pattern": "text-transform.*uppercase.*font-style.*italic|uppercase.*italic.*Supreme",
+        "severity": "INSTANT_FAIL",
+        "message": "Supreme LL labels must NEVER be italic"
+      },
+      "spacer_classname": {
+        "pattern": "<div className=\"spacer\">",
+        "severity": "INSTANT_FAIL",
+        "message": "Spacers must be <div></div> NOT <div className=\"spacer\">"
+      }
+    }
+  },
+
+  "mental_models": {
+    "restraint_principle": "Impact = Scarcity × Intensity (gold <10% of page)",
+    "mathematical_vs_visual": "Human perception ≠ geometric center - use optical alignment",
+    "eyes_test": "Close eyes, open them - attention should snap to most important element",
+    "spacing_stack": "Largest at page level → smallest at tight elements",
+    "typography_algorithm": "Card title? → Domaine. Prose heading ≥20px? → GT Pantheon Display. Tagline? → GT Pantheon Italic. Default → Supreme LL."
+  }
+}

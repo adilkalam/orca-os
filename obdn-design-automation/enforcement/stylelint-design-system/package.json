@@ -1,0 +1,12 @@
+{
+  "name": "stylelint-design-system",
+  "version": "1.0.0",
+  "description": "Universal Stylelint plugin for design system enforcement",
+  "main": "index.js",
+  "keywords": ["stylelint", "stylelint-plugin", "design-system", "hardcoded-colors"],
+  "author": "OBDN Design Automation",
+  "license": "MIT",
+  "peerDependencies": {
+    "stylelint": ">=14.0.0"
+  }
+}

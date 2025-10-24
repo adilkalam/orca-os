@@ -30,6 +30,7 @@ mcp/xcodebuildmcp/
 agents/
 commands/
 hooks/
+!obdn-design-automation/enforcement/hooks/
 
 # Internal documentation and logs
 .claude-session-context.md
@@ -42,3 +43,26 @@ skills/
 docs/
 qa-logs/
 ::archive/
+
+# Project-specific internal files (keep local, not for GitHub)
+COMPLETE_ORCA_FIX_SUMMARY.md
+COMPLEXITY_GATE_IMPLEMENTATION.md
+DESIGN_AGENT_TESTING_METHODOLOGY.md
+OBDN_DESIGN_SYSTEM_UNDERSTANDING.md
+ORCA_FIXES_COMPLETE.md
+PHASE_05_EARLY_REFERENCE_CHECK.md
+PHASE_*_DELIVERY_REPORT.md
+QUALITY_GATE_FIXES.md
+VISUAL_REVIEW_INTEGRATION.md
+test-scenario-response-awareness.md
+visual-verification-implementation-report.md
+claude-mem/
+
+# OBDN project internal files
+obdn-design-automation/COMPLETE_SYSTEM_SUMMARY.md
+obdn-design-automation/IMPLEMENTATION_REPORT.md
+obdn-design-automation/DELIVERY_SUMMARY.md
+obdn-design-automation/UNIVERSAL_DESIGN_AUTOMATION.md
+obdn-design-automation/test-results/*.md
+!obdn-design-automation/test-results/README.md
+obdn-design-automation/.claude-session-context.md
