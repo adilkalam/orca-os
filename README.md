@@ -233,19 +233,19 @@ See `docs/METACOGNITIVE_TAGS.md` for complete documentation.
      (11)               (21)            (5 + 8 = 13)
         │                   │                   │
         │                   │                   │
-┌───────┴────────┐  ┌───────┴────────┐  ┌──────┴──────┐
-│                │  │                │  │             │
-│ Planning (3)   │  │ UI (3)         │  │ React (2)   │
-│ Implementation │  │ Data (2)       │  │ State (1)   │
-│   Backend (1)  │  │ Network (3)    │  │ Perf (1)    │
-│   Mobile (2)   │  │ Arch (3)       │  │ Test (1)    │
-│ Quality (3)    │  │ Testing (3)    │  │             │
-│ Specialized (1)│  │ Quality (2)    │  │ Design (8)  │
-│ Orchestration  │  │ DevOps (2)     │  │   Found (2) │
-│   (1)          │  │ Perf (1)       │  │   Visual(1) │
-│                │  │ Security (2)   │  │   Impl (3)  │
-│                │  │                │  │   QA (2)    │
-└────────────────┘  └────────────────┘  └─────────────┘
+┌───────┴────────┐  ┌───────┴────────┐  ┌───────┴────────┐
+│                │  │                │  │                │
+│ Planning (3)   │  │ UI (3)         │  │ React (2)      │
+│ Implementation │  │ Data (2)       │  │ State (1)      │
+│   Backend (1)  │  │ Network (3)    │  │ Performance (1)│
+│   Mobile (2)   │  │ Arch (3)       │  │ Testing (1)    │
+│ Quality (3)    │  │ Testing (3)    │  │                │
+│ Specialized (1)│  │ Quality (2)    │  │ Design (8)     │
+│ Orchestration  │  │ DevOps (2)     │  │   System (2)   │
+│   (1)          │  │ Perf (1)       │  │   Visual (1)   │
+│                │  │ Security (2)   │  │   Build (3)    │
+│                │  │                │  │   Review (2)   │
+└────────────────┘  └────────────────┘  └────────────────┘
 ```
 
 All agents live in `agents/` and are organized by function.
