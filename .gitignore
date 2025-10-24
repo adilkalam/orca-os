@@ -29,7 +29,9 @@ mcp/xcodebuildmcp/
 # Internal documentation and logs (not for GitHub)
 .claude-session-context.md
 CHANGELOG.md
-archive/originals/
+archive/
+examples/
+skills/skills/
 docs/SELF_AUDIT_PROTOCOL.md
 docs/*_MIGRATION_GUIDE.md
 docs/AGENT_TAXONOMY.md

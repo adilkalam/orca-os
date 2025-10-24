@@ -1062,18 +1062,6 @@ claude-vibe-code/
 ├── hooks/                             # Auto-orchestration hooks
 │   └── detect-project-type.sh        # < 50ms project detection
 │
-├── skills/                            # Superpowers plugin skills
-│   └── ...                           # Various workflow skills
-│
-├── examples/                          # Real-world examples
-│   ├── README.md                     # Examples documentation
-│   └── ...                           # Example workflows
-│
-├── archive/                           # Previous iterations
-│   ├── old-agents/                   # Deprecated custom agents
-│   ├── old-commands/                 # Deprecated commands
-│   └── ...                           # Historical documentation
-│
 └── .claude/                           # Local Claude Code config
     ├── settings.local.json           # Hook configuration
     └── commands/                     # Project-specific overrides
@@ -1084,9 +1072,7 @@ claude-vibe-code/
 **Key Directories:**
 - `agents/` - Copy to `~/.claude/agents/` for active use (46 total agents)
 - `commands/` - Copy to `~/.claude/commands/` for slash commands (13 total)
-- `hooks/` - Copy to `~/.claude/hooks/` for auto-detection
-- `skills/` - Optional: Copy to `~/.claude/skills/` for superpowers skills
-- `archive/` - Historical/deprecated files (internal only, not for deployment)
+- `hooks/` - Copy to `~/.claude/hooks/` for auto-detection hook
 
 ---
 
