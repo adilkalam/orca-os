@@ -1075,39 +1075,6 @@ Traditional AI coding assistants make you:
 
 ---
 
-## Testimonials
-
-> "I said 'fix the broken button' and got back screenshots, test results, and build logs. I didn't ask for any of that. It just knew."
->
-> — Developer using iOS auto-orchestration
-
-> "The parallel agent execution is wild. Three agents working simultaneously, then quality validation, all automatic. Saves me hours."
->
-> — Full-stack dev with Next.js project
-
-> "Finally, an AI that provides evidence instead of just saying 'I fixed it.'"
->
-> — Backend engineer who got burned too many times
-
----
-
-## Contributing
-
-Contributions welcome! Ways to help:
-
-1. **Add project types:** Extend detection for new frameworks
-2. **Improve workflows:** Better orchestration patterns
-3. **Share examples:** Document real-world usage
-4. **Report issues:** Help us fix bugs and improve
-
-**Guidelines:**
-- Keep ASCII diagrams simple and clear
-- Provide real examples with evidence
-- Test workflows end-to-end
-- Document the "why" not just the "what"
-
----
-
 ## FAQ
 
 **Q: Does this replace Claude Code?**
