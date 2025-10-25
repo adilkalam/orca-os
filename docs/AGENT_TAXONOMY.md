@@ -25,7 +25,7 @@
 ### Why We Need a Taxonomy
 
 **The Problem:**
-- 45 total agents across 4 specialist categories
+- 47 total agents across 5 specialist categories
 - Overlapping responsibilities (styling, components, UX)
 - Risk of duplicates (e.g., styling-specialist vs tailwind-specialist)
 - Unclear when to use design specialists vs frontend specialists
@@ -37,7 +37,7 @@
 
 ---
 
-## The 4 Specialist Categories
+## The 5 Specialist Categories
 
 ### 1. Design Specialists (8 Total)
 **Location:** `~/.claude/agents/design-specialists/`
@@ -136,6 +136,33 @@
 **Integration with Design:** Backend can add design specialists for admin UI (ux-strategist, tailwind-specialist, ui-engineer, design-reviewer)
 
 **Output:** API code, database schemas, server configurations
+
+---
+
+### 5. Orchestration & Learning Specialists (2 Total)
+**Location:** `~/.claude/agents/specialized/`
+
+**Domain:** Multi-agent orchestration and self-improvement (ACE Playbook System)
+
+**Responsibilities:**
+- Post-session analysis and reflection
+- Playbook maintenance and pattern curation
+- Delta updates and apoptosis
+- Semantic de-duplication
+- Learning from orchestration outcomes
+
+**Key Specialists:**
+1. **orchestration-reflector** - Analyzes "why it worked/failed" after /orca sessions (ACE Reflector)
+2. **playbook-curator** - Applies delta updates to playbooks, manages apoptosis (ACE Curator)
+
+**Part of:** Agentic Context Engineering (ACE) three-agent architecture:
+- **Generator** (/orca) - Executes tasks using playbook strategies
+- **Reflector** (orchestration-reflector) - Analyzes outcomes
+- **Curator** (playbook-curator) - Updates playbooks with learned patterns
+
+**Output:** Reflection reports, updated playbooks (JSON + Markdown), signal logs
+
+**Automatic Activation:** Triggered by `/playbook-review` after /orca sessions
 
 ---
 

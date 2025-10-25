@@ -4,7 +4,7 @@
 
 ---
 
-## 🤖 Agents (45 Total)
+## 🤖 Agents (47 Total)
 
 ### Implementation Specialists
 
@@ -137,15 +137,17 @@
 | **design-engineer (DEPRECATED)** | Legacy - use design specialists above | Monolithic design agent - replaced by 8 specialists | `agents/specialized/design-engineer.md` (backup) |
 | **infrastructure-engineer** | DevOps, deployment | CI/CD, Docker, Kubernetes, AWS/GCP/Azure, monitoring | `agents/specialized/infrastructure-engineer.md` |
 
-### Orchestration
+### Orchestration & Learning
 
 | Agent | Use When | Key Skills | File |
 |-------|----------|------------|------|
 | **workflow-orchestrator** | Complex multi-phase workflows | Pure coordination, quality gates, parallel dispatch, evidence collection | `agents/orchestration/workflow-orchestrator.md` |
+| **orchestration-reflector** | After /orca sessions (automatic) | Session analysis, pattern performance evaluation, new pattern discovery (ACE Reflector) | `agents/specialized/orchestration-reflector.md` |
+| **playbook-curator** | After reflection (automatic) | Delta updates, apoptosis, semantic de-duplication, playbook maintenance (ACE Curator) | `agents/specialized/playbook-curator.md` |
 
 ---
 
-## ⚡ Commands (13 Total)
+## ⚡ Commands (17 Total)
 
 ### Core Orchestration
 
@@ -164,6 +166,13 @@
 | **/inspire** | Need design inspiration | Analyze beautiful design examples to develop aesthetic taste |
 | **/save-inspiration** | Found good design example | Save to personal gallery with tags and vision analysis |
 | **/visual-review** | After implementing UI | Visual QA review using chrome-devtools to screenshot and analyze |
+
+### ACE Playbook System
+
+| Command | When to Use | What It Does |
+|---------|-------------|--------------|
+| **/playbook-review** | After /orca sessions | Manually trigger reflection and curation to update playbooks with learned patterns |
+| **/playbook-pause** | Debugging or testing | Temporarily disable playbook system to run /orca without pattern influence |
 
 ### Workflow & Utilities
 

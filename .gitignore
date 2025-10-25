@@ -9,8 +9,31 @@ Thumbs.db
 *.swo
 *~
 
-# Orchestration
-.orchestration/
+# Orchestration (ACE Playbook System)
+# Track: Templates, README, directory structure
+# Ignore: Project-specific playbooks, sessions, signals, backups, work-orders
+
+# Ignore project-specific playbooks (evolve per project)
+.orchestration/playbooks/ios-development.json
+.orchestration/playbooks/ios-development.md
+.orchestration/playbooks/nextjs-patterns.json
+.orchestration/playbooks/nextjs-patterns.md
+.orchestration/playbooks/universal-patterns.json
+.orchestration/playbooks/universal-patterns.md
+.orchestration/playbooks/backend-patterns.json
+.orchestration/playbooks/backend-patterns.md
+
+# Ignore session data, signals, backups, work orders
+.orchestration/sessions/
+.orchestration/signals/
+.orchestration/.backup/
+.orchestration/work-orders/
+
+# Track templates (seed data, safe reset point)
+# .orchestration/playbooks/*-template.json (tracked by default)
+# .orchestration/playbooks/*-template.md (tracked by default)
+# .orchestration/playbooks/README.md (tracked by default)
+# .orchestration/costs.json (tracked - empty structure)
 
 # Design Memory (personal preferences, keep local)
 .design-memory/
@@ -33,23 +56,10 @@ explore/
 .claude-session-context.md
 .claude-orchestration-context.md
 CHANGELOG.md
-QA_AUDIT_*.md
 archive/
 examples/
 skills/
 # docs/ - now tracked (contains permanent system documentation)
 qa-logs/
 ::archive/
-
-# Project-specific internal files (keep local, not for GitHub)
-COMPLETE_ORCA_FIX_SUMMARY.md
-COMPLEXITY_GATE_IMPLEMENTATION.md
-DESIGN_AGENT_TESTING_METHODOLOGY.md
-OBDN_DESIGN_SYSTEM_UNDERSTANDING.md
-ORCA_FIXES_COMPLETE.md
-PHASE_05_EARLY_REFERENCE_CHECK.md
-PHASE_*_DELIVERY_REPORT.md
-QUALITY_GATE_FIXES.md
-VISUAL_REVIEW_INTEGRATION.md
-test-scenario-response-awareness.md
-visual-verification-implementation-report.md
+dev-logs/
