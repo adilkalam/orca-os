@@ -466,7 +466,7 @@ All agents live in `agents/` and are organized by function.
 
 See the `agents/` directory for detailed agent specifications and the complete file structure below.
 
-### ⚡ Commands (17 Total)
+### ⚡ Commands (11 Total)
 
 All commands live in `commands/` and extend Claude Code workflows:
 
@@ -490,23 +490,16 @@ All commands live in `commands/` and extend Claude Code workflows:
 | Command | Description | File |
 |---------|-------------|------|
 | **/concept** | Creative exploration phase - study references, extract patterns, get approval BEFORE building | `concept.md` |
-| **/design** | Conversational design brainstorming with user-provided project-specific references | `design.md` |
-| **/discover** | Browse design collections when you don't have specific refs - finds industry examples | `discover.md` |
-| **/inspire** | Analyze design examples to develop aesthetic taste before creating | `inspire.md` |
-| **/save-inspiration** | Save design examples to your personal gallery with tags and vision analysis | `save-inspiration.md` |
 | **/visual-review** | Visual QA review of implemented UI using chrome-devtools to screenshot and analyze | `visual-review.md` |
 
 #### Workflow & Utilities
 
 | Command | Description | File |
 |---------|-------------|------|
-| **/agentfeedback** | Parse user feedback and orchestrate agents to address all points systematically | `agentfeedback.md` |
 | **/clarify** | Quick focused clarification for mid-workflow questions | `clarify.md` |
 | **/completion-drive** | Meta-cognitive strategy for two-tier assumption tracking during implementation | `completion-drive.md` |
-| **/nav** | View your complete Claude Code setup (agents, skills, MCPs) in navigable format | `nav.md` |
 | **/session-save** | Save current session context for automatic resumption | `session-save.md` |
 | **/session-resume** | Manually reload session context (normally auto-loads) | `session-resume.md` |
-| **/all-tools** | (Utility command) | `all-tools.md` |
 
 ### 🪝 Hooks
 

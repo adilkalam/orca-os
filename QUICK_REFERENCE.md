@@ -147,7 +147,7 @@
 
 ---
 
-## ⚡ Commands (17 Total)
+## ⚡ Commands (11 Total)
 
 ### Core Orchestration
 
@@ -162,9 +162,6 @@
 | Command | When to Use | What It Does |
 |---------|-------------|--------------|
 | **/concept** | Before building UI/UX | Creative exploration - study references, extract patterns, get approval BEFORE building |
-| **/design** | Design brainstorming | Conversational design with project-specific references, establishes design system baseline |
-| **/inspire** | Need design inspiration | Analyze beautiful design examples to develop aesthetic taste |
-| **/save-inspiration** | Found good design example | Save to personal gallery with tags and vision analysis |
 | **/visual-review** | After implementing UI | Visual QA review using chrome-devtools to screenshot and analyze |
 
 ### ACE Playbook System
@@ -178,8 +175,8 @@
 
 | Command | When to Use | What It Does |
 |---------|-------------|--------------|
-| **/agentfeedback** | Providing feedback on completed work | Parses feedback and orchestrates agents to address all points systematically |
 | **/clarify** | Quick mid-workflow question | Focused clarification without full orchestration |
+| **/completion-drive** | Mid-generation assumption tracking | Two-tier assumption tracking system for meta-cognitive awareness |
 | **/session-save** | End of session | Save current session context for automatic resumption |
 | **/session-resume** | Start of session | Manually reload session context (normally auto-loads) |
 
