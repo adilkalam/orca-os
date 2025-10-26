@@ -506,7 +506,7 @@ claude-vibe-code/
 
 **Fix:**
 1. Check signal-log.jsonl for design_feedback events
-2. Manually run `/playbook-review` to trigger curation
+2. Manually run `/memory` to trigger curation
 3. Verify orchestration-reflector analyzing design outcomes
 
 ---

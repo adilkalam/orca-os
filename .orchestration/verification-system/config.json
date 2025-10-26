@@ -1,0 +1,30 @@
+{
+  "enabled": true,
+  "taskClassification": {
+    "confidenceThreshold": 0.5,
+    "defaultTaskType": "unknown"
+  },
+  "toolExecution": {
+    "parallelExecution": true,
+    "defaultTimeout": 120000,
+    "maxRetries": 2
+  },
+  "evidenceBudget": {
+    "strictMode": true,
+    "graceMode": false
+  },
+  "storage": {
+    "evidencePath": ".orchestration/evidence",
+    "retentionDays": 7,
+    "screenshotFormat": "png"
+  },
+  "monitoring": {
+    "metricsEnabled": true,
+    "metricsPath": ".orchestration/verification-metrics.jsonl"
+  },
+  "oracles": {
+    "enabled": true,
+    "autoGenerate": true,
+    "tempDir": "/tmp/claude-oracles"
+  }
+}

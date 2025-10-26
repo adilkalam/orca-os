@@ -248,6 +248,208 @@ See `docs/METACOGNITIVE_TAGS.md` for complete documentation.
 
 ---
 
+### 4. Auto-Verification Injection: Enforcing Evidence Collection
+
+While Response Awareness works excellently within `/orca` workflows, we identified a gap: **main Claude responses (outside `/orca`) could still bypass verification**.
+
+**The Problem:**
+- User: "Fix iOS chips to equal width"
+- Claude: "Fixed!" (without running xcodebuild, simulator, or screenshot)
+- Result: 5+ false "Fixed!" claims, user manually verifies each time
+
+**The Solution: Auto-Verification Injection**
+
+A mandatory verification enforcement system that makes false completions **structurally impossible**:
+
+```
+Claude generates response: "Fixed!"
+         │
+         ▼
+  BEFORE sending to user
+         │
+         ├─► System detects completion claim
+         ├─► Classifies task (iOS UI)
+         ├─► Auto-executes tools:
+         │   ├─ xcodebuild (build verification)
+         │   ├─ Simulator (actual behavior)
+         │   ├─ Screenshot (visual evidence)
+         │   └─ XCUITest Oracle (measures chip widths)
+         │
+         ▼
+  Evidence injected into response
+         │
+         ▼
+  User sees: Claim + Evidence + Contradiction (if any)
+```
+
+**Three Critical Mechanisms:**
+
+1. **Auto-Verification Injection** - Tools run automatically, evidence inevitable
+   - Detects completion claims ("Fixed!", "Done!", etc.)
+   - Executes verification tools in background
+   - Injects evidence into response before sending to user
+
+2. **Behavioral Oracles** - Objective measurement, can't fake
+   - XCUITest: Measures chip widths (150px, 120px, 180px → NOT equal)
+   - Playwright: Tests element dimensions, interactions
+   - curl: Verifies API responses programmatically
+
+3. **Evidence Budget** - Quantified requirements, completion blocked until met
+   - iOS UI: 5 points (build 1pt, screenshot 2pts, oracle 2pts)
+   - Frontend UI: 5 points (build 1pt, browser screenshot 2pts, playwright 2pts)
+   - Documentation: 2 points (lint 1pt, links 1pt)
+   - Cannot claim "Fixed!" with only 1/5 points
+
+**Example Result:**
+```markdown
+Fixed! Chips now equal width.
+
+---
+
+## Auto-Verification Results
+
+- Build: ✅ PASS (45s, 1 pt)
+- Screenshot: ✅ Captured (2 pts)
+- Oracle: ❌ FAIL - Chip widths: 150px, 120px, 180px (not equal) (0 pts)
+
+Evidence Budget: 3/5 points ❌ NOT MET
+
+⚠️ CONTRADICTION DETECTED
+Claim: "Fixed!"
+Evidence: Oracle shows chips NOT equal width
+```
+
+**Key Difference from Response Awareness:**
+- **Response Awareness:** For `/orca` workflows (meta-cognitive tags)
+- **Auto-Verification:** For main Claude responses (automatic tools)
+- **Both work together:** Complementary enforcement layers
+
+**Implementation:** `.orchestration/verification-system/`
+
+**Configuration:** `.orchestration/verification-system/config.json`
+
+**Documentation:** `.orchestration/verification-system/README.md`
+
+---
+
+### 5. Behavior Guard: Tool-Level Enforcement
+
+While Response Awareness and Auto-Verification work within Claude's generation process, we identified a fundamental limitation: **information ≠ constraints**. After 21+ sessions of repeated failures despite loaded skills and protocols, we built a different approach.
+
+**The Problem:**
+```
+Session 1: Claude deletes project files thinking they're cleanup
+Session 5: Claude claims "Fixed!" without running tests
+Session 10: Claude deletes committed files again
+Session 21: Same patterns, despite MANDATORY protocol skills
+```
+
+**Why loaded skills fail:**
+- Skills are passive context, not active constraints
+- LLMs can "rationalize away" protocols
+- Newer context (user message) outweighs older (skills)
+- No enforcement mechanism - only suggestions
+
+**The Solution: Stop trying to teach the LLM. Constrain the tools.**
+
+```
+┌──────────────────────────────────────────────────────────┐
+│          Claude Behavior Guard Architecture              │
+└────────────────────────────┬─────────────────────────────┘
+                             │
+         ┌───────────────────┼───────────────────┐
+         │                   │                   │
+         ▼                   ▼                   ▼
+┌─────────────────┐ ┌──────────────────┐ ┌─────────────────┐
+│  Tool Wrappers  │ │ Evidence Budget  │ │   Git Hooks     │
+│   (safe-ops)    │ │  (evidencectl)   │ │  (pre-commit)   │
+└────────┬────────┘ └────────┬─────────┘ └────────┬────────┘
+         │                   │                   │
+         ▼                   ▼                   ▼
+┌─────────────────┐ ┌──────────────────┐ ┌─────────────────┐
+│ Block rm/mv/sed │ │ Score evidence   │ │ Require .verified│
+│ without token   │ │ (min 5 points)   │ │ marker to commit│
+└────────┬────────┘ └────────┬─────────┘ └────────┬────────┘
+         │                   │                   │
+         └───────────────────┴───────────────────┘
+                             │
+                             ▼
+              ┌────────────────────────────────────────┐
+              │   Hard Constraints (Non-Bypassable)    │
+              │   - rm exits 78 if no token            │
+              │   - git commit exits 1 if not verified │
+              │   - Cannot rationalize around OS blocks│
+              └────────────────────────────────────────┘
+```
+
+**Three Enforcement Layers:**
+
+1. **Destructive Operations Require Confirmation**
+   - Protected: `rm`, `mv`, `sed`, `truncate`
+   - Wrapped by `safe-ops` interceptor
+   - Requires per-session `CONFIRM_TOKEN`
+   - Blocks if missing (exit 78)
+   - Violations logged
+
+2. **Completion Requires Evidence (/finalize)**
+   - Cannot claim "done" without `/finalize` passing
+   - Auto-runs builds, tests, screenshots
+   - Scores evidence (minimum 5 points)
+   - Creates `.verified` marker if passed
+   - Git operations blocked without it
+
+3. **Violation Tracking & Escalation**
+   - PostToolUse hook monitors blocks
+   - Escalating warnings (NOTICE → WARNING → CRITICAL)
+   - Persists across sessions
+   - Forces accountability
+
+**How It Works:**
+```
+Claude: rm old-file.txt
+→ safe-ops intercepts
+→ Check: CONFIRM_TOKEN set? NO
+→ Exit 78 (blocked)
+→ Log violation
+→ Force either:
+   a) Ask what to delete (AskUserQuestion)
+   b) Explicitly set token (deliberate action)
+
+Claude: "Done!"
+User: "Run /finalize"
+→ Auto-runs build, tests, screenshots
+→ evidencectl scores: 3/5 points
+→ FAIL - insufficient evidence
+→ Cannot commit (pre-commit blocks)
+→ Must gather more evidence
+```
+
+**What It Prevents:**
+- ✅ Deleting files without confirmation (hard block)
+- ✅ Claims without verification (/finalize fails, git blocked)
+- ✅ Commits without evidence (pre-commit hook blocks)
+- ✅ Pushes without finalization (pre-push hook blocks)
+
+**What It Can't Prevent:**
+- ❌ Not asking clarifying questions (conversation, not tools)
+- ❌ Not escalating thinking (conversation, not tools)
+
+**Why:** Claude Code hooks can intercept tools but can't block response generation.
+
+**Installation:** Already installed at `~/.claude/guard/`. Restart Claude Code to activate.
+
+**Files:**
+- `~/.claude/guard/bin/safe-ops` - Command wrappers
+- `~/.claude/guard/bin/evidencectl` - Evidence scoring
+- `~/.claude/commands/finalize.md` - /finalize command
+- `~/.claude/guard/hooks/` - Git hook templates
+
+**Documentation:** `~/.claude/guard/README.md` (347 lines, complete theory & usage)
+
+**Credit:** Designed by GPT-5 feedback on Ultra-Think analysis
+
+---
+
 ## ACE Playbook System: Self-Improving Orchestration
 
 **/orca now learns from every session** using Agentic Context Engineering (ACE).
@@ -374,8 +576,8 @@ Session 10: Pattern now has helpful_count: 9 (proven)
 - **Universal** (16 patterns): Parallel dispatch, verification, quality gates, orchestration
 
 **Commands:**
-- `/playbook-review` - Manually trigger reflection and curation after a session
-- `/playbook-pause` - Temporarily disable playbooks for debugging
+- `/memory` - Manually trigger reflection and curation after a session
+- `/memory-pause` - Temporarily disable memory for debugging
 
 ### Research Foundation
 
@@ -454,22 +656,26 @@ Patterns from:
 
 All agents live in `agents/` and are organized by function.
 
-**System Architecture: 52 Total Agents**
+**System Architecture: 50 Total Agents**
 
-- **iOS Specialists** (21 agents in `ios-specialists/`) - SwiftUI, SwiftData, networking, testing, architecture, performance, security, deployment
-- **Frontend Specialists** (5 agents in `frontend-specialists/`) - React 18, Next.js 14, state management, performance optimization, testing
-- **Design Specialists** (12 agents in `design-specialists/`) - Design systems, UX strategy, Tailwind v4, UI engineering, CSS, accessibility, design review, visual design, Design DNA enforcement (style-translator, design-compiler, design-dna-linter, visual-reviewer-v2)
-- **Meta-Learning & Orchestration** (3 agents in `specialized/`) - meta-orchestrator (fast-path vs deep-path learning), orchestration-reflector (analyzes outcomes), playbook-curator (updates learned patterns)
-- **Base Agents** (11 agents):
-  - **Planning**: requirement-analyst, system-architect, plan-synthesis-agent
-  - **Quality**: verification-agent (🆕 meta-cognitive tag verification), test-engineer, quality-validator
-  - **Implementation**: backend-engineer, android-engineer, cross-platform-mobile
-  - **DevOps**: infrastructure-engineer
-  - **Orchestration**: workflow-orchestrator
+**Organized by function:**
+
+- **Specialists** (36 agents in `specialists/`)
+  - iOS (20) - SwiftUI, SwiftData, networking, testing, architecture, performance, security
+  - Frontend (5) - React 18, Next.js 14, state management, performance optimization, testing
+  - Design (11) - Design systems, UX strategy, Tailwind v4, UI engineering, CSS, accessibility, Design DNA
+
+- **Implementation** (4 agents) - backend-engineer, android-engineer, cross-platform-mobile, infrastructure-engineer
+
+- **Orchestration** (4 agents) - workflow-orchestrator, meta-orchestrator, orchestration-reflector, playbook-curator
+
+- **Planning** (3 agents) - requirement-analyst, system-architect, plan-synthesis-agent
+
+- **Quality** (3 agents) - verification-agent, test-engineer, quality-validator
 
 See the `agents/` directory for detailed agent specifications and the complete file structure below.
 
-### ⚡ Commands (17 Total)
+### ⚡ Commands (14 Total)
 
 All commands live in `commands/` and extend Claude Code workflows:
 
@@ -485,8 +691,8 @@ All commands live in `commands/` and extend Claude Code workflows:
 
 | Command | Description | File |
 |---------|-------------|------|
-| **/playbook-review** | Manually trigger reflection and curation to update playbooks with learned patterns | `playbook-review.md` |
-| **/playbook-pause** | Temporarily disable playbook system to run /orca without pattern influence | `playbook-pause.md` |
+| **/memory** | Manually trigger reflection and curation to update memory with learned patterns | `memory-learn.md` |
+| **/memory-pause** | Temporarily disable memory system to run /orca without pattern influence | `memory-pause.md` |
 
 #### Design Workflow
 
@@ -499,6 +705,8 @@ All commands live in `commands/` and extend Claude Code workflows:
 
 | Command | Description | File |
 |---------|-------------|------|
+| **/finalize** | MANDATORY completion gate - verifies evidence (builds, tests, screenshots) before allowing "done" claims. Blocks git commits/pushes without proof. | `finalize.md` |
+| **/force** | Legacy verification enforcement (replaced by /finalize + Behavior Guard system) | `force.md` |
 | **/clarify** | Quick focused clarification for mid-workflow questions | `clarify.md` |
 | **/completion-drive** | Meta-cognitive strategy for two-tier assumption tracking during implementation | `completion-drive.md` |
 | **/session-save** | Save current session context for automatic resumption | `session-save.md` |
@@ -852,7 +1060,7 @@ cp -r skills/* ~/.claude/skills/
 ```
 
 **What you get:**
-- **47 specialized agents** (11 base + 21 iOS + 5 frontend + 8 design + 2 orchestration/learning) for implementation, planning, quality, and self-improvement
+- **50 specialized agents** (14 base + 20 iOS + 5 frontend + 11 design) for implementation, planning, quality, and self-improvement
 - **17 slash commands** for enhanced workflows (including ACE playbook commands)
 - **ACE Playbook System** with 59 seed patterns for self-improving orchestration
 - **Response Awareness verification** system (meta-cognitive tags + verification)
@@ -1048,23 +1256,24 @@ Three mandatory validation checkpoints:
 
 ## Available Agents
 
-**47 Total Agents organized into specialized teams:**
+**50 Total Agents organized into specialized teams:**
 
-### iOS Specialists (21 agents)
+### Specialists (36 agents)
+
+**iOS Specialists (20 agents)**
 SwiftUI, SwiftData, Core Data, networking (URLSession), testing (Swift Testing, XCTest, XCUITest), architecture (State-first, TCA), performance optimization, security, code review, debugging, deployment (Xcode Cloud, Fastlane), accessibility, and API design.
 
-### Frontend Specialists (5 agents)
+**Frontend Specialists (5 agents)**
 React 18+ (Server Components, Suspense, hooks), Next.js 14 (App Router, Server Actions), state management (strategic separation), performance optimization (code splitting, Core Web Vitals), and user-behavior-focused testing.
 
-### Design Specialists (12 agents)
-Design system architecture, UX strategy, Tailwind CSS v4 + daisyUI 5, UI engineering, pure CSS (when Tailwind insufficient), accessibility (WCAG 2.1 AA), design review (visual QA with Playwright), visual design (hierarchy, typography, composition), and **Design DNA System** (style-translator, design-compiler, design-dna-linter, visual-reviewer-v2) for programmatic taste enforcement.
+**Design Specialists (11 agents)**
+Design system architecture, UX strategy, Tailwind CSS v4 + daisyUI 5, UI engineering, pure CSS (when Tailwind insufficient), accessibility (WCAG 2.1 AA), design review (visual QA with Playwright), visual design (hierarchy, typography, composition), and **Design DNA System** (style-translator, design-compiler, design-dna-linter) for programmatic taste enforcement.
 
 ### Base Agents (14 agents)
 - **Planning** (3): requirement-analyst, system-architect, plan-synthesis-agent
 - **Quality** (3): verification-agent (meta-cognitive tag verification), test-engineer, quality-validator
-- **Implementation** (3): backend-engineer, android-engineer, cross-platform-mobile
-- **Orchestration** (1): workflow-orchestrator
-- **Specialized/Learning** (4): infrastructure-engineer, meta-orchestrator, orchestration-reflector, playbook-curator
+- **Implementation** (4): backend-engineer, android-engineer, cross-platform-mobile, infrastructure-engineer
+- **Orchestration** (4): workflow-orchestrator, meta-orchestrator, orchestration-reflector, playbook-curator
 
 For detailed agent specifications, see the `agents/` directory.
 
@@ -1074,9 +1283,9 @@ For detailed agent specifications, see the `agents/` directory.
 
 ### iOS Development
 
-**Total System: 52 Agents** (14 base + 21 iOS + 5 frontend + 12 design)
+**Total System: 51 Agents** (14 base + 20 iOS + 5 frontend + 12 design)
 
-**iOS Team**: Dynamic composition (8-16 agents) based on app complexity:
+**iOS Team**: Dynamic composition (8-16 agents) based on app requirements:
 
 ```
 ┌──────────────────────────────────────────────────────────┐
@@ -1087,7 +1296,7 @@ For detailed agent specifications, see the `agents/` directory.
 │                   CORE PLANNING (2)                      │
 │          requirement-analyst → system-architect          │
 │                            ↓                             │
-│       (Analyzes complexity, recommends specialists)      │
+│       (Analyzes requirements, recommends specialists)    │
 └────────────────────────────┬─────────────────────────────┘
                              │
       ┌──────────────────────┼──────────────────────┐
@@ -1117,8 +1326,8 @@ For detailed agent specifications, see the `agents/` directory.
 
 - **Core Planning (2)**: requirement-analyst, system-architect
 - **Design Specialists (1-2)**: design-system-architect, ux-strategist, visual-designer, tailwind-specialist, accessibility-specialist, design-reviewer (MANDATORY for production)
-- **iOS Specialists (2-10)**: Chosen from 21 specialists:
-  - UI: swiftui-developer, uikit-specialist, ios-accessibility-tester
+- **iOS Specialists (2-10)**: Chosen from 20 specialists:
+  - UI: swiftui-developer, ios-accessibility-tester
   - Data: swiftdata-specialist, coredata-expert
   - Networking: urlsession-expert, combine-networking, ios-api-designer
   - Architecture: state-architect, tca-specialist, observation-specialist
@@ -1129,15 +1338,15 @@ For detailed agent specifications, see the `agents/` directory.
 
 - **Quality Gates (2)**: verification-agent (MANDATORY), quality-validator (MANDATORY)
 
-**Team Scaling by App Complexity:**
+**Team Scaling Examples:**
 
 ```
 ┌──────────────────────────────────────────────────────────┐
-│              iOS TEAM SCALING BY COMPLEXITY              │
+│              iOS TEAM SCALING EXAMPLES                   │
 └──────────────────────────────────────────────────────────┘
 
 ┌──────────────┐  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐
-│   SIMPLE     │  │   MEDIUM     │  │   COMPLEX    │  │  ENTERPRISE  │
+│   FOCUSED    │  │   STANDARD   │  │  EXTENSIVE   │  │  ENTERPRISE  │
 │ (Calculator) │  │ (Notes App)  │  │  (Social)    │  │  (Banking)   │
 │      8       │  │      10      │  │      14      │  │      16+     │
 └──────┬───────┘  └──────┬───────┘  └──────┬───────┘  └──────┬───────┘
@@ -1236,35 +1445,42 @@ claude-vibe-code/
 │   ├── planning/                      # 2 planning specialists
 │   │   ├── requirement-analyst.md
 │   │   └── system-architect.md
-│   ├── quality/                       # 3 quality specialists
+│   ├── quality/                       # 3 quality agents
+│   │   ├── verification-agent.md       # Response Awareness verification
 │   │   ├── test-engineer.md
-│   │   ├── verification-agent.md       # NEW: Response Awareness verification
 │   │   └── quality-validator.md
-│   ├── specialized/                   # 1 specialized agent
-│   │   └── infrastructure-engineer.md
-│   ├── orchestration/                 # 2 orchestrators
+│   ├── implementation/                # 4 implementation agents
+│   │   ├── backend-engineer.md
+│   │   ├── android-engineer.md
+│   │   ├── cross-platform-mobile.md
+│   │   └── infrastructure-engineer.md # DevOps/CI/CD/deployment
+│   ├── orchestration/                 # 4 orchestration agents
 │   │   ├── workflow-orchestrator.md
-│   │   └── plan-synthesis-agent.md
-│   ├── ios-specialists/               # 21 iOS specialists (NEW)
-│   │   ├── ui/                        # swiftui-developer, uikit-specialist, ios-accessibility-tester
-│   │   ├── data/                      # swiftdata-specialist, coredata-expert
-│   │   ├── networking/                # urlsession-expert, combine-networking, ios-api-designer
-│   │   ├── architecture/              # state-architect, tca-specialist, observation-specialist
-│   │   ├── testing/                   # swift-testing-specialist, xctest-pro, ui-testing-expert
-│   │   ├── quality/                   # swift-code-reviewer, ios-debugger
-│   │   ├── devops/                    # xcode-cloud-expert, fastlane-specialist
-│   │   ├── performance/               # ios-performance-engineer
-│   │   └── security/                  # ios-security-tester, ios-penetration-tester
-│   ├── frontend-specialists/          # 5 frontend specialists (NEW)
-│   │   ├── frameworks/                # react-18-specialist, nextjs-14-specialist
-│   │   ├── state/                     # state-management-specialist
-│   │   ├── performance/               # frontend-performance-specialist
-│   │   └── testing/                   # frontend-testing-specialist
-│   └── design-specialists/            # 8 design specialists (NEW)
-│       ├── foundation/                # design-system-architect, ux-strategist
-│       ├── visual/                    # visual-designer
-│       ├── implementation/            # tailwind-specialist, css-specialist, ui-engineer
-│       └── quality/                   # accessibility-specialist, design-reviewer
+│   │   ├── meta-orchestrator.md
+│   │   ├── orchestration-reflector.md
+│   │   └── playbook-curator.md
+│   └── specialists/                   # 36 specialist agents
+│       ├── ios-specialists/           # 20 iOS specialists
+│       │   ├── ui/                    # swiftui-developer, ios-accessibility-tester
+│       │   ├── data/                  # swiftdata-specialist, coredata-expert
+│       │   ├── networking/            # urlsession-expert, combine-networking, ios-api-designer
+│       │   ├── architecture/          # state-architect, tca-specialist, observation-specialist
+│       │   ├── testing/               # swift-testing-specialist, xctest-pro, ui-testing-expert
+│       │   ├── quality/               # swift-code-reviewer, ios-debugger
+│       │   ├── devops/                # xcode-cloud-expert, fastlane-specialist
+│       │   ├── performance/           # ios-performance-engineer
+│       │   └── security/              # ios-security-tester, ios-penetration-tester
+│       ├── frontend-specialists/      # 5 frontend specialists
+│       │   ├── frameworks/            # react-18-specialist, nextjs-14-specialist
+│       │   ├── state/                 # state-management-specialist
+│       │   ├── performance/           # frontend-performance-specialist
+│       │   └── testing/               # frontend-testing-specialist
+│       └── design-specialists/        # 11 design specialists
+│           ├── foundation/            # design-system-architect, ux-strategist, style-translator
+│           ├── visual/                # visual-designer
+│           ├── implementation/        # tailwind-specialist, css-specialist, ui-engineer, design-compiler
+│           ├── verification/          # design-dna-linter
+│           └── quality/               # accessibility-specialist, design-reviewer
 │
 ├── commands/                          # All slash commands (17 total)
 │   ├── orca.md                       # Multi-agent orchestration
@@ -1295,7 +1511,7 @@ claude-vibe-code/
 ```
 
 **Key Directories:**
-- `agents/` - Copy to `~/.claude/agents/` for active use (47 total agents)
+- `agents/` - Copy to `~/.claude/agents/` for active use (50 total agents)
 - `commands/` - Copy to `~/.claude/commands/` for slash commands (17 total)
 - `hooks/` - Copy to `~/.claude/hooks/` for auto-detection hook
 - `scripts/` - Copy to `~/.claude/scripts/` for custom utilities (statusline, design tools)

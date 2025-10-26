@@ -31,6 +31,7 @@ Thumbs.db
 
 # Ignore generated evidence and checklists (ephemeral)
 .orchestration/evidence/
+.orchestration/verification-metrics.jsonl
 .orchestration/proofpacks/*-proofpack.json
 .orchestration/oracles/frontend/*-playwright.test.ts
 .orchestration/oracles/ios/*UITests.swift

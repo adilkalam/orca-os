@@ -105,7 +105,7 @@
 - iOS security and performance
 
 **Categories:**
-- **UI Implementation (3):** swiftui-developer, uikit-specialist, ios-accessibility-tester
+- **UI Implementation (2):** swiftui-developer, ios-accessibility-tester
 - **Data Persistence (2):** swiftdata-specialist, coredata-expert
 - **Networking (3):** urlsession-expert, combine-networking, ios-api-designer
 - **Architecture (3):** state-architect, tca-specialist, observation-specialist
@@ -162,7 +162,7 @@
 
 **Output:** Reflection reports, updated playbooks (JSON + Markdown), signal logs
 
-**Automatic Activation:** Triggered by `/playbook-review` after /orca sessions
+**Automatic Activation:** Triggered by `/memory` after /orca sessions
 
 ---
 
@@ -448,8 +448,7 @@ Use this decision tree for iOS specialists (system-architect handles this):
 Building an iOS app?
 │
 ├─ UI layer?
-│  ├─ iOS 15+ SwiftUI → swiftui-developer
-│  └─ iOS 16 or UIKit → uikit-specialist
+│  └─ SwiftUI (iOS 15+) → swiftui-developer
 │
 ├─ Data persistence?
 │  ├─ iOS 17+ → swiftdata-specialist
@@ -643,7 +642,7 @@ Building an iOS app?
 - ❌ **css-specialist** - iOS doesn't use CSS
 - ❌ **ui-engineer** - iOS uses SwiftUI views, not React components
 
-iOS specialists (swiftui-developer, uikit-specialist) handle both logic and styling.
+iOS specialists (swiftui-developer) handle both logic and styling.
 
 ---
 

@@ -26,11 +26,11 @@
 - **Our version**: /concept uses superpowers:brainstorming skill internally but adds design context
 
 **2. /write-plan** → Use /orca instead
-- **Why**: /orca does automated planning with complexity assessment
+- **Why**: /orca does automated planning with project detection
 - **Advantages**:
-  - Phase 0: Complexity Assessment (prevents over-orchestration)
   - Auto-detects project type (iOS/web/backend)
-  - Selects appropriate specialist team (21 iOS, 5 frontend, 8 design)
+  - Selects appropriate specialist team (21 iOS, 5 frontend, 12 design)
+  - Reference capture before implementation (prevents rework)
 
 **3. /execute-plan** → Use /orca instead
 - **Why**: /orca executes automatically with quality gates
@@ -94,7 +94,7 @@ These are passive knowledge - Claude Code can reference them if needed, but we d
 ```
 Superpowers:                    Our /orca System:
 ---------------------------     ---------------------------
-/write-plan                  →  Phase 0: Complexity Assessment
+/write-plan                  →  Phase 0: Reference Capture
 /execute-plan                →  Phase 1-7: Automated workflow
 code-reviewer agent          →  quality-validator + verification-agent
                                 + design-reviewer + /visual-review
@@ -102,7 +102,7 @@ code-reviewer agent          →  quality-validator + verification-agent
 Generic planning             →  Domain-specific orchestration:
                                 - iOS Team (21 specialists)
                                 - Frontend Team (5 specialists)
-                                - Design Team (8 specialists)
+                                - Design Team (12 specialists)
                                 - Auto-detection + team selection
 ```
 
@@ -142,7 +142,7 @@ Generic feedback             →  Meta-cognitive tags + verification
 | Feature | Superpowers | Our System | Winner |
 |---------|-------------|------------|--------|
 | **Agents** | 1 (code-reviewer) | 45 (domain specialists) | ✅ Ours |
-| **Planning** | Generic /write-plan | Phase 0 Complexity Gate + auto-detect | ✅ Ours |
+| **Planning** | Generic /write-plan | Reference capture + auto-detect | ✅ Ours |
 | **Execution** | Generic /execute-plan | Domain-specific orchestration | ✅ Ours |
 | **Quality** | Code review skill | 4-layer validation stack | ✅ Ours |
 | **Design** | Not design-focused | /concept, /visual-review, design specialists | ✅ Ours |

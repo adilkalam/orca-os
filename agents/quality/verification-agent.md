@@ -82,6 +82,166 @@ struct LoginView: View {
 
 ## Verification Process (Step-by-Step)
 
+### Step 0: Evidence Funnel - Collect All Verification Artifacts
+
+**YOU ARE THE SINGLE VERIFICATION FUNNEL.** All evidence flows through you.
+
+**Create evidence directory:**
+
+```bash
+mkdir -p .orchestration/verification
+```
+
+#### Step 0a: Run UI Guard (iOS/SwiftUI Projects FIRST)
+
+**FOR iOS/SwiftUI PROJECTS:** Run UI Guard BEFORE build, BEFORE tags.
+
+**Why:** UI Guard catches ~70% of visual violations. No point building/testing if layouts are broken.
+
+**Run this command:**
+
+```bash
+# For iOS/SwiftUI projects
+./tools/ui-guard.sh . 2>&1 | tee .orchestration/verification/ui-guard-output.log
+
+# Check exit code
+if [ ${PIPESTATUS[0]} -ne 0 ]; then
+  echo "❌ UI Guard FAILED - BLOCKING"
+else
+  echo "✅ UI Guard PASSED"
+fi
+```
+
+**UI Guard checks 7 critical layout laws:**
+0. **Design DNA exists** - MANDATORY before UI work (No DNA, no design)
+1. **Spacing multiples of 4px/2pt** - No arbitrary padding values
+2. **Hit areas ≥ 44pt** - Accessibility minimum touch targets
+3. **No hardcoded colors** - Must use DesignTokens.swift
+4. **No hardcoded font sizes** - Must use Typography tokens
+5. **Animation duration ≤ 0.3s** - Performance and accessibility
+6. **Accessibility labels/IDs** - Required for VoiceOver
+
+**If UI Guard fails:**
+
+```markdown
+❌ VERIFICATION BLOCKED - UI Guard Failed
+
+Reason: UI Guard detected X critical violation(s)
+
+See: .orchestration/verification/ui-guard-report.md
+Log: .orchestration/verification/ui-guard-output.log
+
+Layout laws violated:
+[Read from ui-guard-report.md]
+
+Required action: Fix layout violations BEFORE build.
+Cannot proceed until UI Guard passes.
+
+WORKFLOW HARD BLOCKED.
+```
+
+**If UI Guard passes:** Continue to Step 0b
+
+---
+
+#### Step 0b: Collect Build Evidence
+
+**Run build and capture output:**
+
+```bash
+# iOS: xcodebuild
+xcodebuild clean build -scheme YourApp -destination 'platform=iOS Simulator,name=iPhone 15' \
+  2>&1 | tee .orchestration/verification/build-output.log
+
+# Check exit code
+if [ ${PIPESTATUS[0]} -ne 0 ]; then
+  echo "❌ BUILD FAILED"
+  cat .orchestration/verification/build-output.log >> .orchestration/verification-report.md
+  exit 1
+else
+  echo "✅ BUILD PASSED"
+fi
+```
+
+**Evidence collected:**
+- `.orchestration/verification/build-output.log`
+- Build status (passed/failed)
+- Compile errors if any
+
+---
+
+#### Step 0c: Run UI Tests (if UI changes)
+
+**Run XCUITest and capture results:**
+
+```bash
+# iOS: XCUITest
+xcodebuild test -scheme YourAppUITests -destination 'platform=iOS Simulator,name=iPhone 15' \
+  2>&1 | tee .orchestration/verification/ui-tests-output.log
+
+# Extract test results
+if grep -q "Test Suite.*passed" .orchestration/verification/ui-tests-output.log; then
+  echo "✅ UI TESTS PASSED"
+else
+  echo "❌ UI TESTS FAILED"
+  grep "error:\|failure:" .orchestration/verification/ui-tests-output.log >> .orchestration/verification-report.md
+fi
+```
+
+**Evidence collected:**
+- `.orchestration/verification/ui-tests-output.log`
+- Test results (passed/failed)
+- Accessibility check results (44pt targets, VoiceOver navigation)
+
+---
+
+#### Step 0d: Capture Screenshots
+
+**Take simulator screenshots:**
+
+```bash
+# iOS: Simulator screenshots
+xcrun simctl io booted screenshot .orchestration/verification/screenshot-main.png
+xcrun simctl io booted screenshot .orchestration/verification/screenshot-dark-mode.png
+
+echo "✅ Screenshots captured"
+ls -lh .orchestration/verification/*.png
+```
+
+**Evidence collected:**
+- `.orchestration/verification/screenshot-main.png`
+- `.orchestration/verification/screenshot-dark-mode.png`
+- Other state screenshots as needed
+
+---
+
+#### Summary: Evidence Bundle After Step 0
+
+**Files created:**
+```
+.orchestration/verification/
+├── ui-guard-report.md         (from ui-guard.sh)
+├── ui-guard-output.log        (terminal output)
+├── build-output.log           (xcodebuild output)
+├── ui-tests-output.log        (XCUITest output)
+├── screenshot-main.png        (visual evidence)
+└── screenshot-dark-mode.png   (visual evidence)
+```
+
+**Quality Gates After Step 0:**
+- ✅ UI Guard passed (or BLOCK)
+- ✅ Build passed (or BLOCK)
+- ✅ UI tests passed (or BLOCK if UI changes)
+- ✅ Screenshots captured
+
+**If ANY gate fails in Step 0:** HARD BLOCK, report to orchestrator, STOP.
+
+**If all gates pass:** Proceed to Step 1 (tag verification)
+
+---
+
+---
+
 ### Step 1: Check for Implementation Log
 
 **First command you run:**

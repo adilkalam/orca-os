@@ -1,0 +1,29 @@
+{
+  "playbook_version": "1.0.0",
+  "project_type": "frontend",
+  "last_updated": "2025-10-25T17:15:00Z",
+  "patterns": [
+    {
+      "id": "frontend-pattern-001",
+      "type": "helpful",
+      "marker": "✓",
+      "title": "Design DNA Auto-Injection for Consistency",
+      "helpful_count": 1,
+      "harmful_count": 0,
+      "context": "Frontend/Mobile projects with design-reviewer in team",
+      "strategy": "Auto-load OBDN + universal-taste.json into specialist context via hook. Hook detects design-heavy request (UI keywords), auto-injects OBDN reference system, specialists generate with taste constraints, visual-reviewer-v2 validates against OBDN.",
+      "evidence": "CLAIMED: 80-90% first-iteration acceptance (vs 30-40% without), reduces iteration cycles by 60-70% (commit 1a9992a). NEEDS VALIDATION via A/B testing across 10 design-heavy /orca sessions.",
+      "learned_from": ["session-20251025-171141"],
+      "created_at": "2025-10-25T17:15:00Z",
+      "files": [
+        ".claude/design-dna/obdn.json",
+        ".claude/design-dna/universal-taste.json",
+        "hooks/load-design-dna.sh",
+        "agents/design-specialists/foundation/style-translator.md",
+        "agents/design-specialists/verification/visual-reviewer-v2.md"
+      ],
+      "validation_needed": true,
+      "validation_claim": "80-90% acceptance rate requires A/B testing proof"
+    }
+  ]
+}

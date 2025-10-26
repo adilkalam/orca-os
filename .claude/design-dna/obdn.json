@@ -1,22 +1,36 @@
 {
   "schema_version": "1.0.0",
   "project": "obdn",
-  "last_updated": "2025-10-24",
+  "last_updated": "2025-01-25",
   "philosophy": {
-    "aesthetic": "luxe minimalism with medical precision",
-    "tagline": "Swiss medical spa precision applied to digital design",
+    "aesthetic": "luxe minimalism",
+    "tagline": "Design is spacious, refined, and trustworthy - balancing clinical precision with luxury calm, and invoking trust through absolute precision. Every surface, element, showcase, and interaction serves clarity and confidence.",
     "principles": [
-      "clarity",
-      "hierarchy",
-      "breathing_room",
-      "intentional_restraint",
-      "zero_tolerance_precision"
-    ],
-    "core_trinity": {
-      "alignment": "4px base grid - everything snaps to this rhythm, no exceptions",
-      "balance": "spacing, typography, color work in harmony - dense when focused, spacious when scanning",
-      "eyes_test": "close eyes, open them - attention should snap to most important element instantly"
-    }
+      {
+        "name": "balance",
+        "description": "Spacing, typography, and color operate in harmony. Dense when focused, spacious when scanning. Never cluttered, never empty"
+      },
+      {
+        "name": "optically_transcendent",
+        "description": "Everything aligns to a 4px grid, including optical corrections for rounded and pointed shapes. Alignment governs hierarchy — not decoration. Bullets are optically adjusted to be in line with the text, as are arrows. Internal grid alignment across elements provides the clean ease of scanning dense information with clarity."
+      },
+      {
+        "name": "controlled_execution",
+        "description": "Typography and spacing structures rely on tokens -- never using in-line styling"
+      },
+      {
+        "name": "clarity",
+        "description": "Information must be clear - how its presented depends on the content and what the user journey is intended to be."
+      },
+      {
+        "name": "creativity_with_intentional_restraint",
+        "description": "We explore unique layouts, we play with typography -- but we always keep the user journey in mind, never sacrificing clarity"
+      },
+      {
+        "name": "zero_tolerance_precision",
+        "description": "Absolute precision in execution, no compromises"
+      }
+    ]
   },
   "typography": {
     "decision_tree": {
@@ -77,14 +91,14 @@
             "weight": 400
           }
         }
-      },
-      "code_specs": {
-        "font": "Brown LL Mono",
-        "weight": 400,
-        "sizes": [14, 15],
-        "line_height": 1.7,
-        "usage": "ONLY technical specs and code",
-        "not_for": ["tables", "dosing_data"]
+      }
+    },
+    "future_considerations": {
+      "monospace_font": {
+        "preferred": "Unica77 Mono (Lineto)",
+        "reason": "Clean Swiss grotesque monospace, already in use for Excel/data work, better zero design than Brown LL Mono",
+        "backup": "Brown LL Mono (Lineto)",
+        "backup_issue": "Dotted zero unsuitable for luxury medical context - acceptable for code but not protocols/dosing"
       }
     },
     "type_scale": {
@@ -140,6 +154,31 @@
         "tablet": {"size": 18, "line_height": 1.8},
         "mobile": {"size": 16, "line_height": 1.8}
       },
+      "visual_card_title": {
+        "font": "Domaine Sans Display 200",
+        "size": 36,
+        "line_height": 1.1,
+        "letter_spacing": "0.02em"
+      },
+      "visual_card_number": {
+        "font": "Domaine Sans Display 200",
+        "size": 64,
+        "line_height": 0.9
+      },
+      "visual_card_body": {
+        "font": "Supreme LL 300",
+        "size": 16,
+        "line_height": 1.6,
+        "letter_spacing": "0.03em",
+        "note": "Increased from 13px after sizing exploration - minimalist bias was affecting readability"
+      },
+      "visual_card_compound_gold": {
+        "font": "Supreme LL 300",
+        "size": 16,
+        "line_height": 1.6,
+        "color": "#D4AF37",
+        "note": "Bright gold required for 300 weight - Supreme LL chosen over GT Pantheon Text to avoid unnecessary font shifting"
+      },
       "technical_specs": {
         "font": "Brown LL Mono 400",
         "desktop": {"size": 15, "line_height": 1.7},
@@ -170,8 +209,20 @@
       "softer": "rgba(201, 169, 97, 0.15)",
       "faint": "rgba(201, 169, 97, 0.1)",
       "usage_limit": "< 10% of elements",
-      "good_usage": ["data_values", "cta_buttons", "category_labels", "active_states"],
-      "avoid": ["body_text", "all_headings", "large_background_areas"]
+      "good_usage": ["data_values", "cta_buttons", "category_labels", "active_states", "compound_names"],
+      "avoid": ["body_text", "all_headings", "large_background_areas"],
+      "weight_dependent_rule": {
+        "light_weights": {
+          "condition": "font-weight 300 or lighter",
+          "color": "#D4AF37",
+          "rationale": "Light weights need brighter gold for adequate presence"
+        },
+        "medium_weights": {
+          "condition": "font-weight 400 or heavier",
+          "color": "#C9A961",
+          "rationale": "Heavier weights have sufficient presence with standard gold"
+        }
+      }
     },
     "surfaces": {
       "raised": "rgba(255, 255, 255, 0.05)",

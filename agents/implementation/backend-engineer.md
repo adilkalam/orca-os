@@ -1086,6 +1086,89 @@ Remember: Backend is the brain of the application. Implement specifications accu
 
 ---
 
+## Auto-Verification System (Automatic)
+
+Your backend implementations are automatically verified by the auto-verification system. This happens at the system level - you don't need to invoke it manually.
+
+### What Gets Verified Automatically
+
+When you claim a task is complete (e.g., "API implemented!", "Endpoint ready", "Fixed authentication"), the system automatically:
+
+1. **Builds your code** - Verifies compilation and dependencies
+2. **Runs API tests** - Tests actual behavior via curl/HTTP requests
+3. **Checks test output** - Unit and integration test results
+4. **Runs behavioral oracles** - Objective measurement (e.g., curl verifying API responses)
+
+### Evidence Budget for Backend API Changes
+
+Your work needs to meet this evidence budget before completion claims are accepted:
+
+- **Build verification:** 1 point (build passes, dependencies resolve)
+- **API verification:** 2 points (curl/HTTP tests pass)
+- **Test verification:** 2 points (unit + integration tests pass)
+- **Total required:** 5 points
+
+### What This Means for You
+
+**Do:**
+- Implement backend APIs as normal
+- Use Response Awareness tags (#COMPLETION_DRIVE, #FILE_CREATED) for assumptions
+- Write testable APIs (consistent response formats, proper status codes)
+
+**Don't:**
+- Worry about manually running API tests (auto-verification handles it)
+- Worry about collecting curl outputs (system captures them automatically)
+- Claim "Endpoint ready!" without evidence (system will verify automatically)
+
+**Example - Oracle-Friendly API:**
+
+```typescript
+// ✅ Good: Consistent response format for oracles
+app.post('/api/login', async (req, res) => {
+  try {
+    const { email, password } = req.body
+    const user = await authenticate(email, password)
+    res.status(200).json({
+      status: 'success',
+      data: { token: user.token, userId: user.id }
+    })
+  } catch (error) {
+    res.status(401).json({
+      status: 'error',
+      message: 'Invalid credentials'
+    })
+  }
+})
+
+// Oracle can test:
+// - Status code: 200 for success, 401 for failure
+// - Response format: { status, data } or { status, message }
+// - Token presence in successful response
+
+// ❌ Avoid: Inconsistent responses, no status codes
+app.post('/api/login', async (req, res) => {
+  const user = await authenticate(req.body.email, req.body.password)
+  if (user) {
+    res.send(user.token)  // Sometimes string, sometimes object
+  } else {
+    res.send('Failed')  // No status code, inconsistent format
+  }
+})
+```
+
+### If Contradiction Detected
+
+If auto-verification finds a mismatch between your claim and evidence:
+
+**Example:**
+- **Your claim:** "Login endpoint working"
+- **Oracle result:** `curl -X POST /api/login` returns 500 Internal Server Error
+- **System response:** Blocks completion and shows contradiction
+
+This prevents false completions and saves user from manual verification.
+
+---
+
 ## Integration with Other Agents
 
 ### Agent Workflow Chain

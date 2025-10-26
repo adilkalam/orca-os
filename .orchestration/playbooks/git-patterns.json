@@ -1,0 +1,21 @@
+{
+  "playbook_version": "1.0.0",
+  "project_type": "git",
+  "last_updated": "2025-10-25T17:15:00Z",
+  "patterns": [
+    {
+      "id": "git-pattern-001",
+      "type": "helpful",
+      "marker": "✓",
+      "title": "Atomic Commits by System Area",
+      "helpful_count": 0,
+      "harmful_count": 1,
+      "context": "Multi-system changes (docs + infrastructure + agents)",
+      "strategy": "Create separate commits per system area instead of monolithic commits. For changes spanning multiple systems (documentation, infrastructure, agents, configuration), commit each system separately with focused commit messages.",
+      "evidence": "Improves reviewability, enables granular rollback. Commit 1a9992a was 54 files in one commit (20,982 additions) - hard to review. Better approach: 5 separate commits (1. QUICK_REFERENCE restructure, 2. System audit, 3. Design DNA, 4. Stage 6 systems, 5. .gitignore).",
+      "learned_from": ["session-20251025-171141"],
+      "created_at": "2025-10-25T17:15:00Z",
+      "antipattern_example": "commit 1a9992a (20,982 additions in one commit)"
+    }
+  ]
+}

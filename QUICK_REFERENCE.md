@@ -4,7 +4,7 @@
 
 ---
 
-## ⚡ Commands (What You Type)
+## ⚡ Commands (14 Total - What You Type)
 
 ### /orca - Full Orchestration
 **Use for:** Complex multi-step features, full implementations, architecture changes
@@ -97,6 +97,58 @@
 
 ---
 
+### /finalize - Evidence-Based Completion Gate
+**Use for:** MANDATORY before claiming work is "done" - verifies evidence exists
+
+**What it does:**
+1. Auto-detects project type (Node/iOS/Python/Rust)
+2. Runs builds → saves to `build.log`
+3. Runs tests → saves to `test-output.log`
+4. Generates `verification-report.md`
+5. Scores evidence (minimum 5 points required)
+6. Creates `.verified` marker if passed
+
+**Examples:**
+```bash
+# After implementing a feature
+/finalize
+
+# Before committing code
+/finalize
+
+# Before claiming "done"
+/finalize
+```
+
+**Evidence scoring:**
+- Build logs (success) → +2 points
+- Test output (passing) → +3 points
+- Screenshots in evidence/ → +2 points
+- Verification report → +1 point
+- Grep evidence → +1 point
+
+**Blocks:**
+- Git commits (pre-commit hook checks `.verified`)
+- Git pushes (pre-push hook checks `.verified`)
+- Claiming "done" without proof
+
+**You get:**
+- ✅ PASS → Can commit/push/claim done
+- ❌ FAIL → Must gather more evidence
+
+**Use this:** BEFORE every commit, BEFORE claiming "done"
+
+---
+
+### /force - Enforce Verification (Legacy)
+**Note:** Replaced by /finalize + behavior guard system
+
+**What it did:** Injected verification requirements into context
+
+**Now use:** `/finalize` for hard enforcement via tool constraints
+
+---
+
 ### /ultra-think - Deep Analysis
 **Use for:** Understanding problems before solving, architectural decisions, performance investigations
 
@@ -123,7 +175,7 @@
 
 ---
 
-### /playbook-review - Reinforce Learning
+### /memory-learn - Reinforce Learning
 **Use for:** After major /orca sessions when you want to explicitly teach the system
 
 **What it does:**
@@ -134,7 +186,7 @@
 
 **Examples:**
 ```bash
-/playbook-review
+/memory
 
 # After session where design-reviewer caught critical bugs:
 # System learns: "design-reviewer prevents production bugs" → helpful_count++
@@ -143,20 +195,20 @@
 # System learns: "Pattern X failed for use case Y" → harmful_count++
 ```
 
-**You get:** Updated playbooks (system gets smarter over time)
+**You get:** Updated memory (system gets smarter over time)
 
 **Note:** This happens automatically after /orca sessions - manual use is optional
 
 ---
 
-### /playbook-pause - Disable Learning
+### /memory-pause - Disable Learning
 **Use for:** Testing, debugging, when you want clean slate behavior
 
-**What it does:** Temporarily disables ACE playbook system so /orca doesn't use learned patterns
+**What it does:** Temporarily disables learning system so /orca doesn't use learned patterns
 
 **Examples:**
 ```bash
-/playbook-pause
+/memory-pause
 
 # Then test /orca without pattern influence
 # When done: Learning re-enables automatically next session
@@ -312,7 +364,7 @@
 ### I want to teach the system
 ```bash
 # After a great session with design-reviewer catching bugs:
-/playbook-review
+/memory
 
 # System learns: "design-reviewer prevents bugs" → helpful_count++
 ```
@@ -352,7 +404,7 @@ You: [Get complete auth implementation]
 
 ---
 
-### Design DNA (Active for OBDN + Projects with DNA)
+### Design DNA (Project-Specific Taste Enforcement)
 
 **What it does:** Programmatic taste enforcement - prevents "looks like shit" first iterations
 
@@ -370,7 +422,7 @@ design-dna-linter: Checks spacing, fonts, colors, forbidden patterns
     ↓
 Implementation: ui-engineer, swiftui-developer, etc.
     ↓
-visual-reviewer-v2: Screenshots + "eyes test" + DNA validation
+design-reviewer: 7-phase visual QA + DNA validation (GATE 4)
     ↓
 Result: Code that matches your taste (80-90% first-iteration acceptance)
 ```
@@ -401,7 +453,7 @@ Result: Code that matches your taste (80-90% first-iteration acceptance)
 **Result:** First iteration matches your taste - no iteration loops
 
 **Files:**
-- `.claude/design-dna/obdn.json` - OBDN project rules
+- `.claude/design-dna/project-name.json` - Project-specific rules (one per project)
 - `.claude/design-dna/universal-taste.json` - Cross-project principles
 
 **Full guide:** `docs/DESIGN_DNA_SYSTEM.md`
@@ -421,7 +473,7 @@ Result: Code that matches your taste (80-90% first-iteration acceptance)
 
 **How to reinforce learning:**
 1. **Automatic (default):** System logs outcomes after every session
-2. **Explicit:** `/playbook-review` to manually trigger reflection
+2. **Explicit:** `/memory` to manually trigger reflection
 3. **See what's learned:** Check `.orchestration/playbooks/*.json`
 
 **Example learned pattern:**
@@ -475,36 +527,182 @@ quality-validator: All tags verified → Approve delivery
 
 ---
 
+### Behavior Guard (Tool-Level Enforcement)
+
+**What it does:** Constrains tools (not the LLM) to prevent catastrophic failures
+
+**The problem:** 21+ sessions of failures despite loaded skills and protocols. Information ≠ constraints.
+
+**The solution:** Stop trying to teach the LLM. **Constrain the tools.**
+
+**Three enforcement layers:**
+
+**1. Destructive Operations Require Confirmation**
+- Protected commands: `rm`, `mv`, `sed`, `truncate`
+- Wrapped by `safe-ops` interceptor
+- Requires per-session `CONFIRM_TOKEN` to execute
+- Blocks if token missing/wrong (exit 78)
+- Violations logged to `~/.claude/guard/state/violations.jsonl`
+
+**2. Completion Requires Evidence (/finalize)**
+- Cannot claim "done" without `/finalize` passing
+- Auto-runs builds, tests, screenshots
+- Scores evidence (minimum 5 points)
+- Creates `.verified` marker if passed
+- Git commits/pushes blocked without `.verified`
+
+**3. Violation Tracking & Escalation**
+- PostToolUse hook monitors blocked operations
+- Escalating warnings (NOTICE → WARNING → CRITICAL)
+- Counts persist across sessions
+- Forces accountability
+
+**How it works:**
+```
+Claude: rm old-file.txt
+→ safe-ops intercepts
+→ Check: CONFIRM_TOKEN set? NO
+→ Exit 78 (blocked)
+→ Log violation
+→ Force either:
+   a) Ask what to delete (AskUserQuestion)
+   b) Explicitly set token (deliberate action)
+```
+
+**What it prevents:**
+- ✅ Deleting files without confirmation (hard block)
+- ✅ Claims without verification (/finalize fails, git blocked)
+- ✅ Commits without evidence (pre-commit hook blocks)
+- ✅ Pushes without finalization (pre-push hook blocks)
+
+**What it can't prevent:**
+- ❌ Not asking clarifying questions (conversation, not tools)
+- ❌ Not escalating thinking (conversation, not tools)
+
+**Why:** Claude Code hooks can intercept tools, but can't block response generation.
+
+**Files:**
+- `~/.claude/guard/bin/safe-ops` - Wrapper blocking destructive ops
+- `~/.claude/guard/bin/evidencectl` - Evidence scoring
+- `~/.claude/guard/hooks/` - Git hook templates
+- `~/.claude/commands/finalize.md` - /finalize command
+- `~/.claude/guard/README.md` - Complete documentation
+
+**Installation:** Already installed. Restart Claude Code to activate.
+
+**Usage:**
+```bash
+# For destructive operations
+export CONFIRM_TOKEN=$(cat ~/.claude/guard/state/token)
+rm file.txt
+
+# Before claiming done
+/finalize
+
+# Install git hooks in repos
+cd your-project
+~/.claude/guard/install-git-hooks.sh
+```
+
+**Full guide:** `~/.claude/guard/README.md` (347 lines, complete theory & usage)
+
+**Credit:** Designed by GPT-5 feedback on Ultra-Think analysis
+
+---
+
+### Auto-Verification Injection (Always Active for Main Claude)
+
+**What it does:** Automatically runs verification tools and shows evidence when you make code changes (outside /orca)
+
+**When it triggers:** Any time Claude claims "Fixed!", "Done!", or similar completion statements
+
+**How it works:**
+```
+You: "Fix iOS calculator chips to be equal width"
+Claude: [Makes change] "Fixed!"
+    ↓
+System (before sending response):
+  - Detects completion claim ✓
+  - Classifies task (iOS UI) ✓
+  - Auto-runs: xcodebuild → simulator → screenshot → oracle ✓
+  - Injects evidence into response ✓
+    ↓
+You see: "Fixed!"
+  + Build: ✅ PASS (1 pt)
+  + Screenshot: ✅ Captured (2 pts)
+  + Oracle: ❌ FAIL - Chips 150px, 120px, 180px (not equal) (0 pts)
+  + Evidence Budget: 3/5 ❌ NOT MET
+  + ⚠️ CONTRADICTION: Claim "Fixed!" but oracle shows NOT equal
+```
+
+**What you get automatically:**
+- Build verification (code compiles)
+- Visual evidence (screenshots)
+- Behavioral tests (oracles measure actual dimensions)
+- Evidence budget tracking (points required vs collected)
+- Contradiction detection (claim vs evidence mismatch)
+
+**Evidence Budget by Task Type:**
+- **iOS UI:** 5 points (build 1pt + screenshot 2pts + oracle 2pts)
+- **Frontend UI:** 5 points (build 1pt + browser screenshot 2pts + playwright 2pts)
+- **Backend API:** 5 points (tests 2pts + curl verification 2pts + build 1pt)
+- **Documentation:** 2 points (markdown lint 1pt + link check 1pt)
+
+**Key Difference from Response Awareness:**
+- **Response Awareness:** Works in /orca workflows (uses meta-cognitive tags)
+- **Auto-Verification:** Works for main Claude responses (automatic tool execution)
+- **Both:** Complementary systems preventing false completions
+
+**Example - iOS Chip Fix (This Session!):**
+
+Without auto-verification:
+- "Fixed!" × 5 (all wrong)
+- User manually checks each time
+- 16 minutes wasted
+
+With auto-verification:
+- "Fixed!" + auto-evidence showing NOT equal
+- Contradiction visible immediately
+- Fix on first attempt
+- 4 minutes total
+
+**Configuration:** `.orchestration/verification-system/config.json`
+**Full Guide:** `.orchestration/verification-system/README.md`
+
+**You don't need to do anything** - Evidence appears automatically when Claude makes completion claims.
+
+---
+
 ## 🤖 Agents (Auto-Selected by /orca)
 
 You don't pick agents - /orca does it automatically based on your project type.
 
 ### Your Project Determines Available Specialists
 
-**iOS Project** (21 iOS specialists)
-- Auto-detected: `*.xcodeproj` found
+**iOS Project** (21 iOS specialists + 8 design specialists if UI work)
+- Auto-detected: `*.xcodeproj` or `*.xcworkspace` found
 - Team size: 8-18 agents (dynamic)
 - **You just:** Describe iOS feature → /orca picks team
 
-**Frontend Project** (5 frontend + 12 design specialists)
+**Frontend Project** (5 frontend + 8 design specialists)
 - Auto-detected: `package.json` with "react" or "next"
 - Team size: 10-17 agents (dynamic)
 - **You just:** Describe frontend feature → /orca picks team
 
-**Backend Project** (3 base specialists)
+**Backend Project** (4 implementation specialists)
 - Auto-detected: `requirements.txt`, `*.py`, or `package.json` with backend deps
-- Team size: 6-12 agents (6 base, +design if admin UI)
+- Team size: 6-12 agents (base + implementation, +design if admin UI)
 - **You just:** Describe backend feature → /orca picks team
 
-### Specialist Categories (52 Total)
+### Specialist Categories (47 Total)
 
-- **iOS** (21): SwiftUI, SwiftData, networking, testing, architecture, performance, security
+- **iOS** (21): SwiftUI, SwiftData, Core Data, networking, testing, architecture, performance, security, UI/accessibility
 - **Frontend** (5): React 18, Next.js 14, state management, performance, testing
-- **Design** (12): Design systems, UX, Tailwind v4, CSS, accessibility, Design DNA
-- **Planning** (3): Requirements, architecture, plan synthesis
-- **Quality** (3): Testing, verification, validation
-- **Implementation** (3): Backend, Android, cross-platform mobile
-- **Orchestration & Learning** (5): Workflow orchestration, meta-orchestration, reflection, curation
+- **Design** (8): Design systems, UX, Tailwind v4, CSS, accessibility, visual design, Design DNA
+- **Planning** (3): Requirements analysis, system architecture, plan synthesis
+- **Quality** (3): Test engineering, verification, quality validation
+- **Implementation** (4): Backend engineering, infrastructure/DevOps, Android, cross-platform mobile
+- **Orchestration** (3): Workflow orchestration, meta-orchestration, playbook curation
 
 **How it works:**
 ```
@@ -556,7 +754,7 @@ Does .claude/design-dna/{project}.json exist?
 ```
 After /orca session:
 ├─ Automatic → Reflection + curation happen automatically
-├─ Explicit → /playbook-review (optional)
+├─ Explicit → /memory-learn (optional)
 └─ See learning → cat .orchestration/playbooks/*.json
 ```
 
@@ -578,7 +776,7 @@ After /orca session:
 | Topic | Location |
 |-------|----------|
 | Full documentation | `docs/` directory |
-| Agent specifications | `agents/` directory (52 total) |
+| Agent specifications | `agents/` directory (50 total) |
 | Design DNA guide | `docs/DESIGN_DNA_SYSTEM.md` |
 | ACE system details | `.orchestration/playbooks/README.md` |
 | Quality gates | `docs/RESPONSE_AWARENESS_TAGS.md` |
@@ -597,4 +795,4 @@ After /orca session:
 
 **You don't:** Pick agents, specify project type, configure teams
 
-**You just:** Describe intent → System handles complexity
+**You just:** Describe intent → System handles the details

@@ -529,6 +529,39 @@ Before ANY agent dispatch:
    If any item fails → Identify gap → Dispatch agent to fix → Re-validate → Repeat
    ```
 
+4. **Auto-Verification Injection (MANDATORY)**
+   ```markdown
+   #CRITICAL: AFTER quality-validator approval, BEFORE presenting to user
+
+   Auto-verification system runs automatically in /orca Phase 7.
+   You do NOT need to invoke it manually - it's a system-level feature.
+
+   What auto-verification does:
+   - Detects completion claims in final response
+   - Automatically executes verification tools (xcodebuild, simulator, screenshots, oracles)
+   - Injects behavioral evidence into response
+   - Detects contradictions (claim vs evidence)
+   - Blocks completion if evidence budget not met
+
+   This provides "belt + suspenders" verification:
+   1. verification-agent (Phase 5) - Verifies meta-cognitive tags
+   2. quality-validator (Phase 6) - Validates evidence completeness
+   3. auto-verification (Phase 7) - Automatic behavioral oracles
+
+   #ENFORCEMENT: Even if tags weren't created or verification was skipped,
+   auto-verification runs automatically and prevents false completions.
+
+   Evidence budget examples:
+   - iOS UI: 5 points (build 1pt + screenshot 2pt + oracle 2pt)
+   - Frontend UI: 5 points (build 1pt + screenshot 2pt + playwright 2pt)
+   - Backend API: 5 points (build 1pt + curl 2pt + tests 2pt)
+
+   If contradiction detected, auto-verification will:
+   - Show claim vs evidence mismatch
+   - Block "Fixed!" response
+   - Require actual fix before claiming complete
+   ```
+
 ## Multi-Agent Coordination Patterns
 
 ### Sequential Execution Pattern

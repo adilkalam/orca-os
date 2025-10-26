@@ -1128,7 +1128,7 @@ If I'm wrong once, think deeper. If I'm wrong twice, use /ultra-think. Don't giv
 **Command Count:** 17 total
 - Core: /orca, /enhance, /ultra-think
 - Design: /concept, /design, /inspire, /save-inspiration, /visual-review
-- ACE: /playbook-review, /playbook-pause
+- ACE: /memory, /memory-pause
 - Workflow: /agentfeedback, /clarify, /session-save, /session-resume
 
 **MCP Servers:**
