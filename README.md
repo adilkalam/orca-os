@@ -895,15 +895,28 @@ Skills from the superpowers plugin are available. See `skills/` directory for th
 
 **Key rules:**
 ```
-Evidence (screenshots, curl output):  .orchestration/evidence/ ONLY
-Logs (build logs, test output):      .orchestration/logs/ ONLY
+Evidence (screenshots, reports):     .orchestration/evidence/ ONLY (auto-deleted after 7 days)
+Logs (build logs, test output):      .orchestration/logs/ ONLY (auto-deleted after 7 days)
 Agent definitions:                    agents/ with subdirectories
 Slash commands:                       commands/ (flat structure)
 Documentation (permanent):            docs/ or root (README, QUICK_REFERENCE, CLAUDE)
+Permanent evidence (promoted):        docs/evidence/ (user-promoted critical files)
 
 NO files in project root except allowed docs
 NO screenshots/logs outside .orchestration/
+NO inline CSS (use Tailwind or design tokens)
 ```
+
+**File lifecycle tiers:**
+1. **Permanent Source** (Sources/, src/) → Committed to git, never auto-deleted
+2. **Ephemeral Evidence** (.orchestration/evidence/) → Auto-deleted after 7 days
+3. **Ephemeral Logs** (.orchestration/logs/) → Auto-deleted after 7 days
+4. **Permanent Evidence** (docs/evidence/) → User-promoted, committed to git
+
+**Evidence retention:**
+- Default: 7 days (SessionEnd hook)
+- Extend: `touch .orchestration/evidence/.keep`
+- Promote critical: `cp .orchestration/evidence/[file] docs/evidence/[name]`
 
 ### Layer 2: Verification
 
@@ -943,11 +956,29 @@ Creates:
 
 ### Agent Integration
 
-Key agents updated with organization standards:
-- **workflow-orchestrator** - Ensures all dispatched agents follow standards
-- **backend-engineer** - Knows canonical locations for server files and evidence
-- **verification-agent** - Creates reports in `.orchestration/verification/`
-- **design-reviewer** - Places screenshots in `.orchestration/evidence/design-review-[component]/`
+**ALL agents updated with platform-specific file structure rules:**
+
+**iOS Specialists (20 agents):**
+- Implementation agents → Sources/Features/[Feature]/Views|ViewModels|Models/
+- Testing agents → Tests/[Feature]Tests/ + .orchestration/logs/tests/
+- Verification agents → .orchestration/evidence/accessibility|performance/
+
+**Frontend Specialists (5 agents):**
+- Implementation agents → src/components/[Component]/ or src/app/[route]/
+- Testing agents → src/components/[Component]/*.test.tsx
+- Design verification → .orchestration/evidence/screenshots|validation/
+
+**Backend Engineers (2 agents):**
+- Implementation → src/routes|controllers|models|services/
+- Testing → tests/[layer]/
+
+**Design Specialists (8 agents):**
+- All design agents → Never use inline CSS, follow design-system-vX.X.X.md
+- Verification agents → .orchestration/evidence/screenshots|accessibility/
+
+**Orchestration:**
+- **workflow-orchestrator** - Enforces standards across all dispatched agents
+- **/orca** - Phase 8 manages evidence lifecycle and cleanup
 
 ### Documentation Updates Are Mandatory
 

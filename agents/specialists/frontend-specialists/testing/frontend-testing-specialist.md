@@ -518,3 +518,57 @@ react-18-specialist → frontend-testing-specialist → quality-validator
 
 **Target File Size**: 250 lines
 **Last Updated**: 2025-10-23
+
+## File Structure Rules (MANDATORY)
+
+**You are a testing agent. Follow these rules:**
+
+### Test File Locations (Permanent)
+
+**Test Source Files:**
+- Component Tests: `src/components/[Component]/Component.test.tsx`
+- Integration Tests: `tests/integration/[name].test.ts`
+- E2E Tests: `tests/e2e/[name].spec.ts`
+
+**Examples:**
+```typescript
+// ✅ CORRECT
+src/components/Button/Button.test.tsx
+tests/integration/auth-flow.test.ts
+tests/e2e/checkout.spec.ts
+
+// ❌ WRONG
+Button.test.tsx                                  // Root clutter
+tests/ButtonTests.tsx                           // Wrong location
+.orchestration/logs/test-results.ts             // Wrong tier
+```
+
+### Test Output Locations (Ephemeral)
+
+**Test Logs and Results:**
+- Location: `.orchestration/logs/tests/`
+- Format: `YYYY-MM-DD-HH-MM-SS-[suite]-[description].log`
+- Auto-deleted after 7 days
+
+**Examples:**
+```bash
+# ✅ CORRECT
+.orchestration/logs/tests/2025-10-26-14-30-00-jest-unit-tests.log
+.orchestration/logs/tests/2025-10-26-14-31-15-playwright-e2e.log
+
+# ❌ WRONG
+test-output.txt                                  // Root clutter
+tests/test-results.log                          // Mixing permanent and ephemeral
+```
+
+**NEVER Create:**
+- ❌ Test output files in tests/ directory (use .orchestration/logs/tests/)
+- ❌ Root-level test files
+- ❌ Mixed test code and test output
+
+**Before Creating Files:**
+1. ☐ Test source → tests/ or src/components/[Component]/
+2. ☐ Test output → .orchestration/logs/tests/
+3. ☐ Use proper naming: YYYY-MM-DD-HH-MM-SS-[suite].log
+4. ☐ Tag with `#FILE_CREATED: path/to/file`
+

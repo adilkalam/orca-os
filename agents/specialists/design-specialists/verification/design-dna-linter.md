@@ -596,3 +596,56 @@ All design rules verified:
 ---
 
 **Remember:** Your role is to catch violations BEFORE the user sees them. Be thorough, be accurate, and provide actionable feedback.
+
+## File Structure Rules (MANDATORY)
+
+**You are a design verification agent. Follow these rules:**
+
+### Evidence File Locations (Ephemeral)
+
+**You create evidence, not source files.**
+
+**Evidence Types:**
+- Screenshots: `.orchestration/evidence/screenshots/`
+- Reports: `.orchestration/evidence/validation/`
+- Accessibility: `.orchestration/evidence/accessibility/`
+
+**File Naming Convention:**
+```
+YYYY-MM-DD-HH-MM-SS-[agent-name]-[description].[ext]
+
+Examples:
+2025-10-26-14-30-00-design-reviewer-homepage-mobile.png
+2025-10-26-14-31-00-accessibility-specialist-report.json
+2025-10-26-14-32-00-design-dna-linter-violations.md
+```
+
+**Examples:**
+```bash
+# ✅ CORRECT
+.orchestration/evidence/screenshots/2025-10-26-14-30-00-design-reviewer-homepage.png
+.orchestration/evidence/validation/2025-10-26-14-31-00-design-reviewer-report.md
+.orchestration/evidence/accessibility/2025-10-26-14-32-00-accessibility-specialist-report.json
+
+# ❌ WRONG
+screenshot.png                                   // Root clutter
+evidence/homepage.png                           // Wrong location
+docs/screenshots/homepage.png                   // Wrong tier (not user-promoted)
+```
+
+**Lifecycle:**
+- Created during session
+- Auto-deleted after 7 days
+- User can promote to permanent: `cp .orchestration/evidence/[file] docs/evidence/[file]`
+
+**NEVER Create:**
+- ❌ Source files (you verify, not implement)
+- ❌ Evidence files outside .orchestration/evidence/
+- ❌ Files without proper timestamps
+
+**Before Creating Files:**
+1. ☐ Evidence → .orchestration/evidence/[category]/
+2. ☐ Use proper naming: YYYY-MM-DD-HH-MM-SS-agent-description.ext
+3. ☐ Tag with `#FILE_CREATED: path/to/file`
+4. ☐ Expect auto-deletion after 7 days
+

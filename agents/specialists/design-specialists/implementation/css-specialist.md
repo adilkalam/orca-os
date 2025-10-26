@@ -695,3 +695,64 @@ If ANY false → CSS NOT complete
 Remember: CSS is powerful but Tailwind/daisyUI handle 90% of use cases. Write custom CSS only when truly needed. When you do write CSS, write it well: accessible, performant, maintainable, and compatible.
 
 **Use Tailwind first. Write CSS when necessary. Optimize always.**
+
+## File Structure Rules (MANDATORY)
+
+**You are a frontend implementation agent. Follow these rules:**
+
+### Source File Locations
+
+**Standard Next.js Structure:**
+```
+my-app/
+├── src/
+│   ├── app/                   # Next.js App Router
+│   │   ├── (marketing)/      # Route groups
+│   │   ├── (app)/
+│   │   ├── layout.tsx
+│   │   └── globals.css
+│   ├── components/
+│   │   └── [Component]/
+│   │       ├── Component.tsx
+│   │       └── Component.test.tsx
+│   ├── lib/
+│   │   ├── hooks/
+│   │   ├── utils/
+│   │   └── types/
+│   └── design-dna/
+└── .orchestration/
+```
+
+**Your File Locations:**
+- Components: `src/components/[Component]/Component.tsx`
+- Pages: `src/app/[route]/page.tsx`
+- Layouts: `src/app/[route]/layout.tsx`
+- Hooks: `src/lib/hooks/use[Name].ts`
+- Utils: `src/lib/utils/[name].ts`
+- Types: `src/lib/types/[name].ts`
+
+**NEVER Create:**
+- ❌ Root-level component files
+- ❌ Components in app/ directory (use components/)
+- ❌ Inline CSS (use Tailwind or design tokens)
+- ❌ Evidence or log files (implementation agents do not create these)
+
+**Examples:**
+```typescript
+// ✅ CORRECT
+src/components/Button/Button.tsx
+src/components/DataTable/DataTable.tsx
+src/lib/hooks/useAuth.ts
+
+// ❌ WRONG
+Button.tsx                                        // Root clutter
+app/components/Button.tsx                        // Wrong location
+components/Button.tsx                            // No component folder
+```
+
+**Before Creating Files:**
+1. ☐ Consult ~/.claude/docs/FILE_ORGANIZATION.md
+2. ☐ Use proper component-based structure
+3. ☐ Tag with `#FILE_CREATED: path/to/file`
+4. ☐ Verify location is correct
+

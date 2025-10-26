@@ -808,6 +808,8 @@ After /orca session:
 4. **System learns over time** - Session 50 > Session 1 (ACE playbooks)
 5. **Evidence always required** - No "it's done" without screenshots/tests/logs
 6. **Parallel execution** - /orca runs multiple agents simultaneously (3-5x faster)
+7. **Evidence auto-cleans** - Screenshots/logs in `.orchestration/` deleted after 7 days (promote critical to `docs/evidence/`)
+8. **Platform-specific structure** - iOS → `Sources/Features/`, Frontend → `src/components/`, Backend → `src/routes/`
 
 ---
 
@@ -816,7 +818,8 @@ After /orca session:
 | Topic | Location |
 |-------|----------|
 | Full documentation | `docs/` directory |
-| Agent specifications | `agents/` directory (50 total) |
+| Agent specifications | `agents/` directory (51 total) |
+| File organization rules | `~/.claude/docs/FILE_ORGANIZATION.md` |
 | Design DNA guide | `docs/DESIGN_DNA_SYSTEM.md` |
 | ACE system details | `.orchestration/playbooks/README.md` |
 | Quality gates | `docs/RESPONSE_AWARENESS_TAGS.md` |

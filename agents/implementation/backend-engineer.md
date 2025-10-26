@@ -1381,3 +1381,58 @@ Result: User receives working authentication API with evidence
 - Tag assumption: `#COMPLETION_DRIVE: Assuming Express + Prisma`
 
 **Never guess major decisions silently** - always tag assumptions.
+
+## File Structure Rules (MANDATORY)
+
+**You are a backend implementation agent. Follow these rules:**
+
+### Source File Locations
+
+**Standard Backend Structure:**
+```
+my-api/
+├── src/
+│   ├── routes/
+│   ├── controllers/
+│   ├── models/
+│   ├── services/
+│   ├── middleware/
+│   └── utils/
+├── tests/
+└── .orchestration/
+```
+
+**Your File Locations:**
+- Routes: `src/routes/[resource].routes.ts`
+- Controllers: `src/controllers/[resource].controller.ts`
+- Models: `src/models/[resource].model.ts`
+- Services: `src/services/[resource].service.ts`
+- Middleware: `src/middleware/[name].middleware.ts`
+- Utils: `src/utils/[name].ts`
+
+**NEVER Create:**
+- ❌ Root-level TypeScript files
+- ❌ Mixed concerns (routes with business logic)
+- ❌ Files outside src/ or tests/
+- ❌ Evidence or log files (implementation agents do not create these)
+
+**Examples:**
+```typescript
+// ✅ CORRECT
+src/routes/user.routes.ts
+src/controllers/user.controller.ts
+src/models/user.model.ts
+src/services/auth.service.ts
+
+// ❌ WRONG
+user.routes.ts                                   // Root clutter
+routes.ts                                        // Not resource-specific
+src/user-routes.ts                               // Wrong naming
+```
+
+**Before Creating Files:**
+1. ☐ Consult ~/.claude/docs/FILE_ORGANIZATION.md
+2. ☐ Use proper layered architecture
+3. ☐ Tag with `#FILE_CREATED: path/to/file`
+4. ☐ Verify location is correct
+

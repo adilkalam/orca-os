@@ -1644,6 +1644,118 @@ Completion = (Fully Delivered Promises) / (Total Promises) × 100%
 
 ---
 
+## Phase 8: Evidence Management & Cleanup
+
+### After Presenting Results
+
+**MANDATORY: Manage evidence files created during session**
+
+1. **List Evidence Created:**
+   ```bash
+   echo "📁 Evidence created this session:"
+   find .orchestration/evidence/ -type f -mtime -1 -exec ls -lh {} \; 2>/dev/null | awk '{print $9, "("$5")"}'
+   find .orchestration/logs/ -type f -mtime -1 -exec ls -lh {} \; 2>/dev/null | awk '{print $9, "("$5")"}'
+   ```
+
+2. **Calculate Directory Sizes:**
+   ```bash
+   evidence_size=$(du -sh .orchestration/evidence/ 2>/dev/null | cut -f1 || echo "0B")
+   evidence_count=$(find .orchestration/evidence/ -type f 2>/dev/null | wc -l | tr -d ' ')
+   logs_size=$(du -sh .orchestration/logs/ 2>/dev/null | cut -f1 || echo "0B")
+   logs_count=$(find .orchestration/logs/ -type f 2>/dev/null | wc -l | tr -d ' ')
+
+   echo "📊 Evidence Summary:"
+   echo "  • Evidence: $evidence_count files ($evidence_size)"
+   echo "  • Logs: $logs_count files ($logs_size)"
+   ```
+
+3. **Cleanup Status:**
+   - If total size >100MB:
+     ```
+     ⚠️ Large evidence directory detected (>100MB)
+     Run /cleanup to review and remove old files
+     ```
+   - If total size <100MB:
+     ```
+     ✓ Evidence directory within normal size
+     ```
+
+4. **Promotion Reminder (if critical evidence exists):**
+   ```
+   💡 Critical Evidence Promotion:
+
+   If any screenshots/reports are needed long-term:
+   1. cp .orchestration/evidence/screenshots/[file].png docs/evidence/[name].png
+   2. git add docs/evidence/[name].png
+   3. git commit -m "Document [description]"
+
+   Note: Evidence auto-deletes after 7 days (SessionEnd hook)
+   ```
+
+5. **File Lifecycle Info:**
+   ```
+   📋 File Lifecycle:
+   • Source files (src/, Sources/): Permanent (commit to git)
+   • Evidence (.orchestration/evidence/): Auto-deleted after 7 days
+   • Logs (.orchestration/logs/): Auto-deleted after 7 days
+   • Docs/evidence/: Permanent (user-promoted critical evidence)
+
+   Prevent auto-deletion: touch .orchestration/evidence/.keep
+   ```
+
+### Evidence Management Rules
+
+**DO:**
+- ✅ List all evidence created during session
+- ✅ Inform user of total size and file count
+- ✅ Remind user to promote critical evidence to docs/evidence/
+- ✅ Explain auto-deletion policy (7 days via SessionEnd hook)
+
+**DON'T:**
+- ❌ Delete evidence files yourself (SessionEnd hook handles this)
+- ❌ Assume user knows about evidence lifecycle
+- ❌ Skip evidence summary if "small" (always show)
+- ❌ Commit evidence to git (it's .gitignored)
+
+### When to Run Phase 8
+
+**ALWAYS run after:**
+- Completing implementation work
+- design-reviewer creates screenshots
+- quality-validator generates reports
+- Any agent creates evidence files
+
+**Example Output:**
+```
+---
+## Evidence Management
+
+📁 Evidence created this session:
+  .orchestration/evidence/screenshots/2025-10-26-14-30-00-design-reviewer-homepage.png (234KB)
+  .orchestration/evidence/screenshots/2025-10-26-14-31-00-design-reviewer-mobile.png (187KB)
+  .orchestration/evidence/validation/2025-10-26-14-32-00-design-review-report.md (12KB)
+
+📊 Evidence Summary:
+  • Evidence: 3 files (433KB)
+  • Logs: 2 files (45KB)
+
+✓ Evidence directory within normal size
+
+💡 Critical Evidence Promotion:
+If these screenshots are needed for documentation:
+  cp .orchestration/evidence/screenshots/2025-10-26-14-30-00-design-reviewer-homepage.png \
+     docs/evidence/homepage-design-review.png
+  git add docs/evidence/homepage-design-review.png
+
+📋 File Lifecycle:
+  • Evidence (.orchestration/evidence/): Auto-deleted after 7 days
+  • Prevent deletion: touch .orchestration/evidence/.keep
+
+---
+```
+
+---
+
 ## Important Rules
 
 ### NEVER Claim Completion Without Verification
