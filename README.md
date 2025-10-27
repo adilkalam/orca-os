@@ -867,6 +867,28 @@ All commands live in `commands/` and extend Claude Code workflows:
 | **/completion-drive** | Meta-cognitive strategy for two-tier assumption tracking | `completion-drive.md` |
 | **/all-tools** | List all available tools and their capabilities | `all-tools.md` |
 
+### Opus Usage Control
+
+**Opus is restricted to planning tasks only.** Implementation always uses Sonnet.
+
+**Commands:**
+- `/opus-disable` - Block all Opus usage temporarily
+- `/opus-disable --status` - Check if Opus is disabled
+- `/opus-disable --enable` - Re-enable Opus
+
+**How it works:**
+1. `/ultra-think` - Always asks which model (Opus/Sonnet/Haiku)
+2. `/orca` complex tasks - Asks to confirm Opus for planning
+3. `/orca` simple tasks - Uses Sonnet automatically
+4. All implementation agents - Always use Sonnet
+
+**When Opus is disabled:**
+- `/ultra-think` offers only Sonnet/Haiku
+- `/orca` uses Sonnet for all tasks
+- No Opus usage possible
+
+**Cost savings:** ~58% reduction vs previous all-Opus approach.
+
 ### 🪝 Hooks
 
 | Hook | Description | File |
