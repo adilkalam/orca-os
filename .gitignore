@@ -94,3 +94,4 @@ dev-logs/
 .orchestration/success-criteria.md
 .orchestration/quality-*.md
 .orchestration/logs/
+.worktrees/
