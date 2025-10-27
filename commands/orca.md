@@ -586,6 +586,78 @@ Analyze the prompt and current project to determine the tech stack:
 
 ---
 
+## Phase 1.5: Complexity Assessment (NEW - OPUS GUARD)
+
+**CRITICAL:** Before proceeding, assess if this is a complex task requiring Opus.
+
+### Complexity Detection
+
+Check for complexity signals:
+
+```
+Complex task indicators:
+1. Request contains [COMPLEX] tag
+2. Multi-agent orchestration (>5 agents needed)
+3. Novel system design from scratch
+4. Strategic architectural planning
+5. User explicitly mentions "complex"
+
+Simple/Moderate task indicators:
+1. Bug fix or feature addition
+2. Standard implementation (follow existing patterns)
+3. 1-3 agents sufficient
+4. No architectural decisions needed
+```
+
+### Decision Logic
+
+```bash
+# Check if Opus disabled
+OPUS_DISABLED=false
+if [ -f ~/.claude/config/.opus-disabled ]; then
+  OPUS_DISABLED=true
+fi
+
+# Assess complexity
+if request_has_complexity_markers; then
+  TASK_COMPLEXITY="complex"
+else
+  TASK_COMPLEXITY="simple_or_moderate"
+fi
+```
+
+### Model Selection
+
+**If OPUS_DISABLED = true:**
+  - Use Sonnet for all tasks (no confirmation needed)
+  - Skip to Phase 2
+
+**If OPUS_DISABLED = false AND TASK_COMPLEXITY = "complex":**
+  - Show Opus confirmation dialog:
+
+```
+Use AskUserQuestion:
+
+Question: "This task appears complex. Use Opus for planning?"
+
+Options:
+  1. "Yes, use Opus" - Better quality for complex planning
+  2. "No, use Sonnet" - Standard model sufficient
+
+Validation:
+- If "Yes" → Set planning model to claude-opus-4
+- If "No" → Set planning model to claude-sonnet-4-5-20250929
+- If blank/interrupted → Re-ask with context
+```
+
+**If OPUS_DISABLED = false AND TASK_COMPLEXITY = "simple_or_moderate":**
+  - Use Sonnet automatically (no confirmation)
+  - Skip to Phase 2
+
+**IMPORTANT:** This ONLY affects planning agents (requirement-analyst, system-architect). Implementation agents (swiftui-developer, backend-engineer, etc.) ALWAYS use Sonnet.
+
+---
+
 ## Phase 2: Agent Team Selection
 
 Based on detection, select the appropriate predefined team:
