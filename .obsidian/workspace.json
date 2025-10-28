@@ -1,0 +1,218 @@
+{
+  "main": {
+    "id": "0bc4b46ae566d264",
+    "type": "split",
+    "children": [
+      {
+        "id": "2ed89938de71f957",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "07d7e525e1d51d30",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "refrences/LLMs as Interpreters The Probabilistic Runtime for English Programs.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "LLMs as Interpreters The Probabilistic Runtime for English Programs"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "2627940edc4ec96b",
+    "type": "split",
+    "children": [
+      {
+        "id": "4c4aa8db83213bba",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "659dd57a2404ad74",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical",
+                "autoReveal": false
+              },
+              "icon": "lucide-folder-closed",
+              "title": "Files"
+            }
+          },
+          {
+            "id": "b256e0f6b232c0fe",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-search",
+              "title": "Search"
+            }
+          },
+          {
+            "id": "ac2c2fb9e004d5c9",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {},
+              "icon": "lucide-bookmark",
+              "title": "Bookmarks"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "ea6e9f4f4eed87b4",
+    "type": "split",
+    "children": [
+      {
+        "id": "0080fe464acac914",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "e41442f4fcd629f4",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "refrences/LLMs as Interpreters The Probabilistic Runtime for English Programs.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-coming-in",
+              "title": "Backlinks for LLMs as Interpreters The Probabilistic Runtime for English Programs"
+            }
+          },
+          {
+            "id": "64324d90b8795372",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "refrences/LLMs as Interpreters The Probabilistic Runtime for English Programs.md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-going-out",
+              "title": "Outgoing links from LLMs as Interpreters The Probabilistic Runtime for English Programs"
+            }
+          },
+          {
+            "id": "0f9c8c965fc4a3fd",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-tags",
+              "title": "Tags"
+            }
+          },
+          {
+            "id": "dde96c2cdaaf6eb7",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "refrences/LLMs as Interpreters The Probabilistic Runtime for English Programs.md",
+                "followCursor": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-list",
+              "title": "Outline of LLMs as Interpreters The Probabilistic Runtime for English Programs"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:Open quick switcher": false,
+      "graph:Open graph view": false,
+      "canvas:Create new canvas": false,
+      "daily-notes:Open today's daily note": false,
+      "templates:Insert template": false,
+      "command-palette:Open command palette": false,
+      "bases:Create new base": false
+    }
+  },
+  "active": "07d7e525e1d51d30",
+  "lastOpenFiles": [
+    "dev-logs/obdn-design-automation/test-results/universal-framework-validation.md",
+    "dev-logs/obdn-design-automation/test-results/tracker-comprehensive-analysis.md",
+    "dev-logs/obdn-design-automation/test-results/obdn-baseline-compliance-report.md",
+    "dev-logs/obdn-design-automation/UNIVERSAL_DESIGN_AUTOMATION.md",
+    "dev-logs/obdn-design-automation/test-results",
+    "dev-logs/obdn-design-automation/PHASE_01_DELIVERY_REPORT.md",
+    "dev-logs/obdn-design-automation/IMPLEMENTATION_REPORT.md",
+    "dev-logs/obdn-design-automation/DELIVERY_SUMMARY.md",
+    "dev-logs/obdn-design-automation/COMPLETE_SYSTEM_SUMMARY.md",
+    "dev-logs/obdn-design-automation",
+    "dev-logs/ULTRA_THINK_ACE_ANALYSIS.md",
+    "dev-logs/ACE_PLAYBOOK_COMPLETE_IMPLEMENTATION.md",
+    "obdn-design-automation/test-results/universal-framework-validation.md",
+    "obdn-design-automation/test-results/obdn-baseline-compliance-report.md",
+    "obdn-design-automation/test-results/tracker-comprehensive-analysis.md",
+    "obdn-design-automation/test-results",
+    "obdn-design-automation/UNIVERSAL_DESIGN_AUTOMATION.md",
+    "obdn-design-automation/PHASE_01_DELIVERY_REPORT.md",
+    "obdn-design-automation/IMPLEMENTATION_REPORT.md",
+    "obdn-design-automation/DELIVERY_SUMMARY.md",
+    "obdn-design-automation/COMPLETE_SYSTEM_SUMMARY.md",
+    "obdn-design-automation",
+    "ULTRA_THINK_ACE_ANALYSIS.md",
+    "ACE_PLAYBOOK_COMPLETE_IMPLEMENTATION.md",
+    "explore/fluxwing-skills-main/thoughts/shared/plans/2025-10-26-rebrand-skills-to-fluxwing.md",
+    "explore/fluxwing-skills-main/skills/fluxwing-screenshot-importer/docs/screenshot-validation-functions.md",
+    "explore/fluxwing-skills-main/skills/fluxwing-screenshot-importer/docs/screenshot-screen-generation.md",
+    "explore/fluxwing-skills-main/skills/fluxwing-screenshot-importer/docs/screenshot-import-helpers.md",
+    "explore/fluxwing-skills-main/skills/fluxwing-screenshot-importer/docs/screenshot-import-examples.md",
+    "explore/fluxwing-skills-main/skills/fluxwing-screenshot-importer/docs/screenshot-import-ascii.md",
+    "explore/fluxwing-skills-main/skills/fluxwing-screen-scaffolder/templates/login-screen.uxm",
+    "explore/fluxwing-skills-main/skills/fluxwing-screen-scaffolder/templates/dashboard.uxm",
+    "explore/fluxwing-skills-main/skills/fluxwing-library-browser/scripts/build_index.py",
+    "explore/fluxwing-skills-main/skills/fluxwing-library-browser/data/template-index.json",
+    "explore/fluxwing-skills-main/skills/fluxwing-component-creator/templates/secondary-button.uxm",
+    "explore/fluxwing-skills-main/skills/fluxwing-component-creator/templates/primary-button.uxm",
+    "explore/fluxwing-skills-main/docs/assets/trabian.svg",
+    "explore/fluxwing-skills-main/docs/favicon.svg",
+    "refrences/workshop-main/feature-demo.gif",
+    "refrences/workshop-main/demo.gif",
+    "refrences/pantheon-framework-main/reference/diagram-example-2.png",
+    "refrences/pantheon-framework-main/reference/diagram-example-1.png",
+    "refrences/agentic-context-engine-main/kayba_test_demo.gif"
+  ]
+}
