@@ -23,6 +23,29 @@ if [ -f ".orchestration/mode.json" ]; then
   VERIFY_MODE=${VM:-strict}
 fi
 
+# Doc-only bypass: if only doc files are newer than marker, allow push
+doc_only_newer=1
+newer_files=0
+if [ -f .verified ] || [ -f .tweak_verified ]; then
+  MARKER_CANDIDATE=".verified"
+  [ "$VERIFY_MODE" = "tweak" ] && MARKER_CANDIDATE=".tweak_verified"
+  if [ -f "$MARKER_CANDIDATE" ]; then
+    # iterate tracked files and see which are newer than marker; if any non-doc -> disable bypass
+    while IFS= read -r f; do
+      [ -e "$f" ] || continue
+      case "$f" in .orchestration/*|.verified|.tweak_verified) continue ;; esac
+      if [ "$(file_mtime "$f")" -gt "$(file_mtime "$MARKER_CANDIDATE")" ]; then
+        newer_files=$((newer_files+1))
+        case "$f" in docs/*|README.md) : ;; *) doc_only_newer=0; break ;; esac
+      fi
+    done < <(git ls-files)
+  fi
+fi
+if [ "$newer_files" -gt 0 ] && [ "$doc_only_newer" -eq 1 ]; then
+  err "Doc-only newer changes — bypassing verification"
+  exit 0
+fi
+
 # Cross-platform file mtime
 file_mtime() {
   if stat -f %m "$1" >/dev/null 2>&1; then

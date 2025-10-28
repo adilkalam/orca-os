@@ -17,6 +17,24 @@ if [ "${VERIFY_BYPASS:-}" = "1" ] || [ "${GIT_VERIFY:-on}" = "off" ]; then
   exit 0
 fi
 
+# Files staged for commit
+STAGED=$(git diff --cached --name-only)
+
+# Doc-only bypass: allow commit if all staged files are under docs/ or README.md
+all_docs=1
+if [ -n "$STAGED" ]; then
+  while IFS= read -r f; do
+    case "$f" in
+      docs/*|README.md) : ;; 
+      *) all_docs=0 ; break ;;
+    esac
+  done <<< "$STAGED"
+fi
+if [ "$all_docs" -eq 1 ]; then
+  err "Doc-only changes detected — bypassing verification"
+  exit 0
+fi
+
 # Read verification mode from mode file
 VERIFY_MODE="strict"
 if [ -f ".orchestration/mode.json" ]; then
@@ -64,9 +82,6 @@ if ! grep -q '^status: PASS' "$MARKER"; then
 fi
 
 MARKER_MTIME=$(file_mtime "$MARKER")
-
-# Files staged for commit
-STAGED=$(git diff --cached --name-only)
 
 # If nothing is staged, allow commit (e.g., merging with no changes)
 if [ -z "$STAGED" ]; then

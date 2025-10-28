@@ -329,6 +329,8 @@ if [ "$STATUS" = "PASS" ]; then
       --report "$REPORT_MD" \
       --notes ""
   fi
+  # Non-blocking memory refresh to keep local DB hot (best-effort)
+  nohup python3 scripts/memory-index.py update-changed >/dev/null 2>&1 &
   exit 0
 else
   rm -f "$VERIFIED_FILE" 2>/dev/null || true
@@ -360,5 +362,7 @@ else
       --report "$REPORT_MD" \
       --notes "${FAIL_REASONS[*]:-}" || true
   fi
+  # Non-blocking memory refresh to keep local DB hot (best-effort)
+  nohup python3 scripts/memory-index.py update-changed >/dev/null 2>&1 &
   exit 1
 fi

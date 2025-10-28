@@ -1,0 +1,14 @@
+{
+  "mcpServers": {
+    "vibe-memory": {
+      "command": "python3",
+      "args": ["./.claude/mcp/memory_server.py"],
+      "env": { "PYTHONUNBUFFERED": "1" }
+      
+      /* Tip: Some clients support a working directory (cwd). If available, set it to the repo root
+         so the server can find .workshop/workshop.db without absolute paths. Otherwise, use an
+         absolute path to memory_server.py in args. */
+    }
+  }
+}
+

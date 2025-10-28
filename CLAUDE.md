@@ -3,6 +3,8 @@
 **Project Type:** AI orchestration system for Claude Code
 **Last Updated:** 2025-10-26
 
+@.orchestration/session-context.md
+
 ---
 
 ## CRITICAL: Project History - Pattern of Failures
@@ -199,4 +201,3 @@ workshop recent
 ## Next Steps
 
 Per-project memory with historical import. Zero cost, zero complexity.
-

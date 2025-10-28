@@ -246,7 +246,7 @@ We implement a two-tier memory system that combines static curated knowledge wit
 ```
 SessionStart
     ↓
-workshop-session-start.sh (hook)
+hooks/session-start.sh (hook)
     ↓
 Loads recent context from workshop.db
     ↓
@@ -258,7 +258,7 @@ Commands like "workshop decision" capture knowledge
     ↓
 SessionEnd
     ↓
-workshop-session-end.sh (hook)
+session-end hook (optional)
     ↓
 Parses transcript, extracts key information
     ↓
@@ -628,6 +628,17 @@ Key capabilities (Phase 1–8):
 - Workshop: Records finalize outcomes to `.workshop/workshop.db` for learning
 - Deployment: `scripts/deploy-to-global.sh` backs up, archives, deploys and verifies
 - Evaluation: `scripts/eval-run.sh` runs canned scenarios and collects KPIs
+- Local Memory: see `docs/local-memory.md` for fast local search of code/docs
+- MCP memory.search tool: see `docs/mcp-memory.md` to expose memory to agents
+- Session Context: `hooks/session-start.sh` writes `.orchestration/session-context.md` (import into `CLAUDE.md`)
+  - Import example: add `@.orchestration/session-context.md` to `CLAUDE.md`
+  - See `docs/session-start.md`
+
+Setup (first run)
+- Install git hooks: `bash scripts/install-git-hooks.sh`
+- Build memory DB: `python3 scripts/memory-index.py index-all --include-out`
+- Generate session context: `make session-start` (then import line above is active)
+- Optional MCP tool: configure `.claude/mcp/memory_server.py` (see `docs/mcp-memory.md`)
 
 Tweak Mode and Verification Modes
 - Quick Confirm (no screenshots): `bash scripts/design-tweak.sh run` → writes `.tweak_verified` and a short diff report
@@ -636,6 +647,7 @@ Tweak Mode and Verification Modes
   - tweak: accept `.tweak_verified` (quick-confirm)
   - off: bypass verification checks (use for trusted sprints)
 - Toggle UI Guard warnings during exploration: `bash scripts/design-tweak.sh guard off|warn`
+ - Note: quick-confirm and finalize now refresh local memory in the background to keep the DB hot
 
 Files of interest:
 - Commands: `commands/finalize.md`
@@ -1097,9 +1109,7 @@ All commands live in `commands/` and extend Claude Code workflows:
 |------|-------------|------|
 | **detect-project-type.sh** | Auto-detects project type on session start (< 50ms) and loads appropriate agent team | `hooks/detect-project-type.sh` |
 | **load-playbooks.sh** | Auto-loads ACE playbooks on session start - provides pattern-guided orchestration to /orca | `hooks/load-playbooks.sh` |
-| **workshop-session-start.sh** | Loads Workshop dynamic memory context at session start | `.claude/workshop-session-start.sh` |
-| **workshop-session-end.sh** | Captures session summary to Workshop database at session end | `.claude/workshop-session-end.sh` |
-| **workshop-pre-compact.sh** | Preserves context to Workshop before conversation compaction | `.claude/workshop-pre-compact.sh` |
+| **session-start.sh** | Generates session context (native memory import) | `hooks/session-start.sh` |
 
 ### 🎯 Skills
 

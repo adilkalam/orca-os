@@ -29,11 +29,12 @@ ui_guard_mode() {
 GUARD_MODE="$(ui_guard_mode)"
 GUARD_MODE=${GUARD_MODE:-warn}
 
-# Gather changed files vs HEAD (staged or unstaged)
+# Gather changed files vs HEAD (staged or unstaged), include untracked
 CHANGED_FILES=$(git diff --name-only HEAD -- . ':!node_modules' 2>/dev/null || true)
 if [ -z "$CHANGED_FILES" ]; then
   CHANGED_FILES=$(git ls-files -m 2>/dev/null || true)
 fi
+UNTRACKED=$(git ls-files --others --exclude-standard 2>/dev/null || true)
 
 UI_EXTS="css scss sass js ts jsx tsx html swift"
 UI_FILES=()
@@ -71,6 +72,20 @@ if [ ${#UI_FILES[@]} -gt 0 ]; then
       TOTAL_LINES=$((TOTAL_LINES + LINES))
       HUNKS=$(printf "%s\n" "$DIFF" | grep -c '^@@' || true)
       TOTAL_HUNKS=$((TOTAL_HUNKS + HUNKS))
+    else
+      # If untracked new file, synthesize a simple diff for reporting
+      if printf "%s\n" "$UNTRACKED" | grep -Fxq "$f"; then
+        echo >> "$REPORT_MD"
+        echo "### $f (new file)" >> "$REPORT_MD"
+        echo '```diff' >> "$REPORT_MD"
+        echo "+++ b/$f" >> "$REPORT_MD"
+        echo "@@" >> "$REPORT_MD"
+        sed -n '1,200p' -- "$f" | sed 's/^/+ /' >> "$REPORT_MD" || true
+        echo '```' >> "$REPORT_MD"
+        LINES=$(wc -l < "$f" | tr -d ' ')
+        TOTAL_LINES=$((TOTAL_LINES + LINES))
+        TOTAL_HUNKS=$((TOTAL_HUNKS + 1))
+      fi
     fi
   done
 fi
@@ -113,5 +128,7 @@ fi
 
 echo "Quick confirm $STATUS — $REASON"
 echo "See $REPORT_MD"
+# Non-blocking memory refresh to keep local DB hot (best-effort)
+nohup python3 scripts/memory-index.py update-changed >/dev/null 2>&1 &
 
 if [ "$STATUS" = "PASS" ]; then exit 0; else exit 1; fi

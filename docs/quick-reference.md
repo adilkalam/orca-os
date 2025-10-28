@@ -108,8 +108,11 @@
 - `scripts/design-tweak.sh` → prep|run|finalize|guard off|warn
 - `scripts/quick-confirm.sh` → diff+guard confirmation (no screenshots)
 - `scripts/finalize.sh` → full evidence verification and reports
+- `hooks/session-start.sh` → write `.orchestration/session-context.md` (import into CLAUDE.md)
 - `scripts/generate-design-atlas.py` → maps classes/tokens and resolves CSS variables
 - `scripts/design_ui_guard.py` → lint CSS/SwiftUI spacing and typography
 - `scripts/find-ui-refs.py` → find selectors/tokens across source and out/
 - `scripts/verification-mode.sh` → set strict/tweak/off
-
+- `scripts/memory-index.py` → index/update local memory (SQLite FTS)
+- `scripts/memory-search.py` → query local memory (BM25; rerank if vectors available)
+- `.claude/mcp/memory_server.py` → MCP server exposing `memory.search` tool
