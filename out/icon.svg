@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800">
+  <defs>
+    <style>
+      .cls-1, .cls-2 {
+        fill: #0c051c;
+      }
+
+      .cls-3 {
+        fill: #c9a961;
+        font-family: DomaineSansDisplay-Thin, 'Domaine Sans Display';
+        font-size: 200px;
+        font-weight: 200;
+        letter-spacing: .1em;
+      }
+
+      .cls-2 {
+        stroke: #c9a961;
+        stroke-miterlimit: 10;
+        stroke-width: 3px;
+      }
+    </style>
+  </defs>
+  <rect class="cls-1" x=".21" y="-9.42" width="799.38" height="813.66"/>
+  <rect class="cls-2" x="145.33" y="27.57" width="509.14" height="739.67" rx="27.4" ry="27.4"/>
+  <text class="cls-3" transform="translate(461.2 713.2) rotate(-90)"><tspan x="0" y="0">OBDN</tspan></text>
+</svg>

@@ -132,6 +132,29 @@ Phase 8 — Evaluation
 
 ---
 
+## Session Failures Observed (Scan) & Plan Adjustments
+
+Observed in local logs (dev-logs, ~/.claude/debug, ~/.claude/projects):
+
+- Hooks not active for RA enforcement (debug: "Found 0 hook matchers"): orchestrator/verification hooks weren’t firing → no tool‑level constraints.
+  - Fix: enable mode‑aware orchestrator firewall and finalize gate; ensure settings.local.json registers hooks.
+
+- Missing tags → manual verification (dev-logs: “verification-agent found no tag, had to manually verify”).
+  - Fix: Zero‑Tag Gate + structural `.orchestration/implementation-log.md` requirements.
+
+- Skipped design-reviewer “to save time” leading to visual drift.
+  - Fix: make design‑reviewer mandatory in Design‑Strict profile; enforce via finalize evidence budget.
+
+- /orca inconsistency and lack of reliable playbooks → “DO NOT use /orca for implementation” notes.
+  - Fix: Start‑Simple escalation (no scoring router) + playbooks updated from `/finalize` outcomes; avoid brittle up‑front orchestration.
+
+- Rate‑limit 429s in debug.
+  - Fix: add backoff on heavy steps; prefer tools-first verification; cache file scans per session.
+
+These map directly to Phase 1–3 deliverables (finalize + Zero‑Tag + DNA‑scoped design gates) and Phase 5 (mode‑aware firewall / hooks), which remove the root causes.
+
+---
+
 ## Rebuild vs Patch (Recommendation)
 
 Option A — Greenfield (parallel clean build) [Recommended]
@@ -185,4 +208,3 @@ Given your priorities (upfront quality, auditability, minimal iteration loops), 
 2) I’ll scaffold `/finalize`, git hooks, and Zero‑Tag Gate.
 3) Implement DNA‑scoped UI Guard + warn‑only fallback.
 4) Deliver first Design Atlas for current project; review together.
-
