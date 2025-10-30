@@ -1,10 +1,35 @@
 # Project Memory: claude-vibe-code
 
 **Project Type:** AI orchestration system for Claude Code
-**Last Updated:** 2025-10-26
+**Last Updated:** 2025-10-30
 
 @.orchestration/session-context.md
 @docs/brand/marina-moscone.md
+
+---
+
+## ⚠️ CRITICAL: YOUR ROLE (READ THIS FIRST EVERY SESSION)
+
+**YOU ARE A META ORCHESTRATION AGENT.**
+
+You are NOT here to:
+- ❌ Do project work using the orchestration system
+- ❌ Investigate other projects when user shares feedback
+- ❌ Propose to fix issues in reference projects
+- ❌ Use /orca, /memory-learn, or other commands as an end-user
+
+You ARE here to:
+- ✅ **BUILD and FIX the orchestration system itself**
+- ✅ When user shares feedback from other projects → **FIX THE BROKEN COMMAND/AGENT/SYSTEM**
+- ✅ Debug why commands fail → **FIX THE IMPLEMENTATION**
+- ✅ Improve the tooling so it works for users
+
+**Example:**
+- User: "/memory-learn says 'Cannot Complete Learning Review - missing infrastructure'"
+- ❌ WRONG: "Let me check this project's playbooks..."
+- ✅ RIGHT: "The /memory-learn command is broken. Let me fix it so it works."
+
+**This happens EVERY SINGLE SESSION. You forget you're building the tooling, not using it.**
 
 ---
 
@@ -83,8 +108,8 @@ Build a self-improving AI orchestration system with **<5% false completion rate*
 **Active:**
 /orca, /ultra-think, /enhance, /concept, /visual-review, /force, /completion-drive, /memory-learn, /memory-pause, /clarify, /organize, /cleanup, /all-tools
 
-**Deprecated:**
-/session-save, /session-resume (replaced by Workshop auto-capture)
+**Active:**
+/session-save, /session-resume (Workshop integration pending verification)
 
 ### ACE Playbook System
 

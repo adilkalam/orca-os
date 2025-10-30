@@ -79,6 +79,10 @@ qa-logs/
 ::archive/
 dev-logs/
 
+# Build output and orphaned artifacts
+out/
+refrences/
+
 # Internal build/session notes (keep local)
 .diagram-*.md
 .rebuilt-*.md

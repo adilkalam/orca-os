@@ -17,6 +17,30 @@ Review the last orchestration session and update playbooks with learned patterns
 
 ---
 
+## Pre-Flight Checks
+
+Before starting, verify infrastructure exists:
+
+```bash
+# Check if playbooks directory exists
+ls .orchestration/playbooks/ 2>/dev/null
+
+# Check if signal log exists
+ls .orchestration/signals/signal-log.jsonl 2>/dev/null
+
+# Check if agents exist
+ls agents/orchestration/orchestration-reflector.md 2>/dev/null
+ls agents/orchestration/playbook-curator.md 2>/dev/null
+```
+
+**If any are missing:**
+
+Create them using templates from the ACE Playbook System. The system should degrade gracefully - if there are no recent sessions in signal log, just report that. If playbooks don't exist, initialize them from templates first.
+
+**DO NOT fail with "Cannot Complete Learning Review" - instead, initialize missing infrastructure or report specific actionable steps.**
+
+---
+
 ## Process
 
 ### Phase 1: Reflection
@@ -126,14 +150,32 @@ ls -la .orchestration/.backup/playbooks/
 
 ## Edge Cases
 
-### No Recent Session
+### Infrastructure Missing
 
-If no orchestration session found:
+If playbooks/ or signals/ directories don't exist:
 
 ```
-❌ Cannot review - no recent /orca session found in signal log.
+⚠️ ACE infrastructure not initialized.
 
-Please run /orca first, then use /memory-learn to reflect on it.
+Creating from templates:
+- .orchestration/playbooks/ (from templates)
+- .orchestration/signals/signal-log.jsonl (initialized)
+
+Would you like me to initialize the ACE Playbook System for this project?
+```
+
+### No Recent Session
+
+If signal log is empty or no orchestration sessions found:
+
+```
+ℹ️ No orchestration sessions to review.
+
+Signal log shows no /orca sessions yet. This command reviews completed /orca sessions to extract learning.
+
+Next steps:
+1. Run /orca to perform multi-agent orchestration
+2. Then run /memory-learn to extract patterns from that session
 ```
 
 ### Reflection Has No Recommendations
