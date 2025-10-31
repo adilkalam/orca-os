@@ -191,10 +191,18 @@ Generator-Reflector-Curator architecture (arXiv-2510.04618v1)
 
 **Installation:**
 ```bash
+# Install Workshop CLI
 pip install claude-workshop
+
+# Install global hooks (REQUIRED for auto-loading)
+bash .claude-global-hooks/install.sh
+
+# Initialize in project
 workshop init
 workshop import --execute  # Import historical sessions
 ```
+
+**Note:** Global hooks must be installed to `~/.claude/hooks/` for Workshop to work in all projects. The installer script handles this automatically.
 
 **Usage:**
 ```bash

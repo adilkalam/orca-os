@@ -288,16 +288,21 @@ workshop search --type gotcha
 **Installation:**
 
 ```bash
-# Install Workshop
+# Install Workshop CLI
 pipx install claude-workshop
 
-# Initialize in project
+# Install global hooks (makes Workshop work in ALL projects)
+bash .claude-global-hooks/install.sh
+
+# Initialize in your project
 cd your-project
 workshop init
 
 # Import historical sessions (optional)
 workshop import --from sessions/*.json
 ```
+
+**IMPORTANT:** The global hooks installation is required for Workshop to auto-load in all projects. Without it, Workshop will silently fail in new projects.
 
 **Database:**
 - SQLite with FTS5 full-text search
