@@ -79,6 +79,21 @@ qa-logs/
 ::archive/
 dev-logs/
 
+# Node / Next artifacts
+node_modules/
+.next/
+.turbo/
+.vercel/
+dist/
+build/
+.env*
+
+# Local font binaries (proprietary — keep out of VCS)
+public/fonts/soehne/*
+public/fonts/signifier/*
+public/fonts/supreme/*
+public/fonts/gt-pantheon/*
+
 # Build output and orphaned artifacts
 out/
 refrences/
@@ -99,3 +114,4 @@ refrences/
 .orchestration/quality-*.md
 .orchestration/logs/
 .worktrees/
+*.backup-*

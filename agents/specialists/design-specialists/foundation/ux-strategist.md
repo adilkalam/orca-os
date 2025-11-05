@@ -129,47 +129,26 @@ Design micro-interactions that provide feedback and delight:
 // Loading State (Optimistic UI + Skeleton)
 function SubmitButton({ onSubmit, isLoading }) {
   return (
-    <button
-      onClick={onSubmit}
-      disabled={isLoading}
-      className={cn(
-        "btn btn-primary",
-        "transition-all duration-200",
-        isLoading && "loading"
-      )}
-    >
+    <button onClick={onSubmit} disabled={isLoading} className="button button--primary">
       {isLoading ? (
         <>
-          <span className="loading loading-spinner"></span>
+          <span className="spinner" aria-hidden></span>
           Processing...
         </>
       ) : (
-        "Submit"
+        'Submit'
       )}
     </button>
   );
 }
 
 // Micro-interaction: Button press animation
-.btn {
-  @apply transition-transform duration-150;
-}
-
-.btn:active {
-  @apply scale-95; /* Tactile feedback */
-}
+.button { transition: transform 150ms ease }
+.button:active { transform: scale(.95) } /* Tactile feedback */
 
 // Micro-interaction: Form field focus
-.input {
-  @apply transition-all duration-200;
-  @apply border-base-300;
-}
-
-.input:focus {
-  @apply border-primary;
-  @apply ring-2 ring-primary ring-opacity-50;
-  @apply scale-[1.02]; /* Subtle grow on focus */
-}
+.input { transition: border-color 200ms ease, box-shadow 200ms ease, transform 200ms ease; border-color: color-mix(in oklch, var(--color-text) 15%, transparent) }
+.input:focus { border-color: var(--color-primary); box-shadow: var(--ring) var(--ring-color); transform: scale(1.02) } /* Subtle grow on focus */
 ```
 
 ### Premium UI Aesthetics
@@ -183,56 +162,16 @@ Create sophisticated, "expensive" visual language:
  */
 
 /* Elevated card (premium feel) */
-.card-premium {
-  @apply bg-base-100 rounded-xl;
-  @apply border border-base-300;
-  @apply p-8; /* Generous padding (vs standard 6) */
-
-  /* Subtle depth (not heavy drop shadow) */
-  box-shadow:
-    0 1px 3px rgba(0, 0, 0, 0.04),
-    0 4px 8px rgba(0, 0, 0, 0.02);
-
-  @apply transition-shadow duration-300;
-}
-
-.card-premium:hover {
-  /* Refined hover (subtle elevation change) */
-  box-shadow:
-    0 4px 6px rgba(0, 0, 0, 0.05),
-    0 10px 20px rgba(0, 0, 0, 0.03);
-}
+.card-premium { background: white; border: 1px solid color-mix(in oklch, var(--color-text) 10%, transparent); border-radius: var(--radius-lg); padding: var(--space-8); transition: box-shadow 300ms ease }
+.card-premium:hover { box-shadow: 0 4px 6px rgba(0,0,0,.05), 0 10px 20px rgba(0,0,0,.03) }
 
 /* Premium typography (clear hierarchy, generous line-height) */
-.text-premium-heading {
-  @apply text-4xl font-semibold;
-  @apply tracking-tight; /* Tighter tracking = refined */
-  line-height: 1.2;
-  letter-spacing: -0.02em; /* Negative tracking for large text */
-}
-
-.text-premium-body {
-  @apply text-base text-base-content/80; /* Slightly muted */
-  line-height: 1.6; /* Generous line-height = readable */
-  @apply max-w-prose; /* Optimal reading length */
-}
+.text-premium-heading { font-size: 2.25rem; font-weight: 600; letter-spacing: -0.02em; line-height: 1.2 }
+.text-premium-body { font-size: 1rem; color: color-mix(in oklch, var(--color-text) 80%, white); line-height: 1.6; max-width: 65ch }
 
 /* Premium button (subtle, not loud) */
-.btn-premium {
-  @apply px-6 py-3 rounded-lg;
-  @apply bg-base-content text-base-100;
-  @apply font-medium;
-  @apply transition-all duration-200;
-
-  /* Subtle shadow (not Material Design heavy) */
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
-}
-
-.btn-premium:hover {
-  @apply bg-base-content/90;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12);
-  transform: translateY(-1px); /* Subtle lift */
-}
+.btn-premium { padding: var(--space-3) var(--space-6); border-radius: var(--radius-lg); background: var(--color-text); color: var(--color-surface); font-weight: 500; transition: background 200ms ease, box-shadow 200ms ease, transform 150ms ease; box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08) }
+.btn-premium:hover { background: color-mix(in oklch, var(--color-text) 90%, white); box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12); transform: translateY(-1px) }
 ```
 
 ### Data Visualization Strategy
@@ -416,9 +355,9 @@ function UserList({ users, isLoading, error }) {
   // Loading state
   if (isLoading) {
     return (
-      <div className="space-y-4">
+      <div className="stack">
         {[...Array(3)].map((_, i) => (
-          <div key={i} className="skeleton h-20 w-full"></div>
+          <div key={i} className="skeleton" style={{ height: '5rem', width: '100%' }} />
         ))}
       </div>
     );
@@ -427,11 +366,9 @@ function UserList({ users, isLoading, error }) {
   // Error state
   if (error) {
     return (
-      <div className="alert alert-error">
+      <div className="alert alert--error">
         <span>Failed to load users: {error.message}</span>
-        <button onClick={retry} className="btn btn-sm">
-          Retry
-        </button>
+        <button onClick={retry} className="button button--sm">Retry</button>
       </div>
     );
   }
@@ -439,11 +376,9 @@ function UserList({ users, isLoading, error }) {
   // Empty state
   if (users.length === 0) {
     return (
-      <div className="text-center py-12">
-        <p className="text-base-content/60 mb-4">No users yet</p>
-        <button className="btn btn-primary">
-          Invite your first user
-        </button>
+      <div className="empty-state">
+        <p className="empty-state__text">No users yet</p>
+        <button className="button button--primary">Invite your first user</button>
       </div>
     );
   }
@@ -499,8 +434,7 @@ function UserList({ users, isLoading, error }) {
 
 /* Thumb zone consideration (bottom 1/3 of screen) */
 .mobile-primary-action {
-  @apply fixed bottom-4 left-4 right-4;
-  @apply btn btn-lg btn-primary;
+  position: fixed; left: var(--space-4); right: var(--space-4); bottom: var(--space-4);
   /* Easy to reach with thumb */
 }
 ```

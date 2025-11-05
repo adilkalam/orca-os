@@ -1,1 +1,0 @@
-import "artifact-parser://get-agent"

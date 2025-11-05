@@ -59,7 +59,7 @@ Glob pattern="**/*.py"
 
 **Determine stack:**
 - iOS: Swift, SwiftUI, SwiftData/CoreData
-- Frontend: React/Next.js, Tailwind, TypeScript
+- Frontend: React/Next.js, Global CSS, TypeScript
 - Backend: Python/Node.js, PostgreSQL/MongoDB
 - Mobile: React Native, Flutter
 
@@ -94,14 +94,14 @@ Glob pattern="**/*.py"
 ## Architecture
 
 - **Framework:** Next.js 14 App Router OR React 18
-- **Styling:** Tailwind v4 + daisyUI 5
+- **Styling:** Global CSS (CSS variables + semantic classes)
 - **State:** UI state (useState), Server state (React Query), URL state (routing)
 - **API:** Server Actions (Next.js) OR REST
 - **Testing:** Vitest + React Testing Library
 
 ## Recommended Specialists
 - nextjs-14-specialist OR react-18-specialist
-- tailwind-specialist
+- css-specialist
 - ui-engineer
 - state-management-specialist
 - frontend-testing-specialist
@@ -185,7 +185,7 @@ Glob pattern="**/*.py"
 
 **Frontend Project:**
 - Framework: react-18-specialist OR nextjs-14-specialist
-- Styling: tailwind-specialist
+- Styling: css-specialist
 - Components: ui-engineer
 - State: state-management-specialist
 - Testing: frontend-testing-specialist

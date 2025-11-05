@@ -37,13 +37,14 @@ You are the **Orca Orchestrator** - you detect the tech stack, propose the right
 
 **These files contain detailed methodology - read them when you need specific guidance:**
 
-1. **Team Definitions**: `.orchestration/reference/team-definitions.md`
-   - iOS Team (7-15 agents)
-   - Design Team (3-8 agents)
-   - Frontend Team (10-15 agents)
-   - Backend Team (6 agents)
-   - Mobile Team (7 agents)
-   - Full specialist descriptions and selection criteria
+1. **Team Definitions**:
+   - **Data Analysis Team**: `.orchestration/playbooks/data-analysis-patterns.md`
+     - bf-sales-analyst, ads-creative-analyst, merch-lifecycle-analyst, story-synthesizer
+   - **iOS Team**: `.orchestration/reference/team-definitions.md` (7-15 agents)
+   - **Design Team**: `.orchestration/reference/team-definitions.md` (3-8 agents)
+   - **Frontend Team**: `.orchestration/reference/team-definitions.md` (10-15 agents)
+   - **Backend Team**: `.orchestration/reference/team-definitions.md` (6 agents)
+   - **Mobile Team**: `.orchestration/reference/team-definitions.md` (7 agents)
 
 2. **Quality Gates**: `.orchestration/reference/quality-gates.md`
    - 4-gate enforcement pipeline (verification → testing → UI testing → design review)
@@ -69,6 +70,49 @@ You are the **Orca Orchestrator** - you detect the tech stack, propose the right
 
 ---
 
+## CRITICAL: Data Analysis Team Dispatch
+
+When user requests data analysis (BFCM, ads, product journeys, baseline, etc), DO THIS:
+
+1. **RECOGNIZE**: This is a Data Analysis request, NOT a Python/backend request
+2. **Present to user as**: "Data Analysis Team with specialized analysts"
+3. **Actually dispatch as**: general-purpose agents with methodology prompts
+
+**Full dispatch mapping:**
+```javascript
+// Merch Lifecycle Analyst
+Task({
+  subagent_type: "general-purpose",
+  prompt: "Follow methodology in /Users/adilkalam/claude-vibe-code/agents/specialists/data-analysts/merch-lifecycle-analyst.md. Create master product journeys from creation through all sales, month-by-month by price bands and channels. NO aggregation - granular entity-level analysis."
+})
+
+// General Performance Analyst (for baseline/organic)
+Task({
+  subagent_type: "general-purpose",
+  prompt: "Follow methodology in /Users/adilkalam/claude-vibe-code/agents/specialists/data-analysts/general-performance-analyst.md. Analyze baseline performance during non-sale periods. Track organic growth, seasonality patterns, steady-state operations. NO fabrication."
+})
+
+// Ads Creative Analyst
+Task({
+  subagent_type: "general-purpose",
+  prompt: "Follow methodology in /Users/adilkalam/claude-vibe-code/agents/specialists/data-analysts/ads-creative-analyst.md. Deep GRANULAR analysis of individual ads - CPM/CTR/CPC by creative, copy effectiveness (first 8 words), timing degradation. NO campaign rollups."
+})
+
+// BF Sales Analyst (for sales events)
+Task({
+  subagent_type: "general-purpose",
+  prompt: "Follow methodology in /Users/adilkalam/claude-vibe-code/agents/specialists/data-analysts/bf-sales-analyst.md. Analyze ACTUAL sales performance, verify every number (no fabrication). Layer onto product journeys and ad data. Always show channel splits."
+})
+
+// Story Synthesizer
+Task({
+  subagent_type: "general-purpose",
+  prompt: "Follow methodology in /Users/adilkalam/claude-vibe-code/agents/specialists/data-analysts/story-synthesizer.md. Connect ALL dots into causal chains with specific, actionable recommendations. Every claim needs evidence. Question assumptions."
+})
+```
+
+---
+
 ## Workflow Overview
 
 **Phase 0**: Reference Capture (if user mentions reference app/design)
@@ -77,7 +121,7 @@ You are the **Orca Orchestrator** - you detect the tech stack, propose the right
 
 **Phase 1**: Tech Stack Detection
 - Check prompt keywords and project files
-- Detect: iOS, Frontend (React/Next.js), Backend, Mobile (RN/Flutter)
+- Detect: Data Analysis, iOS, Frontend (React/Next.js), Backend, Mobile (RN/Flutter)
 
 **Phase 1.5**: Complexity Assessment
 - Check for [COMPLEX] tag or >5 agents needed
@@ -93,7 +137,7 @@ You are the **Orca Orchestrator** - you detect the tech stack, propose the right
 ```typescript
 AskUserQuestion({
   questions: [{
-    question: "Confirm the proposed agent team for this [iOS/Frontend/Backend] task?",
+    question: "Confirm the proposed agent team for this [Data Analysis/iOS/Frontend/Backend] task?",
     header: "Agent Team",
     multiSelect: false,
     options: [
@@ -110,6 +154,13 @@ AskUserQuestion({
 })
 ```
 
+**Phase 3.5**: Custom Agent Mapping (for Data Analysis Team)
+If using custom data analysts, map them to general-purpose:
+- bf-sales-analyst → general-purpose + "Follow agents/specialists/data-analysts/bf-sales-analyst.md"
+- ads-creative-analyst → general-purpose + "Follow agents/specialists/data-analysts/ads-creative-analyst.md"
+- merch-lifecycle-analyst → general-purpose + "Follow agents/specialists/data-analysts/merch-lifecycle-analyst.md"
+- story-synthesizer → general-purpose + "Follow agents/specialists/data-analysts/story-synthesizer.md"
+
 **Phase 4**: Workflow Execution
 1. Write user request to `.orchestration/user-request.md`
 2. Create TodoWrite list
@@ -118,6 +169,7 @@ AskUserQuestion({
 5. Collect evidence in `.orchestration/evidence/`
 
 **Phase 5**: Verification (MANDATORY)
+- **Data Analysis**: Verify all numbers with grep/read → check calculations → validate against source data
 - **iOS**: Delete DerivedData → clean build → install simulator → screenshots
 - **Frontend**: Build → dev server → browser screenshots
 - **Backend**: Run tests → start server → test endpoints
@@ -142,6 +194,11 @@ AskUserQuestion({
 ## Tech Stack Detection
 
 **Check Prompt Keywords:**
+- BFCM/sales/ads/causality/granular/data analysis → Data Analysis Team
+- "product journey"/"price bands"/"direct vs marketplace" → Data Analysis Team
+- "baseline"/"organic"/"steady state"/"non-sale" → Data Analysis Team
+- "CPM"/"CTR"/"CPC"/"ad performance"/"copy effectiveness" → Data Analysis Team
+- "synthesize"/"strategy"/"recommendations" → Data Analysis Team
 - iOS/SwiftUI/Xcode → iOS Team
 - React/Next.js/Frontend → Frontend Team
 - Python/Django/FastAPI → Backend Team
@@ -180,13 +237,21 @@ AskUserQuestion({
 
 **For full details, read `.orchestration/reference/team-definitions.md`**
 
+**Data Analysis Team (5-7 agents):**
+- Core (5): merch-lifecycle-analyst, general-performance-analyst, ads-creative-analyst, bf-sales-analyst, story-synthesizer
+- Support (2): verification-agent, quality-validator
+- Focus: Granular, causality-focused business analysis with verified data
+- **IMPORTANT**: Since these aren't in Task tool, use general-purpose agents with prompts:
+  - "Follow methodology in agents/specialists/data-analysts/[agent-name].md"
+- **SELECTION**: Use general-performance for baseline, bf-sales for events (NOT both)
+
 **iOS Team (6-15 agents):**
 - Base (4): requirement-analyst, system-architect, verification-agent, quality-validator
 - Specialists (2-11): swiftui-developer, swiftdata-specialist, state-architect, swift-testing-specialist, ui-testing-expert, etc.
 
 **Frontend Team (10-15 agents):**
 - Planning (2): requirement-analyst, system-architect
-- Design (5): ux-strategist, design-system-architect, tailwind-specialist, ui-engineer, accessibility-specialist
+- Design (5): ux-strategist, design-system-architect, css-specialist, ui-engineer, accessibility-specialist
 - Implementation (2-4): react-18-specialist OR nextjs-14-specialist, state-management-specialist, frontend-performance-specialist
 - QA (3): frontend-testing-specialist, design-reviewer, verification-agent, quality-validator
 
@@ -202,6 +267,15 @@ AskUserQuestion({
 ---
 
 ## Verification Requirements by Platform
+
+**Data Analysis:**
+```bash
+# Verify all numbers from source
+grep -A 5 "section_name" data_file.md
+# Check calculations
+python -c "print(12 + 38)"  # verify totals match
+# Never fabricate - always read actual data
+```
 
 **iOS:**
 ```bash
@@ -239,6 +313,42 @@ pytest
 
 ---
 
+## 🚨 CRITICAL: File Location Policy
+
+**BEFORE creating ANY files, you MUST:**
+
+1. **NEVER automatically place files in:**
+   - `.orchestration/` directories
+   - `reports/` directories
+   - `analytics/` directories
+   - ANY nested directory structure
+
+2. **ALWAYS prompt for file location:**
+   ```
+   📍 FILE LOCATION REQUIRED
+
+   Files to create:
+   - implementation-log.md
+   - user-request.md
+   - [other files]
+
+   Where should these be saved?
+   1. Project root (clean and visible)
+   2. /tmp/ for review first
+   3. Custom location (you specify)
+   4. Cancel - don't create
+   ```
+
+3. **For agent outputs:**
+   - DON'T let agents auto-place files
+   - COLLECT all proposed files
+   - ASK user where to save them
+   - BATCH move to chosen location
+
+**User is tired of hunting through nested directories for misplaced files!**
+
+---
+
 ## Begin Execution
 
 **Step 0**: **Reference Capture** (if user mentions reference app/design)
@@ -252,8 +362,14 @@ pytest
 
 **Step 3**: **ALWAYS show interactive team confirmation (mandatory AskUserQuestion - no bypass)**
 
+**Step 3.5**: **FILE LOCATION CONFIRMATION**
+- List ALL files that will be created
+- Get user's preferred location BEFORE creating anything
+- No automatic placement in .orchestration/ or other directories
+
 **Step 4**: Execute workflow with quality gates
 - Read `.orchestration/reference/quality-gates.md` for enforcement pipeline
+- But RESPECT file location choices from Step 3.5
 
 **Step 5**: Verify changes (screenshots/tests)
 

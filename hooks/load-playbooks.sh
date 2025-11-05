@@ -4,7 +4,41 @@
 
 set -e
 
-PLAYBOOK_DIR=".orchestration/playbooks"
+LEGACY_PLAYBOOK_DIR=".orchestration/playbooks"
+NEW_PLAYBOOK_DIR=".claude-work/memory/playbooks"
+PLAYBOOK_DIR=""
+TEMPLATES_FALLBACK_DIR="${ACE_TEMPLATES_FALLBACK:-}"
+
+# Resolve canonical playbook directory (prefer new layout)
+resolve_playbook_dir() {
+  # If new location exists, use it
+  if [ -d "$NEW_PLAYBOOK_DIR" ]; then
+    echo "$NEW_PLAYBOOK_DIR"
+    return
+  fi
+
+  # If legacy exists but new doesn't, create new and seed from legacy
+  if [ -d "$LEGACY_PLAYBOOK_DIR" ]; then
+    mkdir -p "$NEW_PLAYBOOK_DIR"
+    # Seed templates and existing JSON/MD so initialization works immediately
+    rsync -a --include "*/" --include "*-template.json" --include "*-template.md" \
+      --include "*.json" --include "*.md" --exclude "*" \
+      "$LEGACY_PLAYBOOK_DIR/" "$NEW_PLAYBOOK_DIR/" >/dev/null 2>&1 || true
+    echo "$NEW_PLAYBOOK_DIR"
+    return
+  fi
+
+  # Neither exists: create new canonical path and seed from global fallback if provided
+  mkdir -p "$NEW_PLAYBOOK_DIR"
+  if [ -n "$TEMPLATES_FALLBACK_DIR" ] && [ -d "$TEMPLATES_FALLBACK_DIR" ]; then
+    rsync -a --include "*/" --include "*-template.json" --include "*-template.md" \
+      --include "universal-patterns*" --exclude "*" \
+      "$TEMPLATES_FALLBACK_DIR/" "$NEW_PLAYBOOK_DIR/" >/dev/null 2>&1 || true
+  fi
+  echo "$NEW_PLAYBOOK_DIR"
+}
+
+PLAYBOOK_DIR="$(resolve_playbook_dir)"
 SIGNAL_LOG=".orchestration/signals/signal-log.jsonl"
 OUTPUT_FILE=".claude-playbook-context.md"
 
@@ -84,6 +118,18 @@ initialize_playbook() {
   if [ ! -f "$playbook_json" ] && [ -f "$template_json" ]; then
     cp "$template_json" "$playbook_json"
     echo "Initialized $playbook_name from template" >&2
+    return
+  fi
+
+  # If template missing locally, try fallback templates directory
+  if [ ! -f "$playbook_json" ] && [ ! -f "$template_json" ] && [ -n "$TEMPLATES_FALLBACK_DIR" ]; then
+    local fallback_tpl="$TEMPLATES_FALLBACK_DIR/${playbook_name}-template.json"
+    if [ -f "$fallback_tpl" ]; then
+      cp "$fallback_tpl" "$PLAYBOOK_DIR/"
+      cp "$fallback_tpl" "$playbook_json"
+      echo "Initialized $playbook_name from global template" >&2
+      return
+    fi
   fi
 }
 
@@ -105,7 +151,7 @@ load_playbook() {
   local playbook_json="$PLAYBOOK_DIR/${playbook_name}.json"
   local universal_json="$PLAYBOOK_DIR/universal-patterns.json"
 
-  # Check if orchestration directory exists
+  # Check if playbook directory exists
   if [ ! -d "$PLAYBOOK_DIR" ]; then
     echo "# Playbook System: Not initialized (run Phase 1 first)"
     return

@@ -12,7 +12,7 @@ Why: Makes agents and humans faster by avoiding re‑reading the repo and by gro
 
 Examples:
 - Tokens: `python3 scripts/memory-search.py "--color-accent-gold"`
-- Tailwind/CSS class: `python3 scripts/memory-search.py "bento-card"`
+- CSS class: `python3 scripts/memory-search.py "bento-card"`
 - SwiftUI spacing: `python3 scripts/memory-search.py "\.padding\(16\) OR .padding(Spacing.s16)"`
 - React hook: `python3 scripts/memory-search.py "useEffect NEAR/5 fetch"`
 

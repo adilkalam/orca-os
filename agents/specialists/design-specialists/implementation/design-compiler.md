@@ -412,10 +412,10 @@ VStack { // Outer
 
 ### React/JSX (Web)
 
-**Use Tailwind v4 + CSS variables:**
+**Use Global CSS + CSS variables:**
 ```jsx
-// ✅ Tailwind classes aligned to DNA
-<div className="p-10 bg-[var(--bg-primary)] rounded-xl">
+// ✅ Semantic classes aligned to DNA
+<div className="card" style={{ '--space': 'var(--space-10)', '--bg': 'var(--bg-primary)' }}>
 
 // ✅ Custom CSS variables from DNA
 :root {
@@ -425,15 +425,15 @@ VStack { // Outer
   --space-10: 40px; /* 4×10 */
 }
 
-// ✅ Typography utility classes
-<h2 className="font-domaine text-[28px] font-thin">
+// ✅ Typography via global classes
+<h2 className="heading heading--display">
 ```
 
 **Bento grid compliance:**
 ```jsx
 // ✅ CORRECT structure
-<div className="bento-grid grid grid-cols-4 gap-8">
-  <div className="bento-small col-span-1 row-span-1 grid grid-rows-[auto_auto_1fr_auto]">
+<div className="bento-grid">
+  <div className="bento-small">
     {/* 4 children matching grid-rows */}
     <h3>Title</h3>
     <p>Description</p>

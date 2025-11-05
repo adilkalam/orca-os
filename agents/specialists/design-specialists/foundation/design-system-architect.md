@@ -13,7 +13,7 @@ description: Creates and maintains project design systems from user references, 
 
 - Reference-based taste capture (solving the "generic design problem")
 - Design principle extraction (color, typography, spacing, components)
-- Design token definition (CSS variables, Tailwind config)
+- Design token definition (CSS variables)
 - Atomic design methodology (atoms → molecules → organisms)
 - Brand identity translation to design language
 - Design system documentation and maintenance
@@ -227,8 +227,7 @@ Does this match your vision? Any adjustments?"
 
 **Design Resources:**
 - `.design-system.md`: Generated design system (persists across sessions)
-- `~/.claude/context/daisyui.llms.txt`: daisyUI 5 component patterns
-- Tailwind config: Generated from design tokens
+- Global CSS tokens: Rendered into CSS variables in `styles/globals.css`
 
 ### Example Workflow
 
@@ -262,8 +261,8 @@ Confirm?"
 # 6. Agent generates .design-system.md
 Agent creates comprehensive design system document
 
-# 7. Agent generates Tailwind config
-Agent creates tailwind.config.js with custom tokens
+# 7. Agent updates Global CSS tokens
+Agent updates styles/globals.css (or tokens.css) with CSS variables
 ```
 
 ## Response Awareness Protocol
@@ -426,56 +425,15 @@ Work with these specialists for comprehensive solutions:
 
 - **ux-strategist**: After design system created, for UX flow optimization and journey mapping
 - **visual-designer**: Needs design system before creating high-fidelity mockups
-- **tailwind-specialist**: Uses design system tokens to configure Tailwind v4
+- **css-specialist**: Uses design system tokens in Global CSS classes
 - **accessibility-specialist**: Reviews color contrast ratios from design system
 - **design-reviewer**: Validates implemented designs against design system
 
 ## Framework Compatibility
 
-### Tailwind CSS v4 + daisyUI 5 (Recommended)
+### Implementation Approach
 
-Design system integrates seamlessly with Tailwind v4:
-
-```js
-// tailwind.config.js (generated from .design-system.md)
-export default {
-  theme: {
-    extend: {
-      colors: {
-        primary: 'oklch(60% 0.15 250)',
-        secondary: 'oklch(70% 0.12 180)',
-        // ... from design system
-      },
-      spacing: {
-        // 8px grid from design system
-      },
-      fontSize: {
-        // Type scale from design system
-      },
-      borderRadius: {
-        // Radius tokens from design system
-      },
-    },
-  },
-  plugins: [
-    require('daisyui'),
-  ],
-  daisyui: {
-    themes: [
-      {
-        mytheme: {
-          "primary": "oklch(60% 0.15 250)",
-          // ... custom theme from design system
-        },
-      },
-    ],
-  },
-}
-```
-
-### Alternative Approaches
-
-**CSS Variables (framework-agnostic)**:
+**CSS Variables (framework-agnostic, primary)**:
 ```css
 /* Generated from .design-system.md */
 :root {
@@ -486,7 +444,7 @@ export default {
 }
 ```
 
-**CSS-in-JS** (styled-components, Emotion):
+**CSS-in-JS** (styled-components, Emotion) when explicitly requested:
 ```js
 // theme.js (generated from .design-system.md)
 export const theme = {
@@ -524,8 +482,6 @@ export const theme = {
 ## Resources
 
 - [Refactoring UI](https://www.refactoringui.com/) - Design principles, spacing, typography
-- [Tailwind CSS v4 Docs](https://tailwindcss.com/docs) - Token system, configuration
-- [daisyUI Themes](https://daisyui.com/docs/themes/) - Semantic color tokens
 - [OKLCH Color Picker](https://oklch.com/) - Perceptually uniform colors
 - [Style Dictionary](https://amzn.github.io/style-dictionary/) - Design token management
 
@@ -572,7 +528,7 @@ my-app/
 **NEVER Create:**
 - ❌ Root-level component files
 - ❌ Components in app/ directory (use components/)
-- ❌ Inline CSS (use Tailwind or design tokens)
+- ❌ Inline CSS (use Global CSS + tokens)
 - ❌ Evidence or log files (implementation agents do not create these)
 
 **Examples:**
@@ -593,4 +549,3 @@ components/Button.tsx                            // No component folder
 2. ☐ Use proper component-based structure
 3. ☐ Tag with `#FILE_CREATED: path/to/file`
 4. ☐ Verify location is correct
-

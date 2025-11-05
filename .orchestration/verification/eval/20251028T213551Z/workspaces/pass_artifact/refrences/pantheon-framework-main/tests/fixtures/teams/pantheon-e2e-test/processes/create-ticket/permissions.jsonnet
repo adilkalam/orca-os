@@ -1,4 +1,0 @@
-{
-  allow: ['ticket-handler'],
-  deny: []
-}

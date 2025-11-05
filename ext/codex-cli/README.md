@@ -11,7 +11,7 @@ Local demo (in this repo):
 1) Ensure local memory DB exists:
    - `python3 scripts/memory-index.py index-all --include-out`
 2) Start the MCP server (or configure Claude to start it automatically):
-   - `python3 .claude/mcp/memory_server.py` (normally spawned by client)
+   - `python3 mcp/vibe-memory/memory_server.py` (normally spawned by client)
 3) Try the Node usage example (see below).
 
 Usage example (Node):
@@ -23,7 +23,7 @@ import { searchCode } from "./retrieval/src/retrievalShim";
     preferMCP: true,
     memoryServer: {
       command: "python3",
-      args: [".claude/mcp/memory_server.py"],
+      args: ["mcp/vibe-memory/memory_server.py"],
       cwd: process.cwd(),
       timeoutMs: 5000,
     },
@@ -37,7 +37,7 @@ Statusline example:
 import { getMemoryStatus } from "./retrieval/src/status";
 
 (async () => {
-  const s = await getMemoryStatus({ command: "python3", args: [".claude/mcp/memory_server.py"], cwd: process.cwd() });
+  const s = await getMemoryStatus({ command: "python3", args: ["mcp/vibe-memory/memory_server.py"], cwd: process.cwd() });
   console.log(s.connected && s.hasTool ? "MCP mem: on" : "MCP mem: off");
 })();
 ```

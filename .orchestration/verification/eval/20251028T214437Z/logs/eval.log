@@ -1,5 +1,0 @@
-[21:44:37] Create workspace: .orchestration/verification/eval/20251028T214437Z/workspaces/pass_artifact
-[21:44:38] Create workspace: .orchestration/verification/eval/20251028T214437Z/workspaces/zero_tag_fail
-[21:44:39] Create workspace: .orchestration/verification/eval/20251028T214437Z/workspaces/screenshot_missing_fail
-[21:44:41] Create workspace: .orchestration/verification/eval/20251028T214437Z/workspaces/design_violation_warn
-[21:44:42] Evaluation complete. See .orchestration/verification/eval/20251028T214437Z

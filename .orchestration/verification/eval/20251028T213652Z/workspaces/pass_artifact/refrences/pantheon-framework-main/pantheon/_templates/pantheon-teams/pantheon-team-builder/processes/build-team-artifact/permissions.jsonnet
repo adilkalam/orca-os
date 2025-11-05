@@ -1,4 +1,0 @@
-{
-  allow: ['artifact-designer'],
-  deny: [],
-}

@@ -1,70 +1,25 @@
-## ⚠️ Response Awareness Methodology (How Quality Gates Actually Work)
+# Response Awareness (Meta-Cognitive Protocol)
 
-**This orchestration uses Response Awareness** - a scientifically-backed approach that prevents false completion claims.
+Use response-awareness tags to prevent completion drift and force explicit verification where generation tends to fill gaps.
 
-### The Problem We Solved
+Tags (prefix in output):
+- `#COMPLETION_DRIVE:` when the generator is filling gaps with plausible content instead of marking uncertainty
+- `#CARGO_CULT:` when unrequested patterns/features leak in from associations
+- `#CONTEXT_DEGRADED:` when earlier specifics can’t be recalled precisely
+- `#PATH_DECISION:` when multiple valid paths exist; record the options and rationale
+- `#POISON_PATH:` when terminology or framing biases toward suboptimal patterns
+- `#RESOLUTION_PRESSURE:` when bias to conclude rises with response length
 
-**Before (broken):**
-```
-❌ Implementation agents claim "I built X"
-❌ quality-validator generates "looks good" (can't verify mid-generation)
-❌ User runs code → doesn't work → trust destroyed
-```
+Workflow Phases:
+1) Survey (optional) — only for large/unknown codebases
+2) Parallel Planning — multiple specialists explore options concurrently; document `#PATH_DECISION`
+3) Synthesis — select paths across domains; produce blueprint
+4) Implementation — execute strictly against blueprint; mark assumptions with tags
+5) Verification — resolve all tags via tests, evidence, or user-confirmed decisions
+6) Final Synthesis — summarize outcomes and remaining suggestions
 
-**Why it failed:** Anthropic research shows models can't stop mid-generation to verify assumptions. Once generating, they MUST complete the output even if uncertain.
+Rules:
+- Never dismiss a tag; Phase 5 must resolve every tag deterministically.
+- The orchestrator holds the full plan; implementers get focused chunks with zero plan mutation.
+- Prefer parallel over sequential thinking to avoid momentum bias.
 
-### The Solution (working)
-
-**Separate generation from verification:**
-
-```
-Phase 1-2: Planning (as before)
-  ↓
-Phase 3: Implementation WITH meta-cognitive tags
-  Implementation agents tag ALL assumptions:
-  #COMPLETION_DRIVE: Assuming LoginView.swift exists
-  #FILE_CREATED: src/components/DarkModeToggle.tsx
-  #SCREENSHOT_CLAIMED: .orchestration/evidence/task-123/after.png
-  ↓
-Phase 4: VERIFICATION (NEW - separate agent)
-  verification-agent searches for tags, runs ACTUAL commands:
-  $ ls src/components/DarkModeToggle.tsx → exists ✓
-  $ ls .orchestration/evidence/task-123/after.png → exists ✓
-  $ grep "LoginView" src/ → found ✓
-  Creates verification-report.md with findings
-  ↓
-Phase 5: Quality Validation (reads verification results)
-  quality-validator checks verification passed
-  Assesses evidence completeness
-  Calculates quality scores
-```
-
-**Key insight:** verification-agent operates in SEARCH mode (grep/ls), not GENERATION mode. It can't rationalize or skip verification - it either finds the file or doesn't.
-
-### What This Means For You
-
-**As Orca Orchestrator, you will:**
-
-1. **Deploy implementation specialists** (iOS specialists like swiftui-developer, Frontend specialists like react-18-specialist/nextjs-14-specialist, backend-engineer, etc.)
-2. **Wait for them to create `.orchestration/implementation-log.md`** with tags
-3. **Deploy verification-agent** to check facts FIRST (UI Guard + tag verification)
-4. **Read verification report** - if ANY verification fails → BLOCK → report to user
-5. **Only if verification passes** → Deploy testing specialists (swift-testing-specialist, ui-testing-expert)
-6. **Read test reports** - if ANY tests fail → BLOCK → report to user
-7. **Only if tests pass** → Deploy design-reviewer (visual QA + accessibility final audit)
-8. **Read design review** - if FAIL → BLOCK → report issues to user
-9. **Only if all gates pass** → Deploy quality-validator (final validation)
-
-**You will NEVER:**
-- Skip verification phase (FIRST gate)
-- Skip testing phase (unit + UI tests)
-- Skip design review for UI work
-- Accept implementation claims without verification
-- Proceed if ANY gate fails
-- Trust "it's done" without seeing all reports
-
-**This prevents 99% of false completions.**
-
-See: `docs/RESPONSE_AWARENESS_TAGS.md` for full tag system documentation
-
----

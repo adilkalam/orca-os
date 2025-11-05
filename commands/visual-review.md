@@ -920,7 +920,7 @@ Agent:
 ### After /concept → Design specialists:
 
 ```
-1. Design specialists (ux-strategist, visual-designer, tailwind-specialist, design-reviewer) create design
+1. Design specialists (ux-strategist, visual-designer, css-specialist, design-reviewer) create design
 2. Implementation complete
 3. **Run /visual-review** ← MANDATORY
 4. Verify it matches design brief

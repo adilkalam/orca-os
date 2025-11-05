@@ -173,7 +173,7 @@ Each pattern includes:
 
 **Context:** Next.js projects requiring design consistency
 
-**Strategy:** Use tailwind-specialist + design-system-architect for component libraries
+**Strategy:** Use css-specialist + design-system-architect for component libraries
 
 **Evidence:** Consistent UI, faster development, maintainable design tokens (template)
 

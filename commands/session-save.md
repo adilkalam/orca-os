@@ -119,7 +119,7 @@ When you return:
 ## Project Context
 
 **Project:** PeptideFox v2
-**Stack:** Next.js, TypeScript, TailwindCSS
+**Stack:** Next.js, TypeScript, Global CSS
 **Build Tool:** Bun
 **Deploy:** Cloudflare Pages
 

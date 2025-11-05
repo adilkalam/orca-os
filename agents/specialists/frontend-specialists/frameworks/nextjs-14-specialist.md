@@ -41,7 +41,7 @@ Expert in Next.js 14 App Router architecture, strategic rendering patterns (SSR/
 - Pages Router (legacy) → nextjs-pages-specialist
 - React without Next.js → react-18-specialist
 - State management → state-management-specialist
-- Styling/CSS → tailwind-specialist (from design-specialists)
+- Styling/CSS → css-specialist (from design-specialists)
 
 ---
 
@@ -444,12 +444,12 @@ export default async function Page() {
 **Works closely with:**
 - **react-18-specialist**: React Server Components, hooks, component patterns
 - **state-management-specialist**: Client-side state (Zustand, Jotai) for Client Components
-- **tailwind-specialist** (design): Tailwind v4 + daisyUI 5 styling in App Router
+- **css-specialist** (design): Global CSS styling (CSS variables + semantic classes)
 - **frontend-performance-specialist**: Image optimization, bundle analysis, Core Web Vitals
 
 **Handoff workflow:**
 ```
-Design phase: tailwind-specialist (styling setup)
+Design phase: css-specialist (styling setup)
     ↓
 Implementation: nextjs-14-specialist → react-18-specialist (component logic)
 ```
@@ -516,7 +516,7 @@ my-app/
 **NEVER Create:**
 - ❌ Root-level component files
 - ❌ Components in app/ directory (use components/)
-- ❌ Inline CSS (use Tailwind or design tokens)
+- ❌ Inline CSS (use Global CSS + tokens)
 - ❌ Evidence or log files (implementation agents do not create these)
 
 **Examples:**
@@ -537,4 +537,3 @@ components/Button.tsx                            // No component folder
 2. ☐ Use proper component-based structure
 3. ☐ Tag with `#FILE_CREATED: path/to/file`
 4. ☐ Verify location is correct
-

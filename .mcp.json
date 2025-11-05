@@ -1,14 +1,34 @@
 {
   "mcpServers": {
     "vibe-memory": {
-      "command": "python3",
-      "args": [".claude/mcp/memory_server.py"],
-      "cwd": "/Users/adilkalam/claude-vibe-code",
-      "env": { "PYTHONUNBUFFERED": "1" }
+      "type": "stdio",
+      "command": "/opt/homebrew/bin/python3",
+      "args": ["/Users/adilkalam/claude-vibe-code/mcp/vibe-memory/memory_server.py"],
+      "env": {
+        "PYTHONUNBUFFERED": "1",
+        "WORKSHOP_DB": "/Users/adilkalam/claude-vibe-code/.workshop/workshop.db"
+      }
     },
     "chrome-devtools": {
+      "type": "stdio",
       "command": "npx",
-      "args": ["-y", "chrome-devtools-mcp@latest"]
+      "args": ["-y", "chrome-devtools-mcp@latest"],
+      "env": {}
+    },
+    "XcodeBuildMCP": {
+      "type": "stdio",
+      "command": "npx",
+      "args": ["-y", "xcodebuildmcp@latest"],
+      "env": {}
+    },
+    "bright-data-web": {
+      "type": "stdio",
+      "command": "npx",
+      "args": ["-y", "@brightdata/mcp"],
+      "env": {
+        "API_TOKEN": "a9c43fcdfeb9156adaf60346750d480aa241d1b32765db58bac050df44343bcb"
+      }
     }
   }
 }
+

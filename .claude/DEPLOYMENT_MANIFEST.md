@@ -2,7 +2,7 @@
 
 **Purpose:** Canonical definition of what should be deployed to `~/.claude`
 
-**Last Generated:** 2025-10-26
+**Last Generated:** 2025-11-01
 
 ---
 
@@ -17,11 +17,11 @@ This file defines the EXACT state that `~/.claude` should match.
 
 ## System Counts (Verified from Repo)
 
-- **Agents:** 51 total
-- **Commands:** 15 total (13 active, 2 deprecated)
-- **Hooks:** 3 total
+- **Agents:** 53 total (excludes 3 template/policy files)
+- **Commands:** 23 total (all active)
+- **Hooks:** 8 total
 - **Scripts:** 3 total
-- **Playbooks:** 5 JSON files
+- **Playbooks:** 7 JSON files
 
 ---
 
@@ -58,9 +58,10 @@ agents/ → ~/.claude/agents/
 ├── quality/
 │   ├── verification-agent.md
 │   ├── quality-validator.md
-│   └── test-engineer.md
+│   ├── test-engineer.md
+│   └── content-awareness-validator.md
 └── specialists/
-    ├── design-specialists/ (11 agents)
+    ├── design-specialists/ (12 agents including design-ocd-enforcer)
     ├── frontend-specialists/ (5 agents)
     └── ios-specialists/ (21 agents)
 ```
@@ -69,46 +70,59 @@ agents/ → ~/.claude/agents/
 - Implementation: 4
 - Orchestration: 4
 - Planning: 3
-- Quality: 3
-- Design: 11
+- Quality: 4
+- Design: 12
 - Frontend: 5
 - iOS: 21
 
-**Total: 51**
+**Total: 53**
 
-### 3. Commands (15 total)
+### 3. Commands (23 total)
 
 **Deploy entire commands/ directory:**
 ```
 commands/ → ~/.claude/commands/
 ├── all-tools.md
+├── ascii-mockup.md
 ├── clarify.md
 ├── cleanup.md
 ├── completion-drive.md
+├── concept-new.md
 ├── concept.md
+├── creative-strategist.md
 ├── enhance.md
+├── finalize.md
 ├── force.md
+├── ios-debug.md
 ├── memory-learn.md
 ├── memory-pause.md
+├── mode-off.md
+├── mode-strict.md
+├── mode-tweak.md
 ├── orca.md
 ├── organize.md
-├── session-resume.md (DEPRECATED - mark for removal)
-├── session-save.md (DEPRECATED - mark for removal)
+├── session-resume.md
+├── session-save.md
 ├── ultra-think.md
 └── visual-review.md
 ```
 
-**Active Commands:** 13
-**Deprecated:** 2 (session-save, session-resume)
+**Active Commands:** 23
+**Deprecated:** 0
 
-### 4. Hooks (3 total)
+### 4. Hooks (8 total)
 
 **Deploy hooks:**
 ```
 hooks/ → ~/.claude/hooks/
+├── auto-activate-skills.sh
 ├── detect-project-type.sh
+├── load-design-dna.sh
 ├── load-playbooks.sh
-└── load-design-dna.sh
+├── orchestrator-firewall.sh
+├── session-start.sh
+├── SessionEnd.sh
+└── SessionStart.sh
 ```
 
 ### 5. Scripts (3 total)
@@ -129,6 +143,8 @@ scripts/ → ~/.claude/scripts/
 ├── playbooks/
 │   ├── universal-patterns.json
 │   ├── frontend-patterns.json
+│   ├── git-patterns.json
+│   ├── ios-development-template.json
 │   ├── nextjs-patterns-template.json
 │   ├── universal-patterns-template.json
 │   └── taste-obdn-template.json
@@ -168,10 +184,6 @@ scripts/ → ~/.claude/scripts/
 ## Cleanup Rules for ~/.claude
 
 ### DELETE These Directories/Files
-
-**Deprecated Commands:**
-- `commands/session-save.md`
-- `commands/session-resume.md`
 
 **Stale Documentation (non-canonical):**
 - Root-level audit reports (`QA_AUDIT_*.md`, `ORCA_FIXES_*.md`, etc.)
@@ -243,10 +255,6 @@ mv ~/.claude/file-history ~/.claude-archive/file-history-$(date +%Y%m%d)/
 
 ### Phase 3: Delete Stale Files
 ```bash
-# Remove deprecated commands
-rm ~/.claude/commands/session-save.md
-rm ~/.claude/commands/session-resume.md
-
 # Remove stale documentation
 rm ~/.claude/QA_*.md
 rm ~/.claude/ORCA_*.md
@@ -280,17 +288,17 @@ cp /Users/adilkalam/claude-vibe-code/CLAUDE.md ~/.claude/CLAUDE.md.project
 
 ### Phase 5: Verify Deployment
 ```bash
-# Count agents
-find ~/.claude/agents -name "*.md" | wc -l  # Should be 51
+# Count agents (excluding template/policy files)
+find ~/.claude/agents -name "*.md" | grep -v "TEMPLATE\|README\|POLICY\|context" | wc -l  # Should be 53
 
 # Count commands
-find ~/.claude/commands -name "*.md" | wc -l  # Should be 16
+find ~/.claude/commands -name "*.md" | wc -l  # Should be 23
 
 # Verify hooks
-ls ~/.claude/hooks/*.sh  # Should show 3 files
+ls ~/.claude/hooks/*.sh  # Should show 8 files
 
-# Check deprecated commands are gone
-ls ~/.claude/commands/session-*.md  # Should show "No such file"
+# Check session commands are present (active - reliable memory tools)
+ls ~/.claude/commands/session-*.md  # Should show 2 files (session-save.md, session-resume.md)
 ```
 
 ---
@@ -339,12 +347,12 @@ ls ~/.claude/commands/session-*.md  # Should show "No such file"
 ## Verification Checklist
 
 After deployment, verify:
-- [ ] `find ~/.claude/agents -name "*.md" | wc -l` returns 51
-- [ ] `find ~/.claude/commands -name "*.md" | wc -l` returns 16
-- [ ] `ls ~/.claude/hooks/*.sh | wc -l` returns 3
-- [ ] `ls ~/.claude/commands/session-*.md` shows no files (deprecated removed)
+- [ ] `find ~/.claude/agents -name "*.md" | grep -v "TEMPLATE\|README\|POLICY\|context" | wc -l` returns 53
+- [ ] `find ~/.claude/commands -name "*.md" | wc -l` returns 23
+- [ ] `ls ~/.claude/hooks/*.sh | wc -l` returns 8
+- [ ] `ls ~/.claude/commands/session-*.md` shows 2 files (session-save.md, session-resume.md - active)
 - [ ] `ls ~/.claude/QA_*.md` shows no files (stale docs removed)
-- [ ] `ls ~/.claude/.orchestration/playbooks/*.json | wc -l` returns 5
+- [ ] `ls ~/.claude/.orchestration/playbooks/*.json | wc -l` returns 7
 - [ ] `ls ~/.claude/projects` shows "No such file or directory" (archived)
 - [ ] `du -sh ~/.claude` shows reasonable size (< 100MB without project histories)
 

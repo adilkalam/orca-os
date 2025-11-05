@@ -1,6 +1,0 @@
-{
-  "allow": [
-    "routine-designer"
-  ],
-  "deny": []
-}

@@ -1,1 +1,0 @@
-import "artifact-sections://get-ticket?data=sections.plan"

@@ -31,7 +31,7 @@
 1. design-system-architect - Reference-based taste capture
 2. visual-designer - Hierarchy, typography, composition
 3. ux-strategist - Flow optimization, Hick's Law, progressive disclosure
-4. tailwind-specialist - Tailwind v4 + daisyUI 5 implementation
+4. css-specialist - Tailwind v4 + daisyUI 5 implementation
 5. css-specialist - Complex CSS when Tailwind insufficient
 6. ui-engineer - Component engineering with accessibility
 7. accessibility-specialist - WCAG 2.1 AA compliance
@@ -156,7 +156,7 @@ Created AGENT_TAXONOMY.md to define:
 - Workflow examples
 
 **Caught duplicates:**
-- styling-specialist (frontend) vs tailwind-specialist (design)
+- styling-specialist (frontend) vs css-specialist (design)
 - Both did Tailwind v4 + daisyUI 5 - but styling is a DESIGN responsibility
 
 ### Systemic Failures > Local Correctness
@@ -191,7 +191,7 @@ Created AGENT_TAXONOMY.md to define:
 ### SELF_AUDIT_PROTOCOL.md
 
 **7 Phases (50-60 min):**
-1. Duplicate detection (styling-specialist vs tailwind-specialist)
+1. Duplicate detection (styling-specialist vs css-specialist)
 2. Agent count verification (19 vs 21 iOS specialists)
 3. /orca integration check (deprecated agents still used)
 4. Taxonomy boundary enforcement (design vs frontend)

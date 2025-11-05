@@ -1,8 +1,0 @@
-status: PASS
-timestamp: 2025-10-28T21:36:53Z
-score: 5
-build: PASS
-tests: SKIP
-zero_tag_gate: PASS
-screenshots: 1
-report: .orchestration/verification/verification-report.md

@@ -1,4 +1,0 @@
-{
-  allow: ['pantheon'],
-  deny: [],
-}

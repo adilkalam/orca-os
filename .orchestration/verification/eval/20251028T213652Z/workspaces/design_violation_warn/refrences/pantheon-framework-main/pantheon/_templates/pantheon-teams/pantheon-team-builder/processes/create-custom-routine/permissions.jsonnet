@@ -1,6 +1,0 @@
-{
-  "allow": [
-    "routine-builder"
-  ],
-  "deny": []
-}

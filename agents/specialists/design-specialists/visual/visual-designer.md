@@ -53,35 +53,16 @@ description: Visual design specialist creating beautiful, polished interfaces th
  */
 
 /* 1. Primary: Heading (largest, boldest, highest contrast) */
-.hero-heading {
-  @apply text-5xl md:text-6xl font-bold;
-  @apply text-base-content; /* Highest contrast */
-  line-height: 1.1; /* Tighter for impact */
-  letter-spacing: -0.02em; /* Refined tracking */
-}
+.hero-heading { font-size: clamp(2.5rem, 6vw, 3.75rem); font-weight: 700; color: var(--color-text); line-height: 1.1; letter-spacing: -0.02em }
 
 /* 2. Secondary: Subheading (medium size, muted color) */
-.hero-subheading {
-  @apply text-xl md:text-2xl font-normal;
-  @apply text-base-content/70; /* Muted = secondary */
-  line-height: 1.4;
-  @apply mt-4; /* Spacing separates hierarchy */
-}
+.hero-subheading { font-size: clamp(1.125rem, 2.5vw, 1.5rem); font-weight: 400; color: color-mix(in oklch, var(--color-text) 70%, white); line-height: 1.4; margin-top: var(--space-4) }
 
 /* 3. Tertiary: CTA (color contrast, not size) */
-.hero-cta {
-  @apply btn btn-lg btn-primary;
-  @apply mt-8; /* More spacing = separate from text */
-  @apply font-semibold; /* Slightly bolder */
-}
+.hero-cta { margin-top: var(--space-8); font-weight: 600 }
 
 /* 4. Supporting: Description (smallest, most muted) */
-.hero-description {
-  @apply text-base;
-  @apply text-base-content/60; /* Most muted */
-  @apply mt-6 max-w-prose;
-  line-height: 1.6; /* More spacing = readable */
-}
+.hero-description { font-size: 1rem; color: color-mix(in oklch, var(--color-text) 60%, white); margin-top: var(--space-6); max-width: 65ch; line-height: 1.6 }
 ```
 
 **F-Pattern Reading (Western users)**:
@@ -229,10 +210,7 @@ description: Visual design specialist creating beautiful, polished interfaces th
  * Provides flexibility: 2, 3, 4, 6, 12 divisions
  */
 
-.container {
-  @apply mx-auto px-4;
-  max-width: 1280px; /* Desktop max-width */
-}
+.container { margin-left: auto; margin-right: auto; padding-left: var(--space-4); padding-right: var(--space-4); max-width: 1280px }
 
 /* Grid System */
 .grid-layout {
@@ -267,12 +245,10 @@ description: Visual design specialist creating beautiful, polished interfaces th
 }
 
 /* Example: Hero Section Layout */
-.hero-grid {
-  @apply grid-layout;
-}
+.hero-grid { display: grid; grid-template-columns: repeat(12, 1fr); gap: var(--space-6) }
 
 .hero-content {
-  @apply col-span-full;
+  grid-column: 1 / -1;
 
   @media (min-width: 1024px) {
     grid-column: 1 / span 7; /* 7 of 12 columns = 58% */
@@ -280,7 +256,7 @@ description: Visual design specialist creating beautiful, polished interfaces th
 }
 
 .hero-image {
-  @apply col-span-full;
+  grid-column: 1 / -1;
 
   @media (min-width: 1024px) {
     grid-column: 8 / span 5; /* 5 of 12 columns = 42% */
@@ -317,18 +293,9 @@ article {
   line-height: 1.6; /* 16px × 1.6 = 25.6px ≈ 24px (3 × 8px) */
 }
 
-article h2 {
-  @apply text-3xl font-bold;
-  @apply mt-12 mb-4; /* 48px top, 16px bottom (8px increments) */
-}
-
-article p {
-  @apply mb-6; /* 24px between paragraphs */
-}
-
-article ul {
-  @apply my-6 space-y-3; /* 24px around list, 12px between items */
-}
+article h2 { font-size: 1.875rem; font-weight: 700; margin-top: var(--space-12); margin-bottom: var(--space-4) }
+article p { margin-bottom: var(--space-6) }
+article ul { margin: var(--space-6) 0; display: grid; row-gap: var(--space-3) }
 ```
 
 ## Tools & Integration
@@ -438,31 +405,31 @@ article ul {
 ```css
 /* ❌ WRONG: Flat hierarchy */
 .card-title {
-  @apply text-base font-normal text-base-content;
+  font-size: 1rem; font-weight: 400; color: var(--color-text);
 }
 
 .card-description {
-  @apply text-base font-normal text-base-content;
+  font-size: 1rem; font-weight: 400; color: var(--color-text);
 }
 
 .card-cta {
-  @apply text-base font-normal text-base-content;
+  font-size: 1rem; font-weight: 400; color: var(--color-text);
 }
 /* Everything looks the same! */
 
 /* ✅ CORRECT: Clear hierarchy */
 .card-title {
-  @apply text-2xl font-bold text-base-content;
+  font-size: 1.5rem; font-weight: 700; color: var(--color-text);
   /* Largest + boldest = primary */
 }
 
 .card-description {
-  @apply text-base font-normal text-base-content/70;
+  font-size: 1rem; font-weight: 400; color: color-mix(in oklch, var(--color-text) 70%, white);
   /* Base size + muted = secondary */
 }
 
 .card-cta {
-  @apply btn btn-primary mt-4;
+  /* Use global button class in markup; spacing via container */
   /* Color contrast + spacing = focal point */
 }
 ```
@@ -530,7 +497,7 @@ Work with these specialists for comprehensive solutions:
 - **design-system-architect**: Provides design tokens and guidelines
 - **ux-strategist**: Defines UX flows before visual design
 - **accessibility-specialist**: Reviews color contrast and readability
-- **tailwind-specialist**: Implements visual designs with Tailwind
+- **css-specialist**: Implements visual designs with Global CSS
 - **ui-engineer**: Translates mockups to React/Vue/Angular components
 - **design-reviewer**: Reviews implemented designs for visual accuracy
 
@@ -547,7 +514,7 @@ Work with these specialists for comprehensive solutions:
 
 2. **Style Dictionary** (JSON → CSS/JS/Swift)
    - Transform tokens to platform formats
-   - CSS variables, Tailwind config, iOS plist
+   - CSS variables, iOS plist
 
 3. **Figma-to-React** (Components → Code)
    - Auto-generate React components from Figma

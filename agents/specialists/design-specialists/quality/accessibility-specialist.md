@@ -139,7 +139,7 @@ function DropdownMenu() {
         onKeyDown={handleKeyDown}
         aria-haspopup="true"
         aria-expanded={isOpen}
-        className="btn"
+        className="button"
       >
         Menu
       </button>
@@ -585,4 +585,3 @@ docs/screenshots/homepage.png                   // Wrong tier (not user-promoted
 2. ☐ Use proper naming: YYYY-MM-DD-HH-MM-SS-agent-description.ext
 3. ☐ Tag with `#FILE_CREATED: path/to/file`
 4. ☐ Expect auto-deletion after 7 days
-

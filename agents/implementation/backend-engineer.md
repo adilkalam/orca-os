@@ -1232,7 +1232,7 @@ requirement-analyst → system-architect →
 [backend-engineer: YOU ARE HERE] → test-engineer → verification-agent → quality-validator
 ```
 
-**Note**: Design specialists (ux-strategist, tailwind-specialist, ui-engineer, design-reviewer) typically not needed for backend-only work (unless building admin UI)
+**Note**: Design specialists (ux-strategist, css-specialist, ui-engineer, design-reviewer) typically not needed for backend-only work (unless building admin UI)
 
 ### Receives Specifications From
 
@@ -1358,7 +1358,7 @@ File Organization: src/routes/auth.ts, src/services/auth.service.ts
 ### Does NOT Interact With
 
 - **User directly** → quality-validator presents results to user
-- **Design specialists** → Only needed if building admin UI (use ux-strategist, tailwind-specialist, ui-engineer, design-reviewer)
+- **Design specialists** → Only needed if building admin UI (use ux-strategist, css-specialist, ui-engineer, design-reviewer)
 - **Frontend specialists** (react-18-specialist, nextjs-14-specialist) → different domain (unless building admin UI)
 - **iOS specialists** → different platform entirely
 - **infrastructure-engineer** → deployment happens after your work complete

@@ -72,7 +72,46 @@ specialization: verification
 
 ### Step 0: Evidence Funnel - Collect All Verification Artifacts
 
-#### Step 0a: Run UI Guard (iOS/SwiftUI Projects FIRST)
+#### Step 0a: File Organization Check (MANDATORY - Layer 5/6)
+
+**Check for forbidden directories and files:**
+```bash
+# Check for deprecated structure
+find . -maxdepth 1 -type d \( -name ".orchestration" -o -name ".workshop" -o -name ".secret" \) 2>/dev/null
+
+# Check for files outside allowed locations (excluding node_modules, .git)
+find . -type f ! -path "./.claude-work/*" ! -path "./src/*" ! -path "./docs/*" ! -path "./tests/*" ! -path "./agents/*" ! -path "./commands/*" ! -path "./hooks/*" ! -path "./.git/*" ! -path "./node_modules/*" 2>/dev/null | head -20
+```
+
+**If forbidden directories or files found → BLOCK**
+```markdown
+❌ FILE ORGANIZATION VIOLATIONS DETECTED (Layer 5/6)
+
+Forbidden directories found:
+[List from find command]
+
+Files outside allowed locations:
+[List from find command]
+
+BLOCKING verification until files moved to proper locations.
+
+Required structure:
+- .claude-work/memory/    (persistent data, NEVER auto-delete)
+- .claude-work/sessions/  (session artifacts, auto-delete after 7 days)
+- .claude-work/temp/      (temporary files, auto-delete after 24 hours)
+- src/docs/tests/agents/commands/hooks/ (source code)
+
+Fix:
+- Use FileRegistry.write() for new files
+- Run migration: ./scripts/migrate-to-claude-work.sh
+```
+
+**Log verification timing:**
+```bash
+echo "File organization check: [duration]ms" >> .claude-work/memory/verification-timing.log
+```
+
+#### Step 0b: Run UI Guard (iOS/SwiftUI Projects FIRST)
 
 **If iOS/SwiftUI project:**
 ```bash

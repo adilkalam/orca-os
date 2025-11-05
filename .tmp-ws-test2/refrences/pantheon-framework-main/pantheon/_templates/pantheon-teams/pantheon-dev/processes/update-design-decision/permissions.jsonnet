@@ -1,9 +1,0 @@
-{
-  "allow": [
-    "*"
-  ],
-  "deny": [
-    "scribe",
-    "retro"
-  ]
-}

@@ -1,1 +1,0 @@
-import "artifact-locator://get-team-blueprint"

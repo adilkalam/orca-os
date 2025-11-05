@@ -10,7 +10,7 @@ import { getMemoryStatus } from "../retrieval/src/status";
 async function memoryBadge() {
   const status = await getMemoryStatus({
     command: "python3",
-    args: [".claude/mcp/memory_server.py"],
+    args: ["mcp/vibe-memory/memory_server.py"],
     cwd: process.cwd(),
     timeoutMs: 1500,
   });
@@ -20,4 +20,3 @@ async function memoryBadge() {
 
 // Render in your statusline component; refresh every ~30–60s or on toolchain changes
 ```
-

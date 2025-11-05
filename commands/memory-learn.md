@@ -13,7 +13,7 @@ You are the **Learning Review Coordinator** - you orchestrate the two-phase refl
 
 ## Task
 
-Review the last orchestration session and update playbooks with learned patterns.
+Review the most recent relevant session(s) and update playbooks with learned patterns.
 
 ---
 
@@ -22,8 +22,8 @@ Review the last orchestration session and update playbooks with learned patterns
 Before starting, verify infrastructure exists:
 
 ```bash
-# Check if playbooks directory exists
-ls .orchestration/playbooks/ 2>/dev/null
+# Check if playbooks directory exists (new or legacy)
+ls .claude-work/memory/playbooks/ 2>/dev/null || ls .orchestration/playbooks/ 2>/dev/null
 
 # Check if signal log exists
 ls .orchestration/signals/signal-log.jsonl 2>/dev/null
@@ -35,7 +35,17 @@ ls agents/orchestration/playbook-curator.md 2>/dev/null
 
 **If any are missing:**
 
-Create them using templates from the ACE Playbook System. The system should degrade gracefully - if there are no recent sessions in signal log, just report that. If playbooks don't exist, initialize them from templates first.
+Initialize playbooks from templates. Easiest path:
+
+```bash
+# Auto-detect project type and seed playbooks from templates
+bash hooks/load-playbooks.sh
+
+# Or run session-start (which calls the loader)
+make session-start
+```
+
+This will prefer `.claude-work/memory/playbooks/` and fall back to legacy `.orchestration/playbooks/` if needed, seeding `*-template.json` → `*.json`.
 
 **DO NOT fail with "Cannot Complete Learning Review" - instead, initialize missing infrastructure or report specific actionable steps.**
 
@@ -45,11 +55,11 @@ Create them using templates from the ACE Playbook System. The system should degr
 
 ### Phase 1: Reflection
 
-Deploy **orchestration-reflector** to analyze the last session:
+Deploy **orchestration-reflector** to analyze the last session (any workflow/session, not limited to /orca):
 
 **Task for orchestration-reflector:**
 ```
-Analyze the most recent orchestration session and create a reflection report.
+Analyze the most recent session and create a reflection report.
 
 Review:
 1. Signal log (.orchestration/signals/signal-log.jsonl) - last session events
@@ -89,8 +99,8 @@ Actions:
 5. Log all changes to signal log
 
 Output:
-- Updated .orchestration/playbooks/*.json
-- Updated .orchestration/playbooks/*.md
+- Updated .claude-work/memory/playbooks/*.json (or legacy .orchestration/playbooks/*.json)
+- Updated .claude-work/memory/playbooks/*.md (or legacy .orchestration/playbooks/*.md)
 - Signal log entries
 ```
 
@@ -121,12 +131,12 @@ After both agents complete, present summary to user:
 - ios-pattern-042: Scheduled for deletion (2025-10-31)
 
 **Files Updated:**
-- .orchestration/playbooks/ios-development.json
-- .orchestration/playbooks/ios-development.md
+- .claude-work/memory/playbooks/ios-development.json (or legacy path)
+- .claude-work/memory/playbooks/ios-development.md (or legacy path)
 
 ### Next Session
 
-Playbooks are now updated. Next /orca session will use these improved patterns.
+Playbooks are now updated. Next session (e.g., /orca) will use these improved patterns.
 ```
 
 ---
@@ -140,7 +150,7 @@ After curation, verify changes with grep:
 grep "CURATION_COMPLETE" .orchestration/signals/signal-log.jsonl
 
 # Check that JSON was updated
-ls -la .orchestration/playbooks/*.json
+ls -la .claude-work/memory/playbooks/*.json 2>/dev/null || ls -la .orchestration/playbooks/*.json 2>/dev/null
 
 # Check that backup was created
 ls -la .orchestration/.backup/playbooks/
@@ -158,7 +168,7 @@ If playbooks/ or signals/ directories don't exist:
 ⚠️ ACE infrastructure not initialized.
 
 Creating from templates:
-- .orchestration/playbooks/ (from templates)
+- .claude-work/memory/playbooks/ (from templates; legacy `.orchestration/playbooks/` also supported)
 - .orchestration/signals/signal-log.jsonl (initialized)
 
 Would you like me to initialize the ACE Playbook System for this project?
@@ -169,12 +179,12 @@ Would you like me to initialize the ACE Playbook System for this project?
 If signal log is empty or no orchestration sessions found:
 
 ```
-ℹ️ No orchestration sessions to review.
+ℹ️ No sessions to review.
 
-Signal log shows no /orca sessions yet. This command reviews completed /orca sessions to extract learning.
+Signal log shows no recent sessions yet. This command reviews completed sessions to extract learning.
 
 Next steps:
-1. Run /orca to perform multi-agent orchestration
+1. Run your normal workflow (e.g., /orca or other commands that generate session signals)
 2. Then run /memory-learn to extract patterns from that session
 ```
 
@@ -257,16 +267,16 @@ Learning Review Complete (5 sessions):
 
 ---
 
-## Integration with /orca
+## Integration with Workflows
 
-After learning review completes, next `/orca` session will:
+After learning review completes, subsequent sessions will:
 
 1. Load updated playbooks via SessionStart hook
 2. See new patterns with higher confidence (helpful_count increased)
 3. Avoid anti-patterns with higher harmful_count
 4. Apply newly discovered strategies
 
-**Example:**
+**Example (with /orca):**
 
 Session 1:
 - Uses ios-pattern-001 (helpful_count: 0)

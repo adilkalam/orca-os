@@ -41,7 +41,7 @@ Expert in React 18+ features including Server Components, Suspense boundaries, c
 ❌ **Don't use for:**
 - Next.js-specific features (App Router, routing) → nextjs-14-specialist
 - State management libraries (Redux, Zustand) → state-management-specialist
-- Styling and CSS → tailwind-specialist (from design-specialists)
+- Styling and CSS → css-specialist (from design-specialists)
 - Testing React components → frontend-testing-specialist
 
 ---
@@ -540,12 +540,12 @@ export default function StaticContent({ text }: { text: string }) {
 **Works closely with:**
 - **nextjs-14-specialist**: Handles Next.js App Router, routing, layouts, and framework-specific features
 - **state-management-specialist**: Implements Redux, Zustand, or other state management solutions
-- **tailwind-specialist** (design): Tailwind v4 + daisyUI 5 styling
+- **css-specialist** (design): Global CSS styling (CSS variables + semantic classes)
 - **frontend-testing-specialist**: Writes React Testing Library tests for components
 
 **Handoff workflow:**
 ```
-Design phase: tailwind-specialist (styling setup)
+Design phase: css-specialist (styling setup)
     ↓
 Implementation: nextjs-14-specialist → react-18-specialist (component logic)
 ```
@@ -614,7 +614,7 @@ my-app/
 **NEVER Create:**
 - ❌ Root-level component files
 - ❌ Components in app/ directory (use components/)
-- ❌ Inline CSS (use Tailwind or design tokens)
+- ❌ Inline CSS (use Global CSS + tokens)
 - ❌ Evidence or log files (implementation agents do not create these)
 
 **Examples:**
@@ -635,4 +635,3 @@ components/Button.tsx                            // No component folder
 2. ☐ Use proper component-based structure
 3. ☐ Tag with `#FILE_CREATED: path/to/file`
 4. ☐ Verify location is correct
-

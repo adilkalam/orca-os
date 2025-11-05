@@ -7,6 +7,7 @@ set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 GLOBAL_HOOKS_DIR="$HOME/.claude/hooks"
+GLOBAL_ASSETS_DIR="$HOME/.claude/ace"
 
 echo "🔧 Installing global Claude Code hooks..."
 echo
@@ -19,6 +20,26 @@ echo "✅ Created $GLOBAL_HOOKS_DIR"
 cp "$SCRIPT_DIR/SessionStart.sh" "$GLOBAL_HOOKS_DIR/SessionStart.sh"
 chmod +x "$GLOBAL_HOOKS_DIR/SessionStart.sh"
 echo "✅ Installed SessionStart.sh (Workshop auto-loader)"
+
+# Install SessionEnd hook
+cp "$SCRIPT_DIR/SessionEnd.sh" "$GLOBAL_HOOKS_DIR/SessionEnd.sh"
+chmod +x "$GLOBAL_HOOKS_DIR/SessionEnd.sh"
+echo "✅ Installed SessionEnd.sh (Workshop auto-import)"
+
+# Install ACE Playbooks global assets (~/.claude/ace)
+# Also migrate from any previous ~/.claude-global/ace if present
+LEGACY_GLOBAL_ASSETS="$HOME/.claude-global/ace"
+if [ -d "$LEGACY_GLOBAL_ASSETS" ] && [ ! -d "$GLOBAL_ASSETS_DIR" ]; then
+  mkdir -p "$(dirname "$GLOBAL_ASSETS_DIR")"
+  mv "$LEGACY_GLOBAL_ASSETS" "$GLOBAL_ASSETS_DIR"
+  echo "↪️  Migrated legacy assets from $LEGACY_GLOBAL_ASSETS to $GLOBAL_ASSETS_DIR"
+fi
+
+mkdir -p "$GLOBAL_ASSETS_DIR/templates" "$GLOBAL_ASSETS_DIR"
+cp "$SCRIPT_DIR/../hooks/load-playbooks.sh" "$GLOBAL_ASSETS_DIR/load-playbooks.sh"
+chmod +x "$GLOBAL_ASSETS_DIR/load-playbooks.sh"
+rsync -a "$SCRIPT_DIR/../.orchestration/playbooks/" "$GLOBAL_ASSETS_DIR/templates/" >/dev/null 2>&1 || true
+echo "✅ Installed ACE assets to $GLOBAL_ASSETS_DIR (loader + templates)"
 
 echo
 echo "🎉 Global hooks installed successfully!"

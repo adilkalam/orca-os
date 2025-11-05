@@ -83,7 +83,7 @@ AskUserQuestion({
     header: "Platform",
     multiSelect: false,
     options: [
-      {label: "Web Frontend", description: "React/Next.js with design specialists (tailwind-specialist, ui-engineer, design-reviewer)"},
+      {label: "Web Frontend", description: "React/Next.js with design specialists (css-specialist, ui-engineer, design-reviewer)"},
       {label: "iOS Native", description: "iOS specialists (swiftui-developer, swiftdata-specialist, swift-testing-specialist)"},
       {label: "React Native", description: "Cross-platform with design specialists (ux-strategist, ui-engineer, accessibility-specialist)"}
     ]
@@ -118,7 +118,7 @@ AskUserQuestion({
 ```
 ✅ Got it - we'll use the OBDN Design System v3.0 as reference.
 
-This means the design specialists (tailwind-specialist, ui-engineer) will apply
+This means the design specialists (css-specialist, ui-engineer) will apply
 the existing spacing and typography rules rather than creating new ones.
 
 Continuing with agent orchestration...

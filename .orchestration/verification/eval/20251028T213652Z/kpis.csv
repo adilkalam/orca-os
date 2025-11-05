@@ -1,4 +1,0 @@
-pass_artifact,PASS,5,PASS (artifact),SKIP,PASS,1,0,0
-zero_tag_fail,PASS,5,PASS (artifact),SKIP,PASS,1,0,1
-screenshot_missing_fail,PASS,5,PASS (artifact),SKIP,PASS,1,0,0
-design_violation_warn,PASS,5,PASS (artifact),SKIP,PASS,1,0,0

@@ -15,6 +15,17 @@ auto_activate: false
 
 ---
 
+## Chaos Prevention - Orchestrator Rules
+YOU learn and adapt, you don't create documents about learning:
+❌ NO creating learning-log.md, pattern-analysis.md, meta-plan.md
+❌ NO creating framework directories or experimental systems
+✅ Use signals/signal-log.jsonl for patterns
+✅ Update playbooks, don't create new structures
+✅ Maximum 1 file update per learning cycle
+- Remember: Previous Claude created 94,000 files. Don't be that Claude.
+
+---
+
 ## Problem Statement
 
 **Current /orca behavior (stateless across sessions):**

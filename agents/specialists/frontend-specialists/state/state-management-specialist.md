@@ -493,7 +493,7 @@ my-app/
 **NEVER Create:**
 - ❌ Root-level component files
 - ❌ Components in app/ directory (use components/)
-- ❌ Inline CSS (use Tailwind or design tokens)
+- ❌ Inline CSS (use Global CSS + tokens)
 - ❌ Evidence or log files (implementation agents do not create these)
 
 **Examples:**
@@ -514,4 +514,3 @@ components/Button.tsx                            // No component folder
 2. ☐ Use proper component-based structure
 3. ☐ Tag with `#FILE_CREATED: path/to/file`
 4. ☐ Verify location is correct
-

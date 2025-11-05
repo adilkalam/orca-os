@@ -20,8 +20,8 @@ bash .claude-global-hooks/install.sh
 
 This will:
 1. Create `~/.claude/hooks/` directory
-2. Copy `SessionStart.sh` to `~/.claude/hooks/SessionStart.sh`
-3. Make it executable
+2. Copy `SessionStart.sh` and `SessionEnd.sh` to `~/.claude/hooks/`
+3. Make them executable
 4. Verify Workshop CLI is installed
 
 ### Manual Installation
@@ -30,11 +30,13 @@ This will:
 # Create global hooks directory
 mkdir -p ~/.claude/hooks
 
-# Copy SessionStart hook
+# Copy hooks
 cp .claude-global-hooks/SessionStart.sh ~/.claude/hooks/SessionStart.sh
+cp .claude-global-hooks/SessionEnd.sh ~/.claude/hooks/SessionEnd.sh
 
 # Make executable
 chmod +x ~/.claude/hooks/SessionStart.sh
+chmod +x ~/.claude/hooks/SessionEnd.sh
 ```
 
 ## What Each Hook Does
@@ -45,8 +47,9 @@ chmod +x ~/.claude/hooks/SessionStart.sh
 
 **How it works:**
 1. Checks if Workshop CLI is installed
-2. If `.workshop/` doesn't exist in current project → auto-runs `workshop init`
-3. Loads Workshop context and displays it as JSON for Claude to parse
+2. If Workshop not initialized (supports new `.claude-work/memory/workshop.db` or legacy `.workshop/`) → auto-runs `workshop init`
+3. Performs a quiet catch-up import of any missed transcripts: `workshop import --execute`
+4. Loads Workshop context and displays it as JSON for Claude to parse
 
 **Why this fixes the Workshop problem:**
 
@@ -60,6 +63,36 @@ After this fix:
 - Workshop works immediately without manual setup
 - Users get Workshop context in every session
 
+**Failure transparency:**
+- If Workshop CLI is missing → emits a structured JSON message: "Workshop Not Installed" with next steps.
+- If initialization fails → emits a structured JSON message: "Workshop Init Failed" including truncated init output and remediation steps.
+- No more silent success; you always see what happened.
+
+**Crash recovery (catch-up import):**
+- If a previous session ended unexpectedly and SessionEnd didn’t run, the next SessionStart runs a quiet `workshop import --execute` to catch up.
+- This keeps `.workshop/workshop.db` current even after crashes or abrupt closes.
+
+### SessionEnd.sh
+
+**Purpose:** Auto-imports new sessions into Workshop when each Claude Code session ends
+
+**How it works:**
+1. Checks if Workshop CLI is installed
+2. If `.workshop/` exists in current project → runs `workshop import --execute`
+3. Silently imports any new JSONL session transcripts from Claude Code
+
+**Why this is needed:**
+
+Workshop stores knowledge from sessions, but it needs to import from Claude Code's JSONL transcripts. Without this hook:
+- Sessions wouldn't be captured automatically
+- Users would need to manually run `workshop import` after every session
+- Workshop knowledge would become stale
+
+With this hook:
+- Sessions are **automatically imported** when they end
+- Workshop always has latest context from all projects
+- Zero manual intervention required
+
 ## Verifying Installation
 
 After installation, start a new Claude Code session in ANY project and you should see:
@@ -69,9 +102,14 @@ After installation, start a new Claude Code session in ANY project and you shoul
 ```
 
 If you don't see this:
-1. Check hook exists: `ls -la ~/.claude/hooks/SessionStart.sh`
-2. Check it's executable: `test -x ~/.claude/hooks/SessionStart.sh && echo "executable" || echo "not executable"`
+1. Check hooks exist: `ls -la ~/.claude/hooks/Session*.sh`
+2. Check they're executable: `test -x ~/.claude/hooks/SessionStart.sh && echo "SessionStart: executable" || echo "SessionStart: not executable"`
 3. Check Workshop is installed: `workshop --version`
+
+After ending a session, verify automatic import works:
+```bash
+workshop sessions  # Should show recently captured sessions
+```
 
 ## Updating Global Hooks
 
@@ -90,6 +128,7 @@ To remove global hooks:
 
 ```bash
 rm ~/.claude/hooks/SessionStart.sh
+rm ~/.claude/hooks/SessionEnd.sh
 ```
 
-Note: This will disable Workshop auto-loading in all projects.
+Note: This will disable Workshop auto-loading and auto-import in all projects.

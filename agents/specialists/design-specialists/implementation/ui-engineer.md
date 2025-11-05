@@ -46,18 +46,18 @@ description: UI component implementation specialist for React/Vue/Angular with T
 
 ### Unbreakable Rule
 
-**NEVER use inline CSS - Use design system tokens via className**
+**NEVER use inline CSS — Use global CSS classes and tokens**
 
 ```tsx
 // ❌ WRONG - Inline styles are FORBIDDEN
 <button style={{ backgroundColor: 'blue', padding: '8px' }}>
 <div style={{ display: 'flex', gap: '16px', color: '#333' }}>
 
-// ✅ CORRECT - Use design system classes
-<button className="bg-primary-600 p-2">
-<div className="flex gap-4 text-gray-900">
+// ✅ CORRECT - Use global classes
+<button className="button button--primary button--sm">
+<div className="row">
 
-// ✅ CORRECT - Use CSS modules with design tokens (if className insufficient)
+// ✅ CORRECT - Use CSS modules sparingly for local overrides (global tokens only)
 import styles from './Component.module.css';
 <div className={styles.container}>
 ```
@@ -71,17 +71,16 @@ import styles from './Component.module.css';
 
 ### Enforcement
 
-**If you need styling that doesn't exist in design system:**
+**If you need styling that doesn't exist in the global stylesheet:**
 
 ```tsx
 // ❌ Don't add inline styles as workaround
 style={{ marginTop: '17px' }}
 
-// ✅ Add custom token to design system
-// 1. Update design-system-vX.X.X.md with new token
-// 2. Regenerate design-dna.json
-// 3. Use new token in className
-className="mt-custom-17"
+// ✅ Add a semantic class or token
+// 1. Update design-system-vX.X.X.md (tokens)
+// 2. Update styles/globals.css to consume tokens
+// 3. Use the new semantic class (e.g., "stack--tight")
 ```
 
 **Common violations and fixes:**
@@ -94,14 +93,14 @@ className={isActive ? 'text-blue-600' : 'text-gray-600'}
 
 // ❌ Inline dynamic values
 style={{ width: `${progress}%` }}
-// ✅ CSS custom properties
-style={{ '--progress': `${progress}%` }} className="w-[--progress]"
-// OR use CSS modules with design tokens
+// ✅ CSS custom properties only
+style={{ '--progress': `${progress}%` } as React.CSSProperties }
+// CSS: .progress { inline-size: var(--progress); }
 
 // ❌ Inline animations
 style={{ transform: 'translateX(10px)', transition: 'all 0.3s' }}
-// ✅ Design system utilities
-className="translate-x-2 transition-all duration-300"
+// ✅ Global CSS class (predefined)
+className="translate-x"
 ```
 
 ### Design System Integration
@@ -112,7 +111,7 @@ design-system-vX.X.X.md (defines all tokens)
     ↓
 design-dna.json (auto-generated)
     ↓
-Tailwind/CSS classes (use in components)
+Global CSS classes (globals.css)
     ↓
 Your components (className only, no inline styles)
 ```
@@ -160,10 +159,10 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     },
     ref
   ) => {
-    // Base classes from design system
-    const baseClasses = 'btn'; // daisyUI base
-    const variantClasses = `btn-${variant}`;
-    const sizeClasses = `btn-${size}`;
+    // Global CSS classes (BEM-like)
+    const baseClasses = 'button';
+    const variantClasses = `button--${variant}`;
+    const sizeClasses = size !== 'md' ? `button--${size}` : '';
 
     return (
       <button
@@ -175,7 +174,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         {...props}
       >
         {isLoading ? (
-          <span className="loading loading-spinner loading-sm" />
+          <span className="spinner" aria-hidden />
         ) : (
           leftIcon
         )}
@@ -246,10 +245,8 @@ export function LoginForm({ onSubmit }: LoginFormProps) {
   return (
     <form onSubmit={handleSubmit} noValidate>
       {/* Email Field */}
-      <div className="form-control w-full">
-        <label htmlFor={emailId} className="label">
-          <span className="label-text">Email address</span>
-        </label>
+      <div className="stack">
+        <label htmlFor={emailId}>Email address</label>
         <input
           type="email"
           id={emailId}
@@ -258,26 +255,22 @@ export function LoginForm({ onSubmit }: LoginFormProps) {
             setEmail(e.target.value);
             setErrors((prev) => ({ ...prev, email: undefined }));
           }}
-          className={`input input-bordered w-full ${errors.email ? 'input-error' : ''}`}
+          className={`input ${errors.email ? 'input--error' : ''}`}
           aria-required="true"
           aria-invalid={!!errors.email}
           aria-describedby={errors.email ? emailErrorId : undefined}
           disabled={isSubmitting}
         />
         {errors.email && (
-          <label className="label">
-            <span id={emailErrorId} className="label-text-alt text-error" role="alert">
-              {errors.email}
-            </span>
-          </label>
+          <div id={emailErrorId} className="input__error" role="alert">
+            {errors.email}
+          </div>
         )}
       </div>
 
       {/* Password Field */}
-      <div className="form-control w-full">
-        <label htmlFor={passwordId} className="label">
-          <span className="label-text">Password</span>
-        </label>
+      <div className="stack">
+        <label htmlFor={passwordId}>Password</label>
         <input
           type="password"
           id={passwordId}
@@ -286,24 +279,22 @@ export function LoginForm({ onSubmit }: LoginFormProps) {
             setPassword(e.target.value);
             setErrors((prev) => ({ ...prev, password: undefined }));
           }}
-          className={`input input-bordered w-full ${errors.password ? 'input-error' : ''}`}
+          className={`input ${errors.password ? 'input--error' : ''}`}
           aria-required="true"
           aria-invalid={!!errors.password}
           aria-describedby={errors.password ? passwordErrorId : undefined}
           disabled={isSubmitting}
         />
         {errors.password && (
-          <label className="label">
-            <span id={passwordErrorId} className="label-text-alt text-error" role="alert">
-              {errors.password}
-            </span>
-          </label>
+          <div id={passwordErrorId} className="input__error" role="alert">
+            {errors.password}
+          </div>
         )}
       </div>
 
       {/* Submit Button */}
-      <div className="form-control mt-6">
-        <Button type="submit" variant="primary" isLoading={isSubmitting}>
+      <div className="row" style={{ justifyContent: 'flex-end' }}>
+        <Button className="button button--primary" type="submit" variant="primary" isLoading={isSubmitting}>
           {isSubmitting ? 'Signing in...' : 'Sign in'}
         </Button>
       </div>
@@ -380,21 +371,21 @@ export function Modal({ isOpen, onClose, title, children }: ModalProps) {
   if (!isOpen) return null;
 
   return (
-    <div className="modal modal-open">
+    <div className="modal is-open">
       <div
         ref={modalRef}
-        className="modal-box"
+        className="modal__box"
         role="dialog"
         aria-modal="true"
         aria-labelledby="modal-title"
         tabIndex={-1}
       >
-        <h3 id="modal-title" className="font-bold text-lg">
+        <h3 id="modal-title" className="modal__title">
           {title}
         </h3>
-        <div className="py-4">{children}</div>
-        <div className="modal-action">
-          <button className="btn" onClick={onClose}>
+        <div className="modal__body">{children}</div>
+        <div className="modal__actions">
+          <button className="button" onClick={onClose}>
             Close
           </button>
         </div>
@@ -415,7 +406,7 @@ export function Modal({ isOpen, onClose, title, children }: ModalProps) {
 
 **Design Resources:**
 - `.design-system.md`: Project design system tokens (from design-system-architect)
-- `~/.claude/context/daisyui.llms.txt`: daisyUI 5 component library
+- Global CSS: `src/styles/globals.css`
 - Accessibility patterns: From accessibility-specialist guidance
 
 ### Example Workflow
@@ -444,7 +435,6 @@ npm run test:visual
 ### Tag Types for UI Implementation
 
 **COMPLETION_DRIVE:**
-- "Assumed design system uses daisyUI btn classes" → `#COMPLETION_DRIVE[DESIGN_SYSTEM]`
 - "Used Zustand for global state management" → `#COMPLETION_DRIVE[STATE_MGMT]`
 - "Implemented keyboard nav per standard patterns" → `#COMPLETION_DRIVE[KEYBOARD_NAV]`
 
@@ -579,13 +569,14 @@ const props = withDefaults(defineProps<ButtonProps>(), {
 });
 
 const buttonClass = computed(() => {
-  return `btn btn-${props.variant} btn-${props.size}`;
+  const size = props.size !== 'md' ? ` button--${props.size}` : ''
+  return `button button--${props.variant}${size}`
 });
 </script>
 
 <template>
   <button :class="buttonClass" :aria-busy="isLoading">
-    <span v-if="isLoading" class="loading loading-spinner" />
+    <span v-if="isLoading" class="spinner" />
     <slot v-else />
   </button>
 </template>
@@ -605,7 +596,7 @@ import { Component, Input } from '@angular/core';
       [attr.aria-busy]="isLoading"
       [disabled]="isLoading"
     >
-      <span *ngIf="isLoading" class="loading loading-spinner"></span>
+      <span *ngIf="isLoading" class="spinner"></span>
       <ng-content *ngIf="!isLoading"></ng-content>
     </button>
   `,
@@ -616,7 +607,8 @@ export class ButtonComponent {
   @Input() isLoading = false;
 
   get buttonClass(): string {
-    return `btn btn-${this.variant} btn-${this.size}`;
+    const size = this.size !== 'md' ? ` button--${this.size}` : '';
+    return `button button--${this.variant}${size}`;
   }
 }
 ```
@@ -638,7 +630,6 @@ export class ButtonComponent {
 - [TypeScript Handbook](https://www.typescriptlang.org/docs/)
 - [Testing Library](https://testing-library.com/)
 - [Vitest Documentation](https://vitest.dev/)
-- [daisyUI Components](https://daisyui.com/components/)
 - [WCAG 2.1 Guidelines](https://www.w3.org/WAI/WCAG21/quickref/)
 - [Web.dev Accessibility](https://web.dev/accessibility/)
 
@@ -685,7 +676,7 @@ my-app/
 **NEVER Create:**
 - ❌ Root-level component files
 - ❌ Components in app/ directory (use components/)
-- ❌ Inline CSS (use Tailwind or design tokens)
+- ❌ Inline CSS (use Global CSS + tokens)
 - ❌ Evidence or log files (implementation agents do not create these)
 
 **Examples:**
@@ -706,4 +697,3 @@ components/Button.tsx                            // No component folder
 2. ☐ Use proper component-based structure
 3. ☐ Tag with `#FILE_CREATED: path/to/file`
 4. ☐ Verify location is correct
-
