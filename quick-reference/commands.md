@@ -8,7 +8,7 @@ Concise guide to the most-used slash commands.
 - /response-awareness-implement — Implement from an approved blueprint.
 - /introspect — Predict failure modes; emit risk (0–1), tags, and a gate decision.
 - /visual-review — Capture screenshots and run visual QA.
-- /finalize — Evidence gate: build+tests+screenshots+report.
+- /finalize — Evidence gate: build+tests+screenshots+report (orca sessions only).
 - /memory-search — Query Workshop memory quickly (no MCP required).
 - /memory-learn — Reflect and update playbooks after work.
 - /organize — Tidy files/folders with references.

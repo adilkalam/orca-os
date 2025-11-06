@@ -1,0 +1,26 @@
+{
+  "name": "shopify-admin-mcp",
+  "version": "1.0.0",
+  "description": "MCP server for executing ShopifyQL queries against Shopify Admin API",
+  "type": "module",
+  "main": "build/index.js",
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc --watch",
+    "prepare": "npm run build"
+  },
+  "keywords": [
+    "mcp",
+    "shopify",
+    "shopifyql",
+    "analytics"
+  ],
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.4",
+    "node-fetch": "^3.3.2"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "typescript": "^5.6.0"
+  }
+}

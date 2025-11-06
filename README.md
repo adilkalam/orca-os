@@ -76,7 +76,7 @@ For UI work, shared design rules keep output consistent (colors, spacing, typogr
 
 ### Quality & Verification
 - `/visual-review` — Capture and compare UI evidence
-- `/finalize` — Close‑out report with evidence links
+- `/finalize` — Close‑out report with evidence links (orca sessions only)
 
 ### Memory & Learning
 - `/memory-search` — Query Workshop memory (no MCP required)

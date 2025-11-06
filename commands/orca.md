@@ -186,6 +186,8 @@ If using custom data analysts, map them to general-purpose:
 - BLOCK if any gate fails
 
 **Phase 7**: Final Delivery
+- Create `.orchestration/orca-session` marker (enables /finalize for git hooks)
+- Run `/finalize` (now available via `.orchestration/orca-commands/finalize.md`)
 - Verify 100% completion with evidence
 - Present results to user
 

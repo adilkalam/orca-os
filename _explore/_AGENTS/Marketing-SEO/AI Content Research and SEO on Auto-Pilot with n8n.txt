@@ -1,0 +1,556 @@
+everyone is hyped about a Content
+systems but let's be honest we don't
+provide you real valuable assets that
+you can use in your own business no se
+optimization dual vocabulary and a
+giberish make this content unusable
+that's why I created my own content
+system that tackles all these problems
+and consistently generates articles like
+these with SE optimized headlines and
+content research done by various tool as
+well as 5 to seven pages long articles
+if you want to know more how I combine
+air table as my content dashboard as
+well as any1 for creating this system
+like this using perplexity deep research
+aval for competitors analysis chbt and
+clo for Content writing and Rapid API
+for SEO keywords stay tuned because in
+this video I combine all the system and
+show you how you can do it as well my
+system consists of five different parts
+part one will get the top three ranking
+key articles for that particular keyword
+part two it will generate summary and
+outline for our content system agents
+the third part will do a research using
+different apis uh like perplexity and
+SEO keyword research tools the part four
+uh we'll be talking about how to write a
+good brief for our agents that will
+actually generate that content and in
+the final part we be generating the
+content editing it and summarizing into
+one Google uh Google doc system starts
+at air table and where we have our
+content system dashboard we insert the
+client URL the topic about we want to
+write so in this case we'll be writing
+about best year and platform 2025 we
+select the type of a text in in this
+case I selected blog post but we also
+can use product review category
+description landing page Etc we inserted
+the language and the keyword that we
+want to rank on CRM platforms our
+competitors in this case it's spy drive
+and some noes for AI to know so
+basically that's the dashboard and in
+the end we'll be getting the outline for
+the text the content research done by
+the AI the brief for different AI models
+as well as the final result in the URL
+so in order to test this forlow I just
+need to go to air table and select send
+and the wall process will start process
+might took from 2 to 3 minutes because
+we are a bunch of different API calls
+so we'll need to wait and after
+everything is finished I'll get back to
+explaining on how this system really
+works a couple of minutes with whole
+system run through and now I can start
+you explaining on how this actually work
+and I'll start from a part one we'll be
+talking about how to get top three
+ranking links with content from Google
+automatically with na10 the process
+starts with a web hook so basically we
+have a button field where we just label
+it as send we the action is default open
+URL and we just insert our web hook URL
+select and and in input the record ID
+with brackets and that's how we can
+insert the record ID that we got from
+the fa hook and now we have all this
+information that we need like notes
+keywords competitors type uh content
+researches uh null because it still
+wasn't generated at that time as well as
+the topic lent URL and all this
+information uh that information I like
+to have in a separate pack in edit
+Fields because after that I'll need to
+modify it or something so I just
+reduplicate this information like topic
+type and language and insert it as
+strings and now the fun part begins when
+we are using tab HTTP request so if you
+don't know what Tav is you can watch my
+last video on sales enrichment agent but
+basically Tav is a Google search API
+that help us to get latest articles on
+the topic on the keyword that we want to
+have and research that content put that
+content back to us for our AI to look at
+it analyze it and adapt to the keyword
+and the topic we want to write about so
+basically we include the API out here so
+you can go to appt.com and get your own
+API key and it will help you
+to H get all this information from
+Google by inserting the query the search
+Dev uh and all this time range stuff uh
+that you might need in order to get the
+the research uh in this case I just
+inserted the Tav uh API key as well as
+the query
+that is our keyword CRM platforms and
+basically the Tav will get us with free
+top most ranking
+results uh from Google with the content
+and the URL as you see we get like a
+Content description not the whole
+content and that's it's a problem that's
+why I want to get the URL of this
+article and scrape all of it uh and I do
+that
+with code node that basically helps us
+to extract a clean data URL the title
+and the description in one place I used
+chbt to generate this code so you can do
+that true pretty easily and then we have
+this clean data I Loop through each of
+the Articles so we got three articles so
+I Loop through each of them and I get
+the full content of this article not
+just a description but full content uh
+for our analysis that we will make later
+on and so basically I get content uh
+HTTP request I just select get and I
+don't select nothing else except v. a
+API uh if you don't know what Jen AI is
+is basically a very good almost free
+scraping tool that you could use for
+your own uh analyses and own large
+language models that basically lets us
+get more complete content just like this
+from all these three different articles
+and it is a needed information that
+we'll be later analyzing and writing our
+content
+about uh and basically after each of
+this is looped through we aggregate them
+into one uh nice looking table with uh
+with all this data that we got from each
+of the article and now we'll be ready to
+summarize it and create an outline out
+out of this content so in the part two
+we basically have a chbt model system
+and user prompt so I can start with a
+system PR insert the role with it's a
+Content analyst and structure specialist
+and basically it will provide us with a
+output with a summary of that specific
+article as well as the core main
+insights that uh will be used for
+further uh writing so adjacent format
+summary and insights I I ask for it to
+generate just like
+that and the output uh looks pretty much
+like this vertical provides uh this and
+that at least 15 or 10 uh insights are
+generate all the time and
+the and that's a real valuable
+information that we'll be using later on
+to not just copy paste the article that
+we got from the Google but to invoke a
+real genuine content uh the user prompt
+is way simpler I just say that you will
+have the data of three best performing
+articles and for context uh the topic is
+this and that and please generate at
+least 15 points using this aggregated
+data so it will be using all the
+aggregated data from these three
+articles and based on the summary and
+insights that we got uh we'll move on to
+the outline part so basically this AI
+part will generate us with an outline
+for our blog post help understanding all
+these different contents and the best
+practices from last articles so in this
+case we have a system prompt your
+helpful intelligent writing assistant
+the user prompt is also generated in a
+pretty much similar format with a ro
+objective and context so basically I
+just include all very required
+information for our outline and how we
+should write I include some examples and
+um things like that so it's a pretty
+long prompt but it generates a really
+good uh block uh outline thing because
+with with a bad outline we cannot prompt
+chbt or other AI notes to really write
+those in a better way the research part
+I think it's one of the most cool ones
+because now we can have a possibility to
+Deep dive into the content uh based on
+the outline that we got so we'll be
+using two different tools one will be a
+perplexity research and the another one
+is the keyword research where we
+basically get even more content for our
+AI agents later on as well as generating
+some nice additional keywords that we
+could also rank
+to and we'll start with perplexity
+research so basically uh This research
+agent has two different tools one is for
+perplexity and another one is for
+keyword research so the research agent
+itself its main task will be to provide
+the report research report based on the
+information it got from perplexity and
+uh keyword research API uh for the
+system for the task prompt I just insert
+a bunch of information from that we got
+already the outline the client
+information and the task will be to
+generate that report combining
+perplexity and SEO analysis uh the
+system prompt basically the same format
+as always regarding the uh notes up here
+we have perplexity and keyword research
+so I'll show you what perplexity is all
+about flow trigger that will input the
+information from our uh research agent
+so basically research agent will have a
+sorry will have a input like this uh
+latest trends statistics market analysis
+of trm Platforms in
+2025 uh including top layers etc etc so
+it will be sent to our perplexity a API
+we need to go to perplexity get the URL
+include the authorization with a token
+and insert the whole body template with
+a model and Etc so basically we'll say
+the most important part is uh the most
+important part is the content part where
+we say do a comprehensive market
+research on this topic and we include
+that Json query from the research
+agent also replacing all the
+uh unnecessary information that we have
+right here and then that's it uh you we
+can see the data that we had just uh
+generated query was like this and we got
+the content uh with the latest
+developments in that particular field as
+you see a lot of information and one
+interesting part that we also get those
+sitations so that's why I want to not
+only send the information to our
+research agent regarding the content
+itself but as well as the citations for
+further reference when we'll be dealing
+with the writing itself so that's why I
+included that edit Fields where I map
+out the response uh that is the content
+as well as the citations from which this
+content was generated from and that's
+basically it that's the perplexity agent
+regarding the SEO keywords research that
+that will be
+that is also used by research agent we
+are using uh SEO keyword research API
+that I got from Rapid API so there are a
+bunch of different apis out there uh for
+this test I I'm not using any HF API or
+samr API because we are costly but for
+the client work we are implementing uh
+this for sure and now I'm just testing
+for this demo version I'm just using a
+cheap API that I can
+uh have a free trial on I selected the
+SEO keyword research API that has a free
+trial API uh basically needs only one
+parameter the keyword that we are want
+to rank uh to look for and the country
+and the output of it uh is a very
+interesting one I can quickly show
+you so basically we get all the
+different uh keywords related to the
+same keyword word uh with a cost per
+click search volume competition level
+and the score so it's a useful
+information and we get like 42 items in
+this case like TM software examples
+bestm programs serm bestm examples and
+etc etc and this wonderful data can be
+analyzed and our AI can look through it
+and select the highest volume lowest
+competition keywords for our own uh
+article that we'll be using on include
+several different keywords that rank
+really good so basically if you want to
+use this API it's a free free trial I
+believe around 15 or 20 API calls every
+week or month uh you'll need to go to
+Rapid API uh subscribe to this API and
+basically copy the Carl Command right
+here and insert it into
+the uh HTTP mode by importing the curl
+just like this and importing it that
+will be
+it and yeah you'll get all this
+different information that you need so
+basically you can change the country the
+keyword will be of course our Json query
+C platforms from the a table you don't
+even need to include your API key
+because it will be up here so that's a
+very good API call that will be analyzed
+by our research agent and this research
+agent will generate a report based on
+these finding in more interesting review
+we can go to air table and see the
+content research brief in markdown
+format so it's a comprehensive research
+report the topic overview the market
+rents and developments what are the
+latest trends technology
+advancements uh and Market leaders as
+well as some good high volume
+opportunities on the keyword side serum
+platforms this one serum definition best
+systems longtail keywords and content
+Gap opportunities and all the different
+sources that we might use it's a very
+good side and now we can move to the
+part four that is brief uh writing so
+basically in this part our AI agents
+will get those uh outlines the research
+and will generate briefs for each of a
+part in our blog post so one for
+headline one for introduction one for
+main content as well as the conclusion
+uh so we are using brief
+agent that has all this information
+basically we we are saying that your
+brief director orchestrating visa for
+different sub uh sub agents uh and I
+want you to Output the four different
+briefs with each of your sub agents in
+Json format so please include that Json
+format we include the information from
+for context um for context so all the
+information about our client the outline
+of a text uh and yeah we just repeat
+that Json format and why we need that
+Json format because we want to have a
+separate briefs for introduction for
+headline for main content and solution
+so that's why I want to have uh four
+different briefs regarding the sub
+agents I did one interesting thing is
+that I also included the research
+analysis and outline for them
+individually to because we need to
+understand the context and if I wouldn't
+use these um inputs basically the
+headline brief uh the brief from the
+brief agent to the headline brief agent
+would be just generate me a headline
+brief you know it wouldn't be very
+complex or Advanced one uh and now we
+have a bunch of information like from
+the um research side as well as the
+outline side like you know like this
+because we already generated it so we
+just put that information and uh fetch
+it to the headline brief agent as well
+as uh the rest uh so for one example we
+can um see the headline brief grater
+basically we input that information the
+research analysis the outline and it
+generates brief for the headline cre
+store uh that include all the different
+information we just uh insert the system
+prompt that was created in the same
+format or objective input and the output
+format that I
+prefer and when we have this uh brief we
+repeat the same process with
+introduction with main content brief
+Creator as well as conclusion Creator
+and now when we have all this different
+uh J all these briefs we asked for the
+brief agent to provide us with that Json
+that's why I have a structure output
+parser because I I saw that not every
+time this agent generates a nice looking
+Json so that's why I have autof fixing
+output parser so basically that sees
+that output and to really uh make sure
+that we outputting that correctly so if
+you don't want how to use it you could
+just look for autof fixing parser and
+select it at the brief agent level as
+well by clicking the require specific
+output uh
+format so that's how uh this brief agent
+uh really works of course it's very
+difficult but I don't want to uh get
+into two hours long video so that's why
+I'm doing a short overview of this
+system and moving on to the part five
+that is like the most important part
+because we are finally generating
+content itself so basically we inputting
+the uh all these briefs for introduction
+for headline for main content and
+conclusion writing agents we are using
+Sonet 3.5 for Content writing uh
+basically all of this system is running
+on Sonet 3.5 uh brief agent creation
+research agent content creation I only
+use openi for summary outline and
+editing just for testing purposes I
+selected these models of course you can
+uh uh use different models according to
+the needs um based on my experience
+Sonet is writing the best but I want to
+try open editing as well the prompts for
+the these different
+agents and basically I just include a
+bunch of different examples uh with the
+context that we have already so I repeat
+the same information like information
+about the client the outline the
+research the brief that you got and now
+just write me a Content based on the
+examples that we have and the uh
+structure that I select so of course the
+prompting in the content writing part is
+like the most important part because you
+need to good have a really good prompts
+and examples for this aiio agents to
+really work so I include the RO the
+objectives and the SOP so basically the
+information how this agent should write
+the introduction in this example so it
+will it should start with a hook with a
+value brid with a Content road map so
+basically uh to introduce the reader of
+what we will be what the reader will see
+at the end the table of
+contents and the hook also include all
+this information and context regarding
+the SEO uh the Style Guidelines the
+quality markers and Etc ET I include the
+example restructure on how it should
+write as well as some important uh parts
+and basically after that I ask for it
+and I give some
+examples uh so I I include the example
+of a blog post
+introduction uh regarding the headline I
+do the same I just in insert the
+language guidelines I include some
+examples and the context that it needs
+to have as well as a long system prompt
+regarding the structure and
+formatting with the main content this
+situation is a bit more different
+because I wanted to really um get like
+the most um most advanced results I can
+possibly can have so basically I just
+includeed uh us an AI in in this case PS
+that basically says um write main
+content section on the blog writing and
+I just include some main content
+sections generated on blog post so
+that's how I kind of train with a agents
+uh to write me in a better format so I
+repeat this same uh process couple of
+times for it to get like more uh
+different uh examples on how you can
+write based on information it has
+already like SEO keywords research and
+Etc and we finish with a conclusion tab
+as well so that is like the main system
+and after that we just go to the editor
+agent that basically will look at the
+end result that it got it got from our
+conclusion from our main content and
+headline and introduction and it will
+edit it and see if it's really good if
+it's a SEO optimized
+and Etc so we include the uh conclusion
+main content notes and the output of
+this editor is to uh generate it to one
+markdown format include the meta
+description the title uh and
+um to summarize and see if the SEO
+keywords are really uh
+working I included the maximum amount of
+tokens for this and also I use uh 0.7 uh
+uh temperature for all all of my agents
+so that's uh pretty much it and the last
+part is creating the Google documents
+you already saw and updating the record
+ID so regarding the Google Documents uh
+I just uh first I create these documents
+because you cannot just create and uh
+create and insert that content uh with
+one Google Docs node you need two
+separate ones so at first I just create
+my my node by selecting the title of it
+and after that I'm update the same
+document so basically I just need to
+grab the doc ID from the cre docs node
+and
+I update the text and I insert the text
+generated by the editor and that is uh
+that the last part is to just update the
+air table with
+the information we just generated so in
+this case the blog outline
+uh how it looks
+like opening block hook statement uh
+table of contents cor content blocks Etc
+uh we include the briefs that were
+generated as well so create SEO optimize
+headline content brief Etc the final
+document is also generated right here so
+we can see on the final document that
+you got so uh for a moment I didn't find
+a way how to include the markdown format
+out automatically with n10 with make.com
+it was pretty easy now I didn't see any
+way or how to create this document uh
+formatted
+with uh Google Docs but it looks really
+good it's pretty long and has a bunch of
+different uh information and context so
+pretty much it's the whole system uh
+that we are using so we are using it our
+own as well well and in the next couple
+of weeks we are will be unboarding
+couple of clients that will also would
+like to have this system created for
+them and yeah that's it I hope you
+really liked this system and you will
+implement this on your own business or
+team if you want me to create the system
+for you you can with me by pressing the
+link in the description below feel free
+to reach out to me and I really want to
+help you I hope this uh system showed
+you what's possible with with AI and
+automation uh I will continue to provide
+value with similar videos in the future
+so uh stay tuned and see you soon

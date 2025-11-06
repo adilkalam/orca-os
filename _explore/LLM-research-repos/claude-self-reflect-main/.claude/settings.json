@@ -1,0 +1,14 @@
+{
+  "hooks": {
+    "PreCompact": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 ~/.claude/hooks/precompact-auto.py 2>/dev/null || true"
+          }
+        ]
+      }
+    ]
+  }
+}

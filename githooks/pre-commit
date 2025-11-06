@@ -35,6 +35,22 @@ if [ "$all_docs" -eq 1 ]; then
   exit 0
 fi
 
+# Check if this is an orca session (finalize only applies to orca)
+ORCA_MARKERS=(".orchestration/user-request.md" ".orchestration/implementation-log.md" ".orchestration/orca-session")
+ORCA_CONTEXT=0
+for marker in "${ORCA_MARKERS[@]}"; do
+  if [ -f "$marker" ]; then
+    ORCA_CONTEXT=1
+    break
+  fi
+done
+
+# If not an orca session, skip finalize-based verification
+if [ "$ORCA_CONTEXT" -eq 0 ]; then
+  err "Not an orca session — finalize verification skipped"
+  exit 0
+fi
+
 # Read verification mode from mode file
 VERIFY_MODE="strict"
 if [ -f ".orchestration/mode.json" ]; then

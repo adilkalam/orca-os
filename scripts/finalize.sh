@@ -3,6 +3,7 @@ set -euo pipefail
 
 # Vibe Code — Phase 1: Core Gate (/finalize)
 # Behavior: build → tests → screenshots → tag verification → evidence score → .verified + report
+# SCOPE: ONLY for orca team sessions (not global sessions)
 
 # Perf timing (optional)
 PERF_T0=""
@@ -21,7 +22,41 @@ else
 fi
 cd "$ROOT_DIR"
 
+# Check for orca context - finalize only applies to orca team sessions
 ORCH_DIR=".orchestration"
+ORCA_MARKERS=(
+  "$ORCH_DIR/user-request.md"
+  "$ORCH_DIR/implementation-log.md"
+  "$ORCH_DIR/orca-session"
+)
+
+ORCA_CONTEXT=0
+for marker in "${ORCA_MARKERS[@]}"; do
+  if [ -f "$marker" ]; then
+    ORCA_CONTEXT=1
+    break
+  fi
+done
+
+# Allow override for testing/evaluation
+if [ "${FINALIZE_FORCE_ORCA:-}" = "1" ]; then
+  ORCA_CONTEXT=1
+fi
+
+if [ "$ORCA_CONTEXT" -eq 0 ]; then
+  echo "⚠️  /finalize is only for orca team sessions"
+  echo ""
+  echo "This project does not appear to be using orca orchestration."
+  echo "Expected markers:"
+  echo "  - .orchestration/user-request.md"
+  echo "  - .orchestration/implementation-log.md"
+  echo "  - .orchestration/orca-session"
+  echo ""
+  echo "For regular sessions, use standard git workflow without /finalize."
+  echo "To force finalize (testing only): FINALIZE_FORCE_ORCA=1 bash scripts/finalize.sh"
+  exit 1
+fi
+
 LOG_DIR="$ORCH_DIR/logs"
 VER_DIR="$ORCH_DIR/verification"
 EVIDENCE_DIR="$ORCH_DIR/evidence"
