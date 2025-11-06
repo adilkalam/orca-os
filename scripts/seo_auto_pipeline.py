@@ -18,6 +18,7 @@ from __future__ import annotations
 import argparse
 import datetime as dt
 import json
+import os
 import pathlib
 import re
 import sys
@@ -26,7 +27,9 @@ from typing import Any, Dict, List, Optional
 
 import requests
 import trafilatura
+from anthropic import Anthropic
 from ddgs import DDGS
+from openai import OpenAI
 
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
@@ -81,12 +84,23 @@ USER_AGENT = (
 )
 
 
+OPENAI_CLIENT: Optional[OpenAI] = OpenAI() if os.getenv("OPENAI_API_KEY") else None
+ANTHROPIC_CLIENT: Optional[Anthropic] = (
+    Anthropic(api_key=os.getenv("ANTHROPIC_API_KEY")) if os.getenv("ANTHROPIC_API_KEY") else None
+)
+
+GPT_SUMMARIZER_MODEL = os.getenv("SEO_GPT_SUMMARIZER_MODEL", "gpt-5")
+GPT_RESEARCH_MODEL = os.getenv("SEO_GPT_RESEARCH_MODEL", "gpt-5")
+SONNET_MODEL = os.getenv("SEO_SONNET_MODEL", "claude-3-5-sonnet-20241022")
+MAX_SECTION_CHARACTERS = int(os.getenv("SEO_SUMMARY_CHAR_LIMIT", "6000"))
+
+
 def log(msg: str) -> None:
     ts = dt.datetime.now().strftime("%H:%M:%S")
     print(f"[{ts}] {msg}", file=sys.stderr)
 
 
-def search_articles(keyword: str, max_results: int = 3) -> List[Dict[str, str]]:
+def search_articles(keyword: str, max_results: int = 10) -> List[Dict[str, str]]:
     """Fetch top search results using DuckDuckGo (no API key required)."""
     log(f"Searching DuckDuckGo for '{keyword}' …")
     records: List[Dict[str, str]] = []
@@ -212,6 +226,111 @@ def build_outline(keyword: str, insights: List[str]) -> List[str]:
     return outline
 
 
+def gpt_summarize_article(keyword: str, title: str, text: str) -> Optional[Dict[str, Any]]:
+    """Use GPT-5 (or configured model) to generate summary and key takeaways."""
+    if not OPENAI_CLIENT:
+        return None
+    snippet = text[:MAX_SECTION_CHARACTERS]
+    prompt = (
+        "You are an SEO content strategist. Read the article excerpt below and produce:\n"
+        "1) A concise 4-6 sentence summary highlighting the central message.\n"
+        "2) 5 bullet key takeaways (actionable, fact-oriented).\n"
+        "3) Tone notes in 1-2 sentences (e.g., authoritative, clinical, promotional).\n\n"
+        f"Target keyword: {keyword}\n"
+        f"Article title: {title}\n"
+        "Article content:\n"
+        "-----------------\n"
+        f"{snippet}\n"
+        "-----------------\n"
+        "Respond strictly as JSON with fields summary, key_takeaways (array), tone."
+    )
+    try:
+        response = OPENAI_CLIENT.responses.create(
+            model=GPT_SUMMARIZER_MODEL,
+            input=prompt,
+            max_output_tokens=600,
+        )
+        text_output = response.output_text
+        data = json.loads(text_output)
+        if not isinstance(data, dict):
+            raise ValueError("Unexpected GPT summary format.")
+        return {
+            "summary": data.get("summary", "").strip(),
+            "key_takeaways": data.get("key_takeaways", []),
+            "tone": data.get("tone", "").strip(),
+            "model": GPT_SUMMARIZER_MODEL,
+        }
+    except Exception as exc:  # pylint: disable=broad-except
+        log(f"⚠️  GPT summarizer failed ({exc}); falling back to heuristic summary.")
+        return None
+
+
+def gpt_research_brief(keyword: str, combined_summary: str, insights: List[str]) -> Optional[Dict[str, Any]]:
+    """Generate deep-dive research prompts and POV using GPT-5 Pro (OpenAI)."""
+    if not OPENAI_CLIENT:
+        return None
+    joined_insights = ", ".join(insights[:10])
+    prompt = (
+        "You are an SEO strategist preparing to brief a writer on an article.\n"
+        "Given the existing research summary and insight list, produce:\n"
+        "- A paragraph 'market_context' describing why the topic matters now.\n"
+        "- A bullet list 'angles_to_cover' (<=5) focusing on differentiation opportunities.\n"
+        "- A bullet list 'questions_to_answer' (3-5) that the article must address.\n"
+        "- A bullet list 'data_points_to_hunt' suggesting statistics or proof points worth sourcing.\n"
+        f"Primary keyword: {keyword}\n"
+        f"Existing combined summary:\n{combined_summary}\n"
+        f"Insight phrases: {joined_insights}\n"
+        "Return strictly as JSON with the fields described above."
+    )
+    try:
+        response = OPENAI_CLIENT.responses.create(
+            model=GPT_RESEARCH_MODEL,
+            input=prompt,
+            max_output_tokens=700,
+        )
+        return json.loads(response.output_text)
+    except Exception as exc:  # pylint: disable=broad-except
+        log(f"⚠️  GPT research brief failed ({exc}); skipping.")
+        return None
+
+
+def sonnet_research_addendum(keyword: str, combined_summary: str, insights: List[str]) -> Optional[Dict[str, Any]]:
+    """Use Claude 3.5 Sonnet to surface narrative hooks and caution flags."""
+    if not ANTHROPIC_CLIENT:
+        return None
+    joined_insights = "; ".join(insights[:10])
+    prompt = (
+        "You are an editorial strategist partnering with a human writer on a long-form SEO article.\n"
+        "Review the summary and insight list and respond in JSON with:\n"
+        "- storytelling_hooks: array of up to 4 narrative angles, each 1 sentence.\n"
+        "- risk_flags: array of cautions (compliance, medical, legal) the writer must note.\n"
+        "- expert_sources: array naming people/roles or organizations worth quoting/interviewing.\n"
+        "- refresh_triggers: array of signals that should prompt a future content update.\n"
+        f"Keyword: {keyword}\n"
+        f"Combined summary:\n{combined_summary}\n"
+        f"Insight phrases: {joined_insights}\n"
+        "Respond only with JSON."
+    )
+    try:
+        response = ANTHROPIC_CLIENT.messages.create(
+            model=SONNET_MODEL,
+            max_output_tokens=700,
+            system="You build thoughtful editorial plans that balance SEO ambition with brand integrity.",
+            messages=[{"role": "user", "content": prompt}],
+        )
+        # Anthropic returns list of content blocks; pull text
+        text_chunks = []
+        for block in response.content:
+            if block.type == "text":
+                text_chunks.append(block.text)
+        if not text_chunks:
+            raise ValueError("Unexpected Sonnet response format.")
+        return json.loads("".join(text_chunks))
+    except Exception as exc:  # pylint: disable=broad-except
+        log(f"⚠️  Sonnet research addendum failed ({exc}); skipping.")
+        return None
+
+
 def assemble_report(keyword: str) -> Dict[str, Any]:
     """Run the pipeline and return a structured report."""
     records = search_articles(keyword)
@@ -225,14 +344,26 @@ def assemble_report(keyword: str) -> Dict[str, Any]:
         if not text:
             continue
         combined_corpus_parts.append(text)
-        summary = summarize_text(text)
+        gpt_summary = gpt_summarize_article(keyword, record["title"], text)
+        summary = gpt_summary["summary"] if gpt_summary and gpt_summary.get("summary") else summarize_text(text)
         insights = extract_insights(text)
+        key_takeaways = []
+        tone = ""
+        summary_model: Optional[str] = None
+        if gpt_summary:
+            key_takeaways = gpt_summary.get("key_takeaways", [])
+            tone = gpt_summary.get("tone", "")
+            summary_model = gpt_summary.get("model")
+
         articles.append(
             {
                 **record,
                 "summary": summary,
                 "insights": insights,
                 "word_count": len(text.split()),
+                "key_takeaways": key_takeaways,
+                "tone_notes": tone,
+                "summary_model": summary_model or "heuristic",
             }
         )
 
@@ -241,6 +372,21 @@ def assemble_report(keyword: str) -> Dict[str, Any]:
     combined_insights = extract_insights(combined_corpus, max_phrases=15) if combined_corpus else []
     keyword_suggestions = suggest_keywords(combined_corpus) if combined_corpus else []
     outline = build_outline(keyword, combined_insights)
+    gpt_research = gpt_research_brief(keyword, combined_summary, combined_insights) if combined_summary else None
+    sonnet_research = sonnet_research_addendum(keyword, combined_summary, combined_insights) if combined_summary else None
+
+    research_brief: Dict[str, Any] = {}
+    if gpt_research:
+        research_brief.update(gpt_research)
+    if sonnet_research:
+        research_brief["storytelling_hooks"] = sonnet_research.get("storytelling_hooks", [])
+        research_brief["risk_flags"] = sonnet_research.get("risk_flags", [])
+        research_brief["expert_sources"] = sonnet_research.get("expert_sources", [])
+        research_brief["refresh_triggers"] = sonnet_research.get("refresh_triggers", [])
+    research_models: Dict[str, Optional[str]] = {
+        "openai": GPT_RESEARCH_MODEL if gpt_research else None,
+        "anthropic": SONNET_MODEL if sonnet_research else None,
+    }
 
     report: Dict[str, Any] = {
         "keyword": keyword,
@@ -252,6 +398,14 @@ def assemble_report(keyword: str) -> Dict[str, Any]:
         "combined_insights": combined_insights,
         "outline": outline,
         "keyword_suggestions": keyword_suggestions,
+        "research_brief": research_brief or None,
+        "openai_models": {
+            "summarizer": GPT_SUMMARIZER_MODEL if OPENAI_CLIENT else None,
+            "research": GPT_RESEARCH_MODEL if gpt_research else None,
+        },
+        "anthropic_models": {
+            "research": SONNET_MODEL if sonnet_research else None,
+        },
     }
     return report
 
