@@ -34,12 +34,7 @@ try:
 except Exception:  # pragma: no cover - optional dependency
     trafilatura = None  # type: ignore
     HAS_TRAFILATURA = False
-try:
-    from anthropic import Anthropic  # type: ignore
-    HAS_ANTHROPIC = True
-except Exception:  # pragma: no cover
-    Anthropic = None  # type: ignore
-    HAS_ANTHROPIC = False
+HAS_ANTHROPIC = False
 
 # DuckDuckGo client import (try multiple module names)
 DDGS = None  # type: ignore
@@ -56,12 +51,7 @@ except Exception:
     except Exception:
         HAS_DDGS = False
 from urllib.parse import urlparse
-try:
-    from openai import OpenAI  # type: ignore
-    HAS_OPENAI = True
-except Exception:  # pragma: no cover
-    OpenAI = None  # type: ignore
-    HAS_OPENAI = False
+HAS_OPENAI = False
 
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
@@ -116,14 +106,12 @@ USER_AGENT = (
 )
 
 
-OPENAI_CLIENT = OpenAI() if (HAS_OPENAI and os.getenv("OPENAI_API_KEY")) else None
-ANTHROPIC_CLIENT = (
-    Anthropic(api_key=os.getenv("ANTHROPIC_API_KEY")) if (HAS_ANTHROPIC and os.getenv("ANTHROPIC_API_KEY")) else None
-)
+OPENAI_CLIENT = None
+ANTHROPIC_CLIENT = None
 
-GPT_SUMMARIZER_MODEL = os.getenv("SEO_GPT_SUMMARIZER_MODEL", "gpt-5")
-GPT_RESEARCH_MODEL = os.getenv("SEO_GPT_RESEARCH_MODEL", "gpt-5")
-SONNET_MODEL = os.getenv("SEO_SONNET_MODEL", "claude-3-5-sonnet-20241022")
+GPT_SUMMARIZER_MODEL = None
+GPT_RESEARCH_MODEL = None
+SONNET_MODEL = None
 MAX_SECTION_CHARACTERS = int(os.getenv("SEO_SUMMARY_CHAR_LIMIT", "6000"))
 
 # SERP source quality controls
@@ -481,42 +469,8 @@ def build_outline(keyword: str, insights: List[str]) -> List[str]:
 
 
 def gpt_summarize_article(keyword: str, title: str, text: str) -> Optional[Dict[str, Any]]:
-    """Use GPT-5 (or configured model) to generate summary and key takeaways."""
-    if not OPENAI_CLIENT:
-        return None
-    snippet = text[:MAX_SECTION_CHARACTERS]
-    prompt = (
-        "You are an SEO content strategist. Read the article excerpt below and produce:\n"
-        "1) A concise 4-6 sentence summary highlighting the central message.\n"
-        "2) 5 bullet key takeaways (actionable, fact-oriented).\n"
-        "3) Tone notes in 1-2 sentences (e.g., authoritative, clinical, promotional).\n\n"
-        f"Target keyword: {keyword}\n"
-        f"Article title: {title}\n"
-        "Article content:\n"
-        "-----------------\n"
-        f"{snippet}\n"
-        "-----------------\n"
-        "Respond strictly as JSON with fields summary, key_takeaways (array), tone."
-    )
-    try:
-        response = OPENAI_CLIENT.responses.create(
-            model=GPT_SUMMARIZER_MODEL,
-            input=prompt,
-            max_output_tokens=600,
-        )
-        text_output = response.output_text
-        data = json.loads(text_output)
-        if not isinstance(data, dict):
-            raise ValueError("Unexpected GPT summary format.")
-        return {
-            "summary": data.get("summary", "").strip(),
-            "key_takeaways": data.get("key_takeaways", []),
-            "tone": data.get("tone", "").strip(),
-            "model": GPT_SUMMARIZER_MODEL,
-        }
-    except Exception as exc:  # pylint: disable=broad-except
-        log(f"⚠️  GPT summarizer failed ({exc}); falling back to heuristic summary.")
-        return None
+    """Removed external API usage; keep signature for compatibility (returns None)."""
+    return None
 
 
 def load_curated_research(keyword: str, research_paths: Optional[Sequence[str]]) -> List[Dict[str, Any]]:
@@ -535,8 +489,8 @@ def load_curated_research(keyword: str, research_paths: Optional[Sequence[str]])
             log(f"⚠️  Failed to read research doc {path}: {exc}")
             continue
 
-        gpt_summary = gpt_summarize_article(keyword, path.name, text)
-        summary = gpt_summary["summary"] if gpt_summary and gpt_summary.get("summary") else summarize_text(text)
+        gpt_summary = None
+        summary = summarize_text(text)
         entry = {
             "title": path.stem.replace("_", " ").title(),
             "path": str(path),
@@ -680,69 +634,13 @@ def load_knowledge_graph(
 
 
 def gpt_research_brief(keyword: str, combined_summary: str, insights: List[str]) -> Optional[Dict[str, Any]]:
-    """Generate deep-dive research prompts and POV using GPT-5 Pro (OpenAI)."""
-    if not OPENAI_CLIENT:
-        return None
-    joined_insights = ", ".join(insights[:10])
-    prompt = (
-        "You are an SEO strategist preparing to brief a writer on an article.\n"
-        "Given the existing research summary and insight list, produce:\n"
-        "- A paragraph 'market_context' describing why the topic matters now.\n"
-        "- A bullet list 'angles_to_cover' (<=5) focusing on differentiation opportunities.\n"
-        "- A bullet list 'questions_to_answer' (3-5) that the article must address.\n"
-        "- A bullet list 'data_points_to_hunt' suggesting statistics or proof points worth sourcing.\n"
-        f"Primary keyword: {keyword}\n"
-        f"Existing combined summary:\n{combined_summary}\n"
-        f"Insight phrases: {joined_insights}\n"
-        "Return strictly as JSON with the fields described above."
-    )
-    try:
-        response = OPENAI_CLIENT.responses.create(
-            model=GPT_RESEARCH_MODEL,
-            input=prompt,
-            max_output_tokens=700,
-        )
-        return json.loads(response.output_text)
-    except Exception as exc:  # pylint: disable=broad-except
-        log(f"⚠️  GPT research brief failed ({exc}); skipping.")
-        return None
+    """Removed external API usage; return None to use heuristic-only brief."""
+    return None
 
 
 def sonnet_research_addendum(keyword: str, combined_summary: str, insights: List[str]) -> Optional[Dict[str, Any]]:
-    """Use Claude 4.5 Sonnet to surface narrative hooks and caution flags."""
-    if not ANTHROPIC_CLIENT:
-        return None
-    joined_insights = "; ".join(insights[:10])
-    prompt = (
-        "You are an editorial strategist partnering with a human writer on a long-form SEO article.\n"
-        "Review the summary and insight list and respond in JSON with:\n"
-        "- storytelling_hooks: array of up to 4 narrative angles, each 1 sentence.\n"
-        "- risk_flags: array of cautions (compliance, medical, legal) the writer must note.\n"
-        "- expert_sources: array naming people/roles or organizations worth quoting/interviewing.\n"
-        "- refresh_triggers: array of signals that should prompt a future content update.\n"
-        f"Keyword: {keyword}\n"
-        f"Combined summary:\n{combined_summary}\n"
-        f"Insight phrases: {joined_insights}\n"
-        "Respond only with JSON."
-    )
-    try:
-        response = ANTHROPIC_CLIENT.messages.create(
-            model=SONNET_MODEL,
-            max_output_tokens=700,
-            system="You build thoughtful editorial plans that balance SEO ambition with brand integrity.",
-            messages=[{"role": "user", "content": prompt}],
-        )
-        # Anthropic returns list of content blocks; pull text
-        text_chunks = []
-        for block in response.content:
-            if block.type == "text":
-                text_chunks.append(block.text)
-        if not text_chunks:
-            raise ValueError("Unexpected Sonnet response format.")
-        return json.loads("".join(text_chunks))
-    except Exception as exc:  # pylint: disable=broad-except
-        log(f"⚠️  Sonnet research addendum failed ({exc}); skipping.")
-        return None
+    """Removed external API usage; return None to use heuristic-only brief."""
+    return None
 
 
 def generate_brief(
@@ -1203,9 +1101,8 @@ def generate_initial_draft(
 
         return "\n".join(lines).strip()
 
-    if not OPENAI_CLIENT:
-        log("⚠️  OPENAI_API_KEY not set; using heuristic draft generation.")
-        return heuristic_draft()
+    # External API removed; always use heuristic draft generation
+    return heuristic_draft()
 
     try:
         prompt = (
@@ -1219,21 +1116,10 @@ def generate_initial_draft(
             "curated_research": curated_research,
             "knowledge_graph": knowledge_graph,
         }
-        response = OPENAI_CLIENT.responses.create(
-            model=GPT_SUMMARIZER_MODEL,
-            input=[
-                {"role": "system", "content": prompt},
-                {
-                    "role": "user",
-                    "content": f"Keyword: {keyword}\n\nBrief JSON:\n{json.dumps(payload)[:16000]}",
-                },
-            ],
-            max_output_tokens=2500,
-        )
-        return response.output_text.strip()
-    except Exception as exc:  # pylint: disable=broad-except
-        log(f"⚠️  Automated draft generation failed ({exc}); using heuristic draft.")
-        return heuristic_draft()
+        pass
+    except Exception:
+        pass
+    return heuristic_draft()
 
 
 def assemble_report(
@@ -1265,9 +1151,9 @@ def assemble_report(
         tone = ""
         summary_model: Optional[str] = None
         if gpt_summary:
-            key_takeaways = gpt_summary.get("key_takeaways", [])
-            tone = gpt_summary.get("tone", "")
-            summary_model = gpt_summary.get("model")
+            key_takeaways = []
+            tone = ""
+            summary_model = None
 
         articles.append(
             {
@@ -1286,21 +1172,12 @@ def assemble_report(
     combined_insights = extract_insights(combined_corpus, max_phrases=15) if combined_corpus else []
     keyword_suggestions = suggest_keywords(combined_corpus) if combined_corpus else []
     outline = build_outline(keyword, combined_insights)
-    gpt_research = gpt_research_brief(keyword, combined_summary, combined_insights) if combined_summary else None
-    sonnet_research = sonnet_research_addendum(keyword, combined_summary, combined_insights) if combined_summary else None
+    gpt_research = None
+    sonnet_research = None
 
     research_brief: Dict[str, Any] = {}
-    if gpt_research:
-        research_brief.update(gpt_research)
-    if sonnet_research:
-        research_brief["storytelling_hooks"] = sonnet_research.get("storytelling_hooks", [])
-        research_brief["risk_flags"] = sonnet_research.get("risk_flags", [])
-        research_brief["expert_sources"] = sonnet_research.get("expert_sources", [])
-        research_brief["refresh_triggers"] = sonnet_research.get("refresh_triggers", [])
-    research_models: Dict[str, Optional[str]] = {
-        "openai": GPT_RESEARCH_MODEL if gpt_research else None,
-        "anthropic": SONNET_MODEL if sonnet_research else None,
-    }
+    # Heuristic-only research brief; leave empty dict and rely on outline/insights
+    research_models: Dict[str, Optional[str]] = {"openai": None, "anthropic": None}
 
     curated_research = load_curated_research(keyword, research_paths)
 
@@ -1353,13 +1230,8 @@ def assemble_report(
         "focus_terms": focus_terms,
         "brief": brief,
         "initial_draft": initial_draft,
-        "openai_models": {
-            "article_summarizer": GPT_SUMMARIZER_MODEL if OPENAI_CLIENT else None,
-            "research_brief": GPT_RESEARCH_MODEL if gpt_research else None,
-        },
-        "anthropic_models": {
-            "research_brief": SONNET_MODEL if sonnet_research else None,
-        },
+        "openai_models": {"article_summarizer": None, "research_brief": None},
+        "anthropic_models": {"research_brief": None},
     }
     return report
 
@@ -1446,7 +1318,7 @@ def main() -> None:
         "--draft",
         action="store_true",
         dest="generate_draft",
-        help="Generate an automated first-pass draft (requires OpenAI API key).",
+        help="Generate an automated first-pass draft (heuristic, no APIs).",
     )
     parser.add_argument(
         "--allowlist-only",

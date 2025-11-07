@@ -6,7 +6,6 @@
 /.orchestration
 /.workshop
 /ext
-/outputs
 /skills
 Makefile
 
