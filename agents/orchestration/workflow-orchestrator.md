@@ -149,6 +149,11 @@ Read .orchestration/user-request.md  # Understand EXACT requirements
 - Creates `.orchestration/verification-report.md`
 - **BLOCKS if ANY verification fails**
 
+Helper commands (evidence capture):
+- Build logs → `bash scripts/capture-build.sh` (or pass your build command after `--`)
+- Test logs → `bash scripts/capture-tests.sh` (or pass your test command after `--`)
+- Screenshots (MCP-backed) → `bash scripts/capture-screenshot.sh <url> --wait-for 20`
+
 **GATE 2: Testing (unit + integration)**
 - swift-testing-specialist (iOS)
 - frontend-testing-specialist (Frontend)

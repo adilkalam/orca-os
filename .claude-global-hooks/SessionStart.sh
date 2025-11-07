@@ -16,25 +16,36 @@ if ! command -v workshop &> /dev/null; then
   exit 0
 fi
 
+json_escape() {
+  # Emit a JSON string of stdin; prefer python3 for correctness
+  if command -v python3 >/dev/null 2>&1; then
+    python3 -c 'import sys, json; print(json.dumps(sys.stdin.read()))'
+  else
+    # Fallback: minimal escaping (quotes, backslashes, newlines)
+    sed -e 's/\\/\\\\/g' -e 's/"/\\"/g' -e ':a;N;$!ba;s/\n/\\n/g' -e 's/^/"/' -e 's/$/"/'
+  fi
+}
+
 # 2) Ensure project is initialized (supports new and legacy layouts)
 has_workshop() {
   [ -d ".workshop" ] || [ -f ".claude-work/memory/workshop.db" ]
 }
 
 if ! has_workshop; then
-  echo ""
-  echo "📝 Workshop: Initializing for this project..."
+  # Initialize quietly; log to stderr only
   init_output=$(workshop init --quiet 2>&1 | head -3)
   if ! has_workshop; then
     # Initialization failed — report clearly instead of silent success
     # Include the (first lines of) init output for debugging
-    esc_init_output=$(printf "%s" "$init_output" | sed 's/"/\\"/g' | tr '\n' ' ')
-    echo '{
-      "role": "system_context",
-      "message": "⚠️ Workshop Init Failed",
-      "details": "Attempted to initialize Workshop for this project but .workshop was not created.\n\nNext steps:\n- Run: `workshop init` and check output\n- Ensure write permissions in the project directory\n- Verify Python env and Workshop install\n\nInit output (truncated): '"$esc_init_output"'",
-      "context": ""
-    }'
+    esc_init_output=$(printf "%s" "$init_output" | json_escape)
+    cat <<JSON
+{
+  "role": "system_context",
+  "message": "⚠️ Workshop Init Failed",
+  "details": "Attempted to initialize Workshop for this project but .workshop was not created.\n\nNext steps:\n- Run: 'workshop init' and check output\n- Ensure write permissions in the project directory\n- Verify Python env and Workshop install\n\nInit output (truncated): $esc_init_output",
+  "context": ""
+}
+JSON
     exit 0
   fi
 fi
@@ -58,19 +69,23 @@ fi
 # 4) Display Workshop context as JSON for Claude to parse
 ctx=$(workshop context 2>&1)
 status=$?
-esc_ctx=$(printf "%s" "$ctx" | sed 's/"/\\"/g' | tr '\n' ' ')
+ctx_json=$(printf "%s" "$ctx" | json_escape)
 if [ $status -ne 0 ]; then
-  echo '{
-    "role": "system_context",
-    "message": "⚠️ Workshop Context Error",
-    "details": "`workshop context` returned a non-zero status.\n\nOutput (truncated): '"$esc_ctx"'\n\nCheck:\n- `workshop --version`\n- `ls -la .workshop` or `ls -la .claude-work/memory/`\n- Run `workshop init` to set up this project.",
-    "context": ""
-  }'
+  cat <<JSON
+{
+  "role": "system_context",
+  "message": "⚠️ Workshop Context Error",
+  "details": "'workshop context' returned a non-zero status.\n\nOutput (truncated): $ctx_json\n\nCheck:\n- 'workshop --version'\n- 'ls -la .workshop' or 'ls -la .claude-work/memory/'\n- Run 'workshop init' to set up this project.",
+  "context": ""
+}
+JSON
 else
-  echo '{
-    "role": "system_context",
-    "message": "📝 Workshop Context Available",
-    "details": "Use the `workshop` CLI to access project context. Key commands:\n\n- `workshop context` - View session summary\n- `workshop search <query>` - Search entries\n- `workshop note <text>` - Add a note\n- `workshop decision <text> -r <reasoning>` - Record a decision\n- `workshop gotcha <text>` - Record a gotcha/constraint\n\nWorkshop maintains context across sessions. Use it to:\n- Record decisions and their reasoning\n- Document gotchas and constraints\n- Track goals and next steps\n- Save user preferences\n\nCurrent context:",
-    "context": '"'$esc_ctx'"'
-  }'
+  cat <<JSON
+{
+  "role": "system_context",
+  "message": "📝 Workshop Context Available",
+  "details": "Use the workshop CLI to access project context. Key commands:\n\n- 'workshop context' - View session summary\n- 'workshop search <query>' - Search entries\n- 'workshop note <text>' - Add a note\n- 'workshop decision <text> -r <reasoning>' - Record a decision\n- 'workshop gotcha <text>' - Record a gotcha/constraint\n\nWorkshop maintains context across sessions. Use it to:\n- Record decisions and their reasoning\n- Document gotchas and constraints\n- Track goals and next steps\n- Save user preferences\n\nCurrent context:",
+  "context": $ctx_json
+}
+JSON
 fi

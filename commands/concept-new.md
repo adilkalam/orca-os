@@ -1,12 +1,13 @@
----
-description: Brand new layout concept - describe your idea with inspiration/examples, study references, brainstorm approach, generate mockup, build
+description: "DEPRECATED — Use /concept (default NEW mode). For iteration on existing, use /concept -edit"
 allowed-tools: [Read, Glob, Bash, Skill, AskUserQuestion, exit_plan_mode]
 argument-hint: <new layout idea with inspiration/examples>
 ---
 
-# /concept-new - New Layout Concept Phase
+# /concept-new (DEPRECATED)
 
-**PURPOSE**: Bridge the gap between vague design request and elegant execution through systematic reference study and creative exploration.
+Use `/concept` for a fresh concept flow (NEW MODE by default). To iterate on an existing layout with surgical changes, use `/concept -edit`.
+
+Legacy content retained below for reference.
 
 **Use this for:**
 - Page redesigns

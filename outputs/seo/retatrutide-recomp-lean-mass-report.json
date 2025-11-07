@@ -1,0 +1,643 @@
+{
+  "keyword": "Retatrutide Recomp Lean Mass",
+  "generated_at": "2025-11-07T06:07:41.356400+00:00",
+  "source": "seo_auto_pipeline",
+  "articles_analyzed": 0,
+  "articles": [],
+  "combined_summary": "",
+  "combined_insights": [],
+  "outline": [
+    "Introduction: Overview of Retatrutide Recomp Lean Mass",
+    "What is Retatrutide Recomp Lean Mass?",
+    "How it works (mechanisms)",
+    "Evidence and research",
+    "Dosing, safety, and side effects",
+    "Practical use and protocols",
+    "Conclusion and next steps"
+  ],
+  "keyword_suggestions": [],
+  "research_brief": null,
+  "curated_research": [],
+  "knowledge_graph": {
+    "focus_terms": [
+      "glp-1 muscle loss",
+      "lean",
+      "lean mass",
+      "mass",
+      "recomp",
+      "reta",
+      "retatrutide"
+    ],
+    "nodes": [
+      {
+        "id": "peptide:retatrutide",
+        "label": "Retatrutide",
+        "type": "peptide",
+        "source": "docs/peptides/cards/reta-card.md",
+        "source_excerpt": "PEPTIDE CARD: RETATRUTIDE (LY3437943)\n\n\"Triple Agonist GLP-1/GIP/Glucagon for Maximum Fat Loss\u2014REQUIRES Maximum Support\"\n\n\u2554\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2557"
+      },
+      {
+        "id": "content:dual-axis-recomp",
+        "label": "Dual-Axis Recomposition",
+        "type": "content",
+        "source": "docs/content/dual-axis-recomp.md",
+        "source_excerpt": "# Dual-Axis Recomposition Protocol\n\n## 1. Executive Overview\nDual-Axis Recomposition is a systems-level approach to body recomposition designed for athletes and high-control trainees who need simultaneous fat loss and muscle preservation (or gain). Instead of relying on simplistic caloric-deficit logic, the protocol synchronizes two daily metabolic axes:\n- **Daytime AMPK axis** \u2013 catabolic, fat-mobilizing, performance-focused."
+      },
+      {
+        "id": "content:retatrutide-foundation",
+        "label": "Retatrutide Metabolic Foundation",
+        "type": "content",
+        "source": "docs/content/retatrutide-metabolic-foundation.md",
+        "source_excerpt": "# Retatrutide as Metabolic Foundation\n\n## Overview\n\nRetatrutide represents a fundamental approach to metabolic regulation, acting through three distinct receptor pathways:"
+      }
+    ],
+    "neighbor_nodes": [
+      {
+        "id": "mech:UCP1",
+        "label": "UCP-1",
+        "type": "mechanism",
+        "source": "docs/content/system_master/3-metabolic-axis.md:29",
+        "source_excerpt": "---\n\n## 3.2 Retatrutide \u2014 The Command Signal\n\n**What it is:** Retatrutide activates three distinct receptors\u2014GLP-1, GIP, and glucagon\u2014that govern how we eat, burn, and store fuel."
+      },
+      {
+        "id": "receptor:GIPR",
+        "label": "GIP Receptor",
+        "type": "receptor",
+        "source": "docs/content/glp-1-comparison-specification.md:13",
+        "source_excerpt": "| Feature | Semaglutide | Tirzepatide | Retatrutide |\n|---------|-------------|-------------|-------------|\n| **Receptor Targets** | GLP-1 only | GIP + GLP-1 | GIP + GLP-1 + Glucagon |\n| **Mechanism Focus** | Appetite suppression | Dual-action recomposition | Triple-action thermogenesis |\n| **Avg. Weight Loss** | 10\u201315% | 15\u201322% | 20\u201324% |"
+      },
+      {
+        "id": "mech:AMPK",
+        "label": "AMPK",
+        "type": "mechanism",
+        "source": "docs/content/system_master/2-mito-axis.md:152",
+        "source_excerpt": "MOTS-C is a mitochondrial-encoded peptide\u2014a gene written inside mitochondrial DNA itself, not the cell nucleus.\nIt acts as a retrograde signal, informing the nucleus about mitochondrial status.\nWhen energy is low, MOTS-C activates AMPK, the enzyme that tells cells to stop storing and start burning.\n\nAMPK does several critical things:"
+      },
+      {
+        "id": "axis:metabolic",
+        "label": "Metabolic Axis",
+        "type": "axis",
+        "source": "docs/content/system_master/3-metabolic-axis.md:1",
+        "source_excerpt": "# 3. The Metabolic Axis: Reprogramming Energy Flow\n\nFat loss and muscle preservation are not opposing goals\u2014they are competing signals."
+      },
+      {
+        "id": "receptor:GLP1R",
+        "label": "GLP-1 Receptor",
+        "type": "receptor",
+        "source": "docs/content/glp-1-comparison-specification.md:13",
+        "source_excerpt": "| Feature | Semaglutide | Tirzepatide | Retatrutide |\n|---------|-------------|-------------|-------------|\n| **Receptor Targets** | GLP-1 only | GIP + GLP-1 | GIP + GLP-1 + Glucagon |\n| **Mechanism Focus** | Appetite suppression | Dual-action recomposition | Triple-action thermogenesis |\n| **Avg. Weight Loss** | 10\u201315% | 15\u201322% | 20\u201324% |"
+      },
+      {
+        "id": "peptide:mots-c",
+        "label": "MOTS-C",
+        "type": "peptide",
+        "source": "docs/peptides/cards/mots-c-card.md",
+        "source_excerpt": "PEPTIDE CARD: MOTS-c (Mitochondrial Open Reading Frame of the 12S rRNA-c)\n\n\"Metabolic Flexibility Programming Through Exercise-Mimetic Signaling\"\n\n\u2554\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2557"
+      },
+      {
+        "id": "receptor:GCGR",
+        "label": "Glucagon Receptor",
+        "type": "receptor",
+        "source": "docs/content/glp-1-comparison-specification.md:13",
+        "source_excerpt": "| Feature | Semaglutide | Tirzepatide | Retatrutide |\n|---------|-------------|-------------|-------------|\n| **Receptor Targets** | GLP-1 only | GIP + GLP-1 | GIP + GLP-1 + Glucagon |\n| **Mechanism Focus** | Appetite suppression | Dual-action recomposition | Triple-action thermogenesis |\n| **Avg. Weight Loss** | 10\u201315% | 15\u201322% | 20\u201324% |"
+      },
+      {
+        "id": "mech:mTOR",
+        "label": "mTOR",
+        "type": "mechanism",
+        "source": "docs/content/system_master/2-mito-axis.md:159",
+        "source_excerpt": "2. Shifts fat metabolism toward oxidation instead of storage.\n3. Triggers mitochondrial biogenesis\u2014creating new mitochondria.\n4. Inhibits mTOR, the growth pathway that wastes energy during scarcity.\n\nIn effect, MOTS-C puts the cell in \u201csmart austerity\u201d mode\u2014improving efficiency, clearing damaged proteins, and stimulating mitochondrial renewal."
+      },
+      {
+        "id": "peptide:tesamorelin",
+        "label": "Tesamorelin",
+        "type": "peptide",
+        "source": "docs/peptides/cards/tesamorelin-card.md",
+        "source_excerpt": "PEPTIDE CARD: TESAMORELIN\n\n\"Physiologic GH Restoration for Lean Mass Protection and Visceral Fat Reduction\"\n\n\u2554\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2557"
+      },
+      {
+        "id": "peptide:l-carnitine",
+        "label": "L-Carnitine",
+        "type": "peptide",
+        "source": "docs/peptides/cards/l-carnitine-card.md",
+        "source_excerpt": "PEPTIDE CARD: L-CARNITINE\n\n\"The Mitochondrial Shuttle \u2014 Fat Oxidation & Cellular Energy Restoration\"\n\n\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550"
+      },
+      {
+        "id": "protocol:ak-4week",
+        "label": "AK 4-Week Protocol",
+        "type": "protocol",
+        "source": "docs/protocols/ak_4week_protocol_updated.md"
+      },
+      {
+        "id": "peptide:aod-9604",
+        "label": "AOD-9604",
+        "type": "peptide",
+        "source": "docs/peptides/cards/aod9604-card.md",
+        "source_excerpt": "PEPTIDE CARD: AOD-9604 (GH Fragment 177-191)\n\n\"Modest Lipolytic Support for Fine-Tuning Optimized Cuts\"\n\n\u2554\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2557"
+      },
+      {
+        "id": "peptide:nad",
+        "label": "NAD+",
+        "type": "peptide",
+        "source": "docs/peptides/cards/nad-card.md",
+        "source_excerpt": "PEPTIDE CARD: NAD+ (Nicotinamide Adenine Dinucleotide)\n\n\"The Power Supply - Cellular Energy Restoration\"\n\n\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550"
+      }
+    ],
+    "relations": [
+      {
+        "source": "peptide:retatrutide",
+        "target": "axis:metabolic",
+        "relation": "part_of_axis",
+        "evidence": "docs/content/glp-1-comparison-specification.md:1",
+        "evidence_excerpt": "# Peptide Fox \u2014 GLP-1 Comparison Module (Specification)\n\nThis file defines the **GLP-1 Comparison Feature** for Peptide Fox \u2014 allowing users to visualize and interact with pharmacologic, mechanistic, and synergy-layer data for **Semaglutide**, **Tirzepatide**, and **Retatrutide**."
+      },
+      {
+        "source": "peptide:retatrutide",
+        "target": "peptide:nad",
+        "relation": "synergizes_with",
+        "evidence": "docs/synergies/integrated-systems-synergy-feedback-loops.md:1",
+        "evidence_excerpt": "# Integrated Systems Synergy: Feedback Loops in Metabolic Optimization\n\n## Introduction: The Living Circuit"
+      },
+      {
+        "source": "peptide:retatrutide",
+        "target": "peptide:tesamorelin",
+        "relation": "composes_stack_with",
+        "evidence": "docs/synergies/peptide-synergy-diagram.md:1",
+        "evidence_excerpt": "# Peptide Stack Synergy Map: Mechanistic Interactions and Cascades\n\n## Master Circadian Controller"
+      },
+      {
+        "source": "peptide:retatrutide",
+        "target": "peptide:l-carnitine",
+        "relation": "composes_stack_with",
+        "evidence": "docs/synergies/peptide-synergy-diagram.md:1",
+        "evidence_excerpt": "# Peptide Stack Synergy Map: Mechanistic Interactions and Cascades\n\n## Master Circadian Controller"
+      },
+      {
+        "source": "peptide:retatrutide",
+        "target": "peptide:mots-c",
+        "relation": "composes_stack_with",
+        "evidence": "docs/synergies/peptide-synergy-diagram.md:1",
+        "evidence_excerpt": "# Peptide Stack Synergy Map: Mechanistic Interactions and Cascades\n\n## Master Circadian Controller"
+      },
+      {
+        "source": "peptide:retatrutide",
+        "target": "peptide:aod-9604",
+        "relation": "composes_stack_with",
+        "evidence": "docs/synergies/peptide-synergy-diagram.md:1",
+        "evidence_excerpt": "# Peptide Stack Synergy Map: Mechanistic Interactions and Cascades\n\n## Master Circadian Controller"
+      },
+      {
+        "source": "protocol:ak-4week",
+        "target": "peptide:retatrutide",
+        "relation": "composes",
+        "evidence": "docs/protocols/ak_4week_protocol_updated.md:235",
+        "evidence_excerpt": null
+      },
+      {
+        "source": "peptide:retatrutide",
+        "target": "mech:AMPK",
+        "relation": "raises",
+        "evidence": "docs/content/system_master/3-metabolic-axis.md:22",
+        "evidence_excerpt": "AOD-9604 \u2192 unlocks resistant fat stores\nL-CARNITINE \u2192 ensures liberated fat becomes fuel\nTESAMORELIN (\u00b1 IPAMORELIN) \u2192 protects and rebuilds structure\n```"
+      },
+      {
+        "source": "peptide:retatrutide",
+        "target": "mech:UCP1",
+        "relation": "activates",
+        "evidence": "docs/content/system_master/3-metabolic-axis.md:29",
+        "evidence_excerpt": "---\n\n## 3.2 Retatrutide \u2014 The Command Signal\n\n**What it is:** Retatrutide activates three distinct receptors\u2014GLP-1, GIP, and glucagon\u2014that govern how we eat, burn, and store fuel."
+      },
+      {
+        "source": "peptide:retatrutide",
+        "target": "mech:mTOR",
+        "relation": "inhibits",
+        "evidence": "docs/content/system_master/3-metabolic-axis.md:22",
+        "evidence_excerpt": "AOD-9604 \u2192 unlocks resistant fat stores\nL-CARNITINE \u2192 ensures liberated fat becomes fuel\nTESAMORELIN (\u00b1 IPAMORELIN) \u2192 protects and rebuilds structure\n```"
+      },
+      {
+        "source": "peptide:retatrutide",
+        "target": "receptor:GLP1R",
+        "relation": "agonist_of",
+        "evidence": "docs/content/retatrutide-metabolic-foundation.md:5",
+        "evidence_excerpt": "## Overview\n\nRetatrutide represents a fundamental approach to metabolic regulation, acting through three distinct receptor pathways:\n\n### Key Receptor Pathways"
+      },
+      {
+        "source": "peptide:retatrutide",
+        "target": "receptor:GIPR",
+        "relation": "agonist_of",
+        "evidence": "docs/content/retatrutide-metabolic-foundation.md:11",
+        "evidence_excerpt": "- Improves insulin sensitivity\n  - Slows gastric emptying\n  - Prevents post-meal blood sugar spikes\n  - Reduces fat storage drive"
+      },
+      {
+        "source": "peptide:retatrutide",
+        "target": "receptor:GCGR",
+        "relation": "agonist_of",
+        "evidence": "docs/content/retatrutide-metabolic-foundation.md:17",
+        "evidence_excerpt": "- Enhances insulin release\n  - Influences nutrient partitioning between fat and muscle\n\n- **Glucagon Receptor**\n  - Promotes fat breakdown in liver"
+      },
+      {
+        "source": "peptide:retatrutide",
+        "target": "peptide:mots-c",
+        "relation": "synergizes_with",
+        "evidence": "docs/content/system_master/3-metabolic-axis.md:1",
+        "evidence_excerpt": "# 3. The Metabolic Axis: Reprogramming Energy Flow\n\nFat loss and muscle preservation are not opposing goals\u2014they are competing signals."
+      }
+    ],
+    "entity_types": {
+      "peptide": 1,
+      "content": 2
+    },
+    "semantic_entities": [
+      {
+        "entity": "Retatrutide",
+        "type": "peptide",
+        "id": "peptide:retatrutide",
+        "seo_relevance": "primary"
+      },
+      {
+        "entity": "Dual-Axis Recomposition",
+        "type": "content",
+        "id": "content:dual-axis-recomp",
+        "seo_relevance": "primary"
+      },
+      {
+        "entity": "Retatrutide Metabolic Foundation",
+        "type": "content",
+        "id": "content:retatrutide-foundation",
+        "seo_relevance": "primary"
+      }
+    ],
+    "internal_links": [
+      {
+        "anchor_text": "Retatrutide",
+        "target": "docs/peptides/cards/reta-card.md",
+        "type": "peptide"
+      },
+      {
+        "anchor_text": "Dual-Axis Recomposition",
+        "target": "docs/content/dual-axis-recomp.md",
+        "type": "content"
+      },
+      {
+        "anchor_text": "UCP-1",
+        "target": "docs/content/system_master/3-metabolic-axis.md",
+        "type": "mechanism"
+      },
+      {
+        "anchor_text": "AMPK",
+        "target": "docs/content/system_master/2-mito-axis.md",
+        "type": "mechanism"
+      },
+      {
+        "anchor_text": "Metabolic Axis",
+        "target": "docs/content/system_master/3-metabolic-axis.md",
+        "type": "axis"
+      },
+      {
+        "anchor_text": "MOTS-C",
+        "target": "docs/peptides/cards/mots-c-card.md",
+        "type": "peptide"
+      },
+      {
+        "anchor_text": "mTOR",
+        "target": "docs/content/system_master/2-mito-axis.md",
+        "type": "mechanism"
+      },
+      {
+        "anchor_text": "Tesamorelin",
+        "target": "docs/peptides/cards/tesamorelin-card.md",
+        "type": "peptide"
+      },
+      {
+        "anchor_text": "L-Carnitine",
+        "target": "docs/peptides/cards/l-carnitine-card.md",
+        "type": "peptide"
+      },
+      {
+        "anchor_text": "AK 4-Week Protocol",
+        "target": "docs/protocols/ak_4week_protocol_updated.md",
+        "type": "protocol"
+      }
+    ],
+    "content_clusters": {
+      "part_of_axis": [
+        {
+          "source": "peptide:retatrutide",
+          "target": "axis:metabolic"
+        }
+      ],
+      "synergizes_with": [
+        {
+          "source": "peptide:retatrutide",
+          "target": "peptide:nad"
+        },
+        {
+          "source": "peptide:retatrutide",
+          "target": "peptide:mots-c"
+        }
+      ],
+      "composes_stack_with": [
+        {
+          "source": "peptide:retatrutide",
+          "target": "peptide:tesamorelin"
+        },
+        {
+          "source": "peptide:retatrutide",
+          "target": "peptide:l-carnitine"
+        },
+        {
+          "source": "peptide:retatrutide",
+          "target": "peptide:mots-c"
+        },
+        {
+          "source": "peptide:retatrutide",
+          "target": "peptide:aod-9604"
+        }
+      ],
+      "composes": [
+        {
+          "source": "protocol:ak-4week",
+          "target": "peptide:retatrutide"
+        }
+      ],
+      "raises": [
+        {
+          "source": "peptide:retatrutide",
+          "target": "mech:AMPK"
+        }
+      ],
+      "activates": [
+        {
+          "source": "peptide:retatrutide",
+          "target": "mech:UCP1"
+        }
+      ],
+      "inhibits": [
+        {
+          "source": "peptide:retatrutide",
+          "target": "mech:mTOR"
+        }
+      ],
+      "agonist_of": [
+        {
+          "source": "peptide:retatrutide",
+          "target": "receptor:GLP1R"
+        },
+        {
+          "source": "peptide:retatrutide",
+          "target": "receptor:GIPR"
+        },
+        {
+          "source": "peptide:retatrutide",
+          "target": "receptor:GCGR"
+        }
+      ]
+    },
+    "notes": "Seed knowledge graph assembled from /docs (research \u2192 content \u2192 synergies \u2192 protocols). Iterative; add edges as content grows.",
+    "generated_at": "2025-10-28T00:00:00Z"
+  },
+  "focus_terms": [
+    "glp-1 muscle loss",
+    "lean",
+    "lean mass",
+    "mass",
+    "recomp",
+    "reta",
+    "retatrutide"
+  ],
+  "brief": {
+    "primary_keyword": "Retatrutide Recomp Lean Mass",
+    "secondary_keywords": [],
+    "lsi_keywords": [
+      "retatrutide",
+      "dual-axis recomposition",
+      "retatrutide metabolic foundation"
+    ],
+    "title_options": [
+      "Retatrutide Recomp Lean Mass: Complete Evidence-Based Protocol",
+      "How to Retatrutide Recomp Lean Mass: Step-by-Step Guide",
+      "Retatrutide Recomp Lean Mass Protocol: Mechanisms, Implementation & Monitoring"
+    ],
+    "meta_description": "Retatrutide Recomp Lean Mass: Evidence-based protocol for body recomposition. Mechanisms, implementation, monitoring, and medical supervision required.",
+    "angles_to_cover": [
+      "Evidence-based implementation approach",
+      "Medical supervision requirements",
+      "Monitoring and safety parameters",
+      "Individual response variability and adjustment protocols"
+    ],
+    "questions_to_answer": [
+      "What is the evidence base for Retatrutide Recomp Lean Mass?",
+      "How does Retatrutide Recomp Lean Mass work mechanistically?",
+      "What monitoring and safety protocols are required for Retatrutide Recomp Lean Mass?",
+      "Who is this protocol appropriate for, and who should avoid it?"
+    ],
+    "data_points_to_hunt": [
+      "Body composition outcomes (fat mass vs lean mass changes)",
+      "Performance metrics and strength retention data",
+      "Metabolic markers and safety parameters"
+    ],
+    "storytelling_hooks": [],
+    "structure": [
+      {
+        "heading": "Introduction: Overview of Retatrutide Recomp Lean Mass",
+        "focus": "What & why; clinician oversight"
+      },
+      {
+        "heading": "What is Retatrutide Recomp Lean Mass?",
+        "focus": "Definitions & regulatory status"
+      },
+      {
+        "heading": "How it works (mechanisms)",
+        "focus": "Mechanisms & pathways"
+      },
+      {
+        "heading": "Evidence and research",
+        "focus": "Preclinical + small human studies"
+      },
+      {
+        "heading": "Dosing, safety, and side effects",
+        "focus": "Intranasal ranges; safety; disclaimers"
+      },
+      {
+        "heading": "Practical use and protocols",
+        "focus": "Adjunct use; tracking; supervision"
+      },
+      {
+        "heading": "Conclusion and next steps",
+        "focus": "Conservative positioning; next steps"
+      }
+    ],
+    "source_material": [],
+    "internal_links": [
+      {
+        "anchor_text": "Retatrutide",
+        "target": "docs/peptides/cards/reta-card.md",
+        "type": "peptide"
+      },
+      {
+        "anchor_text": "Dual-Axis Recomposition",
+        "target": "docs/content/dual-axis-recomp.md",
+        "type": "content"
+      },
+      {
+        "anchor_text": "UCP-1",
+        "target": "docs/content/system_master/3-metabolic-axis.md",
+        "type": "mechanism"
+      },
+      {
+        "anchor_text": "AMPK",
+        "target": "docs/content/system_master/2-mito-axis.md",
+        "type": "mechanism"
+      },
+      {
+        "anchor_text": "Metabolic Axis",
+        "target": "docs/content/system_master/3-metabolic-axis.md",
+        "type": "axis"
+      },
+      {
+        "anchor_text": "MOTS-C",
+        "target": "docs/peptides/cards/mots-c-card.md",
+        "type": "peptide"
+      },
+      {
+        "anchor_text": "mTOR",
+        "target": "docs/content/system_master/2-mito-axis.md",
+        "type": "mechanism"
+      },
+      {
+        "anchor_text": "Tesamorelin",
+        "target": "docs/peptides/cards/tesamorelin-card.md",
+        "type": "peptide"
+      },
+      {
+        "anchor_text": "L-Carnitine",
+        "target": "docs/peptides/cards/l-carnitine-card.md",
+        "type": "peptide"
+      },
+      {
+        "anchor_text": "AK 4-Week Protocol",
+        "target": "docs/protocols/ak_4week_protocol_updated.md",
+        "type": "protocol"
+      }
+    ],
+    "schema_recommendations": [
+      "MedicalEntity/Drug for peptide mentions"
+    ],
+    "semantic_entities": [
+      {
+        "entity": "Retatrutide",
+        "type": "peptide",
+        "id": "peptide:retatrutide",
+        "seo_relevance": "primary"
+      },
+      {
+        "entity": "Dual-Axis Recomposition",
+        "type": "content",
+        "id": "content:dual-axis-recomp",
+        "seo_relevance": "primary"
+      },
+      {
+        "entity": "Retatrutide Metabolic Foundation",
+        "type": "content",
+        "id": "content:retatrutide-foundation",
+        "seo_relevance": "primary"
+      }
+    ],
+    "review_checklist": [
+      "Validate all clinical claims against cited studies (add inline references).",
+      "Include medical supervision / FDA status disclaimer for peptide use.",
+      "Ensure ADHD guidance positions peptides as adjuncts, not replacements, unless evidence supports otherwise.",
+      "Cross-check synergy and mechanism statements with knowledge graph evidence excerpts."
+    ],
+    "serp_intelligence": {
+      "search_volume": 72000,
+      "keyword_difficulty": 38,
+      "competition_level": "medium",
+      "traffic_potential": 79000,
+      "recommend_targeting": true,
+      "primary_intent": "informational",
+      "cpc": 4.0
+    },
+    "serp_optimization_targets": [
+      {
+        "feature": "Featured Snippet / AI Overview",
+        "strategy": "Answer main question concisely in 40-60 words at start of article",
+        "priority": "high"
+      },
+      {
+        "feature": "Video Results",
+        "strategy": "Consider embedding relevant video content or creating video guide",
+        "priority": "medium"
+      },
+      {
+        "feature": "Image Pack",
+        "strategy": "Include high-quality images with descriptive alt text and captions",
+        "priority": "medium"
+      }
+    ],
+    "related_keywords_to_include": [
+      {
+        "keyword": "compounded semaglutide vs semaglutide",
+        "volume": 250,
+        "difficulty": 53,
+        "priority": "medium"
+      },
+      {
+        "keyword": "can semaglutide kill you",
+        "volume": 80,
+        "difficulty": 64,
+        "priority": "medium"
+      },
+      {
+        "keyword": "weigh loss shots",
+        "volume": 80,
+        "difficulty": 59,
+        "priority": "medium"
+      },
+      {
+        "keyword": "gop1 weight loss",
+        "volume": 70,
+        "difficulty": 76,
+        "priority": "medium"
+      },
+      {
+        "keyword": "swmiglutide",
+        "volume": 50,
+        "difficulty": 85,
+        "priority": "medium"
+      },
+      {
+        "keyword": "semaglutide forms",
+        "volume": 40,
+        "difficulty": 72,
+        "priority": "medium"
+      },
+      {
+        "keyword": "glp-1 agonists pills",
+        "volume": 20,
+        "difficulty": 82,
+        "priority": "medium"
+      },
+      {
+        "keyword": "glp-1s approved for weight loss",
+        "volume": 20,
+        "difficulty": 68,
+        "priority": "medium"
+      },
+      {
+        "keyword": "ozempic for weight loss fda approval",
+        "volume": 10,
+        "difficulty": 69,
+        "priority": "medium"
+      }
+    ]
+  },
+  "initial_draft": "---\ntitle: \"Retatrutide Recomp Lean Mass: Complete Evidence-Based Protocol\"\ndescription: \"Retatrutide Recomp Lean Mass: Evidence-based protocol for body recomposition. Mechanisms, implementation, monitoring, and medical supervision required.\"\ndate: \"2025-11-07\"\nlastmod: \"2025-11-07\"\nstatus: \"draft\"\ntags: ['Retatrutide', 'Recomp', 'Lean', 'Mass']\n---\n\n# Retatrutide Recomp Lean Mass: Complete Evidence-Based Protocol\n\n## Introduction: Overview of Retatrutide Recomp Lean Mass\n\nRetatrutide Recomp Lean Mass: Evidence-based protocol for body recomposition. Mechanisms, implementation, monitoring, and medical supervision required.\n\n*Focus:* What & why; clinician oversight\n\nThis section explores: What is the evidence base for Retatrutide Recomp Lean Mass?\n\n## What is Retatrutide Recomp Lean Mass?\n\n*Focus:* Definitions & regulatory status\n\nThis section explores: How does Retatrutide Recomp Lean Mass work mechanistically?\n\n## How it works (mechanisms)\n\n*Focus:* Mechanisms & pathways\n\nThis section explores: What monitoring and safety protocols are required for Retatrutide Recomp Lean Mass?\n\n## Evidence and research\n\n*Focus:* Preclinical + small human studies\n\nThis section explores: Who is this protocol appropriate for, and who should avoid it?\n\n## Dosing, safety, and side effects\n\n*Focus:* Intranasal ranges; safety; disclaimers\n\nKey perspective: Evidence-based implementation approach\n\n*Dosing information should be sourced from curated research documents and medical supervision*\n\n## Practical use and protocols\n\n*Focus:* Adjunct use; tracking; supervision\n\nKey perspective: Medical supervision requirements\n\n## Conclusion and next steps\n\n*Focus:* Conservative positioning; next steps\n\nKey perspective: Monitoring and safety parameters\n\n## References & Evidence\n\n- peptide:retatrutide \u2014[part_of_axis]\u2192 axis:metabolic\n  > # Peptide Fox \u2014 GLP-1 Comparison Module (Specification)\n\nThis file defines the **GLP-1 Comparison Feature** for Peptide Fox \u2014 allowing users to visualize and interact with pharmacologic, mechanistic, and synergy-layer data for **Semaglutide**, **Tirzepatide**, and **Retatrutide**.\n- peptide:retatrutide \u2014[synergizes_with]\u2192 peptide:nad\n  > # Integrated Systems Synergy: Feedback Loops in Metabolic Optimization\n\n## Introduction: The Living Circuit\n- peptide:retatrutide \u2014[composes_stack_with]\u2192 peptide:tesamorelin\n  > # Peptide Stack Synergy Map: Mechanistic Interactions and Cascades\n\n## Master Circadian Controller\n- peptide:retatrutide \u2014[composes_stack_with]\u2192 peptide:l-carnitine\n  > # Peptide Stack Synergy Map: Mechanistic Interactions and Cascades\n\n## Master Circadian Controller\n- peptide:retatrutide \u2014[composes_stack_with]\u2192 peptide:mots-c\n  > # Peptide Stack Synergy Map: Mechanistic Interactions and Cascades\n\n## Master Circadian Controller\n- peptide:retatrutide \u2014[composes_stack_with]\u2192 peptide:aod-9604\n  > # Peptide Stack Synergy Map: Mechanistic Interactions and Cascades\n\n## Master Circadian Controller\n\n_Disclaimer: Educational content only. Consult a licensed clinician before making changes to diagnosis or treatment._",
+  "openai_models": {
+    "article_summarizer": null,
+    "research_brief": null
+  },
+  "anthropic_models": {
+    "research_brief": null
+  }
+}

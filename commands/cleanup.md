@@ -3,7 +3,7 @@ name: cleanup
 description: Review and clean up old evidence and log files with interactive options
 ---
 
-# Evidence & Log Cleanup Command
+# Evidence, Organization & Log Cleanup (Safe Archive — No Deletion)
 
 Manually review and clean up old evidence and log files in .orchestration/
 
@@ -44,7 +44,7 @@ logs_size=$(du -sh .orchestration/logs 2>/dev/null | cut -f1 || echo "0B")
 old_evidence_count=$(find .orchestration/evidence -type f -mtime +7 2>/dev/null | wc -l | tr -d ' ')
 old_logs_count=$(find .orchestration/logs -type f -mtime +7 2>/dev/null | wc -l | tr -d ' ')
 
-echo "📊 Current State:"
+echo "📊 Current State (includes organization verification):"
 echo ""
 echo "  Evidence: $evidence_count files ($evidence_size)"
 echo "    └─ >7 days old: $old_evidence_count files"
@@ -69,36 +69,30 @@ To extend retention: touch .orchestration/evidence/.keep
 Found $total_old_files old files (>7 days)
 
 Options:
-1. Delete files >7 days old (recommended)
-2. Delete files >30 days old (conservative)
-3. Delete files >90 days old (very conservative)
+1. Archive files >7 days old to .orchestration/_deprecated/ (recommended)
+2. Archive files >30 days old (conservative)
+3. Archive files >90 days old (very conservative)
 4. List old files for manual review
-5. Keep all files (create .keep file to disable auto-cleanup)
+5. Keep all files (create .keep file to disable auto-archive)
 6. Cancel
 ```
 
 ### Step 3: Execute Based on User Choice
 
-**Option 1: Delete >7 days:**
+**Option 1: Archive >7 days:**
 ```bash
-find .orchestration/evidence -type f -mtime +7 ! -name ".keep" -delete
-find .orchestration/logs -type f -mtime +7 -delete
-find .orchestration/evidence -type d -empty -delete
-find .orchestration/logs -type d -empty -delete
-
-echo "🧹 Deleted $deleted_count files"
+bash scripts/safe-archive.sh --days 7 --what both
+echo "📦 Archived files older than 7 days to .orchestration/_deprecated/"
 ```
 
-**Option 2: Delete >30 days:**
+**Option 2: Archive >30 days:**
 ```bash
-find .orchestration/evidence -type f -mtime +30 ! -name ".keep" -delete
-find .orchestration/logs -type f -mtime +30 -delete
+bash scripts/safe-archive.sh --days 30 --what both
 ```
 
-**Option 3: Delete >90 days:**
+**Option 3: Archive >90 days:**
 ```bash
-find .orchestration/evidence -type f -mtime +90 ! -name ".keep" -delete
-find .orchestration/logs -type f -mtime +90 -delete
+bash scripts/safe-archive.sh --days 90 --what both
 ```
 
 **Option 4: List old files:**
@@ -136,6 +130,16 @@ echo "Cleanup cancelled - no changes made"
 
 ---
 
+## Organization Verification
+
+Before deletion, run a project organization verification pass to ensure files live in canonical locations:
+
+- Evidence → `.orchestration/evidence/` ONLY
+- Logs → `.orchestration/logs/` ONLY
+- Control files → `.orchestration/` (implementation-log.md, user-request.md, orca-session, verification/*)
+
+If violations are found, the command should surface suggested `mv` fixes. Resolve, then continue cleanup.
+
 ## Command-Line Flags
 
 ### --keep-for N
@@ -167,17 +171,10 @@ find .orchestration/logs -type f -mtime +7 | \
 
 ### --force
 
-Delete immediately without confirmation:
+Archive immediately without confirmation:
 ```bash
-deleted_count=$(find .orchestration/evidence -type f -mtime +7 ! -name ".keep" | wc -l | tr -d ' ')
-deleted_count=$((deleted_count + $(find .orchestration/logs -type f -mtime +7 | wc -l | tr -d ' ')))
-
-find .orchestration/evidence -type f -mtime +7 ! -name ".keep" -delete
-find .orchestration/logs -type f -mtime +7 -delete
-find .orchestration/evidence -type d -empty -delete
-find .orchestration/logs -type d -empty -delete
-
-echo "🧹 Force cleanup: Deleted $deleted_count files (>7 days old)"
+bash scripts/safe-archive.sh --days 7 --force
+echo "📦 Force archive completed"
 ```
 
 ---
@@ -185,6 +182,7 @@ echo "🧹 Force cleanup: Deleted $deleted_count files (>7 days old)"
 ## Safety Checks
 
 **NEVER delete:**
+- This command does not delete files. It moves old artifacts to `.orchestration/_deprecated/`.
 - Source files (Sources/, src/, etc.)
 - Documentation (docs/)
 - Permanent evidence (docs/evidence/)

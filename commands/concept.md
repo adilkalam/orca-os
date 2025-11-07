@@ -1,12 +1,11 @@
----
-description: Iterate on existing layout - AI assesses current design, suggests improvements, conversational iteration until satisfied, generate mockup, build
+description: Context-aware UI concepting. Default = NEW concept (research → brainstorm → mockup → build). Use -edit for ITERATION on an existing layout.
 allowed-tools: [Read, Glob, Bash, Skill, AskUserQuestion, exit_plan_mode, WebFetch]
-argument-hint: <page/component to redesign>
+argument-hint: [-edit] <page/component or goal>
 ---
 
-# /concept - Iterate on Existing Layout
+# /concept — Context-Aware Concepting (new or edit)
 
-**PURPOSE**: Conversational design iteration on existing pages/components.
+By default, treats the request as a NEW concept (study references → brainstorm → mockup → build). Use `-edit` to iterate on an existing layout with surgical changes.
 
 **Use this when:**
 - Redesigning an existing page
@@ -14,7 +13,11 @@ argument-hint: <page/component to redesign>
 - Exploring new ideas for something that already exists
 - "Make this better/more elegant"
 
-**For brand new layouts:** Use `/concept-new` instead
+Tip: For low‑fi, try `/ascii-mockup` during brainstorming.
+
+Modes:
+- NEW (default): Fresh concept; study references, brainstorm, mock, build
+- EDIT (-edit flag): Improve an existing implementation with precise changes
 
 ---
 
@@ -30,13 +33,17 @@ You are a design critic and creative partner. Your job:
 
 ---
 
-## User Request
+## Mode Selection & User Request
 
-**What to redesign:** $ARGUMENTS
+If $ARGUMENTS starts with "-edit":
+- Remove "-edit" from $ARGUMENTS and enter EDIT MODE
+Else: NEW MODE
+
+**Target:** $ARGUMENTS
 
 ---
 
-## Phase 1: Assess Current Implementation
+## EDIT MODE — Phase 1: Assess Current Implementation
 
 ### Step 1.1: Find the Current File
 
@@ -76,6 +83,7 @@ If there's a running dev server or the page is accessible:
 lsof -i :3000  # or :8080, :4200, etc.
 
 # If running, use visual-review to capture current state
+bash scripts/capture-screenshot.sh http://localhost:3000/[route] --out before.png --wait-for 20
 /visual-review http://localhost:3000/[route]
 ```
 
@@ -83,7 +91,7 @@ If screenshot available → Store in `.orchestration/evidence/screenshots/curren
 
 ---
 
-## Phase 2: AI Assessment & Ideas
+## EDIT MODE — Phase 2: AI Assessment & Ideas
 
 **Present your analysis:**
 
@@ -134,7 +142,7 @@ What direction do you want to explore?
 
 ---
 
-## Phase 3: Conversational Iteration
+## EDIT MODE — Phase 3: Conversational Iteration
 
 **Listen to user response and iterate:**
 
@@ -194,7 +202,7 @@ Want me to mock this up?
 
 ---
 
-## Phase 4: Generate Mockup
+## EDIT MODE — Phase 4: Generate Mockup
 
 **When user says they're happy with the direction:**
 
@@ -414,3 +422,4 @@ Shows before/after
 7. ✅ Build it
 
 **Simple. Conversational. No complex routing. Just design iteration.**
+[In NEW MODE, consider `/ascii-mockup` first to sketch structure before building.]

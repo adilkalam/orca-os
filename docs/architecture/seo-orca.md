@@ -1,6 +1,27 @@
 # SEO-ORCA
 
-Elite SEO orchestration that mirrors our iOS and data-analysis stacks: a deterministic research pipeline feeds a dedicated agent team, all mediated through ORCA’s confirmation gate. The goal is to let automation do the grinding (SERP, knowledge graph, outline, draft) so humans can focus on POV, compliance, and final polish—about 3–4 flagship pieces a month.
+Elite SEO orchestration that mirrors our iOS and data-analysis stacks: a deterministic research pipeline feeds a dedicated agent team, all mediated through ORCA's confirmation gate. The system produces **3,000+ word sophisticated content** with natural clarity—matching manually-crafted gold standards through deep knowledge graph integration, external research citations, and automated clarity quality gates.
+
+**What makes this special:** Most AI content automation treats research as snippets. We read complete source files (10-40KB each), extract relevant prose with relevance scoring, load external research papers with DOIs, and verify output passes communication clarity thresholds. The result: content that teaches complex peptide science with conversational authority—biohackers and fitness enthusiasts can understand dual-axis metabolic frameworks without a PhD.
+
+---
+
+## Key Features (Phase 1-4 Implementation)
+
+### 🔬 Deep Knowledge Graph Reading
+**Not just excerpts—complete source files.** The pipeline reads full markdown files (10-40KB) from your knowledge graph, parses them into sections, scores relevance to each outline heading, and extracts prose that directly supports the narrative. No more placeholder text or generic filler.
+
+### 📚 External Research Citations
+**E-E-A-T validation with real papers.** Research papers are indexed by topic and compound (`/docs/research/index.json`). The system automatically loads relevant studies (NEJM, Nature Medicine, Cell Metabolism, etc.), formats proper citations with DOIs, and separates them from internal KG evidence. Google sees authoritative sources; readers get verifiable claims.
+
+### 💡 Communication Clarity Heuristics
+**"Simplicity is the ultimate sophistication."** The draft writer knows how to teach complex concepts with natural analogies ("think of it like three dials on your metabolism"), explain jargon inline with functional meaning ("AMPK—the cell's energy sensor that triggers fat breakdown"), and pass the "gym buddy test" (can the reader explain this concept without looking up terms?).
+
+### ✅ Automated Clarity Quality Gates
+**70+ clarity score required to pass.** Before completion, the Quality Guardian runs `seo_clarity_gates.py` to detect unexplained jargon (50+ peptide/medical terms tracked), verify natural analogies are present, check sentence length (15-20 words ideal), and calculate an overall clarity score. Content that scores <70 gets flagged with specific recommendations.
+
+### 🎯 Gold Standard Output
+**Matches manually-crafted v4 quality.** Through iterative testing, we produced a 3,240-word gold standard article on "Retatrutide Recomp Lean Mass" that scored 80+/100. All lessons from that manual process (citation architecture, analogy usage, jargon management, audience understanding) are now encoded in the automated pipeline.
 
 ---
 
@@ -119,11 +140,44 @@ Optional: record key decisions in Workshop (`/memory-search`, `/memory-learn`) s
 
 ---
 
-## Roadmap / Enhancements
-- Swap DuckDuckGo with a Google SERP provider (SerpAPI or Bright Data) once credentials are ready.
-- Add MCP integrations (Ahrefs, GSC) for richer keyword/traffic data.
-- Hook the QA summary into your validation checklist (Notion/Obsidian template).
-- Build “refresh” mode that reruns the workflow for existing pieces and compares against the last brief/draft.
+## Recent Improvements (2025-11-07)
+
+### ✅ Phase 1: Research Paper Index
+- Created searchable research index at `/Users/adilkalam/Desktop/OBDN/obdn_site/docs/research/index.json`
+- Indexed 7 research papers with DOIs, authors, journals, key findings
+- Topic index (`ampk`, `body_recomposition`) and compound index (`retatrutide`, `mots-c`)
+
+### ✅ Phase 2: Deep KG File Reading
+- New module: `scripts/seo_kg_deep_reader.py` (10KB)
+- Reads complete markdown source files with relevance scoring
+- Integrated into `seo_auto_pipeline.py` at `select_relevant_sections()`
+- Automatic external research citation loading
+
+### ✅ Phase 3: Communication Heuristics
+- Draft writer updated with v4 clarity principles
+- "Gym buddy test" - concepts explained without jargon lookup
+- Natural analogies ("three dials", "two bank accounts")
+- Inline jargon explanation with functional/biological meaning
+- Gold-standard v4 examples in agent prompt
+
+### ✅ Phase 4: Clarity Quality Gates
+- New script: `scripts/seo_clarity_gates.py` (11KB)
+- Automated jargon detection (50+ peptide/medical terms)
+- Analogy presence verification
+- Clarity scoring (70+ to pass)
+- Integrated into Quality Guardian workflow
+
+**Impact:** Automated output now matches manual gold standard quality (3,000+ words, 70-80/100 score).
+
+---
+
+## Roadmap / Future Enhancements
+- ~~Add MCP integrations (Ahrefs, GSC)~~ ✅ Ahrefs MCP integrated for SERP intelligence
+- Swap DuckDuckGo with a Google SERP provider (SerpAPI or Bright Data) for richer SERP data
+- Hook the QA summary into validation checklist (Notion/Obsidian template)
+- Build "refresh" mode that reruns workflow for existing pieces and compares deltas
+- Add A/B testing framework for headline variations
+- Integrate GSC MCP for historical performance data
 
 ---
 

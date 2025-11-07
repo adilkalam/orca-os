@@ -46,6 +46,21 @@ if [ -n "$FORBIDDEN" ]; then
   exit 1  # Block commit
 fi
 
+# ORCA gating: if this repo has an active ORCA session, require .verified
+if [ -d .orchestration ]; then
+  if [ -f .orchestration/orca-session ] || [ -f .orchestration/implementation-log.md ] || [ -f .orchestration/user-request.md ]; then
+    if [ ! -f .verified ]; then
+      echo ""
+      echo "❌ COMMIT BLOCKED: .verified missing for active ORCA session"
+      echo ""
+      echo "Run finalization to generate .verified:"
+      echo "   bash scripts/finalize.sh"
+      echo ""
+      exit 1
+    fi
+  fi
+fi
+
 # Check for large files in global archive
 if [ -d ~/.claude-global/archive ]; then
   LARGE_ARCHIVE=$(find ~/.claude-global/archive -type f -size +10M 2>/dev/null)

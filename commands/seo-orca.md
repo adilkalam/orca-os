@@ -46,7 +46,36 @@ When ORCA proposes other agents, trim back to these core roles plus any essentia
 - High-level synopsis (1–2 paragraphs) of notable findings/issues.
 - Outstanding TODOs or human review points (medical review, missing citations, etc.).
 
+## Phase 1-4 Improvements (2025-11-07)
+
+**Phase 1: Research Paper Index**
+- External research papers now indexed at `/Users/adilkalam/Desktop/OBDN/obdn_site/docs/research/index.json`
+- Papers organized by topic and compound for E-E-A-T citations
+- Format: JSON with DOIs, authors, journals, key findings
+
+**Phase 2: Deep KG Reading**
+- Pipeline now reads FULL KG source files (not just 200-char excerpts)
+- New module: `scripts/seo_kg_deep_reader.py`
+- Extracts complete prose from markdown files with relevance scoring
+- Loads external research citations automatically
+
+**Phase 3: Communication Heuristics**
+- Draft writer updated with v4 clarity principles
+- "Gym buddy test" - can concepts be explained without jargon?
+- Natural analogies integrated ("three dials", "two bank accounts")
+- Jargon explained inline with functional/biological meaning
+- Gold-standard v4 examples included in agent prompt
+
+**Phase 4: Clarity Quality Gates**
+- New script: `scripts/seo_clarity_gates.py`
+- Automated jargon detection and analogy checking
+- Clarity scoring (70+ required to pass)
+- Quality Guardian runs clarity gates automatically
+
+**Impact:** These improvements enable production of 3,000+ word sophisticated content with v4 clarity quality, matching manually-crafted gold standard output.
+
 ## Non-Negotiables
 - Never skip team confirmation (Phase 3).
 - Do not alter generated files outside the designated output directory.
 - Surface warnings from the pipeline (403/429, heuristic fallbacks) in the final response.
+- Quality Guardian MUST run clarity gates on draft before completion.

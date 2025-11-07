@@ -1,11 +1,15 @@
----
-description: iOS layout debugging protocol - visual evidence, complete file discovery, mathematical analysis
+description: "DEPRECATED — Use /concept -edit for UI iteration plus /visual-review and evidence helpers."
 argument-hint: [brief description of the layout issue]
 ---
 
-# iOS Layout Debugging Protocol
+# /ios-debug (DEPRECATED)
 
-**MANDATORY for ALL iOS layout/UI issues.**
+Prefer:
+- `/concept -edit <screen/component>` for surgical iteration with before/after screenshots
+- `/visual-review <url>` for automated screenshot and analysis
+- Evidence helpers: `scripts/capture-screenshot.sh`, `scripts/capture-build.sh`, `scripts/capture-tests.sh`
+
+Legacy protocol retained below for reference.
 
 ## Your Role
 

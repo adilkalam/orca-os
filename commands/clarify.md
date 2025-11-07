@@ -1,12 +1,16 @@
 ---
-description: Quick focused clarification for mid-workflow questions without interrupting agent orchestration
+description: "DEPRECATED — Use /enhance -clarify for targeted mid-workflow questions"
 allowed-tools: [AskUserQuestion, Read]
 argument-hint: <what needs clarification>
 ---
 
-# /clarify - Quick Mid-Workflow Clarification
+# /clarify (DEPRECATED)
 
-**PURPOSE**: Get a quick, focused answer to a specific question WITHOUT hijacking the current workflow.
+This command is deprecated. Prefer:
+- `/enhance -clarify <your request>` to ask 2–3 crisp questions and summarize answers
+- Then run `/enhance <your request>` to generate the final enhanced prompt
+
+**Legacy PURPOSE**: Get a quick, focused answer to a specific question WITHOUT hijacking the current workflow.
 
 **DO NOT**:
 - Explore alternatives (that's brainstorming)

@@ -325,6 +325,10 @@ Task({ subagent_type: "ux-strategist", ... })
 - Verify 100% completion with evidence
 - Present results to user
 
+IMPORTANT:
+- Do not claim COMPLETE or APPROVED unless `.verified` exists (created by `bash scripts/finalize.sh`).
+- For UI work, at least one screenshot must exist under `.orchestration/evidence/`; missing screenshots will block finalization.
+
 ---
 
 ## Tech Stack Detection
@@ -428,6 +432,15 @@ npm run dev &
 # Browser screenshot
 ```
 
+Helpers:
+- Capture build logs: `bash scripts/capture-build.sh` (or `bash scripts/capture-build.sh -- <your build cmd>`)
+- Capture tests: `bash scripts/capture-tests.sh` (or `bash scripts/capture-tests.sh -- <your test cmd>`)
+- Request + wait for screenshot via MCP: `bash scripts/capture-screenshot.sh <url> --wait-for 20`
+
+IMPORTANT — Minimal Frontend Team Default:
+- Use a minimal team by default: implementer + tailwind-specialist + verification-agent.
+- Add design-reviewer only after screenshots are captured and saved to `.orchestration/evidence/`.
+
 **Backend:**
 ```bash
 pytest
@@ -453,33 +466,61 @@ pytest
 
 **BEFORE creating ANY files, you MUST:**
 
-1. **NEVER automatically place files in:**
-   - `.orchestration/` directories
-   - `reports/` directories
-   - `analytics/` directories
-   - ANY nested directory structure
+File classes and required locations:
 
-2. **ALWAYS prompt for file location:**
+- Orchestration control files (required for gates):
+  - `.orchestration/user-request.md`
+  - `.orchestration/implementation-log.md`
+  - `.orchestration/orca-session`
+  - `.orchestration/verification/verification-report.md`
+  - Reason: `/finalize` and hooks look here. Do not relocate these.
+- Evidence assets (screenshots, build/test logs):
+  - `.orchestration/evidence/…` (always)
+  - Use helpers: `scripts/capture-build.sh`, `scripts/capture-tests.sh`, `scripts/capture-screenshot.sh`
+- Human-facing docs (summaries, notes, READMEs):
+  - Project root or `/tmp/` (user choice)
+  - Keep `.orchestration/` for machine‑readable control and evidence only
+
+1. **Do not place human-facing docs in nested dirs** (default to project root):
+   - Avoid auto‑creating `reports/`, `analytics/`, or deep folders for docs
+   - Keep user‑readable artifacts at the top level unless user specifies
+   - EXCEPTION: Orchestration control files and evidence must live under `.orchestration/`
+
+2. **ALWAYS prompt for file location (with defaults by class):**
    ```
    📍 FILE LOCATION REQUIRED
 
    Files to create:
-   - implementation-log.md
-   - user-request.md
-   - [other files]
+   - implementation-log.md (REQUIRED: .orchestration/implementation-log.md)
+   - user-request.md (REQUIRED: .orchestration/user-request.md)
+   - [human-facing-doc.md] (default: project root)
 
-   Where should these be saved?
-   1. Project root (clean and visible)
+   Where should human-facing docs be saved?
+   1. Project root (clean and visible)  ← recommended for docs
    2. /tmp/ for review first
    3. Custom location (you specify)
    4. Cancel - don't create
+
+   Note: Control files are always saved to `.orchestration/…` so `/finalize` and hooks can find them. This choice applies only to human‑facing docs.
    ```
+   Notes:
+   - Control files will always be written to `.orchestration/…` for gating
+   - Evidence will always be written to `.orchestration/evidence/…`
 
 3. **For agent outputs:**
-   - DON'T let agents auto-place files
-   - COLLECT all proposed files
-   - ASK user where to save them
-   - BATCH move to chosen location
+   - For control files/evidence → write to `.orchestration/…` automatically (no prompt)
+   - For human-facing docs → collect proposed files and ASK the user, then move in batch
+
+4. **Evidence assets always go to `.orchestration/evidence/`:**
+   - Screenshots, build/test logs, and verification outputs must be saved under `.orchestration/evidence/` so `/finalize` can find them.
+   - Optional human-readable docs (summaries, notes) may be saved to `/tmp/` or a user-specified location.
+
+   Use provided helper scripts to ensure correct placement:
+   - `scripts/capture-build.sh`, `scripts/capture-tests.sh`, `scripts/capture-screenshot.sh`
+
+5. **No self-scored QA:**
+   - Agents must not assign numeric quality scores or "approved for production" claims.
+   - `/finalize` is the single source of truth for pass/fail.
 
 **User is tired of hunting through nested directories for misplaced files!**
 

@@ -1,7 +1,7 @@
 ---
-description: Transform vague requests into well-structured prompts using intelligent step selection and Claude 4 best practices
-allowed-tools: [exit_plan_mode, Read, Glob, Task]
-argument-hint: [--debug] <request to enhance>
+description: Transform vague requests into well-structured prompts using intelligent step selection and Claude 4 best practices. Supports clarify-only mode with -clarify flag.
+allowed-tools: [exit_plan_mode, Read, Glob, Task, AskUserQuestion]
+argument-hint: [--debug] [-clarify] <request to enhance>
 ---
 
 # STOP! This is the /enhance command - Enhancement Only!
@@ -29,6 +29,17 @@ If $ARGUMENTS starts with "--debug", enable verbose mode:
 Otherwise:
 - Set DEBUG_MODE = false  
 - Provide compact, focused output
+
+## Clarify Mode (-clarify)
+
+If $ARGUMENTS starts with "-clarify":
+- Remove "-clarify" from $ARGUMENTS before processing
+- Goal: Ask 2–3 targeted questions to unblock the task, then stop
+- Produce ONLY:
+  - A single AskUserQuestion with up to 3 crisp, non-overlapping questions
+  - After answers, return a 3–5 line summary and 3 acceptance criteria
+- Do NOT generate a full enhanced prompt or orchestration plan in this mode
+- Suggest: "Run /enhance again without -clarify to generate the final enhanced prompt"
 
 ## Phase 1: Context Analysis & Intelligence Gathering
 

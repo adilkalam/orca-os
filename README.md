@@ -182,6 +182,27 @@ Agents must tag their work:
 #SCREENSHOT_CLAIMED: .orchestration/evidence/weather-app.png
 ```
 
+### Evidence Capture Helpers (New)
+
+Use these helper scripts to capture evidence in the correct locations automatically:
+
+```bash
+# Build logs (auto-detects project type or pass your command after --)
+bash scripts/capture-build.sh
+# or
+bash scripts/capture-build.sh -- npm run build
+
+# Test output (auto-detects or pass your command after --)
+bash scripts/capture-tests.sh
+# or
+bash scripts/capture-tests.sh -- pytest -q
+
+# Screenshots via MCP (requests a browser screenshot, optionally waits)
+bash scripts/capture-screenshot.sh http://localhost:3000/page --wait-for 20
+# Custom output name
+bash scripts/capture-screenshot.sh http://localhost:3000/page --out after.png --wait-for 20
+```
+
 ### Verification Gates (Sequential)
 
 ```
@@ -198,6 +219,44 @@ GATE 4: Design Review (if visual work)
 GATE 5: Quality Validation
 
 If ANY gate fails → BLOCK completion
+
+Notes:
+- UI changes require at least one screenshot saved under `.orchestration/evidence/`.
+- Commits are blocked for active ORCA sessions until `bash scripts/finalize.sh` creates `.verified`.
+- Agents must not self-score quality; `/finalize` is the source of truth.
+
+### Updated Slash Commands (Simplified)
+
+- Core: `/respawr` (response awareness), with companions `/respawr-plan` and `/respawr-build` for plan-only and build/capture flows. `or/seo-orca` remain available.
+- Modes: `/mode -on` and `/mode -off` replace multiple strict/tweak variants.
+- Prompting: `/enhance -clarify` replaces standalone `/clarify`.
+- Maintenance: `/cleanup` now covers organize/safe tidy (no destructive deletes by default).
+- Brand tools: `/mm-copy` (brand-calibrated ad copy), `/mm-comps` (competitor dossiers incl. press + collection reviews).
+
+Evidence policy remains unchanged: control files and all proof live under `.orchestration/` (evidence in `.orchestration/evidence/`). Human‑facing reports may live under project folders (e.g., `minisite/data/reports/`).
+
+---
+
+## SEO Workflow Quick Start
+
+For the internal SEO automation (SEO‑ORCA), use the quick reference below. The public‑facing overview remains in docs/architecture/seo-orca.md.
+
+- Quick reference: quick-reference/SEO-Quick-Reference.md
+- Public overview: docs/architecture/seo-orca.md
+
+Minimal keyless run (CLI)
+
+```
+python3 scripts/seo_auto_pipeline.py "<KEYWORD>" \
+  --max-results 0 --allowlist-only --draft \
+  --research-doc "/path/to/curated1.md" \
+  --research-doc "/path/to/curated2.md" \
+  --knowledge-graph "/path/to/kg.json" \
+  --knowledge-root "/path/to/kg/root" \
+  --focus-term Term1 --focus-term Term2
+```
+
+Outputs land in `outputs/seo/<slug>-{report.json,brief.json,brief.md,draft.md}`. No API keys required; SERP is optional and filtered via allowlist/vendor rules.
 ```
 
 ### Platform-Specific Evidence
@@ -446,6 +505,12 @@ bash .claude-global-hooks/install.sh
 # - Chrome DevTools MCP (browser automation)
 # - vibe-memory MCP (memory.search tool)
 # See: docs/mcp-memory.md
+
+# 5. (Recommended) Install repo git hooks (finalize gate)
+bash scripts/install-git-hooks.sh
+
+# Finalize before committing work from an ORCA session
+bash scripts/finalize.sh
 ```
 
 ---
@@ -456,15 +521,25 @@ bash .claude-global-hooks/install.sh
 # Orchestration
 /orca "what you want built"              # Smart team selection + dispatch
 /orca [COMPLEX] "complex multi-phase"    # Use Opus for planning
+/respawr "…"                             # Response Awareness (full: plan → build → verify)
+
+# Response Awareness aliases
+/respawr -plan "…"                      # Plan-only; produce blueprint for approval
+/respawr -build <blueprint.md>           # Implement + verify from approved blueprint
 
 # Planning (for risky work)
-/response-awareness-plan                 # Plan → user approval → implement
-/response-awareness-implement <path>     # Execute approved plan
+/enhance -clarify "…"                   # Ask 2–3 crisp questions, summarize, stop
+/response-awareness-plan                 # Plan → user approval → implement (original)
+/response-awareness-implement <path>     # Execute approved plan (original)
 /introspect                              # Predict failure modes
 
 # Verification
 /finalize                                # Final evidence check (orca sessions)
 /visual-review <url>                     # Browser screenshot + analysis
+
+# Modes
+/mode -on                                # Strict: require .verified from finalize
+/mode -off                               # Disable checks temporarily (trusted sprint)
 
 # Memory
 /memory-search <query>                   # Search Workshop memory
@@ -472,8 +547,7 @@ bash .claude-global-hooks/install.sh
 /memory-pause                            # Disable learning (testing mode)
 
 # Organization
-/organize                                # File organization check
-/cleanup                                 # Remove stale logs/artifacts
+/cleanup                                 # Verify organization + archive stale evidence/logs (safe)
 ```
 
 ---
@@ -686,6 +760,7 @@ export WORKSHOP_DB="/path/to/project/.workshop/workshop.db"
 - **Chaos Prevention:** `docs/architecture/chaos-prevention.md`
 - **MCP Servers:** `docs/memory/mcp-memory.md`
 - **Quick Reference:** `quick-reference/commands.md`
+- **Evidence & Finalize:** `quick-reference/Evidence-Verification.md`
 
 ---
 

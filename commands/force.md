@@ -1,9 +1,19 @@
 ---
-description: "Force verification workflows - run this at session start to prevent false completions"
+description: "DEPRECATED — Verification is enforced by /finalize, hooks, and file policy."
 allowed-tools: ["Read"]
 ---
 
-# Force Verification - Mandatory Behavior Enforcement
+# /force (DEPRECATED)
+
+This command is deprecated. Verification is now enforced by:
+- `bash scripts/finalize.sh` (Zero‑Tag Gate, UI screenshot requirement, evidence score)
+- Git hooks (commit blocked for active ORCA sessions without `.verified`)
+- File Location Policy (control files + evidence always under `.orchestration/…`)
+
+Use `/visual-review` for pixel checks and the capture helpers for evidence:
+- `scripts/capture-build.sh`, `scripts/capture-tests.sh`, `scripts/capture-screenshot.sh`
+
+Legacy documentation retained below for reference.
 
 Run this command at the START of any session to force-feed verification requirements into Claude's context.
 
@@ -13,7 +23,7 @@ You are receiving **MANDATORY VERIFICATION REQUIREMENTS** that you MUST follow f
 
 ---
 
-## MANDATORY VERIFICATION WORKFLOW
+## MANDATORY VERIFICATION WORKFLOW (legacy)
 
 For ANY iOS UI change, you MUST:
 
@@ -45,7 +55,7 @@ Use `/visual-review [url]` or manually capture screenshot.
 
 ---
 
-## EVIDENCE REQUIRED FOR COMPLETION
+## EVIDENCE REQUIRED FOR COMPLETION (legacy)
 
 ### iOS UI Changes: 5 POINTS REQUIRED
 - Build output: 1 point
@@ -67,7 +77,7 @@ Use `/visual-review [url]` or manually capture screenshot.
 
 ---
 
-## FALSE COMPLETION = SESSION FAILURE
+## FALSE COMPLETION = SESSION FAILURE (legacy)
 
 If you claim something is "Fixed!" or "Done!" WITHOUT:
 - Build verification
@@ -78,7 +88,7 @@ If you claim something is "Fixed!" or "Done!" WITHOUT:
 
 ---
 
-## What "Complete" Actually Means
+## What "Complete" Actually Means (legacy)
 
 **NOT complete:**
 - "I updated the file" ❌
@@ -92,7 +102,7 @@ If you claim something is "Fixed!" or "Done!" WITHOUT:
 
 ---
 
-## Your Response Pattern (MANDATORY)
+## Your Response Pattern (legacy)
 
 When making changes:
 

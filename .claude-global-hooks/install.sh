@@ -16,15 +16,31 @@ echo
 mkdir -p "$GLOBAL_HOOKS_DIR"
 echo "✅ Created $GLOBAL_HOOKS_DIR"
 
-# Install SessionStart hook
+# Install SessionStart hook (canonical)
 cp "$SCRIPT_DIR/SessionStart.sh" "$GLOBAL_HOOKS_DIR/SessionStart.sh"
 chmod +x "$GLOBAL_HOOKS_DIR/SessionStart.sh"
 echo "✅ Installed SessionStart.sh (Workshop auto-loader)"
 
-# Install SessionEnd hook
+# Backward-compat wrapper: session-start.sh (lowercase + hyphen)
+cat > "$GLOBAL_HOOKS_DIR/session-start.sh" <<'SH'
+#!/bin/sh
+exec "$(dirname "$0")/SessionStart.sh" "$@"
+SH
+chmod +x "$GLOBAL_HOOKS_DIR/session-start.sh"
+echo "↪️  Installed session-start.sh wrapper"
+
+# Install SessionEnd hook (canonical)
 cp "$SCRIPT_DIR/SessionEnd.sh" "$GLOBAL_HOOKS_DIR/SessionEnd.sh"
 chmod +x "$GLOBAL_HOOKS_DIR/SessionEnd.sh"
 echo "✅ Installed SessionEnd.sh (Workshop auto-import)"
+
+# Backward-compat wrapper: session-end.sh (lowercase + hyphen)
+cat > "$GLOBAL_HOOKS_DIR/session-end.sh" <<'SH'
+#!/bin/sh
+exec "$(dirname "$0")/SessionEnd.sh" "$@"
+SH
+chmod +x "$GLOBAL_HOOKS_DIR/session-end.sh"
+echo "↪️  Installed session-end.sh wrapper"
 
 # Install ACE Playbooks global assets (~/.claude/ace)
 # Also migrate from any previous ~/.claude-global/ace if present

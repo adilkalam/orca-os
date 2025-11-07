@@ -1,24 +1,28 @@
 ---
-description: Handle bulk Q&A (5-20 questions) by batching into terminal-friendly format
+description: "DEPRECATED — Use /enhance to structure questions, or ask ad‑hoc inline."
 allowed-tools: [AskUserQuestion]
-argument-hint: (optional - for agent use)
+argument-hint: (deprecated)
 ---
 
-# /survey - Bulk Question & Answer
+# /survey (DEPRECATED)
 
-**PURPOSE:** Convert bulk questions (5-20+) into manageable terminal Q&A batches.
+This command is deprecated. Prefer:
+- `/enhance` to extract the few critical questions that unblock work
+- Inline AskUserQuestion with 1–3 targeted prompts if truly needed mid‑flow
 
-**Use when:**
+**PURPOSE (old):** Convert bulk questions (5-20+) into manageable terminal Q&A batches.
+
+**Use when (legacy):**
 - Agent has many questions after review
 - Need user input on multiple items
 - Design decisions, feature preferences, priority rankings
 
-**Problem this solves:**
+**Problem this solved (legacy):**
 - AskUserQuestion supports max 4 questions at once
 - Asking 20 questions = overwhelming terminal UI
 - Hard to navigate, easy to miss questions
 
-**Solution:**
+**Solution (legacy):**
 - Batch questions into groups of 4
 - Present sequentially with progress indicator
 - Collect all responses

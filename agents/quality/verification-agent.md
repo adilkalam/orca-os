@@ -138,15 +138,16 @@ BLOCKING verification until violations fixed.
 #### Step 0b: Collect Build Evidence
 
 ```bash
-# iOS: Clean build
-rm -rf ~/Library/Developer/Xcode/DerivedData/*
-xcodebuild clean && xcodebuild build > .orchestration/evidence/build/build.log 2>&1
+# Recommended: use helper scripts to ensure proper evidence placement
+# Build (auto-detects or pass your command after --)
+bash scripts/capture-build.sh
+# or
+bash scripts/capture-build.sh -- npm run build
 
-# Frontend: Build
-npm run build > .orchestration/evidence/build/build.log 2>&1
-
-# Backend: Run tests
-pytest > .orchestration/evidence/tests/pytest.log 2>&1
+# Tests (auto-detects or pass your command after --)
+bash scripts/capture-tests.sh
+# or
+bash scripts/capture-tests.sh -- pytest -q
 ```
 
 #### Step 0c: Run UI Tests (if UI changes)
@@ -162,11 +163,10 @@ npm run test:e2e > .orchestration/evidence/tests/e2e.log 2>&1
 #### Step 0d: Capture Screenshots
 
 ```bash
-# iOS Simulator
-xcrun simctl io booted screenshot .orchestration/evidence/screenshots/after-$(date +%s).png
-
-# Frontend browser
-# Use browser screenshot tools or /visual-review
+# Use MCP-backed helper to request screenshots and optionally wait
+bash scripts/capture-screenshot.sh http://localhost:3000/path --wait-for 20
+# You can specify output name:
+bash scripts/capture-screenshot.sh http://localhost:3000/path --out after.png --wait-for 20
 ```
 
 **Evidence Bundle After Step 0:**

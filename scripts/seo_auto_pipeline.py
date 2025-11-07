@@ -1,17 +1,19 @@
 #!/usr/bin/env python3
 """
-Lightweight SEO research pipeline.
+Knowledge Graph-Powered SEO Content Pipeline
 
 Steps:
-1. Retrieve top search results for the target keyword (DuckDuckGo).
-2. Fetch and extract readable article text (trafilatura).
-3. Generate concise summaries and heuristic insight phrases.
-4. Aggregate keyword suggestions from extracted content.
-5. Persist a structured JSON report for downstream agents.
+1. Load knowledge graph and curated research for target keyword
+2. Extract semantic entities, relationships, and insights
+3. Generate structured content brief with SEO intelligence
+4. Produce initial draft with E-E-A-T signals
+5. Calculate comprehensive quality metrics
+6. Export structured JSON report for downstream agents
 
-This script intentionally avoids proprietary APIs so it can run end-to-end
-without vendor credentials. It is a thin prototype for the richer multi-agent
-workflow described in the marketing-SEO plan.
+Content source priority:
+1. Knowledge Graph (primary - rich semantic data)
+2. Curated Research (secondary - pre-vetted content)
+3. SERP Intelligence (strategy - via Ahrefs MCP)
 """
 from __future__ import annotations
 
@@ -35,23 +37,19 @@ except Exception:  # pragma: no cover - optional dependency
     trafilatura = None  # type: ignore
     HAS_TRAFILATURA = False
 HAS_ANTHROPIC = False
-
-# DuckDuckGo client import (try multiple module names)
-DDGS = None  # type: ignore
-HAS_DDGS = False
-try:
-    from ddgs import DDGS as _DDGS  # type: ignore
-    DDGS = _DDGS
-    HAS_DDGS = True
-except Exception:
-    try:
-        from duckduckgo_search import DDGS as _DDGS  # type: ignore
-        DDGS = _DDGS
-        HAS_DDGS = True
-    except Exception:
-        HAS_DDGS = False
-from urllib.parse import urlparse
 HAS_OPENAI = False
+
+# Import deep KG reader for Phase 2
+try:
+    from seo_kg_deep_reader import (
+        extract_kg_content_for_section,
+        load_research_papers,
+        format_citation,
+        extract_key_finding,
+    )
+    HAS_DEEP_READER = True
+except ImportError:
+    HAS_DEEP_READER = False
 
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
@@ -190,150 +188,6 @@ def _score_source(domain: str, title: str, snippet: str) -> int:
     if any(k in t or k in s for k in VENDOR_KEYWORDS):
         score -= 3
     return score
-
-
-def _ddgs_cli_search(keyword: str, max_results: int) -> List[Dict[str, Any]]:
-    """Fallback to the ddgs CLI (pipx-installed) when Python libs are unavailable.
-
-    Returns a list of dicts with keys: title, url, snippet.
-    """
-    bin_path = shutil.which("ddgs")
-    if not bin_path:
-        return []
-    try:
-        # ddgs prints JSON when -o json is used; results are an array of objects
-        proc = subprocess.run(
-            [bin_path, "text", "-k", keyword, "-m", str(max_results or 10), "-o", "json"],
-            check=True,
-            capture_output=True,
-            text=True,
-        )
-        raw = proc.stdout.strip() or "[]"
-        data = json.loads(raw)
-        records: List[Dict[str, Any]] = []
-        for r in data:
-            title = (r.get("title") or "").strip()
-            url = (r.get("href") or r.get("url") or "").strip()
-            body = (r.get("body") or r.get("snippet") or "").strip()
-            if title and url:
-                records.append({"title": title, "url": url, "snippet": body})
-        return records
-    except Exception as exc:  # pragma: no cover
-        log(f"⚠️  ddgs CLI fallback failed: {exc}")
-        return []
-
-
-def search_articles(keyword: str, max_results: int = 10, allowlist_only: bool = False) -> List[Dict[str, str]]:
-    """Fetch and filter search results using DuckDuckGo (no API key required)."""
-    if not max_results or max_results <= 0:
-        return []
-
-    raw: List[Dict[str, Any]] = []
-    # Prefer Python library if available
-    if HAS_DDGS:
-        log(f"Searching DuckDuckGo (python lib) for '{keyword}' …")
-        with DDGS(verify=False) as ddgs:  # type: ignore
-            generator = ddgs.text(
-                keyword,
-                region="wt-wt",
-                safesearch="moderate",
-                timelimit="m",
-                max_results=max_results or None,
-            )
-            for result in generator:
-                href = (result.get("href") or "").strip()
-                title = (result.get("title") or "").strip()
-                snippet = (result.get("body") or "").strip()
-                if not href or not title:
-                    continue
-                domain = _domain_from_url(href)
-                score = _score_source(domain, title, snippet)
-                raw.append({
-                    "title": title,
-                    "url": href,
-                    "snippet": snippet,
-                    "domain": domain,
-                    "quality": score,
-                })
-    else:
-        log(f"Searching DuckDuckGo (ddgs CLI) for '{keyword}' …")
-        cli_records = _ddgs_cli_search(keyword, max_results)
-        for r in cli_records:
-            domain = _domain_from_url(r["url"]) if r.get("url") else ""
-            score = _score_source(domain, r.get("title", ""), r.get("snippet", ""))
-            raw.append({
-                "title": r.get("title", ""),
-                "url": r.get("url", ""),
-                "snippet": r.get("snippet", ""),
-                "domain": domain,
-                "quality": score,
-            })
-
-    log(f"Retrieved {len(raw)} search hits.")
-    # Filter if allowlist_only
-    if allowlist_only:
-        filtered = [r for r in raw if (r["domain"] in ALLOWLIST_DOMAINS or r["domain"].endswith(".gov") or r["domain"].endswith(".edu")) and r["quality"] > -100]
-    else:
-        filtered = [r for r in raw if r["quality"] > -100]
-
-    # Sort by quality desc, then keep top n
-    ordered = sorted(filtered, key=lambda r: r["quality"], reverse=True)
-    top = ordered[: max_results or 10]
-    dom_counts = Counter(r["domain"] for r in top)
-    log(f"Selected {len(top)} results (allowlist_only={allowlist_only}). Top domains: {', '.join(f'{d}:{c}' for d, c in dom_counts.most_common(5))}")
-
-    return [
-        {"title": r["title"], "url": r["url"], "snippet": r["snippet"]}
-        for r in top
-    ]
-
-
-def fetch_article_text(url: str) -> Optional[str]:
-    """Download and extract the main article text from a URL."""
-    domain = _domain_from_url(url)
-    if domain in BLOCKLIST_DOMAINS:
-        log(f"⚠️  Skipping blocked domain {domain}")
-        return None
-    try:
-        response = requests.get(url, headers={"User-Agent": USER_AGENT}, timeout=20)
-        response.raise_for_status()
-    except requests.RequestException as exc:
-        log(f"⚠️  Failed to fetch {url}: {exc}")
-        return None
-
-    # Prefer trafilatura when available; otherwise fall back to a naive extractor
-    if HAS_TRAFILATURA:
-        try:
-            downloaded = trafilatura.extract(
-                response.text,
-                include_comments=False,
-                include_images=False,
-                include_tables=False,
-            )
-        except Exception:
-            downloaded = None
-        if downloaded:
-            return downloaded
-
-    # Minimal, dependency-free fallback extraction
-    def _naive_extract(html: str) -> str:
-        # Strip scripts/styles
-        html = re.sub(r"<script[\s\S]*?</script>", " ", html, flags=re.IGNORECASE)
-        html = re.sub(r"<style[\s\S]*?</style>", " ", html, flags=re.IGNORECASE)
-        # Try to isolate <article> if present
-        m = re.search(r"<article[\s\S]*?</article>", html, flags=re.IGNORECASE)
-        if m:
-            html = m.group(0)
-        # Remove tags, collapse whitespace
-        text = re.sub(r"<[^>]+>", " ", html)
-        text = re.sub(r"\s+", " ", text)
-        return text.strip()
-
-    extracted = _naive_extract(response.text)
-    if not extracted:
-        log(f"⚠️  Could not extract readable text from {url}")
-        return None
-    return extracted
 
 
 def summarize_text(text: str, sentences: int = 5) -> str:
@@ -524,7 +378,7 @@ def load_file_excerpt(path: pathlib.Path, line_number: Optional[int], context: i
 def load_knowledge_graph(
     kg_path: Optional[str], focus_terms: Sequence[str], base_root: Optional[str] = None
 ) -> Optional[Dict[str, Any]]:
-    """Extract knowledge graph nodes/edges relevant to focus terms."""
+    """Extract knowledge graph nodes/edges relevant to focus terms for SEO content generation."""
     if not kg_path:
         return None
     path = pathlib.Path(kg_path).expanduser()
@@ -550,11 +404,19 @@ def load_knowledge_graph(
         lower = value.lower()
         return any(term in lower for term in focus_terms_clean)
 
+    # Enhanced node selection for SEO relevance
     relevant_nodes = {
         node_id: node
         for node_id, node in node_map.items()
         if term_matches(node_id) or term_matches(node.get("label", ""))
     }
+
+    # Also collect entity types for schema markup opportunities
+    entity_types = {}
+    for node in relevant_nodes.values():
+        node_type = node.get("type", "")
+        if node_type:
+            entity_types[node_type] = entity_types.get(node_type, 0) + 1
 
     related_edges = []
     neighbor_ids = set()
@@ -623,11 +485,51 @@ def load_knowledge_graph(
                 serialized["source_excerpt"] = excerpt
         return serialized
 
+    # Extract semantic entities for SEO
+    semantic_entities = []
+    for node in relevant_nodes.values():
+        label = node.get("label", "")
+        node_type = node.get("type", "")
+        if label and node_type:
+            semantic_entities.append({
+                "entity": label,
+                "type": node_type,
+                "id": node.get("id", ""),
+                "seo_relevance": "primary" if any(term in label.lower() for term in focus_terms_clean) else "secondary"
+            })
+
+    # Build internal linking opportunities
+    internal_links = []
+    for node in list(relevant_nodes.values()) + list(neighbor_nodes.values()):
+        if node.get("source"):
+            file_part = node["source"].split(":")[0]
+            if "card" in file_part or "protocol" in file_part or "axis" in file_part:
+                internal_links.append({
+                    "anchor_text": node.get("label", ""),
+                    "target": file_part,
+                    "type": node.get("type", "")
+                })
+
+    # Generate content clusters from relationships
+    content_clusters = {}
+    for edge in related_edges:
+        relation = edge.get("relation", "")
+        if relation not in content_clusters:
+            content_clusters[relation] = []
+        content_clusters[relation].append({
+            "source": edge.get("source", ""),
+            "target": edge.get("target", "")
+        })
+
     return {
         "focus_terms": focus_terms_clean,
         "nodes": [serialize_node(node) for node in relevant_nodes.values()],
         "neighbor_nodes": [serialize_node(node) for node in neighbor_nodes.values()],
         "relations": related_edges,
+        "entity_types": entity_types,  # For schema markup
+        "semantic_entities": semantic_entities[:10],  # Top entities for content
+        "internal_links": internal_links[:10],  # Internal linking opportunities
+        "content_clusters": content_clusters,  # Topic clusters for content depth
         "notes": data.get("notes"),
         "generated_at": data.get("generated_at"),
     }
@@ -660,29 +562,81 @@ def generate_brief(
     pair_label = " & ".join(base_terms[:2]) if len(base_terms) >= 2 else keyword
     topic_label = keyword.title()
 
-    # Correct common uppercase acronyms (e.g., ADHD)
+    # Correct common uppercase acronyms (e.g., ADHD, GLP-1, NAD)
     def normalize_title(text: str) -> str:
         text = re.sub(r"\bAdhd\b", "ADHD", text, flags=re.IGNORECASE)
+        text = re.sub(r"\bGlp-1\b", "GLP-1", text, flags=re.IGNORECASE)
+        text = re.sub(r"\bGlp1\b", "GLP-1", text, flags=re.IGNORECASE)
+        text = re.sub(r"\bNad\+?\b", "NAD+", text, flags=re.IGNORECASE)
+        text = re.sub(r"\bBpc-157\b", "BPC-157", text, flags=re.IGNORECASE)
         return text
 
-    title_options = [
-        normalize_title(f"{topic_label}: Evidence-Based Alternatives for ADHD and Anxiety"),
-        normalize_title(f"How {pair_label} Support Focus and Calm Without Stimulants"),
-        normalize_title(f"{pair_label} Guide: Mechanisms, Dosing, and Safety for ADHD & Anxiety"),
-    ]
+    # Generate topic-appropriate titles based on keyword analysis
+    keyword_lower = keyword.lower()
 
-    # Meta description: prefer concise, on-message copy for Semax/Selank; otherwise fallback to heuristic
+    # Detect topic category from knowledge graph entities and keyword
+    topic_category = "general"
+    if knowledge_graph and knowledge_graph.get("semantic_entities"):
+        entity_types = [e["type"] for e in knowledge_graph["semantic_entities"]]
+        if "peptide" in entity_types:
+            topic_category = "peptide"
+        if "protocol" in entity_types or "recomp" in keyword_lower or "protocol" in keyword_lower:
+            topic_category = "protocol"
+        if "axis" in entity_types:
+            topic_category = "system"
+
+    # Topic-specific title templates
+    if "semax" in keyword_lower and "selank" in keyword_lower:
+        title_options = [
+            normalize_title(f"{topic_label}: Evidence-Based Alternatives for ADHD and Anxiety"),
+            normalize_title(f"How {pair_label} Support Focus and Calm Without Stimulants"),
+            normalize_title(f"{pair_label} Guide: Mechanisms, Dosing, and Safety for ADHD & Anxiety"),
+        ]
+    elif topic_category == "protocol" or "recomp" in keyword_lower:
+        title_options = [
+            normalize_title(f"{topic_label}: Complete Evidence-Based Protocol"),
+            normalize_title(f"How to {topic_label}: Step-by-Step Guide"),
+            normalize_title(f"{topic_label} Protocol: Mechanisms, Implementation & Monitoring"),
+        ]
+    elif topic_category == "peptide":
+        peptide_names = [e["entity"] for e in knowledge_graph.get("semantic_entities", []) if e["type"] == "peptide"]
+        main_peptide = peptide_names[0] if peptide_names else topic_label
+        title_options = [
+            normalize_title(f"{topic_label}: Clinical Evidence and Practical Guide"),
+            normalize_title(f"{main_peptide} for {' '.join(base_terms[1:]) if len(base_terms) > 1 else 'Health Optimization'}"),
+            normalize_title(f"{topic_label}: Mechanisms, Dosing, and Safety Profile"),
+        ]
+    else:
+        # Generic fallback
+        title_options = [
+            normalize_title(f"{topic_label}: Complete Evidence-Based Guide"),
+            normalize_title(f"Understanding {topic_label}: Mechanisms and Applications"),
+            normalize_title(f"{topic_label}: Clinical Evidence and Practical Protocols"),
+        ]
+
+    # Generate topic-appropriate meta description
     meta_seed = combined_summary or " ".join(combined_insights[:3])
     default_meta = simple_summary(meta_seed, max_sentences=2)
     if len(default_meta) > 156:
         default_meta = default_meta[:153].rstrip() + "…"
-    if re.search(r"\bsemax\b", keyword, re.IGNORECASE) and re.search(
-        r"\bselank\b", keyword, re.IGNORECASE
-    ):
+
+    # Topic-specific meta descriptions
+    if "semax" in keyword_lower and "selank" in keyword_lower:
         meta_description = (
             "Semax and Selank for ADHD/anxiety: mechanisms (BDNF, GABA), safety, and research‑context intranasal dosing under clinician guidance."
-        )
-        meta_description = meta_description[:156]
+        )[:156]
+    elif topic_category == "protocol" or "recomp" in keyword_lower:
+        meta_description = (
+            f"{topic_label}: Evidence-based protocol for body recomposition. Mechanisms, implementation, monitoring, and medical supervision required."
+        )[:156]
+    elif topic_category == "peptide" and knowledge_graph:
+        peptide_names = [e["entity"] for e in knowledge_graph.get("semantic_entities", []) if e["type"] == "peptide"]
+        if peptide_names:
+            meta_description = (
+                f"{peptide_names[0]}: Clinical mechanisms, evidence-based dosing protocols, safety profile, and medical supervision requirements."
+            )[:156]
+        else:
+            meta_description = default_meta
     else:
         meta_description = default_meta
 
@@ -710,28 +664,103 @@ def generate_brief(
             focus_note = "Conservative positioning; next steps"
         structure.append({"heading": heading, "focus": focus_note})
 
-    # Angles
+    # Generate topic-appropriate angles
     if research_brief.get("angles_to_cover"):
         angles = research_brief.get("angles_to_cover")
-    elif re.search(r"\bsemax\b", keyword, re.I) or re.search(r"\bselank\b", keyword, re.I):
+    elif "semax" in keyword_lower and "selank" in keyword_lower:
         angles = [
             "Adjunct framing (with clinician)",
             "Non-sedating profile vs. benzos",
             "Mechanisms: BDNF (Semax), GABA (Selank)",
             "Evidence limitations and conservative claims",
         ]
+    elif topic_category == "protocol" or "recomp" in keyword_lower:
+        angles = [
+            "Evidence-based implementation approach",
+            "Medical supervision requirements",
+            "Monitoring and safety parameters",
+            "Individual response variability and adjustment protocols",
+        ]
+    elif topic_category == "peptide" and knowledge_graph:
+        peptide_names = [e["entity"] for e in knowledge_graph.get("semantic_entities", []) if e["type"] == "peptide"]
+        main_peptide = peptide_names[0] if peptide_names else "this compound"
+        angles = [
+            f"Mechanism of action and molecular targets for {main_peptide}",
+            "Clinical evidence quality and limitations",
+            "Safety profile and contraindications",
+            "Dosing protocols and medical oversight requirements",
+        ]
     else:
-        angles = combined_insights[:4]
-    questions = research_brief.get("questions_to_answer") or [
-        "What clinical evidence supports Semax or Selank for ADHD symptoms?",
-        "How do Semax and Selank differ mechanistically for anxiety relief?",
-        "Where do these peptides fit alongside traditional ADHD/anxiety care?",
-    ]
-    data_points = research_brief.get("data_points_to_hunt") or [
-        "BDNF or dopamine modulation data for Semax",
-        "Clinical anxiety scales impacted by Selank",
-        "Comparative dosing ranges and onset timelines",
-    ]
+        # Fallback to insights or generic angles
+        angles = combined_insights[:4] if len(combined_insights) >= 4 else [
+            "Mechanistic understanding and biological pathways",
+            "Evidence base and research limitations",
+            "Practical implementation considerations",
+            "Safety monitoring and medical supervision",
+        ]
+
+    # Generate topic-appropriate questions
+    if research_brief.get("questions_to_answer"):
+        questions = research_brief.get("questions_to_answer")
+    elif "semax" in keyword_lower and "selank" in keyword_lower:
+        questions = [
+            "What clinical evidence supports Semax or Selank for ADHD symptoms?",
+            "How do Semax and Selank differ mechanistically for anxiety relief?",
+            "Where do these peptides fit alongside traditional ADHD/anxiety care?",
+        ]
+    elif topic_category == "protocol" or "recomp" in keyword_lower:
+        questions = [
+            f"What is the evidence base for {topic_label}?",
+            f"How does {topic_label} work mechanistically?",
+            f"What monitoring and safety protocols are required for {topic_label}?",
+            "Who is this protocol appropriate for, and who should avoid it?",
+        ]
+    elif topic_category == "peptide" and knowledge_graph:
+        peptide_names = [e["entity"] for e in knowledge_graph.get("semantic_entities", []) if e["type"] == "peptide"]
+        main_peptide = peptide_names[0] if peptide_names else topic_label
+        questions = [
+            f"What clinical evidence supports {main_peptide}?",
+            f"How does {main_peptide} work at a molecular level?",
+            f"What are the dosing protocols and safety considerations for {main_peptide}?",
+            f"What medical supervision is required when using {main_peptide}?",
+        ]
+    else:
+        # Generic fallback
+        questions = [
+            f"What is the clinical evidence for {topic_label}?",
+            f"How does {topic_label} work mechanistically?",
+            f"What are the safety and monitoring requirements for {topic_label}?",
+        ]
+
+    # Generate topic-appropriate data points
+    if research_brief.get("data_points_to_hunt"):
+        data_points = research_brief.get("data_points_to_hunt")
+    elif "semax" in keyword_lower and "selank" in keyword_lower:
+        data_points = [
+            "BDNF or dopamine modulation data for Semax",
+            "Clinical anxiety scales impacted by Selank",
+            "Comparative dosing ranges and onset timelines",
+        ]
+    elif topic_category == "protocol" or "recomp" in keyword_lower:
+        data_points = [
+            "Body composition outcomes (fat mass vs lean mass changes)",
+            "Performance metrics and strength retention data",
+            "Metabolic markers and safety parameters",
+        ]
+    elif knowledge_graph and knowledge_graph.get("semantic_entities"):
+        # Generate data points from semantic entities
+        entities = knowledge_graph["semantic_entities"]
+        data_points = [
+            f"Clinical efficacy data for {entities[0]['entity']}" if entities else "Primary outcome measures",
+            "Mechanism of action and pharmacodynamics",
+            "Safety profile and adverse event data",
+        ]
+    else:
+        data_points = [
+            "Clinical trial outcomes and efficacy data",
+            "Mechanistic and molecular pathway evidence",
+            "Safety monitoring parameters and benchmarks",
+        ]
     storytelling_hooks = research_brief.get("storytelling_hooks") or []
 
     source_material = []
@@ -746,18 +775,24 @@ def generate_brief(
             }
         )
 
+    # Enhanced internal linking from KG
     internal_links: List[Dict[str, Any]] = []
     if knowledge_graph:
-        for node in knowledge_graph.get("neighbor_nodes", []):
-            if node.get("type") in {"peptide", "protocol", "condition"}:
-                internal_links.append(
-                    {
-                        "id": node.get("id"),
-                        "label": node.get("label"),
-                        "type": node.get("type"),
-                        "source": node.get("source"),
-                    }
-                )
+        # Use the new internal_links field if available
+        if knowledge_graph.get("internal_links"):
+            internal_links = knowledge_graph["internal_links"]
+        else:
+            # Fallback to old method
+            for node in knowledge_graph.get("neighbor_nodes", []):
+                if node.get("type") in {"peptide", "protocol", "condition", "axis"}:
+                    internal_links.append(
+                        {
+                            "id": node.get("id"),
+                            "label": node.get("label"),
+                            "type": node.get("type"),
+                            "source": node.get("source"),
+                        }
+                    )
 
     review_checklist = [
         "Validate all clinical claims against cited studies (add inline references).",
@@ -769,9 +804,29 @@ def generate_brief(
     if storytelling_hooks:
         review_checklist.append("Select at least one storytelling hook and ensure the narrative delivers on it.")
 
+    # Add schema markup opportunities based on entity types
+    schema_recommendations = []
+    if knowledge_graph and knowledge_graph.get("entity_types"):
+        entity_types = knowledge_graph["entity_types"]
+        if "peptide" in entity_types:
+            schema_recommendations.append("MedicalEntity/Drug for peptide mentions")
+        if "condition" in entity_types:
+            schema_recommendations.append("MedicalCondition for health conditions")
+        if "protocol" in entity_types:
+            schema_recommendations.append("HowTo schema for protocol descriptions")
+
+    # Add LSI keywords from semantic entities
+    lsi_keywords = secondary_keywords.copy()
+    if knowledge_graph and knowledge_graph.get("semantic_entities"):
+        for entity in knowledge_graph["semantic_entities"]:
+            entity_label = entity.get("entity", "").lower()
+            if entity_label and entity_label not in lsi_keywords:
+                lsi_keywords.append(entity_label)
+
     return {
         "primary_keyword": keyword,
-        "secondary_keywords": secondary_keywords,
+        "secondary_keywords": secondary_keywords[:8],
+        "lsi_keywords": lsi_keywords[:15],  # Extended LSI list
         "title_options": title_options,
         "meta_description": meta_description,
         "angles_to_cover": angles,
@@ -781,6 +836,8 @@ def generate_brief(
         "structure": structure,
         "source_material": source_material,
         "internal_links": internal_links,
+        "schema_recommendations": schema_recommendations,  # New field
+        "semantic_entities": knowledge_graph.get("semantic_entities", []) if knowledge_graph else [],  # New field
         "review_checklist": review_checklist,
     }
 
@@ -915,6 +972,31 @@ def generate_initial_draft(
             return sum(1 for t in q_tokens if t in tset)
 
         def select_relevant_sections(heading: str, focus: Optional[str], k: int = 3) -> List[Tuple[str, str]]:
+            """
+            Phase 2: Deep KG reading - extracts full prose from source files.
+            Falls back to old snippet-based approach if deep reader unavailable.
+            """
+            # Try deep reader first (Phase 2)
+            if HAS_DEEP_READER and knowledge_graph and knowledge_root:
+                try:
+                    result = extract_kg_content_for_section(
+                        section_heading=heading,
+                        section_focus=focus or "",
+                        knowledge_graph=knowledge_graph,
+                        kg_root=knowledge_root,
+                        keyword=keyword
+                    )
+                    # Convert content_blocks to (heading, content) tuples
+                    content_tuples = []
+                    for block in result.get("content_blocks", []):
+                        section_title = f"{block['source_file']}: {block['section']}"
+                        content_tuples.append((section_title, block['content']))
+                    if content_tuples:
+                        return content_tuples[:k]
+                except Exception as e:
+                    log(f"⚠️  Deep reader failed for '{heading}': {e}, falling back to snippet approach")
+
+            # Fallback: Old snippet-based approach
             q_tokens = tok(heading) + tok(focus or "") + tok(keyword)
             ranked: List[Tuple[int, str, str]] = []
             for entry in curated_research:
@@ -939,19 +1021,34 @@ def generate_initial_draft(
 
         def compose_paragraph(snippets: List[str], min_sentences: int = 3) -> str:
             sentences: List[str] = []
+            seen_sentences: set[str] = set()
+
             for snip in snippets:
-                # Split into short sentences and keep the first 2 per snippet
+                # Split into short sentences and keep unique ones only
                 parts = re.split(r"(?<=[.!?])\s+", snip.strip())
-                for p in parts[:2]:
+                for p in parts[:3]:  # Take up to 3 sentences per snippet
                     cleaned = clean_text(p.strip().rstrip(";,:-"))
-                    if cleaned:
-                        sentences.append(cleaned)
+                    # Check for uniqueness (avoid repetition)
+                    if cleaned and len(cleaned) > 20:  # Min length to avoid fragments
+                        normalized = cleaned.lower().strip()
+                        if normalized not in seen_sentences:
+                            sentences.append(cleaned)
+                            seen_sentences.add(normalized)
                 if len(sentences) >= min_sentences + 2:
                     break
-            # Ensure we have at least a few sentences
-            if len(sentences) < min_sentences and brief.get("angles_to_cover"):
-                sentences.append(f"Key angle: {brief['angles_to_cover'][0]}.")
-            return " ".join(sentences)
+
+            # Add fallback content if we don't have enough unique sentences
+            if len(sentences) < min_sentences:
+                if brief.get("angles_to_cover"):
+                    angle_text = f"Key consideration: {brief['angles_to_cover'][0]}."
+                    if angle_text.lower() not in seen_sentences:
+                        sentences.append(angle_text)
+                if len(sentences) < min_sentences and brief.get("questions_to_answer"):
+                    question_text = f"This addresses: {brief['questions_to_answer'][0]}."
+                    if question_text.lower() not in seen_sentences:
+                        sentences.append(question_text)
+
+            return " ".join(sentences) if sentences else "Further research and content development needed for this section."
 
         lines: List[str] = []
         # Frontmatter (no byline per user preference)
@@ -1002,10 +1099,16 @@ def generate_initial_draft(
                         axis_path = str(pathlib.Path(knowledge_root) / file_part) if knowledge_root else file_part
                         break
 
+        # Track used content to avoid repetition across sections
+        used_summaries: set[str] = set()
+        used_questions_idx = 0
+        used_angles_idx = 0
+
         for idx, item in enumerate(brief.get("structure", [])):
             heading = item.get("heading", "Section").strip() or "Section"
             focus = item.get("focus")
             lines.append(f"## {heading}\n")
+
             # If this is the first section, treat intro as the opening paragraph
             if idx == 0 and intro:
                 # Add linked peptide mentions if available
@@ -1014,67 +1117,127 @@ def generate_initial_draft(
                         f"Two research peptides, [Semax]({semax_path}) and [Selank]({selank_path}), are often discussed as non‑sedating options for focus and calm.\n"
                     )
                 lines.append(intro + "\n")
+
+            # Add focus statement if provided
+            if focus:
+                lines.append(f"*Focus:* {focus}\n")
+
             # Select 2–3 relevant curated snippets and weave into a paragraph
             picks = select_relevant_sections(heading, focus, k=3)
-            if picks:
-                paragraph = compose_paragraph([s for _, s in picks], min_sentences=3)
-                if focus:
-                    lines.append(f"*Focus:* {focus}\n")
+
+            # Filter out already used content
+            unique_picks = []
+            for h, s in picks:
+                if s.lower() not in used_summaries:
+                    unique_picks.append((h, s))
+                    used_summaries.add(s.lower())
+
+            if unique_picks:
+                paragraph = compose_paragraph([s for _, s in unique_picks], min_sentences=3)
                 lines.append(paragraph + "\n")
             else:
-                # Fallback to angles/questions if we can't match curated sections
-                if focus:
-                    lines.append(f"*Focus:* {focus}\n")
-                # Try to use web article summaries when curated research is missing
+                # Try web articles, but filter for unique content
                 used_web = False
                 if articles:
                     q_tokens = tok(heading) + tok(focus or "") + tok(keyword)
                     ranked = []
                     for art in articles:
                         s = art.get("summary") or ""
-                        if not s:
+                        if not s or s.lower() in used_summaries:
                             continue
                         score = score_text(q_tokens, art.get("title", "")) * 2 + score_text(q_tokens, s)
                         if score:
                             ranked.append((score, s))
                     ranked.sort(key=lambda x: x[0], reverse=True)
-                    if ranked:
-                        paragraph = compose_paragraph([s for _, s in ranked[:2]], min_sentences=3)
+
+                    # Take unique summaries only
+                    unique_article_summaries = []
+                    for _, s in ranked[:3]:
+                        if s.lower() not in used_summaries:
+                            unique_article_summaries.append(s)
+                            used_summaries.add(s.lower())
+                            if len(unique_article_summaries) >= 2:
+                                break
+
+                    if unique_article_summaries:
+                        paragraph = compose_paragraph(unique_article_summaries, min_sentences=3)
                         lines.append(paragraph + "\n")
                         used_web = True
-                if not used_web:
-                    if brief.get("questions_to_answer"):
-                        q = brief["questions_to_answer"][0]
-                        lines.append(f"We address: {q}\n")
-                    elif brief.get("angles_to_cover"):
-                        lines.append(f"Key angle: {brief['angles_to_cover'][0]}\n")
 
-            # Add dosing block when we reach Dosing section
+                # Use different fallback content for each section
+                if not used_web:
+                    questions = brief.get("questions_to_answer", [])
+                    angles = brief.get("angles_to_cover", [])
+
+                    if questions and used_questions_idx < len(questions):
+                        lines.append(f"This section explores: {questions[used_questions_idx]}\n")
+                        used_questions_idx += 1
+                    elif angles and used_angles_idx < len(angles):
+                        lines.append(f"Key perspective: {angles[used_angles_idx]}\n")
+                        used_angles_idx += 1
+                    else:
+                        # Section-specific placeholder
+                        lines.append(f"[Content for '{heading}' to be developed with additional research]\n")
+
+            # Add topic-appropriate dosing context when we reach Dosing section
             if heading.lower().startswith("dosing"):
-                ak_candidates = [
-                    pathlib.Path(knowledge_root) / "docs/protocols/ak-4-week-protocol.md"
-                ] if knowledge_root else []
-                ak_link = None
-                for p in ak_candidates:
-                    if p.exists():
-                        ak_link = str(p)
-                        break
-                lines.append("Research‑context dosing examples (non‑prescriptive)\n")
-                semax_bullet = (
-                    f"- Semax (intranasal): 300–900\u2009µg per day in divided doses, reassess after 2–4 weeks. Example program shows 600–900\u2009µg/day blocks."
+                keyword_lower = keyword.lower()
+
+                # Only add dosing block for topics where we have specific dosing info
+                if "semax" in keyword_lower and "selank" in keyword_lower:
+                    ak_candidates = [
+                        pathlib.Path(knowledge_root) / "docs/protocols/ak-4-week-protocol.md"
+                    ] if knowledge_root else []
+                    ak_link = None
+                    for p in ak_candidates:
+                        if p.exists():
+                            ak_link = str(p)
+                            break
+                    lines.append("Research‑context dosing examples (non‑prescriptive)\n")
+                    semax_bullet = (
+                        f"- Semax (intranasal): 300–900\u2009µg per day in divided doses, reassess after 2–4 weeks. Example program shows 600–900\u2009µg/day blocks."
+                    )
+                    selank_bullet = (
+                        f"- Selank (intranasal): 200–400\u2009µg per day in divided doses, reassess after 2–4 weeks. Example program shows 300–400\u2009µg/day blocks."
+                    )
+                    if ak_link:
+                        semax_bullet += f" ([AK 4‑Week Protocol]({ak_link}))"
+                        selank_bullet += f" ([AK 4‑Week Protocol]({ak_link}))"
+                    lines.append(semax_bullet)
+                    lines.append(selank_bullet + "\n")
+                else:
+                    # For other topics, note that dosing should come from curated research
+                    lines.append("*Dosing information should be sourced from curated research documents and medical supervision*\n")
+
+        # Phase 2: External research papers (E-E-A-T citations)
+        research_citations = []
+        if HAS_DEEP_READER and knowledge_root:
+            try:
+                research_index_path = os.path.join(
+                    os.path.dirname(knowledge_root),
+                    "research",
+                    "index.json"
                 )
-                selank_bullet = (
-                    f"- Selank (intranasal): 200–400\u2009µg per day in divided doses, reassess after 2–4 weeks. Example program shows 300–400\u2009µg/day blocks."
-                )
-                if ak_link:
-                    semax_bullet += f" ([AK 4‑Week Protocol]({ak_link}))"
-                    selank_bullet += f" ([AK 4‑Week Protocol]({ak_link}))"
-                lines.append(semax_bullet)
-                lines.append(selank_bullet + "\n")
+                # Extract topic keywords from keyword
+                topic_keywords = [kw.strip() for kw in keyword.lower().split()]
+                papers = load_research_papers(research_index_path, topic_keywords)
+
+                # Format citations
+                for idx, paper in enumerate(papers[:10], start=1):  # Max 10 citations
+                    citation = format_citation(paper, idx)
+                    research_citations.append(citation)
+            except Exception as e:
+                log(f"⚠️  Failed to load research citations: {e}")
+
+        # Add citations section if we have external research
+        if research_citations:
+            lines.append("## References\n")
+            lines.append("\n".join(research_citations))
+            lines.append("")
 
         # Evidence appendix from knowledge graph (concise)
         if knowledge_graph and knowledge_graph.get("relations"):
-            lines.append("## References & Evidence\n")
+            lines.append("## Supporting Evidence\n")
             for rel in knowledge_graph["relations"][:6]:
                 lines.append(f"- {rel.get('source')} —[{rel.get('relation')}]→ {rel.get('target')}")
                 snippet = rel.get("evidence_excerpt")
@@ -1082,15 +1245,6 @@ def generate_initial_draft(
                     cleaned = snippet.replace("|", "").strip()
                     if cleaned:
                         lines.append(f"  > {cleaned}")
-            lines.append("")
-
-        # Curated sources list for human follow-up
-        if curated_research:
-            lines.append("## Sources\n")
-            for idx, entry in enumerate(curated_research, start=1):
-                title = entry.get("title") or entry.get("path")
-                path = entry.get("path", "")
-                lines.append(f"- [{idx}] {title} ({path})")
             lines.append("")
 
         # Light disclaimer for medically-adjacent topics
@@ -1131,47 +1285,18 @@ def assemble_report(
     extra_terms: Optional[Sequence[str]] = None,
     include_draft: bool = False,
     allowlist_only: bool = False,
+    serp_data_path: Optional[str] = None,
 ) -> Dict[str, Any]:
     """Run the pipeline and return a structured report."""
-    records = search_articles(keyword, max_results=max_results, allowlist_only=allowlist_only)
+    # DuckDuckGo search removed - pipeline now relies on knowledge graph + curated research
+    # SERP intelligence for SEO strategy (not content) comes via --serp-data flag
+    log(f"Pipeline mode: Knowledge Graph + Curated Research (no web scraping)")
 
+    # No scraped articles - content comes from knowledge graph
     articles: List[Dict[str, Any]] = []
-    combined_corpus_parts: List[str] = []
 
-    for record in records:
-        url = record["url"]
-        text = fetch_article_text(url)
-        if not text:
-            continue
-        combined_corpus_parts.append(text)
-        gpt_summary = gpt_summarize_article(keyword, record["title"], text)
-        summary = gpt_summary["summary"] if gpt_summary and gpt_summary.get("summary") else summarize_text(text)
-        insights = extract_insights(text)
-        key_takeaways = []
-        tone = ""
-        summary_model: Optional[str] = None
-        if gpt_summary:
-            key_takeaways = []
-            tone = ""
-            summary_model = None
-
-        articles.append(
-            {
-                **record,
-                "summary": summary,
-                "insights": insights,
-                "word_count": len(text.split()),
-                "key_takeaways": key_takeaways,
-                "tone_notes": tone,
-                "summary_model": summary_model or "heuristic",
-            }
-        )
-
-    combined_corpus = "\n\n".join(combined_corpus_parts)
-    combined_summary = summarize_text(combined_corpus, sentences=8) if combined_corpus else ""
-    combined_insights = extract_insights(combined_corpus, max_phrases=15) if combined_corpus else []
-    keyword_suggestions = suggest_keywords(combined_corpus) if combined_corpus else []
-    outline = build_outline(keyword, combined_insights)
+    # Build outline directly from keyword (will be enriched by KG later)
+    outline = build_outline(keyword, [])
     gpt_research = None
     sonnet_research = None
 
@@ -1196,13 +1321,28 @@ def assemble_report(
     brief = generate_brief(
         keyword=keyword,
         outline=outline,
-        combined_summary=combined_summary,
-        combined_insights=combined_insights,
-        keyword_suggestions=keyword_suggestions,
+        combined_summary="",  # No web scraping - content from KG
+        combined_insights=[],  # No web scraping - insights from KG
+        keyword_suggestions=[],  # Keywords from SERP analysis instead
         research_brief=research_brief,
         curated_research=curated_research,
         knowledge_graph=knowledge_graph,
     )
+
+    # Enhance brief with SERP intelligence if provided
+    if serp_data_path:
+        try:
+            from seo_serp_analysis import SERPAnalysis, enhance_brief_with_serp
+            log(f"Loading SERP analysis from: {serp_data_path}")
+            serp_analysis = SERPAnalysis.from_file(serp_data_path)
+            brief = enhance_brief_with_serp(brief, serp_analysis)
+            log(f"✓ SERP intelligence integrated:")
+            log(f"  - Volume: {serp_analysis.metrics.search_volume:,}/mo")
+            log(f"  - Difficulty: {serp_analysis.metrics.keyword_difficulty}/100")
+            log(f"  - Intent: {serp_analysis.intent.primary_intent}")
+            log(f"  - SERP Features: {', '.join(serp_analysis.serp_features[:3]) if serp_analysis.serp_features else 'None'}")
+        except Exception as e:
+            log(f"⚠️  Could not load SERP data: {e}")
 
     initial_draft = generate_initial_draft(
         keyword=keyword,
@@ -1210,7 +1350,7 @@ def assemble_report(
         curated_research=curated_research,
         knowledge_graph=knowledge_graph,
         articles=articles,
-        combined_summary=combined_summary,
+        combined_summary="",  # No web scraping - content from KG
         knowledge_root=knowledge_root,
     ) if include_draft else None
 
@@ -1220,10 +1360,10 @@ def assemble_report(
         "source": "seo_auto_pipeline",
         "articles_analyzed": len(articles),
         "articles": articles,
-        "combined_summary": combined_summary,
-        "combined_insights": combined_insights,
+        "combined_summary": "",  # No web scraping
+        "combined_insights": [],  # No web scraping
         "outline": outline,
-        "keyword_suggestions": keyword_suggestions,
+        "keyword_suggestions": [],  # From SERP analysis instead
         "research_brief": research_brief or None,
         "curated_research": curated_research,
         "knowledge_graph": knowledge_graph,
@@ -1274,11 +1414,94 @@ def save_report(report: Dict[str, Any]) -> Tuple[pathlib.Path, Optional[pathlib.
         log(f"Saved brief markdown to {brief_markdown_path}")
 
     draft_path: Optional[pathlib.Path] = None
+    metrics_path: Optional[pathlib.Path] = None
     draft_content = report.get("initial_draft")
     if draft_content:
+        # Apply E-E-A-T templates and disclaimers
+        from seo_templates import (
+            apply_eeat_to_draft,
+            apply_disclaimers_to_draft,
+            MedicalReviewBox,
+        )
+
+        # Detect if this is a peptide topic (for FDA disclaimer)
+        keyword_lower = report["keyword"].lower()
+        is_peptide = any(term in keyword_lower for term in ["peptide", "bpc", "semax", "selank", "nad"])
+
+        # Apply disclaimers first
+        draft_content = apply_disclaimers_to_draft(
+            draft_content,
+            peptide_name=report["keyword"] if is_peptide else None,
+            requires_supervision=True
+        )
+
+        # Apply E-E-A-T signals
+        review_box = MedicalReviewBox()  # Pending review by default
+        draft_content = apply_eeat_to_draft(
+            draft_content,
+            author_bio=None,  # Can be added later by human editor
+            medical_review=review_box,
+            expertise_topic=report["keyword"]
+        )
+
+        # Save enhanced draft
         draft_path = OUTPUT_DIR / f"{keyword_slug or 'keyword'}-draft.md"
         draft_path.write_text(draft_content, encoding="utf-8")
         log(f"Saved automated draft to {draft_path}")
+
+        # Calculate and save SEO metrics
+        from seo_metrics import SEOAnalyzer
+
+        metrics_report = SEOAnalyzer.analyze(draft_content, report["keyword"])
+
+        metrics_dict = {
+            "keyword": report["keyword"],
+            "generated_at": report["generated_at"],
+            "overall_score": metrics_report.overall_score,
+            "keyword_metrics": {
+                "density": metrics_report.keyword_metrics.density,
+                "count": metrics_report.keyword_metrics.count,
+                "total_words": metrics_report.keyword_metrics.total_words,
+                "in_title": metrics_report.keyword_metrics.in_title,
+                "in_meta": metrics_report.keyword_metrics.in_meta,
+                "in_h1": metrics_report.keyword_metrics.in_h1,
+                "in_first_100_words": metrics_report.keyword_metrics.in_first_100_words,
+            },
+            "readability_metrics": {
+                "flesch_reading_ease": metrics_report.readability_metrics.flesch_reading_ease,
+                "flesch_kincaid_grade": metrics_report.readability_metrics.flesch_kincaid_grade,
+                "avg_sentence_length": metrics_report.readability_metrics.avg_sentence_length,
+                "meets_target": metrics_report.readability_metrics.meets_target,
+            },
+            "citation_metrics": {
+                "total_citations": metrics_report.citation_metrics.total_citations,
+                "total_claims": metrics_report.citation_metrics.total_claims,
+                "coverage_ratio": metrics_report.citation_metrics.coverage_ratio,
+                "unsupported_sections": metrics_report.citation_metrics.unsupported_sections,
+            },
+            "structure_metrics": {
+                "word_count": metrics_report.structure_metrics.word_count,
+                "h1_count": metrics_report.structure_metrics.h1_count,
+                "h2_count": metrics_report.structure_metrics.h2_count,
+                "internal_links": metrics_report.structure_metrics.internal_links,
+                "external_links": metrics_report.structure_metrics.external_links,
+            },
+            "eeat_metrics": {
+                "has_author_bio": metrics_report.eeat_metrics.has_author_bio,
+                "has_medical_review": metrics_report.eeat_metrics.has_medical_review,
+                "has_disclaimers": metrics_report.eeat_metrics.has_disclaimers,
+                "citation_count": metrics_report.eeat_metrics.citation_count,
+            },
+            "quality_metrics": {
+                "uniqueness_score": metrics_report.quality_metrics.uniqueness_score,
+                "repetition_count": metrics_report.quality_metrics.repetition_count,
+            },
+            "issues": metrics_report.issues,
+        }
+
+        metrics_path = OUTPUT_DIR / f"{keyword_slug or 'keyword'}-metrics.json"
+        metrics_path.write_text(json.dumps(metrics_dict, indent=2), encoding="utf-8")
+        log(f"Saved SEO metrics to {metrics_path}")
 
     return path, brief_path, brief_markdown_path, draft_path
 
@@ -1315,6 +1538,11 @@ def main() -> None:
         help="Additional focus terms to include when querying the knowledge graph.",
     )
     parser.add_argument(
+        "--serp-data",
+        dest="serp_data_path",
+        help="Path to SERP analysis JSON file (from Ahrefs MCP via seo_serp_bridge.py).",
+    )
+    parser.add_argument(
         "--draft",
         action="store_true",
         dest="generate_draft",
@@ -1337,6 +1565,7 @@ def main() -> None:
         extra_terms=args.focus_terms,
         include_draft=args.generate_draft,
         allowlist_only=args.allowlist_only,
+        serp_data_path=args.serp_data_path,
     )
     report_path, brief_json_path, brief_markdown_path, draft_path = save_report(report)
     output_payload = {"report_path": str(report_path)}

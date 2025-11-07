@@ -1,0 +1,89 @@
+{
+  "keyword": "Retatrutide",
+  "metrics": {
+    "search_volume": 72000,
+    "keyword_difficulty": 38,
+    "competition_level": "medium",
+    "cpc": 4.0,
+    "traffic_potential": 79000,
+    "parent_topic": "retatrutide",
+    "global_volume": 120000,
+    "clicks": null,
+    "cps": null,
+    "recommend_targeting": true
+  },
+  "intent": {
+    "primary": "informational",
+    "informational": true,
+    "commercial": false,
+    "transactional": false,
+    "navigational": false,
+    "branded": true,
+    "local": false
+  },
+  "serp_features": [
+    "ai_overview",
+    "question",
+    "image_th",
+    "video_th",
+    "knowledge_panel"
+  ],
+  "related_keywords": [
+    {
+      "keyword": "swmiglutide",
+      "volume": 50,
+      "difficulty": 85,
+      "relevance": null
+    },
+    {
+      "keyword": "can semaglutide kill you",
+      "volume": 80,
+      "difficulty": 64,
+      "relevance": null
+    },
+    {
+      "keyword": "glp-1 agonists pills",
+      "volume": 20,
+      "difficulty": 82,
+      "relevance": null
+    },
+    {
+      "keyword": "semaglutide forms",
+      "volume": 40,
+      "difficulty": 72,
+      "relevance": null
+    },
+    {
+      "keyword": "compounded semaglutide vs semaglutide",
+      "volume": 250,
+      "difficulty": 53,
+      "relevance": null
+    },
+    {
+      "keyword": "glp-1s approved for weight loss",
+      "volume": 20,
+      "difficulty": 68,
+      "relevance": null
+    },
+    {
+      "keyword": "ozempic for weight loss fda approval",
+      "volume": 10,
+      "difficulty": 69,
+      "relevance": null
+    },
+    {
+      "keyword": "weigh loss shots",
+      "volume": 80,
+      "difficulty": 59,
+      "relevance": null
+    },
+    {
+      "keyword": "gop1 weight loss",
+      "volume": 70,
+      "difficulty": 76,
+      "relevance": null
+    }
+  ],
+  "people_also_ask": [],
+  "top_ranking_domains": []
+}

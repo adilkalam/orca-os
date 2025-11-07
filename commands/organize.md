@@ -1,11 +1,11 @@
 ---
-name: organize
-description: Verify project organization against global standards - checks file locations, documentation consistency, and directory structure
+name: organize (DEPRECATED)
+description: "DEPRECATED — Use /cleanup. Organization verification is included there."
 ---
 
-# /organize - Project Organization Verification
+# /organize (DEPRECATED)
 
-Runs the global organization verification system to ensure:
+Use `/cleanup` instead. It now includes an organization verification pass to ensure:
 - Files are in correct canonical locations
 - Documentation is consistent with actual structure
 - Directory structure meets standards
@@ -33,18 +33,11 @@ Runs the global organization verification system to ensure:
 
 ## Usage
 
-```bash
-/organize
-```
-
-That's it! The command will:
-- Run `~/.claude/scripts/verify-organization.sh`
-- Display verification results
-- Exit with status 0 if passed, 1 if failed
+Use `/cleanup` for both organization verification and stale evidence/log cleanup.
 
 ## When to Use
 
-✅ **Run /organize:**
+✅ **Run /cleanup:**
 - Before committing changes
 - After adding/removing agents or commands
 - After creating files (to verify correct location)
@@ -103,7 +96,7 @@ When verification fails, you'll see specific errors like:
    Fix: Update QUICK_REFERENCE.md with correct count
 ```
 
-Follow the fix suggestions, then run `/organize` again.
+Follow the fix suggestions, then run `/cleanup` again.
 
 ## Documentation Standards
 

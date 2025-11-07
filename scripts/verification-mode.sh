@@ -5,10 +5,16 @@ ROOT_DIR="$(git rev-parse --show-toplevel 2>/dev/null || pwd)"
 cd "$ROOT_DIR"
 
 MODE_FILE=".orchestration/mode.json"
-cmd=${1:-}
+raw=${1:-}
+case "$raw" in
+  on|strict) cmd="strict" ;;
+  off) cmd="off" ;;
+  tweak) cmd="tweak" ;;
+  *) cmd="$raw" ;;
+esac
 
 usage() {
-  echo "Usage: $0 [strict|tweak|off]"; exit 2
+  echo "Usage: $0 [on|off|strict|tweak]"; exit 2
 }
 
 [ -n "$cmd" ] || usage
@@ -26,4 +32,3 @@ else
 fi
 mv "$tmp" "$MODE_FILE"
 echo "verify_mode set to $cmd in $MODE_FILE"
-

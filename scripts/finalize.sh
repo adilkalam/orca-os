@@ -82,6 +82,7 @@ DESIGN_GUARD_REPORT=""
 PROFILE="$(sed -n 's/.*"profile"\s*:\s*"\([^"]*\)".*/\1/p' .orchestration/mode.json 2>/dev/null | head -1)"
 ATLAS_NOTE=""
 ATLAS_PATH=""
+UI_CHANGE_DETECTED=0
 
 BUILD_LOG="$LOG_DIR/build.log"
 TEST_LOG="$LOG_DIR/test-output.log"
@@ -184,6 +185,27 @@ else
   status_line "Screenshots found" "0"
 fi
 
+section "Evidence sync (logs)"
+# Ensure build/test logs also exist under evidence (in addition to .orchestration/logs)
+{
+  mkdir -p "$EVIDENCE_DIR/build" "$EVIDENCE_DIR/tests"
+  if [ -f "$LOG_DIR/build.log" ]; then
+    ts_copy=$(date -u '+%Y%m%d-%H%M%S')
+    dst="$EVIDENCE_DIR/build/build-$ts_copy.log"
+    # Only copy if no recent build evidence exists
+    if ! find "$EVIDENCE_DIR/build" -type f -name 'build-*.log' -mmin -5 | grep -q . 2>/dev/null; then
+      cp "$LOG_DIR/build.log" "$dst" 2>/dev/null || true
+    fi
+  fi
+  if [ -f "$LOG_DIR/test-output.log" ]; then
+    ts_copy=$(date -u '+%Y%m%d-%H%M%S')
+    dst="$EVIDENCE_DIR/tests/tests-$ts_copy.log"
+    if ! find "$EVIDENCE_DIR/tests" -type f -name 'tests-*.log' -mmin -5 | grep -q . 2>/dev/null; then
+      cp "$LOG_DIR/test-output.log" "$dst" 2>/dev/null || true
+    fi
+  fi
+} || true
+
 section "Design Guard"
 {
   if command -v python3 >/dev/null 2>&1; then
@@ -245,6 +267,10 @@ else
     FAIL_REASONS+=("$IMPL_LOG is empty")
   else
     IMPL_OUTSIDE=$(filter_noncodelines "$IMPL_LOG")
+    # Detect whether UI-facing files were changed (requires screenshot evidence)
+    if printf "%s\n" "$IMPL_OUTSIDE" | grep -Eiq '#FILE_(CREATED|MODIFIED):[[:space:]]*[^[:space:]]+\.(tsx|jsx|css|scss|sass|html|vue|swift)'; then
+      UI_CHANGE_DETECTED=1
+    fi
     for t in "${REQUIRED_TAGS[@]}"; do
       if printf "%s\n" "$IMPL_OUTSIDE" | grep -Eq "$t"; then TAG_PRESENT="yes"; break; fi
     done
@@ -279,6 +305,12 @@ fi
 
 # Basic evidence for grep-able trace (+1)
 SCORE=$((SCORE+1))
+
+# If UI changes detected, require at least one screenshot in evidence
+if [ "$UI_CHANGE_DETECTED" -eq 1 ] && [ "$SCREENSHOT_COUNT" -eq 0 ]; then
+  ZERO_TAG_STATUS="FAIL"
+  FAIL_REASONS+=("UI changes detected but no screenshots found in .orchestration/evidence")
+fi
 
 section "Score & Decision"
 MIN_SCORE=5
