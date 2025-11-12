@@ -36,6 +36,26 @@
 2. Deploy to `~/.claude` globally
 3. All Claude Code sessions use the global configs
 
+## CRITICAL RULES FOR WORKING IN THIS REPO
+
+### When User Shares Logs/Feedback from Other Projects
+- **YOU ARE NOT BEING ASKED TO WORK ON THAT PROJECT**
+- **FOCUS ON THE CLAUDE CODE ORCHESTRATION/SETUP FAILURE**
+- They're sharing evidence of Claude Code issues, NOT asking for help with the project
+- Analyze the ORCHESTRATION failure, not the project code
+
+### File Management - KEEP THIS REPO CLEAN
+- **DO NOT scatter docs, audits, logs everywhere**
+- **DO NOT delete agents, tools, skills, markdown files**
+- If something needs removal: MOVE to a `deprecated/` folder
+- Your temporary files (logs, audits): DELETE them when done
+- This repo stays **CLEAN AS FUCK**
+
+### Where Your Output Goes
+- Temporary analysis: `.orchestration/temp/` then DELETE
+- Evidence/logs: `.orchestration/evidence/` then CLEAN UP
+- Never leave your working files scattered in the root or main directories
+
 ## THE RULE
 
 After ANY code change:
