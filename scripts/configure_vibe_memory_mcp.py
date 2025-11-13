@@ -23,8 +23,9 @@ def main() -> int:
     cfg_path = home / ".claude.json"
     backup_path = home / f".claude.json.backup-{datetime.now().strftime('%Y%m%d-%H%M%S')}"
 
-    repo_root = Path(os.getcwd()).resolve()
-    server_path = (repo_root / "mcp" / "vibe-memory" / "memory_server.py").as_posix()
+    # Deploy to global location, not local repo
+    global_mcp_path = home / ".claude" / "mcp" / "vibe-memory" / "memory_server.py"
+    server_path = global_mcp_path.as_posix()
 
     desired = {
         "command": "python3",
