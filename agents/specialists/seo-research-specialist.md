@@ -72,8 +72,6 @@ After SERP analysis, consider:
 5. **Keyword Difficulty Assessment** - Should we target alternatives if difficulty is too high?
 
 ## Reference Material
-- `_explore/_AGENTS/marketing-SEO/AI Content Research and SEO on Auto-Pilot with n8n.txt`
-- `_explore/_AGENTS/marketing-SEO/Ship-Learn-Next Plan - Build AI Content Automation System.md`
 - Knowledge graph: `/Users/adilkalam/Desktop/OBDN/obdn_site/docs/meta/kg.json`
 
 ## Workflow

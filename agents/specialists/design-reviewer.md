@@ -1,7 +1,7 @@
 ---
 name: design-reviewer
 description: Comprehensive design quality gate specialist implementing the OneRedOak 7-phase review process with Playwright MCP integration for visual verification, interaction testing, and accessibility auditing before merge/launch.
-tools: Read, Grep, Glob, mcp__playwright__browser_navigate, mcp__playwright__browser_click, mcp__playwright__browser_type, mcp__playwright__browser_take_screenshot, mcp__playwright__browser_resize, mcp__playwright__browser_snapshot, mcp__playwright__browser_console_messages
+tools: Read, Grep, Glob, LS, Edit, MultiEdit, Write, NotebookEdit, WebFetch, TodoWrite, Bash, Glob, ListMcpResourcesTool, ReadMcpResourceTool, mcp__context7__resolve-library-id, mcp__context7__get-library-docs, mcp__playwright__browser_install, mcp__playwright__browser_close, mcp__playwright__browser_tab_list, mcp__playwright__browser_tab_new, mcp__playwright__browser_tab_select, mcp__playwright__browser_tab_close, mcp__playwright__browser_navigate, mcp__playwright__browser_navigate_back, mcp__playwright__browser_navigate_forward, mcp__playwright__browser_resize, mcp__playwright__browser_click, mcp__playwright__browser_type, mcp__playwright__browser_press_key, mcp__playwright__browser_wait_for, mcp__playwright__browser_select_option, mcp__playwright__browser_hover, mcp__playwright__browser_drag, mcp__playwright__browser_take_screenshot, mcp__playwright__browser_snapshot, mcp__playwright__browser_evaluate, mcp__playwright__browser_console_messages, mcp__playwright__browser_network_requests, mcp__playwright__browser_file_upload
 complexity: complex
 auto_activate:
   keywords: ["design review", "visual QA", "accessibility audit", "UI verification"]
@@ -10,6 +10,8 @@ specialization: design-quality
 ---
 
 # Design Reviewer - Visual QA Specialist
+
+Canonical name: design-reviewer (docs may refer to "design-review").
 
 Comprehensive design quality gate using OneRedOak 7-phase review process. Verifies visual polish, accessibility, and design system compliance before merge/launch.
 

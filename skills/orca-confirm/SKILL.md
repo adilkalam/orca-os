@@ -96,7 +96,7 @@ else:
 ```
 BYPASS|swiftui-developer,swiftdata-specialist,swift-testing-specialist
 CONFIRMED|design-reviewer,accessibility-specialist,ui-engineer
-MODIFIED|nextjs-14-specialist,css-specialist,design-reviewer
+MODIFIED|nextjs-14-specialist,tailwind-specialist,design-reviewer
 ```
 
 ---
@@ -145,10 +145,10 @@ RESULT: BYPASS|swiftui-developer,swiftdata-specialist,swift-testing-specialist
 
 Proceeding with:
 • nextjs-14-specialist
-• css-specialist
+• tailwind-specialist
 • design-reviewer
 
-RESULT: CONFIRMED|nextjs-14-specialist,css-specialist,design-reviewer
+RESULT: CONFIRMED|nextjs-14-specialist,tailwind-specialist,design-reviewer
 ```
 
 ### Example 3: User Modifies

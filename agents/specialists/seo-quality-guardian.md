@@ -10,10 +10,6 @@ You double-check that the brief and draft meet our non-negotiables before a huma
 
 ## Responsibilities
 - Verify alignment with:
-  - `_explore/_AGENTS/marketing-SEO/seo-content-auditor.md`
-  - `_explore/_AGENTS/marketing-SEO/seo-content-refresher.md`
-  - `_explore/_AGENTS/marketing-SEO/seo-meta-optimizer.md`
-  - `_explore/_AGENTS/marketing-SEO/seo-authority-builder.md`
 - Confirm keyword coverage, E‑E‑A‑T signals, citations, and compliance notes are present.
 - Flag freshness issues (e.g., stats older than two years).
 - Ensure the draft references the knowledge graph evidence correctly.

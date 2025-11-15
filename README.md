@@ -1,908 +1,550 @@
-# ⚠️ CRITICAL: claude-vibe-config Repository Purpose ⚠️
+# Vibe Code / Claude Agentic OS
 
-**THIS IS A CONFIGURATION RECORD/MIRROR OF ~/.claude (GLOBAL CLAUDE CODE)**
-
-## What This Repository Is:
-- **Version-controlled record** of what's configured in the GLOBAL `~/.claude` directory
-- **~/.claude is SOURCE OF TRUTH** - this repo mirrors/documents it
-- **NOT a deployment tool** - it's a historical record with version control
-- Configuration happens DIRECTLY in ~/.claude, then this repo documents it
-
-## Critical Directory Rules:
-- **`_explore/`** = **MY PERSONAL FOLDER - READ ONLY - NEVER TOUCH**
-  - NEVER move, install, delete, add, or point configs here
-- **`mcp/`** = Records of custom-built MCPs (only custom ones like vibe-memory)
-- **`agents/`** = Records of custom agents from `~/.claude/agents/`
-- **`commands/`** = Records of custom commands from `~/.claude/commands/`
+> **CRITICAL — Repo Purpose**
+>
+> This repo is a **version‑controlled mirror** of your global Claude config in `~/.claude`.  
+> **`~/.claude` is the source of truth.**  
+> You edit commands/agents/MCPs in `~/.claude`, then sync back here.
 
 ---
 
-# ORCA
+## 1. Why This Exists (Situation → Complication → Resolution)
 
-**Multi-agent orchestration for Claude Code that learns from outcomes and prevents false completions**
+### Situation
 
-ORCA (Orchestrated Research & Coordinated Agents) is a self-improving orchestration system that:
-- Detects your tech stack and proposes specialist teams
-- Requires **user confirmation** before dispatching agents
-- Enforces evidence-based verification (screenshots, tests, builds)
-- Learns from every session to improve future orchestration
-- Prevents chaos through strict file creation limits
+You’re using Claude Code to build real products:
+- Brand systems (OBDN, PeptideFox, etc.)
+- Web apps, dashboards, iOS apps
+- Data/SEO tooling and design systems
 
----
+Initially, everything goes through “one big smart chat” with a generic assistant.
 
-## The ORCA Workflow in Action
+### Complication
 
-```
-User: "Build iOS weather app with local caching"
-                    │
-                    ↓
-┌────────────────────────────────────────────────────────────────┐
-│ TECH DETECTION                                                 │
-│ Keywords: "iOS", "caching" → iOS + data persistence           │
-│ Files: *.xcodeproj found → Confirmed iOS                      │
-└────────────────────┬───────────────────────────────────────────┘
-                     ↓
-┌────────────────────────────────────────────────────────────────┐
-│ TEAM PROPOSAL                                                  │
-│ ┌─────────────────────────────────────────────────────────┐   │
-│ │ Proposed iOS Team (6 agents):                           │   │
-│ │                                                          │   │
-│ │ Planning:                                                │   │
-│ │ • requirement-analyst - Clarify weather data needs      │   │
-│ │ • system-architect - Design cache strategy              │   │
-│ │                                                          │   │
-│ │ Implementation:                                          │   │
-│ │ • swiftui-developer - Build UI                          │   │
-│ │ • swiftdata-specialist - Local caching                  │   │
-│ │ • urlsession-expert - Weather API integration           │   │
-│ │                                                          │   │
-│ │ Quality:                                                │   │
-│ │ • verification-agent - Evidence collection              │   │
-│ └─────────────────────────────────────────────────────────┘   │
-│                                                                │
-│ [✓] Proceed  [ ] Modify  [ ] Cancel                           │
-└────────────────────┬───────────────────────────────────────────┘
-                     ↓ User confirms
-┌────────────────────────────────────────────────────────────────┐
-│ PARALLEL AGENT EXECUTION                                      │
-│                                                                │
-│ requirement-analyst ──→ Creates requirements.md               │
-│         ↓                                                      │
-│ system-architect ────→ Designs WeatherCache protocol          │
-│         ↓                                                      │
-│    ┌────┴────┬──────────┬────────────┐                       │
-│    ↓         ↓          ↓            ↓                       │
-│ swiftui-  swiftdata-  urlsession-  verification-             │
-│ developer specialist  expert       agent                      │
-│    │         │          │            │                        │
-│    ↓         ↓          ↓            ↓                       │
-│ Views.swift Cache.swift API.swift  Evidence/                 │
-└────────────────────┬───────────────────────────────────────────┘
-                     ↓
-┌────────────────────────────────────────────────────────────────┐
-│ EVIDENCE VERIFICATION GATES                                   │
-│                                                                │
-│ GATE 0: Content Awareness ✓ (understood weather + caching)    │
-│    ↓                                                          │
-│ GATE 1: Meta-tags verified ✓                                  │
-│    #FILE_CREATED: WeatherView.swift                          │
-│    #FILE_CREATED: WeatherCache.swift                         │
-│    ↓                                                          │
-│ GATE 2: Build succeeds ✓                                      │
-│    xcodebuild clean && xcodebuild build → SUCCESS            │
-│    ↓                                                          │
-│ GATE 3: Tests pass ✓                                          │
-│    swift test → 12/12 tests passed                           │
-│    ↓                                                          │
-│ GATE 4: Screenshot captured ✓                                 │
-│    .orchestration/evidence/weather-app.png                   │
-│    ↓                                                          │
-│ GATE 5: Quality validated ✓                                   │
-└────────────────────┬───────────────────────────────────────────┘
-                     ↓
-┌────────────────────────────────────────────────────────────────┐
-│ LEARNING & EVOLUTION                                          │
-│                                                                │
-│ Pattern: "ios-weather-pattern"                                │
-│ Before: helpful_count: 5, harmful_count: 0                    │
-│                                                                │
-│ Outcome: SUCCESS (all gates passed)                           │
-│ Update: helpful_count: 5 → 6                                  │
-│                                                                │
-│ Next time: Higher confidence in this pattern                  │
-└────────────────────────────────────────────────────────────────┘
-```
+That model quickly hits hard limits:
+
+- **AI deviance**
+  - Says “done” when code doesn’t run, tests don’t pass, UI is broken.
+  - Quietly ignores constraints or drifts away from the original request.
+
+- **Janky UI/UX**
+  - Generic agents hallucinate design systems, spacing, typography.
+  - Orca + “design” personas produced chaotic, off‑brand layouts.
+
+- **Chaos & token bloat**
+  - Thousands of planning files, no file limits.
+  - Repeatedly re‑explaining brand rules, design systems, and decisions.
+  - No reliable memory; every session starts from scratch.
+
+- **Unreliable orchestration**
+  - Multi‑agent systems run without strong scopes or guardrails.
+  - No hard requirement to prove work with tests/build/screenshots/logs.
+
+### Resolution — A Personal AI OS for Claude
+
+This system is a **constrained, evidence‑driven OS** around Claude:
+
+- **Global OS in `~/.claude`**
+  - Commands, agents, MCP servers, hooks.
+  - This repo (`claude-vibe-config`) is a mirror of that OS.
+
+- **Project DNA + memory**
+  - Each project (OBDN, PeptideFox, etc.) has its own design system + brand docs.
+  - A local memory database (via the `workshop` tool + `vibe-memory` MCP) stores decisions, gotchas, goals.
+
+- **Orchestrators + narrow specialists**
+  - Orchestrators (`/response-aware`, `/orca`) own planning + verification.
+  - Narrow agents (`/creative-strategist`, `/design-director`, `/obdn-designer`, `/fox-designer`) stay in strict lanes with hard rules.
+
+- **Evidence‑based completion**
+  - Work is not “done” until there is proof: tests, builds, screenshots, logs, all reconciled against meta‑tags.
+
+The rest of this README explains how that OS works.
 
 ---
 
-## Quick Start
+## 2. Quickstart: Usage Recipes
 
-```bash
-# 1. Install hooks (Workshop memory + session context)
-bash .claude-global-hooks/install.sh
+For people who just want to use it, not study LLM research:
 
-# 2. Open your project with Claude Code
-cd your-project
+- **Design a new PeptideFox tool screen**
+  - Plan:  
+    ```text
+    /response-aware -plan "PeptideFox dosing planner v1"
+    ```
+  - Tighten UI blueprint:  
+    ```text
+    /fox-designer -iterate "Refine layout for dosing results section"
+    ```
+  - Implement + verify from blueprint:  
+    ```text
+    /response-aware -build path/to/blueprint.md
+    ```
 
-# 3. Use ORCA orchestration
-/orca "Build iOS weather app with local caching"
+- **Design an OBDN layout**
+  ```text
+  /obdn-designer "OBDN product detail page layout"
+  ```
 
-# ORCA will:
-# - Detect "iOS" from keywords
-# - Propose team: swiftui-developer, swiftdata-specialist, state-architect
-# - Ask you to confirm
-# - Dispatch agents with quality gates
-# - Verify with build + tests + screenshots
-# - Learn from outcome
-```
+- **Full end‑to‑end implementation with proof**
+  ```text
+  /response-aware "Add dark mode to dashboard"
+  ```
 
----
+- **Analyze creative performance and strategy**
+  ```text
+  /creative-strategist "<paste performance data + ads>"
+  ```
 
-## The Self-Learning Engine: ACE Playbooks
-
-**Problem:** Traditional orchestration uses static rules that never improve.
-
-**ORCA's Solution:** Agentic Context Engineering (ACE) — patterns that evolve based on outcomes.
-
-```
-Generator-Reflector-Curator Architecture
-─────────────────────────────────────────
-
-Session Start
-   ↓
-┌────────────────┐
-│   Generator    │  Loads playbooks → Selects patterns
-│   (ORCA)       │  "iOS 17+ → swiftui + swiftdata"
-└──┬─────────────┘
-   ↓
- Work Executed
-   ↓
-┌────────────────┐
-│   Reflector    │  Analyzes outcome → Was pattern helpful?
-│                │  "Pattern worked → helpful_count +1"
-└───┬────────────┘
-    ↓
-┌────────────────┐
-│    Curator     │  Updates playbooks (delta only)
-│                │  "ios-pattern-001: 5 → 6 sessions"
-└────────────────┘
-```
-
-### Pattern Evolution
-
-Each pattern tracks:
-- `helpful_count` — Times it succeeded
-- `harmful_count` — Times it failed
-- `evidence` — Why it works/fails
-- `learned_from` — Which sessions proved it
-
-**Pattern Death:**
-```
-IF harmful_count > helpful_count × 3
-THEN schedule_deletion(7_days_grace_period)
-```
-
-Bad patterns self-destruct. Good patterns accumulate evidence.
+You can get real work done with just these commands; the rest of the README explains what they’re doing under the hood.
 
 ---
 
-## Evidence-Based Verification
+## 3. Mental Model: How a Request Flows
 
-**Problem:** AI says "done" but code doesn't compile / tests fail / UI is broken.
+At a high level, every request goes through this pipeline:
 
-**ORCA's Solution:** Meta-cognitive tagging + mandatory verification gates.
-
-### Meta-Cognitive Tags
-
-Agents must tag their work:
-```markdown
-#FILE_CREATED: /path/to/file.swift
-#COMPLETION_DRIVE: Assuming API endpoint exists
-#SCREENSHOT_CLAIMED: .orchestration/evidence/weather-app.png
+```text
+You
+  ↓
+Orchestrator Command
+  (/response-aware, /orca)
+  ↓
+Context & Memory
+  - Global docs (CLAUDE.md, design systems)
+  - Project memory DB via vibe-memory MCP
+  ↓
+Specialist Agents
+  (strategists, designers, implementors)
+  ↓
+Implementation & Tools
+  - File edits via tools
+  - MCPs (playwright, chromedevtools, iossimulator, etc.)
+  ↓
+Verification & Evidence
+  - Tests / builds / screenshots / logs
+  ↓
+Final Synthesis
+  - Decisions + proof
 ```
 
-### Evidence Capture Helpers (New)
+Key ideas:
 
-Use these helper scripts to capture evidence in the correct locations automatically:
-
-```bash
-# Build logs (auto-detects project type or pass your command after --)
-bash scripts/capture-build.sh
-# or
-bash scripts/capture-build.sh -- npm run build
-
-# Test output (auto-detects or pass your command after --)
-bash scripts/capture-tests.sh
-# or
-bash scripts/capture-tests.sh -- pytest -q
-
-# Screenshots via MCP (requests a browser screenshot, optionally waits)
-bash scripts/capture-screenshot.sh http://localhost:3000/page --wait-for 20
-# Custom output name
-bash scripts/capture-screenshot.sh http://localhost:3000/page --out after.png --wait-for 20
-```
-
-### Verification Gates (Sequential)
-
-```
-GATE 0: Content Awareness
-    ↓
-GATE 1: Response Awareness (verify tags)
-    ↓
-GATE 2: Tests (unit + integration)
-    ↓
-GATE 3: UI Testing (if visual work)
-    ↓
-GATE 4: Design Review (if visual work)
-    ↓
-GATE 5: Quality Validation
-
-If ANY gate fails → BLOCK completion
-
-Notes:
-- UI changes require at least one screenshot saved under `.orchestration/evidence/`.
-- Commits are blocked for active ORCA sessions until `bash scripts/finalize.sh` creates `.verified`.
-- Agents must not self-score quality; `/finalize` is the source of truth.
-
-### Updated Slash Commands (Simplified)
-
-- Core: `/respawr` (response awareness), with companions `/respawr-plan` and `/respawr-build` for plan-only and build/capture flows. `or/seo-orca` remain available.
-- Modes: `/mode -on` and `/mode -off` replace multiple strict/tweak variants.
-- Prompting: `/enhance -clarify` replaces standalone `/clarify`.
-- Maintenance: `/cleanup` now covers organize/safe tidy (no destructive deletes by default).
-- Brand tools: `/mm-copy` (brand-calibrated ad copy), `/mm-comps` (competitor dossiers incl. press + collection reviews).
-
-Evidence policy remains unchanged: control files and all proof live under `.orchestration/` (evidence in `.orchestration/evidence/`). Human‑facing reports may live under project folders (e.g., `minisite/data/reports/`).
+- You talk mostly to **orchestrators** (`/response-aware`, `/orca`).
+- They pull **memory** (project decisions + design DNA) into context.
+- They dispatch **specialists** with narrow scopes and hard rules.
+- Implementors write code; verifiers must capture **evidence**.
 
 ---
 
-## SEO Workflow Quick Start
+## 4. Example Flow: New PeptideFox Library Screen
 
-For the internal SEO automation (SEO‑ORCA), use the quick reference below. The public‑facing overview remains in docs/architecture/seo-orca.md.
+Concrete story: designing and implementing a new PeptideFox peptide library screen.
 
-- Quick reference: quick-reference/SEO-Quick-Reference.md
-- Public overview: docs/architecture/seo-orca.md
+### 4.1 Plan the work
 
-Minimal keyless run (CLI)
+You start with plan‑only mode:
 
-```
-python3 scripts/seo_auto_pipeline.py "<KEYWORD>" \
-  --max-results 0 --allowlist-only --draft \
-  --research-doc "/path/to/curated1.md" \
-  --research-doc "/path/to/curated2.md" \
-  --knowledge-graph "/path/to/kg.json" \
-  --knowledge-root "/path/to/kg/root" \
-  --focus-term Term1 --focus-term Term2
+```text
+/response-aware -plan "Peptide library grid v2"
 ```
 
-Outputs land in `outputs/seo/<slug>-{report.json,brief.json,brief.md,draft.md}`. No API keys required; SERP is optional and filtered via allowlist/vendor rules.
+Response Awareness will:
+
+- Load PeptideFox design DNA:
+  - `design-system-v7.0.0.md`
+  - `DESIGN_RULES.md`
+- Query project memory via **vibe‑memory MCP**:
+  - Decisions like “No Tailwind; use design tokens.”
+  - Past gotchas and goals.
+- Run parallel domain planners and synthesize:
+  - One implementation blueprint with explicit interfaces and risks.
+  - A question to you via `AskUserQuestion` to confirm the plan.
+
+You review and approve the blueprint (or tweak it).
+
+### 4.2 Refine the UI blueprint
+
+Then you call the brand‑specific UI architect:
+
+```text
+/fox-designer -iterate "Refine card layout + spacing for peptide library grid"
 ```
 
-### Platform-Specific Evidence
+`/fox-designer` will:
 
-**iOS:**
-```bash
-# Clean build from scratch
-rm -rf DerivedData
-xcodebuild clean && xcodebuild build
+- Recall PeptideFox v7 design system and rules.
+- Use its scaffold:
+  - FRAME → STRUCTURE → SURFACE → CALCULATE → CODE GUIDANCE
+- Enforce:
+  - Brown LL / Brown Mono LL / Brown LL Inline rules.
+  - Spacing tokens (2 → 4 → 8 → 12 → 16 → 24 → 32 → 48 → 64 → 96).
+  - Card width math so badges don’t wrap jankily.
 
-# Install to simulator
-xcrun simctl install booted app.app
+It returns a **PeptideFox Design Blueprint** for the UI layer.  
+You fold this into the main implementation blueprint.
 
-# Capture screenshot
-xcrun simctl io booted screenshot evidence.png
+### 4.3 Build & verify
+
+Once the blueprint is approved and updated, you run:
+
+```text
+/response-aware -build path/to/blueprint.md
 ```
 
-**Frontend:**
-```bash
-# Build succeeds
-npm run build
+Build mode will:
 
-# Dev server runs
-npm run dev &
+- Implement strictly from the blueprint (no plan mutation).
+- Tag all assumptions and file operations
+  (`#COMPLETION_DRIVE`, `#FILE_CREATED`, `#FILE_MODIFIED`, etc.).
+- Use tools and MCPs to verify:
+  - Unit/integration tests via `scripts/capture-tests.sh`.
+  - Builds via `scripts/capture-build.sh`.
+  - Visual checks and flows via MCPs:
+    - `playwright` → drive a real browser, capture screenshots/videos.
+    - `chromedevtools` → inspect DOM, network, console.
+  - For native/iOS flows:
+    - `iossimulator` → run iOS Simulator and capture evidence.
+- Store evidence under:
+  - `.orchestration/evidence/` (screenshots, logs)
+  - `.orchestration/implementation-log.md` (tags + meta‑cognition)
+- Run `bash scripts/finalize.sh` to produce a `.verified` marker.
 
-# Browser screenshot captured
-```
-
-**Data Analysis:**
-```bash
-# Every number verified with grep
-grep -A 5 "Total Sales" report.md
-
-# Calculations checked
-python -c "print(12 + 38)"  # = 50 ✓
-```
+The final synthesis step reports:
+- What was done.
+- What decisions were made.
+- Where to find the evidence.
 
 ---
 
-## Workshop Memory: Durable Project Knowledge
+## 5. Memory & Vibe‑Memory MCP
 
-**Problem:** AI forgets decisions, gotchas, and context between sessions.
+Memory is a first‑class part of this system; it’s not just token context.
 
-**ORCA's Solution:** Workshop — SQLite-backed memory per project + vibe-memory MCP for `memory.search` tool.
+### 5.1 Workshop: Project Memory
 
-```
-Session 1: Build calculator
-    ↓
-Workshop Records:
-- decision: "Use global CSS, not Tailwind"
-- gotcha: "Vercel requires Node 18+"
-- goal: "Add scientific mode next"
-    ↓
-Session 2 (weeks later):
-Claude loads Workshop context automatically
-→ Remembers CSS decision
-→ Avoids Vercel gotcha
-→ Knows scientific mode is next
-```
+Memory is managed via the **Workshop** tool:
 
-### Workshop Architecture (Per-Project)
+- Repo: <https://github.com/zachswift615/workshop>
+- It stores project knowledge in:
+  - `project/.claude/memory/workshop.db`
 
-**Each project has its own isolated memory:**
+You record:
+- Decisions (“Use Supabase for auth.”)
+- Gotchas (“iOS Simulator needs Xcode 15.4+ on macOS 15.”)
+- Goals, notes, and anti‑patterns.
 
-```
-your-project/
-└── .claude/
-    ├── mcp.json                    # (Deprecated; Claude reads ~/.claude.json projects[])
-    ├── memory/
-    │   └── workshop.db             # SQLite FTS5 database
-    ├── orchestration/
-    │   ├── session-context.md      # Loaded at session start
-    │   └── evidence/               # Screenshots, logs
-    └── hooks/
-        └── session-start.sh        # Auto-loads memory + outputs CLAUDE.md
+### 5.2 Vibe‑Memory MCP
 
-┌──────────────────────────────────────────────────────┐
-│  Session Start Hook                                  │
-│  ↓                                                   │
-│  Reads .claude/memory/workshop.db                    │
-│  workshop import (catch-up after crashes)            │
-│  ↓                                                   │
-│  Load recent:                                        │
-│  - Decisions (last 5)                                │
-│  - Gotchas (last 3)                                  │
-│  - Goals (active)                                    │
-│  ↓                                                   │
-│  Output CLAUDE.md with visual separators             │
-│  ↓                                                   │
-│  Inject into Claude context                          │
-└──────────────────────────────────────────────────────┘
+The **vibe‑memory** MCP server exposes that database to Claude:
 
-┌──────────────────────────────────────────────────────┐
-│  vibe-memory MCP Server                              │
-│  (per-project config lives in ~/.claude.json → projects[]) │
-│  ↓                                                   │
-│  Exposes: memory.search(query, k=8)                  │
-│  ↓                                                   │
-│  Searches: .claude/memory/workshop.db                │
-│  ↓                                                   │
-│  Returns: Semantic search results (vector or FTS)    │
-└──────────────────────────────────────────────────────┘
-```
+- Installed locally at:
+  - `~/.claude/mcp/vibe-memory`
+- Provides tools like:
+  - `memory.search` for semantic + FTS search over `workshop.db`
 
-**See:** `quick-reference/memory.md` for complete architecture details.
+Orchestrators and specialists call this MCP to:
+- Recall prior decisions (“We banned Tailwind here.”)
+- Surface relevant context for the current request.
 
-### Memory Commands
-
-```bash
-# Search memory
-workshop search "CSS"
-
-# Add decision
-workshop decision "Use Supabase for auth" -r "Self-hosted requirement"
-
-# Record gotcha
-workshop gotcha "iOS Simulator needs Xcode 15.4+"
-
-# View context
-workshop context
-```
+Details: see `quick-reference/memory.md` in this repo for the full memory stack and CLI workflow.
 
 ---
 
-## Chaos Prevention
+## 6. Orchestrators: `/response-aware` and ORCA
 
-**LLM File Chaos:**
+### 6.1 `/response-aware` — Response Awareness Workflow
 
-AI agents left to their own devices create:
-- Excessive planning documents
-- Elaborate frameworks
-- Verification systems for verification systems
-- **Zero actual work**
+`/response-aware` is the primary orchestrator. It runs a 6‑phase protocol with meta‑tags and evidence:
 
-**ORCA's Solution:** Strict limits + monitoring.
+Modes:
+- Full: `/response-aware <feature>`
+- Plan only: `/response-aware -plan <feature>`
+- Build only: `/response-aware -build <blueprint.md>`
 
-```
-Rules per Agent:
-┌────────────────────────┐
-│ Max 2 files per task   │  (implementation + test)
-│ NO planning documents  │  (PLAN.md, TODO.md banned)
-│ Evidence → dedicated   │  (.orchestration/evidence/)
-│ Delete temps instantly │
-└────────────────────────┘
+Phases:
+1. **Phase 0 — Survey**  
+   Map domains, integration points, interfaces.
+2. **Phase 1 — Parallel Planning**  
+   Multiple planners propose paths; record `#PATH_DECISION` and risks.
+3. **Phase 2 — Synthesis**  
+   Pick a path; produce a single implementation blueprint; ask user to approve.
+4. **Phase 3 — Implementation**  
+   Implement strictly from the blueprint; tag assumptions and file operations.
+5. **Phase 4 — Verification**  
+   Resolve every tag via tests/build/screenshots/logs; no unresolved claims.
+6. **Phase 5 — Final Synthesis**  
+   Summarize work, decisions, and attach evidence.
 
-Enforcement:
-┌────────────────────────┐
-│ Warnings at:           │
-│ - 10 files             │
-│ - 25 files             │
-│ - 50 files (BLOCK)     │
-└────────────────────────┘
+The core idea: **no more “done” without proof.**
 
-Monitoring:
-┌────────────────────────┐
-│ chaos-monitor          │  (detect mess patterns)
-│ chaos-cleanup          │  (interactive cleanup)
-│ agent-chaos-monitor    │  (agent-specific tracking)
-└────────────────────────┘
-```
+### 6.2 ORCA — Smart Multi‑Agent Orchestration
 
-**Philosophy:** *Just do the work, don't document plans to maybe do work.*
+ORCA is the higher‑level multi‑agent orchestrator focused on:
 
----
+- **Tech stack detection**
+  - Inspect project files to infer stack (Next.js, iOS, etc.).
+- **Team proposal + user confirmation**
+  - Proposes a specialist team (planners, implementors, verifiers).
+  - Always uses `AskUserQuestion` for interactive confirmation.
+- **Parallel agent execution**
+  - Domain‑specific agents work in parallel under strict file limits.
+- **Chaos prevention**
+  - Max files per agent/session.
+  - Required meta‑tags.
+  - Standardized directories for evidence, logs, and temp files.
 
-## Tech Stack Auto-Detection
-
-ORCA detects your stack from keywords + project files:
-
-```
-Keywords Checked:
-────────────────
-"iOS" / "SwiftUI"     → iOS Team (6-15 agents)
-"React" / "Next.js"   → Frontend Team (10-15 agents)
-"Python" / "FastAPI"  → Backend Team (6 agents)
-"sales" / "ads data"      → Data Analysis Team (5-7 agents)
-
-Files Checked:
-─────────────
-*.xcodeproj           → iOS
-package.json + *.tsx  → Frontend
-requirements.txt      → Backend
-*.csv + "revenue"     → Data Analysis
-```
-
-### Specialized Teams
-
-**iOS Team:**
-- swiftui-developer, swiftdata-specialist, state-architect
-- swift-testing-specialist, ui-testing-expert
-- urlsession-expert (if API work)
-- xcode-cloud-expert (if CI/CD)
-
-**Frontend Team:**
-- react-18-specialist OR nextjs-14-specialist
-- css-specialist (global CSS, no Tailwind)
-- state-management-specialist
-- frontend-performance-specialist
-- accessibility-specialist
-
-**Data Analysis Team:**
-- merch-lifecycle-analyst (product journeys)
-- ads-creative-analyst (ad performance, granular)
-- sales-analyst (sales events)
-- story-synthesizer (causality, recommendations)
-
-**Backend Team:**
-- backend-engineer (Python/Node/Go)
-- test-engineer (pytest, vitest)
+ORCA and `/response-aware` can be combined: ORCA for stack‑aware team building, `/response-aware` for plan/implement/verify discipline.
 
 ---
 
-## Design/FE Lane — Task Tool Dispatch Mapping
+## 7. Custom Agents with Scopes & Guardrails
 
-Some new specialist files are not yet registered in the Task tool. Use this mapping while retaining methodologies from their agent files:
-- design-system-architect → dispatch directly
-- css-system-architect → dispatch `css-specialist` (follow `agents/specialists/css-system-architect.md`)
-- html-architect → dispatch `ui-engineer` (follow `agents/specialists/html-architect.md`)
-- migration-specialist (migrate) → dispatch `ui-engineer` (follow `agents/specialists/migration-specialist.md`)
+One of the biggest lessons: **generic agents drift; narrow agents behave.**
 
-Example:
-```ts
-Task({ subagent_type: "css-specialist", prompt: "Follow methodology in agents/specialists/css-system-architect.md; emit src/styles/{base.css,components/*,themes/*}; tag #FILE_CREATED; save evidence to .orchestration/evidence/" })
-Task({ subagent_type: "ui-engineer", prompt: "Follow methodology in agents/specialists/html-architect.md; produce semantic templates only using approved classes; run html-validate; save evidence" })
-```
+### 7.1 What went wrong
 
-Quality gates (ESLint/Stylelint/html-validate/a11y/perf) continue to enforce policy. Proper fix: register these agents in the Task tool.
+- Broad “design” agents plugged into ORCA tried to:
+  - Invent entire design systems.
+  - Overstep into implementation without clear specs.
+  - Produce visually and structurally janky UI.
 
----
+### 7.2 The pattern that works
 
-## User Confirmation: Humans Stay in Control
+Specialist agents now follow a consistent pattern:
 
-**CRITICAL:** ORCA always asks before dispatching agents.
+1. **Narrow role**
+   - `/creative-strategist` → strategy and performance analysis only.
+   - `/design-director` → layout, hierarchy, critique.
+   - `/obdn-designer` → OBDN luxury UI architect (no orchestration).
+   - `/fox-designer` → PeptideFox scientific UI architect.
 
-```
-You: /orca "Build weather app"
+2. **Mandatory context recall**
+   - Read `CLAUDE.md` and project design DNA:
+     - OBDN: `design-dna-v2.0.md`, `system_rules-v2.0.md`, `design-system-v2.0.md`.
+     - PeptideFox: `design-system-v7.0.0.md`, `DESIGN_RULES.md`.
+   - Summarize brand voice, typography, color, layout rules, constraints.
 
-ORCA analyzes:
-- Keywords: "weather" → API integration
-- Files: *.xcodeproj → iOS detected
-    ↓
-Proposes Team:
-┌─────────────────────────────────────┐
-│ iOS Team (6 agents):                │
-│                                     │
-│ Planning:                           │
-│ - requirement-analyst               │
-│ - system-architect                  │
-│                                     │
-│ Implementation:                     │
-│ - swiftui-developer                 │
-│ - swiftdata-specialist (caching)    │
-│ - urlsession-expert (weather API)   │
-│ - state-architect (state design)    │
-│                                     │
-│ Quality:                            │
-│ - verification-agent                │
-│ - quality-validator                 │
-└─────────────────────────────────────┘
+3. **Thinking scaffold**
+   - `/design-director`, `/obdn-designer`:  
+     `FRAME → STRUCTURE → SURFACE → CODE`
+   - `/fox-designer`:  
+     `FRAME → STRUCTURE → SURFACE → CALCULATE → CODE GUIDANCE`
 
-Interactive Prompt:
-┌─────────────────────────────────────┐
-│ Confirm proposed team?              │
-│                                     │
-│ [✓] Proceed with team               │
-│ [ ] Modify team (adjust agents)     │
-│ [ ] Other                           │
-└─────────────────────────────────────┘
-```
+4. **Hard rules**
+   - Type scales, color usage, spacing tokens.
+   - Card/bento architectures.
+   - “Calculate, don’t guess” for spacing and width.
+   - Blueprint‑first, code‑second; code only if explicitly requested.
 
-**You choose. Always.**
+5. **Structured output**
+   - Fixed blueprint templates:
+     - CONTEXT RECALL
+     - MODE
+     - FRAME / STRUCTURE / SURFACE / CALCULATIONS / COMPONENTS
+     - RECOMMENDATIONS
+     - RISKS / WARNINGS
 
-No blind automation. No surprise agent spawns.
+Result: agents stay in their lane and produce consistent, brand‑true outputs that implementation agents can consume reliably.
 
 ---
 
-## Installation
+## 8. Parallel Orchestration & Chaos Prevention
 
-```bash
-# 1. Clone repo
-git clone https://github.com/yourusername/claude-vibe-config.git
-cd claude-vibe-config
+Parallelism is powerful but dangerous; this OS uses it carefully.
 
-# 2. Install global hooks (Workshop + session context)
-bash .claude-global-hooks/install.sh
+### 8.1 Parallel reasoning, serialized decisions
 
-# 3. (Optional) Install Workshop CLI
-# Follow: docs/workshop.md
+- ORCA and `/response-aware` can dispatch multiple planners or specialists in parallel.
+- The orchestrator:
+  - Gathers outputs.
+  - Synthesizes them into a single blueprint.
+  - Owns the decision; implementors **do not** mutate the plan.
 
-# 4. (Optional) Enable per-project memory search
-# Add vibe-memory under ~/.claude.json → projects["/abs/path/to/your-project"].mcpServers
-# Initialize Workshop: workshop init
-# Move DB: mkdir -p .claude/memory && mv .workshop/workshop.db .claude/memory/
-# See: quick-reference/memory.md
+### 8.2 Chaos prevention rules
 
-# 5. (Optional) Enable global MCP servers
-# - XcodeBuild MCP (iOS/macOS builds)
-# - Chrome DevTools MCP (browser automation)
-# - context7 (library documentation)
-# See: docs/mcp-memory.md
+To avoid runaway file/plan creation:
 
-# 6. (Recommended) Install repo git hooks (finalize gate)
-bash scripts/install-git-hooks.sh
+- **File limits**
+  - Max files per agent per task.
+  - Max files per ORCA session.
 
-# Finalize before committing work from an ORCA session
-bash scripts/finalize.sh
-```
+- **Meta‑tags required**
+  - `#FILE_CREATED`, `#FILE_MODIFIED`, `#FILE_DELETED`
+  - `#COMPLETION_DRIVE`, `#SCREENSHOT_CLAIMED`, etc.
 
----
+- **Standard paths**
+  - Evidence: `.orchestration/evidence/`
+  - Logs: `.orchestration/logs/`
+  - Temp: `/tmp/orca-[sessionid]/`
 
-## Core Commands
+- **Banned planning docs**
+  - No `PLAN.md`, `TODO.md`, `*-plan.md`, etc.
+  - Work directly in code + blueprints; no explosion of meta‑documents.
 
-```bash
-# Orchestration
-/orca "what you want built"              # Smart team selection + dispatch
-/orca [COMPLEX] "complex multi-phase"    # Use Opus for planning
-/respawr "…"                             # Response Awareness (full: plan → build → verify)
-
-# Response Awareness aliases
-/respawr -plan "…"                      # Plan-only; produce blueprint for approval
-/respawr -build <blueprint.md>           # Implement + verify from approved blueprint
-
-# Planning (for risky work)
-/enhance -clarify "…"                   # Ask 2–3 crisp questions, summarize, stop
-/response-awareness-plan                 # Plan → user approval → implement (original)
-/response-awareness-implement <path>     # Execute approved plan (original)
-/introspect                              # Predict failure modes
-
-# Verification
-/finalize                                # Final evidence check (orca sessions)
-/visual-review <url>                     # Browser screenshot + analysis
-
-# Modes
-/mode -on                                # Strict: require .verified from finalize
-/mode -off                               # Disable checks temporarily (trusted sprint)
-
-# Memory
-/memory-search <query>                   # Search Workshop memory
-/memory-learn                            # Reflect + update playbooks
-/memory-pause                            # Disable learning (testing mode)
-
-# Organization
-/cleanup                                 # Verify organization + archive stale evidence/logs (safe)
-```
+This keeps multi‑agent work observable and bounded.
 
 ---
 
-## Project Structure
+## 9. MCP Tools & IO Safety
 
-```
-claude-vibe-config/
-├── agents/                     # 65 specialist agents
-│   ├── core/                   # Core orchestrators
-│   ├── planning/               # requirement-analyst, system-architect
-│   ├── implementation/         # backend-engineer, android-engineer
-│   ├── quality/                # verification-agent, quality-validator
-│   └── specialists/            # Platform-specific specialists
-│       ├── ios/                # 20 iOS specialists
-│       ├── frontend/           # 15 frontend specialists
-│       └── data/               # 7 data analysis specialists
-│
-├── commands/                   # 30 slash commands
-│   ├── orca.md                 # Main orchestrator
-│   ├── enhance.md              # Request enhancer
-│   ├── memory-learn.md         # Learning trigger
-│   └── finalize.md             # Evidence verification
-│
-├── hooks/                      # 8 session hooks
-│   ├── load-playbooks.sh       # ACE playbook loader
-│   ├── detect-project-type.sh  # Tech stack detection
-│   └── session-start.sh        # Context initialization
-│
-├── scripts/                    # 41 utilities
-│   ├── workshop-*.sh           # Workshop memory scripts
-│   ├── finalize.sh             # Evidence check script
-│   ├── memory-*.py             # Memory operations
-│   └── deploy-to-global.sh     # [DEPRECATED] Helper script (see DEPLOYMENT_MANIFEST.md)
-│
-├── docs/                       # Organized documentation
-│   ├── architecture/           # System design docs
-│   ├── design/                 # UI/design system docs
-│   └── memory/                 # Workshop/memory docs
-│
-├── quick-reference/            # Quick access guides
-│   ├── agents-teams.md         # Team compositions
-│   ├── commands.md             # Command reference
-│   ├── memory.md               # Memory architecture (NEW)
-│   └── triggers-tools.md       # Natural language triggers
-│
-├── mcp/                        # Custom MCP servers
-│   └── vibe-memory/            # Per-project memory search MCP
-│       └── memory_server.py    # Exposes memory.search tool
-│
-├── .claude/                    # Per-project (consolidated in v2.0)
-│   ├── mcp.json                # Per-project MCP config
-│   ├── memory/
-│   │   └── workshop.db         # SQLite FTS database
-│   ├── orchestration/
-│   │   ├── session-context.md  # Loaded at session start
-│   │   ├── playbooks/          # ACE patterns (evolve)
-│   │   ├── evidence/           # Screenshots, artifacts
-│   │   └── signals/            # Outcome tracking
-│   └── hooks/
-│       └── session-start.sh    # Auto-loads memory + CLAUDE.md
-│
-└── .claude-global-hooks/       # Global hook installer
-    ├── install.sh              # One-time setup
-    └── SessionStart.sh         # Auto-loads Workshop
+Agents only interact with your system via declared tools.  
+Commands specify `allowed-tools`, which acts as a hard permission boundary.
 
-Note: .claude-work/, .orchestration/, .workshop/ are legacy (auto-migrated by /cleanup)
-```
+### 9.1 Core MCPs in this setup
+
+- **vibe-memory** (local)
+  - Path: `~/.claude/mcp/vibe-memory`
+  - Exposes project memory (`.claude/memory/workshop.db`) via `memory.search`.
+  - Used by orchestrators and specialists to recall decisions and context.
+
+- **playwright**
+  - Drives real browsers for end‑to‑end flows.
+  - Captures screenshots and videos for evidence.
+
+- **chromedevtools**
+  - Inspects live pages (DOM, network, console).
+  - Useful for UI debugging and layout verification.
+
+- **iossimulator**
+  - Controls iOS Simulator to run native flows.
+  - Used for visual and functional evidence on iOS.
+
+- **context7**
+  - Provides rich repository/codebase context and search.
+  - Lets agents reason about large projects without manual grepping.
+
+Some of these MCPs are configured as external services (via Claude settings), others (like `vibe-memory`) are installed locally. All of them are treated as **structured tools**, not magical abilities.
+
+### 9.2 File + shell tools
+
+Commands use tool‑based IO:
+
+- `Read`, `Write`, `Edit`, `MultiEdit` — code and file operations.
+- `Grep`, `Glob` — search within the repo.
+- `Bash` — controlled shell commands.
+
+Combined with MCPs and meta‑tags, this makes agent behavior observable and auditable.
 
 ---
 
-## How ORCA Learns: Example Session
+## 10. Design Principles: AI Deviance & Token Efficiency
 
-```
-Session 1: Build iOS weather app
-─────────────────────────────────
+This OS exists to fix two things:
 
-1. ORCA loads playbooks
-   → Pattern: "ios-pattern-001" (SwiftUI + SwiftData + State-First)
-   → helpful_count: 5, harmful_count: 0
+1. **AI deviance**
+   - Models drifting away from the request.
+   - Saying “done” when reality disagrees.
 
-2. User confirms team
-   → swiftui-developer, swiftdata-specialist, state-architect
+2. **Token bloat**
+   - Massive, unfocused chats.
+   - Repeating the same context and decisions in every session.
 
-3. Agents execute
-   → Build succeeds
-   → Tests pass
-   → Screenshots captured
+Design principles baked into this setup:
 
-4. Reflector analyzes
-   → Pattern worked again
-   → Recommendation: helpful_count 5 → 6
+- **Blueprint‑first, code‑second**
+  - For UI and complex systems, always design the blueprint (structure, spacing, tokens) before implementing code.
 
-5. Curator updates playbook
-   {
-     "id": "ios-pattern-001",
-     "helpful_count": 6,  // ← incremented
-     "evidence": "proven across 6 sessions",
-     "learned_from": [..., "weather-app-2025-11-06"]
-   }
+- **Evidence‑based “done”**
+  - Work is complete only when tags are resolved and evidence is captured: tests, builds, screenshots, logs.
 
-─────────────────────────────────
-Session 27: Another iOS app
-─────────────────────────────────
+- **Narrow agents with hard scopes**
+  - Each agent has a single job, strict inputs, and explicit non‑responsibilities.
 
-1. ORCA loads playbooks
-   → Pattern: "ios-pattern-001"
-   → helpful_count: 23, harmful_count: 1
-   → High confidence (23:1 ratio)
+- **Memory as ground truth**
+  - Decisions live in Workshop (via `vibe-memory` MCP), not ephemeral chat.
+  - Brand/design DNA lives in design system docs.
 
-2. User confirms (same pattern proven 23× before)
+- **MCP tools + logs over magic**
+  - All I/O goes through tools and is logged.
+  - Behavior is inspectable and debuggable.
 
-Result: Faster decisions. Better outcomes.
-```
+- **Parallel planning, centralized decisions**
+  - Many agents can explore, but one orchestrator decides and enforces.
+
+In practice this is also more **token‑efficient**:
+- Less repetition of context and decisions.
+- Fewer iterations caused by drift and janky proposals.
+- Smaller, reusable specialist prompts instead of one giant general persona.
 
 ---
 
-## Evidence Requirements by Platform
+## 11. What Lives Where (File/Folder Map)
 
-### iOS
-```bash
-✓ Clean build (DerivedData deleted)
-✓ Simulator install successful
-✓ Screenshot captured
-✓ Tests pass (Swift Testing or XCTest)
-```
+### 11.1 Global OS (`~/.claude`)
 
-### Frontend
-```bash
-✓ npm run build succeeds
-✓ Dev server runs
-✓ Browser screenshot captured
-✓ Lighthouse score (if performance work)
-```
+Live config used by Claude Code:
 
-### Backend
-```bash
-✓ pytest passes
-✓ Server starts
-✓ API endpoints respond
-✓ Logs show no errors
-```
+- `~/.claude/commands/*.md`
+  - Live command definitions:
+    - `creative-strategist.md`
+    - `design-director.md`
+    - `fox-designer.md`
+    - `obdn-designer.md`
+    - `response-aware.md`
+    - `orca.md`
+    - and others.
 
-### Data Analysis
-```bash
-✓ All numbers grep-verified from source
-✓ Calculations checked (no fabrication)
-✓ Source citations included
-✓ Granular (not aggregated)
-```
+- `~/.claude/agents/`
+  - Custom agents, if any, used by ORCA and orchestrators.
 
----
+- `~/.claude/mcp/`
+  - MCP servers:
+    - `vibe-memory/` (local project memory MCP)
+    - Other MCPs are typically configured externally (playwright, chromedevtools, iossimulator, context7).
 
-## Troubleshooting
+- `~/.claude/hooks/`
+  - Shell hooks (e.g. session start) that wire in memory, project detection, etc.
 
-**Workshop context not loading:**
-```bash
-# Check Workshop installed
-workshop --version
+- `~/.claude/CLAUDE.md`
+  - Global brain/config document (design OCD, verification rules, etc.).
 
-# Reinitialize
-workshop init
+### 11.2 This repo (`claude-vibe-config`)
 
-# Verify hooks installed
-ls -la ~/.claude/hooks/SessionStart.sh
-```
+This repo mirrors `~/.claude` for version control:
 
-**Agents creating too many files:**
-```bash
-# Monitor chaos
-chaos-monitor
+- `commands/`
+  - Snapshots of your live custom commands (`fox-designer.md`, `obdn-designer.md`, `response-aware.md`, etc.).
 
-# Clean up
-chaos-cleanup
+- `agents/`
+  - Snapshots of custom agents.
 
-# Check agent limits
-grep "Max 2 files" agents/**/*.md
-```
+- `docs/`, `quick-reference/`
+  - Methodology and deep dives:
+    - `quick-reference/memory.md` → full memory + vibe‑memory + Workshop workflow.
+    - `quick-reference/agents-teams.md`, `quick-reference/triggers-tools.md`, etc.
 
-**Playbooks not updating:**
-```bash
-# Manually trigger learning
-/memory-learn
+- `scripts/`, `hooks/`
+  - Helper scripts used by commands and hooks (capture tests, builds, screenshots, verification, etc.).
 
-# Check signal log
-cat .orchestration/signals/signal-log.jsonl | tail -20
+Remember: you change the live config in `~/.claude`, then sync back into this repo.
 
-# Verify reflection exists
-ls .orchestration/sessions/*-reflection.md
-```
+### 11.3 Per‑project configs
 
-**Memory search not working (MCP):**
-```bash
-# Check per-project MCP config in ~/.claude.json (additive to global)
-python3 - << 'EOF'
-import json, os
-from pathlib import Path
-cfg = json.loads(Path(Path.home()/'.claude.json').read_text())
-proj = str(Path.cwd().resolve())
-print(json.dumps(cfg.get('projects',{}).get(proj,{}).get('mcpServers',{}), indent=2))
-EOF
+Each project has its own DNA and memory:
 
-# Verify database exists in consolidated location
-ls -lh .claude/memory/workshop.db
+- **PeptideFox**
+  - Design DNA:
+    - `Desktop/peptidefox/design-dna/design-system-v7.0.0.md`
+    - `Desktop/peptidefox/design-dna/DESIGN_RULES.md`
+  - Project prompt:
+    - `Desktop/peptidefox/design-dna/peptidefox_designer_prompt.md`
+  - Memory:
+    - `project/.claude/memory/workshop.db` (once initialized via Workshop).
 
-# Check Workshop CLI works
-workshop context
+- **OBDN**
+  - Design DNA:
+    - `Desktop/OBDN/obdn_site/design-system/design-dna-v2.0.md`
+    - `Desktop/OBDN/obdn_site/design-system/system_rules-v2.0.md`
+    - `Desktop/OBDN/obdn_site/design-system/design-system-v2.0.md`
+  - Project prompt:
+    - `Desktop/OBDN/obdn_site/design-system/obdn_designer_prompt.md`
 
-# Rebuild FTS index if needed
-python3 scripts/memory-index.py index-all --include-out
-
-# Set WORKSHOP_DB env (only if custom location needed)
-export WORKSHOP_DB="/path/to/project/.claude/memory/workshop.db"
-
-# See quick-reference/memory.md for detailed troubleshooting
-```
+Other projects follow the same pattern:
+- Project design DNA + brand docs under `design-*` or `docs/`.
+- Project memory under `.claude/memory/workshop.db`.
 
 ---
 
-## Key Principles
-
-1. **User confirmation before automation** — You're in control, always
-2. **Evidence beats claims** — Tests, builds, screenshots required
-3. **Learn from outcomes** — Patterns evolve with proof
-4. **Prevent chaos** — Strict limits on file creation
-5. **Durable memory** — Workshop remembers across sessions
-
----
-
-## Documentation
-
-- **Quick Start:** This README
-- **Memory Architecture:** `quick-reference/memory.md` (per-project vibe-memory + Workshop)
-- **Workshop Memory:** `docs/memory/workshop.md`
-- **ACE Playbooks:** `.orchestration/playbooks/readme.md`
-- **Chaos Prevention:** `docs/architecture/chaos-prevention.md`
-- **MCP Servers:** `docs/memory/mcp-memory.md`
-- **Quick Reference:** `quick-reference/commands.md`
-- **Evidence & Finalize:** `quick-reference/Evidence-Verification.md`
-
----
-
-## What Makes ORCA Novel?
-
-**1. Self-Learning Patterns**
-- Not static rules — patterns evolve based on outcomes
-- Apoptosis deletes bad patterns automatically
-- Evidence accumulates over time
-
-**2. Mandatory Human Gates**
-- User confirms teams before dispatch
-- No blind automation
-- Interactive Q&A for critical decisions
-
-**3. Evidence-Based Verification**
-- Meta-cognitive tags prevent false completions
-- Platform-specific evidence (builds, tests, screenshots)
-- 5-gate quality pipeline
-
-**4. Durable Project Memory**
-- Workshop SQLite database per project
-- Auto-loaded at session start
-- Survives crashes (catch-up import)
-
-**5. Chaos Prevention**
-- Learned from 94,000 file disaster
-- Max 2 files per agent
-- Real-time monitoring
-
-**6. Tech Stack Auto-Detection**
-- Keywords + file analysis
-- Specialized teams per stack
-- Minimal teams (not kitchen sink)
-
----
-
-## Credits
-
-Built by [@adilkalam](https://github.com/adilkalam) after learning the hard way what happens when AI creates 94,000 planning documents.
-
-**Philosophy:** *Make AI prove it, or it didn't happen.*
-
----
-
-## License
-
-MIT
+This README is the high‑level map.  
+For operational details (exact tags, scripts, or team patterns), see the files under `quick-reference/` and the individual command files in `commands/`.***

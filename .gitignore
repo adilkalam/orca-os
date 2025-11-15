@@ -8,6 +8,9 @@
 /ext
 /skills
 Makefile
+/commands/_archive/
+/.deprecated
+/.
 
 
 # OS
@@ -23,6 +26,8 @@ Thumbs.db
 
 # Design Memory (personal preferences, keep local)
 .design-memory/
+/commands/project-specific/
+
 
 # Backups and deprecated files
 *-backup*.md
