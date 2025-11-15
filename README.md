@@ -67,7 +67,9 @@ That model quickly hits hard limits:
   - Multi‑agent systems run without strong scopes or guardrails.
   - No hard requirement to prove work with tests/build/screenshots/logs.
 
-### Resolution — A Personal AI OS for Claude
+---
+
+### 2. Resolution — A Personal AI OS for Claude
 
 This system is a **constrained, evidence‑driven OS** around Claude:
 
@@ -87,39 +89,6 @@ This system is a **constrained, evidence‑driven OS** around Claude:
   - Work is not “done” until there is proof: tests, builds, screenshots, logs, all reconciled against meta‑tags.
 
 The rest of this README explains how that OS works.
-
----
-
-## 2. Quickstart: Usage Recipes
-
-For people who just want to use it, not study LLM research:
-
-- **Design a new tool screen**
-  - Plan:  
-    ```text
-    /response-aware -plan "iOS to React migration"
-    ```
-  - Implement + verify from blueprint:  
-    ```text
-    /response-aware -build path/to/blueprint.md
-    ```
-
-- **Design an new layout**
-  ```text
-  /designer-director " product detail page layout"
-  ```
-
-- **Full end‑to‑end implementation with proof**
-  ```text
-  /response-aware "Add dark mode to dashboard"
-  ```
-
-- **Analyze creative performance and strategy**
-  ```text
-  /creative-strategist "<paste performance data + ads>"
-  ```
-
-You can get real work done with just these commands; the rest of the README explains what they’re doing under the hood.
 
 ---
 
@@ -160,83 +129,37 @@ Key ideas:
 
 ---
 
-## 4. Example Flow: New PeptideFox Library Screen
 
-Concrete story: designing and implementing a new PeptideFox peptide library screen.
+## 4. Quickstart: Usage Recipes
 
-### 4.1 Plan the work
+For people who just want to use it, not study LLM research:
 
-You start with plan‑only mode:
+- **Design a new tool screen**
+  - Plan:  
+    ```text
+    /response-aware -plan "iOS to React migration"
+    ```
+  - Implement + verify from blueprint:  
+    ```text
+    /response-aware -build path/to/blueprint.md
+    ```
 
-```text
-/response-aware -plan "Peptide library grid v2"
-```
+- **Design an new layout**
+  ```text
+  /designer-director " product detail page layout"
+  ```
 
-Response Awareness will:
+- **Full end‑to‑end implementation with proof**
+  ```text
+  /response-aware "Add dark mode to dashboard"
+  ```
 
-- Load PeptideFox design DNA:
-  - `design-system-v7.0.0.md`
-  - `DESIGN_RULES.md`
-- Query project memory via **vibe‑memory MCP**:
-  - Decisions like “No Tailwind; use design tokens.”
-  - Past gotchas and goals.
-- Run parallel domain planners and synthesize:
-  - One implementation blueprint with explicit interfaces and risks.
-  - A question to you via `AskUserQuestion` to confirm the plan.
+- **Analyze creative performance and strategy**
+  ```text
+  /creative-strategist "<paste performance data + ads>"
+  ```
 
-You review and approve the blueprint (or tweak it).
-
-### 4.2 Refine the UI blueprint
-
-Then you call the brand‑specific UI architect:
-
-```text
-/fox-designer -iterate "Refine card layout + spacing for peptide library grid"
-```
-
-`/fox-designer` will:
-
-- Recall PeptideFox v7 design system and rules.
-- Use its scaffold:
-  - FRAME → STRUCTURE → SURFACE → CALCULATE → CODE GUIDANCE
-- Enforce:
-  - Brown LL / Brown Mono LL / Brown LL Inline rules.
-  - Spacing tokens (2 → 4 → 8 → 12 → 16 → 24 → 32 → 48 → 64 → 96).
-  - Card width math so badges don’t wrap jankily.
-
-It returns a **PeptideFox Design Blueprint** for the UI layer.  
-You fold this into the main implementation blueprint.
-
-### 4.3 Build & verify
-
-Once the blueprint is approved and updated, you run:
-
-```text
-/response-aware -build path/to/blueprint.md
-```
-
-Build mode will:
-
-- Implement strictly from the blueprint (no plan mutation).
-- Tag all assumptions and file operations
-  (`#COMPLETION_DRIVE`, `#FILE_CREATED`, `#FILE_MODIFIED`, etc.).
-- Use tools and MCPs to verify:
-  - Unit/integration tests via `scripts/capture-tests.sh`.
-  - Builds via `scripts/capture-build.sh`.
-  - Visual checks and flows via MCPs:
-    - `playwright` → drive a real browser, capture screenshots/videos.
-    - `chromedevtools` → inspect DOM, network, console.
-  - For native/iOS flows:
-    - `iossimulator` → run iOS Simulator and capture evidence.
-- Store evidence under:
-  - `.orchestration/evidence/` (screenshots, logs)
-  - `.orchestration/implementation-log.md` (tags + meta‑cognition)
-- Run `bash scripts/finalize.sh` to produce a `.verified` marker.
-
-The final synthesis step reports:
-- What was done.
-- What decisions were made.
-- Where to find the evidence.
+You can get real work done with just these commands; the rest of the README explains what they’re doing under the hood.
 
 ---
 
