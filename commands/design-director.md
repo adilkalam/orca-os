@@ -83,214 +83,89 @@ Task({
 
 ---
 
-## 3. Legacy Mode Support (Backward Compatibility)
+## 3. Key Design Principles (Applied by All Agents)
 
-Interpret `$ARGUMENTS` and classify work type (state explicitly):
+The following principles are passed to whichever agent handles the request:
 
-- Primary Mode: `Layout` | `Components` | `Reporting` | `Visual System` | `Code Guidance`
+### Core Heuristics
+- **Anti-Bullet Hell**: No long bullet lists; use micro-headlines, fact grids, insight rows
+- **Alignment Discipline**: Text left, numbers right, fixed card zones
+- **Lines as Architecture**: Hairline rules for structure, not decoration
+- **Color Discipline**: Near-grayscale base, ≤20% accent usage
+- **Spacing System**: 8px grid, 4px baseline, no random gaps
+- **Hierarchy Ceiling**: Max 4 levels of visual hierarchy
 
-If the user includes `-edit` as the first argument:
-- **EDIT mode**: you are refining an existing screen/flow.
-- Otherwise: **NEW mode**: you are designing a new one.
-
-In EDIT mode:
-- Identify the relevant implementation file(s) with `Read`/basic listing commands (conceptually).
-- If screenshots or prior /visual-review evidence exist, factor those into the assessment.
-- Focus on surgical structural improvements rather than full reinvention unless user invites it.
-
----
-
-## 3. Thinking Scaffold — FRAME → STRUCTURE → SURFACE → CODE
-
-Always think in this pipeline; do not skip straight to code.
-
-### 3.1 FRAME (What’s the job?)
-- What is this screen / artifact supposed to achieve?
-- Who is using it, and in what context?
-- Is it **Atmospheric** (brand / marketing) or **Reporting** (data-dense, decision-support)?
-
-### 3.2 STRUCTURE (How is information grouped?)
-- Define sections / zones first.
-- Define up to **four levels of hierarchy**:
-  - Level 1: Page / hero
-  - Level 2: Sections
-  - Level 3: Blocks within sections
-  - Level 4: Details / data
-
-### 3.3 SURFACE (How does it look & feel?)
-- Apply typography hierarchy (roles, sizes, weights).
-- Define line usage (rules, dividers, vertical spine).
-- Apply color system (mostly neutrals, minimal accents).
-
-### 3.4 CODE (How is it implemented?)
-- Only after FRAME/STRUCTURE/SURFACE are solid.
-- Preserve hierarchy and spacing in code suggestions.
-- Enforce systematic spacing (multiples of 4/8) and alignment.
-- For implementation work, hand off to ORCA teams and specific specialists (e.g., react-18-specialist, nextjs-14-specialist, design-reviewer) instead of making large edits yourself.
+### Thinking Scaffold
+The agent will follow: FRAME → STRUCTURE → SURFACE → IMPLEMENTATION HANDOFF
 
 ---
 
-## 4. Core Heuristics (Hard Rules)
+## 4. Output Format
 
-These are non-negotiable for /design-director.
+The agent will produce a design spec with:
 
-### 4.1 Anti-Bullet Hell
-- Do **not** express dense information as long bullet lists that dominate the viewport.
-- Prefer:
-  - Micro-headlines + 1–2 sentences
-  - Two-column fact grids
-  - Stacked “insight rows” with thin rules between them
-  - Short checklists only for truly procedural content
+```markdown
+✨ DESIGN CONCEPT SPECIFICATION
 
-### 4.2 Alignment Discipline
-- Text: left aligned.
-- Numbers & KPIs: right aligned in tables, or centered in dedicated KPI cards.
-- Cards in a grid must align internally:
-  - Fixed zones: header, metric, body, footer.
-- Do not accept layouts where wrapped subtitles push KPIs out of vertical alignment; redesign the header/content limits instead.
+PROJECT: [If specified]
+REQUEST: [What was asked]
 
-### 4.3 Lines as Architecture (Not Decoration)
-- Use hairline rules (1px, low-opacity) to:
-  - Separate major sections
-  - Anchor headers & tables
-  - Create vertical spines
-  - Define micro-blocks
-- Avoid heavy boxes, thick borders, or “caged” cards.
+DESIGN SYSTEM CONTEXT
+- [Key tokens and rules being applied]
 
-### 4.4 Color Discipline
-- Design should work in near-grayscale.
-- Accents:
-  - ≤ 10–20% of elements.
-  - Encode meaning (state, emphasis, series), not decoration.
-- Avoid gradients in data bars by default.
+CONCEPT EXPLORATION
+- [2-3 concepts if appropriate]
+- [Selected concept with rationale]
 
-### 4.5 Spacing System
-- Use an **8px layout grid** and **4px baseline** for micro-spacing.
-- Distinguish:
-  - Macro spacing (section-to-section, ~48–80px).
-  - Micro spacing (within cards, ~8–24px).
-- No random 13px, 21px gaps; spacing is allocated, not leftover.
+STRUCTURE
+- [Information architecture]
+- [Section breakdown]
+- [Component hierarchy]
 
-### 4.6 Hierarchy Ceiling
-- Max **4 levels** of visual hierarchy (as in 3.2).
-- Avoid tiny, meaningless size increments (no “H7” ladders).
-- Make decisive jumps in type/weight/contrast.
+VISUAL DESIGN
+- [Typography application]
+- [Color usage]
+- [Spacing and layout]
 
----
+> IMPLEMENTATION HANDOFF FOR FRONTEND BUILDER
 
-## 5. Reporting / Data-Dense Mode
-
-When the work is explicitly about reporting, dashboards, tables, or complex data, apply these.
-
-### 5.1 Tiered Layout
-Design the screen as:
-1. Page Header (context, timeframe)
-2. KPI Cluster (3–6 core metrics)
-3. Charts (2–4 supporting views)
-4. Tables / Detail (raw grid, drill-down)
-
-If everything has equal weight, restructure into tiers.
-
-### 5.2 Card Architecture
-Cards should follow a fixed-zone structure:
-- Header zone: title + subtitle (max 2 lines).
-- KPI zone: primary metric + delta (never wraps).
-- Body zone: description and/or small chart (flex).
-- Footer zone: source / timestamp / meta (fixed).
-
-Only the body zone may flex in height. If any other zone breaks alignment, adjust content limits or structure.
-
-### 5.3 Charts
-- Prefer single-hue or tonal palettes; add a second series only when conceptually necessary.
-- No decorative gradients.
-- Anatomy:
-  - Title + optional subtitle
-  - Chart canvas
-  - Axis labels (small, mono)
-- Always consider alt/data-table access for accessibility.
-
-### 5.4 Insight Blocks (Anti-Paragraph Soup)
-- For “what this proves / two truths at once” sections:
-  - Use labeled insight rows:
-    - Insight label
-    - Clarifying sentence
-  - Thin divider between rows.
-
----
-
-## 6. Output Format
-
-Default to a **Design Blueprint** style memo. Use this structure unless user explicitly asks for code:
-
-```md
-✨ QUIET-LUXURY DESIGN BLUEPRINT — /design-director
-
-CONTEXT RECALL
-- [brand, audience, aesthetic, constraints]
-
-PROBLEM TYPE
-- [Layout / Components / Reporting / Visual System / Code Guidance]
-
-FRAME
-- [What this screen/page is for]
-- [Primary user + scenario]
-- [Atmospheric vs Reporting mode]
-
-STRUCTURE (LAYOUT)
-- [Section list with purpose]
-- [Primary grid / columns]
-- [Hierarchy levels 1–4]
-
-VISUAL SYSTEM
-- [Typography roles, sizes, weights]
-- [Line usage: where rules go, vertical spine]
-- [Palette usage: neutrals vs accents]
-
-COMPONENTS & PATTERNS
-- [Cards, tables, charts, nav, filters, forms, etc. with concrete rules]
-
-RECOMMENDATIONS
-1) [What to change/add]
-2) [What to remove]
-3) [What to validate with design-review/visual-review]
-
-RISKS & TRADEOFFS
-- [Where it might break / what to watch]
+Tasks:
+1. [Specific implementation steps]
+2. [Component creation order]
+3. [Token applications]
+4. [Responsive considerations]
 ```
 
-When the user explicitly requests implementation code:
-1. Produce the DESIGN BLUEPRINT first.
-2. Then provide code snippets that faithfully implement that blueprint (HTML/CSS/React/etc.).
-3. Keep code tightly scoped; do not perform large-scale refactors from this command.
+---
+
+## 5. Usage Examples
+
+```bash
+# Generic quiet-luxury design
+/design-director Dashboard for analytics
+
+# Project-specific design
+/design-director --project mm Product listing page
+/design-director --project fox Data visualization dashboard
+/design-director --project obdn Landing page with hero
+
+# The output can be used with:
+/mm --build [Using spec from design-director]
+/fox --build [Using spec from design-director]
+```
 
 ---
 
-## 7. Tooling Discipline
+## 6. How It Works
 
-Allowed tools:
-- `Read` — load design DNA, brand docs, and relevant implementation files.
-- `AskUserQuestion` — only when critical information is missing (e.g., unknown viewport, framework, or target screen).
-- `WebFetch` — optional, for targeted external design references (e.g., specific black-and-white, Swiss, or reporting UI examples).
-- `exit_plan_mode` — before any destructive or large-scale edits; this command should usually stop at blueprint + recommendations.
+This command acts as a router:
+1. Detects if a project is specified (--project flag)
+2. Routes to the appropriate concept agent
+3. Passes design constraints and methodology
+4. Returns implementation-ready spec
 
-Do not orchestrate other agents from here. /design-director is a single specialist brain. When implementation is required, recommend follow-ups like:
-- ORCA teams (react-18-specialist, nextjs-14-specialist, backend-engineer) for multi-file implementations.
-- `/design-review` and `/visual-review` for post-implementation verification.
-
----
-
-## 8. Taste Guardrails (Final Check)
-
-Before finalizing any response, /design-director must sanity-check:
-- Does this feel quietly confident, not visually needy?
-- Would the hierarchy be clear in ~3 seconds of scanning?
-- Are lines used as architecture (structure, rhythm) rather than decoration?
-- Have we avoided bullet hell and paragraph soup where better structures exist?
-- Are any elements shouting unnecessarily (color, gradients, odd weights)?
-- Would this hold up next to a Swiss studio case study or Apple-quality internal page?
-
-If any answer is “no” or “not yet”, revise the blueprint before returning it.
-
-Approval
-- Use `exit_plan_mode` before making any code/content changes.
-- In most cases, treat this as a blueprinting and critique command; leave heavy implementation to ORCA-managed agents.
+The concept agents handle:
+- Design system application
+- Concept exploration (when appropriate)
+- Implementation handoff format
+- Project-specific patterns and precedents

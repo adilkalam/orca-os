@@ -1,6 +1,6 @@
 # Session Context
 
-- Timestamp: 2025-11-15T20:19:57Z
+- Timestamp: 2025-11-15T21:24:01Z
 - Native Memory: CLAUDE.md (129 lines)
 - Local Memory DB: .claude/memory/workshop.db (2 MB); files=158, chunks=1187
 - Design Guard: violations=- (mode -)
@@ -8,26 +8,10 @@
 
 ## Recent Changes (git status)
 ```
- M .claude/orchestration/temp/session-context.md
- M .gitignore
- M README.md
- D agents/CHAOS_PREVENTION_DIRECTIVE.md
- D agents/IO_CONTRACT_TEMPLATE.md
- D agents/POLICY_ANCHORS.md
- D agents/core/file-registry.ts
- D agents/implementation/android-engineer.md
- D agents/implementation/backend-engineer.md
- D agents/implementation/cross-platform-mobile.md
- D agents/implementation/infrastructure-engineer.md
- D agents/orchestration/engineering-director.md
- D agents/orchestration/firewall.ts
- D agents/orchestration/meta-orchestrator.md
- D agents/orchestration/orchestration-reflector.md
- D agents/orchestration/playbook-curator.md
- D agents/orchestration/workflow-orchestrator.md
- D agents/planning/plan-synthesis-agent.md
- D agents/planning/requirement-analyst.md
- D agents/planning/system-architect.md
+ M _explore/_MCPs/Sequential-thinking-ultra-mcp
+ M _explore/_MCPs/gmail-mcp
+ M commands/design-director.md
+ M skills/ios-simulator-skill
 ```
 
 ## Recent Implementation Tags
