@@ -56,12 +56,3 @@ dev-logs/
 .rebuilt-*.md
 .worktrees/
 *.backup-*
-.claude
-.deprecated
-.claude-playbook-context.md
-.DS_Store
-.eslintrc.cjs
-.gitignore
-.htmlvalidate.json
-.mcp.json
-.stylelintrc.cjs

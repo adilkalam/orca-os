@@ -1,13 +1,15 @@
 # Session Context
 
-- Timestamp: 2025-11-15T01:01:30Z
-- Native Memory: CLAUDE.md (133 lines)
+- Timestamp: 2025-11-15T02:01:38Z
+- Native Memory: CLAUDE.md (129 lines)
 - Local Memory DB: .claude/memory/workshop.db (2 MB); files=158, chunks=1187
 - Design Guard: violations=- (mode -)
 - Design Atlas: missing
 
 ## Recent Changes (git status)
-(clean working tree)
+```
+ M skills/ios-simulator-skill
+```
 
 ## Recent Implementation Tags
 ```
