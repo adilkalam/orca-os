@@ -56,3 +56,4 @@ dev-logs/
 .rebuilt-*.md
 .worktrees/
 *.backup-*
+_explore/LLM-research/Anthropic/claude-cookbooks-main.zip
