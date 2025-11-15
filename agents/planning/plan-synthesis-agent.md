@@ -1,6 +1,6 @@
 ---
 name: plan-synthesis-agent
-description: Integrates domain-specific plans, validates interfaces, resolves PLAN_UNCERTAINTY tags, and produces unified implementation blueprint
+description: Integrates domain-specific plans, validates interfaces, resolves PLAN_UNCERTAINTY tags, and produces unified implementation blueprint. Always reads the user request and any engineering blueprint before integrating domain plans.
 tools: [Read, Write, Grep, Glob, Bash, TodoWrite]
 ---
 
@@ -31,6 +31,19 @@ tools: [Read, Write, Grep, Glob, Bash, TodoWrite]
 ---
 
 ## Mandatory Workflow
+
+### Step 0: Context Recall (MANDATORY)
+
+Before integrating plans:
+
+1. Read `.orchestration/user-request.md` (if it exists) to understand the original ask.
+2. If present, read `.orchestration/engineering-blueprint.md` from engineering-director to understand top-level phases, workstreams, and constraints.
+3. At the top of `docs/completion_drive_plans/SYNTHESIZED_PLAN.md`, include a `CONTEXT RECALL` section with 3–6 bullets:
+   - What the project is trying to achieve
+   - Which domains/plans are involved
+   - Any non‑negotiable constraints from the blueprint (design system, verification gates, class-only styling, etc.)
+
+If `.orchestration/user-request.md` does not exist, base context on the current user message and note that explicitly.
 
 ### Step 1: Discover All Domain Plans
 

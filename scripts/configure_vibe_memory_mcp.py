@@ -1,14 +1,33 @@
 #!/usr/bin/env python3
 """
-Safely add/merge the vibe-memory MCP server into your global Claude config (~/.claude.json).
+⚠️ DEPRECATED - DO NOT USE ⚠️
 
-Usage:
-  python3 scripts/configure_vibe_memory_mcp.py [--dry-run]
+This script is INCORRECT for vibe-memory architecture.
 
-What it does:
-  - Creates ~/.claude.json if missing
-  - Adds/updates mcpServers.vibe-memory with the server in this repo
-  - Backs up the original to ~/.claude.json.backup-YYYYmmdd-HHMMSS
+VIBE-MEMORY IS PER-PROJECT, NOT GLOBAL
+
+**Correct Architecture:**
+- Server code: ~/.claude/mcp/vibe-memory/memory_server.py (shared)
+- Config: ~/.claude.json → projects["/abs/path/to/project"].mcpServers (per-project)
+- Data: Project/.claude/memory/workshop.db (or legacy .workshop/workshop.db)
+
+**Use instead:**
+  scripts/update-claude-project-mcps.py --project /abs/path/to/project --add-vibe-memory --dedupe-duplicates
+
+**Why per-project:**
+- Each project has its own .workshop/workshop.db
+- Memory is project-specific, not global
+- Server finds database by walking up from CWD
+- Follows Workshop's intended architecture
+
+**DO NOT configure vibe-memory in ~/.claude.json globally**
+
+This script is kept for reference but should NOT be used.
+Use setup-vibe-memory-project.sh to configure vibe-memory per-project.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+DEPRECATED CODE BELOW (DO NOT USE)
 """
 import json
 import os
@@ -68,4 +87,3 @@ def main() -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
-

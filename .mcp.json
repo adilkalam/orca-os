@@ -1,0 +1,15 @@
+{
+  "mcpServers": {
+    "vibe-memory": {
+      "command": "python3",
+      "args": [
+        "-u",
+        "/Users/adilkalam/.claude/mcp/vibe-memory/memory_server.py"
+      ],
+      "env": {
+        "PYTHONUNBUFFERED": "1",
+        "WORKSHOP_ROOT": "/Users/adilkalam/claude-vibe-config"
+      }
+    }
+  }
+}

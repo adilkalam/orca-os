@@ -1,0 +1,126 @@
+{
+  "playbook_version": "1.0.0",
+  "project_type": "seo-content-automation",
+  "last_updated": "2025-11-07T05:06:00Z",
+  "patterns": [
+    {
+      "id": "seo-pattern-001",
+      "type": "helpful",
+      "marker": "✓",
+      "title": "Deep KG File Reading for Content Extraction",
+      "helpful_count": 1,
+      "harmful_count": 0,
+      "context": "Need rich prose from knowledge graph, not just metadata or excerpts",
+      "strategy": "Read complete markdown files (10-40KB), parse into sections by headings (H1/H2/H3), score relevance using Jaccard similarity + keyword presence (0.4+ threshold), extract top 5 files × top 5 sections per outline section = 2,000-4,000 words of substantial content.",
+      "evidence": "SEO Phase 1-4: Deep reader enabled 3,240-word articles from real prose (not filler). Technical completeness preserved, narrative flow maintained. Replaced 200-char excerpts lacking context.",
+      "implementation": {
+        "module": "scripts/seo_kg_deep_reader.py",
+        "functions": [
+          "parse_markdown_sections()",
+          "calculate_relevance_score()",
+          "extract_kg_content_for_section()"
+        ],
+        "integrated_in": "scripts/seo_auto_pipeline.py (line 44)"
+      },
+      "learned_from": ["seo-orca-phase-1-4-2025-11-07"],
+      "created_at": "2025-11-07T05:06:00Z",
+      "tags": ["content-extraction", "knowledge-graph", "quality"]
+    },
+    {
+      "id": "seo-pattern-002",
+      "type": "helpful",
+      "marker": "✓",
+      "title": "External Research Citation Architecture",
+      "helpful_count": 1,
+      "harmful_count": 0,
+      "context": "E-E-A-T validation for Google ranking",
+      "strategy": "Separate internal KG (content authority, editorial voice) from external research (E-E-A-T validation, credibility). Internal citations: [Source: file.md]. External citations: [^1]: Authors. Title. Journal. Year. [DOI](url). Research paper index at docs/research/index.json with topic_index and compound_index for fast lookup.",
+      "evidence": "SEO Phase 1-4: Research index with 7 papers (NEJM, Nature Medicine, Cell Metabolism) enables authoritative citations. Google sees peer-reviewed sources = E-E-A-T boost. Readers can verify claims via DOI links.",
+      "implementation": {
+        "index_location": "docs/research/index.json",
+        "structure": {
+          "papers": ["id, file, title, journal, year, doi, key_findings"],
+          "topic_index": ["topic_slug -> [paper_ids]"],
+          "compound_index": ["compound_slug -> [paper_ids]"]
+        },
+        "citation_format": {
+          "internal": "[Source: file.md]",
+          "external": "[^1]: Authors. Title. Journal. Year. [DOI](url)"
+        }
+      },
+      "learned_from": ["seo-orca-phase-1-4-2025-11-07"],
+      "created_at": "2025-11-07T05:06:00Z",
+      "tags": ["citations", "e-e-a-t", "seo", "credibility"]
+    },
+    {
+      "id": "seo-pattern-003",
+      "type": "helpful",
+      "marker": "✓",
+      "title": "Communication Clarity Quality Gates",
+      "helpful_count": 1,
+      "harmful_count": 0,
+      "context": "Ensure content is sophisticated but accessible ('gym buddy test')",
+      "strategy": "Automated scoring (70+ required): (1) Jargon management 35% - <10 unexplained terms, inline explanations within 100 chars, pattern: term (functional/biological meaning). (2) Analogy presence 20% - detect patterns 'think of it like', 'imagine', 'it's like', at least 1 required. (3) Sentence clarity 30% - 15-20 words average, degrades 3pts per word over 20. (4) Paragraph readability 15% - 2-3 sentences ideal, degrades above 3. Block publication if <70 score, generate specific recommendations.",
+      "evidence": "SEO Phase 1-4: Gold standard v4 achieved 80/100 score. Clarity gates prevent false completion (draft done but unreadable). Specific actionable feedback ('explain AMPK inline with functional meaning') scales to unlimited content.",
+      "implementation": {
+        "module": "scripts/seo_clarity_gates.py",
+        "metrics": {
+          "jargon_management": "35% weight, <10 unexplained terms",
+          "analogy_presence": "20% weight, min 1 natural analogy",
+          "sentence_clarity": "30% weight, 15-20 words avg",
+          "paragraph_readability": "15% weight, 2-3 sentences avg"
+        },
+        "threshold": "70+ overall score required to pass",
+        "integrated_in": "agents/specialists/seo-quality-guardian.md (MUST run before completion)"
+      },
+      "learned_from": ["seo-orca-phase-1-4-2025-11-07"],
+      "created_at": "2025-11-07T05:06:00Z",
+      "tags": ["quality", "communication", "automation", "readability"]
+    },
+    {
+      "id": "seo-pattern-004",
+      "type": "helpful",
+      "marker": "✓",
+      "title": "Manual Gold Standard to Automated Pipeline Encoding",
+      "helpful_count": 1,
+      "harmful_count": 0,
+      "context": "Need to match human-quality output at scale",
+      "strategy": "Three-phase process: (1) Manual iteration to gold standard (v1: basic output, v2-3: iterative improvements, v4: human-quality, document what changed and why). (2) Extract explicit lessons (citation architecture, communication heuristics, audience understanding, quality thresholds). (3) Encode into automation (update agent prompts with heuristics, create quality gate scripts with thresholds, integrate gates into workflow as MUST-pass, update documentation).",
+      "evidence": "SEO Phase 1-4: Manual v1→v4 took 4 hours one-time. Lessons extracted: citation architecture, clarity heuristics, jargon inline. Automation encoding: deep reader + clarity gates + communication principles. Result: automated output matches v4 quality. First article pays back implementation cost; every subsequent article is pure gain.",
+      "implementation": {
+        "phase_1_manual": "v1→v4 iteration (4 hours one-time)",
+        "phase_2_extraction": "Document lessons learned (1 hour)",
+        "phase_3_encoding": "Automate heuristics + gates (2-3 hours)",
+        "roi": "Break-even: first automated article. Payback: every subsequent article."
+      },
+      "learned_from": ["seo-orca-phase-1-4-2025-11-07"],
+      "created_at": "2025-11-07T05:06:00Z",
+      "tags": ["quality", "automation", "learning", "scaling"]
+    },
+    {
+      "id": "seo-pattern-005",
+      "type": "helpful",
+      "marker": "✓",
+      "title": "Communication Heuristics for Technical Content",
+      "helpful_count": 1,
+      "harmful_count": 0,
+      "context": "Writing for sophisticated audience without sounding clinical",
+      "strategy": "Apply 'gym buddy test': content should sound like knowledgeable friend explaining, not textbook. Use natural analogies (not forced), explain jargon inline with functional/biological meaning, vary sentence length (15-20 avg), keep paragraphs 2-3 sentences for scannability. Audience: sophisticated biohackers who understand biochemistry but want accessible explanations.",
+      "evidence": "SEO Phase 1-4: v4 gold standard (3,240 words, 80/100 score) achieved through these heuristics. Encoded into agents/specialists/seo-draft-writer.md communication principles section.",
+      "implementation": {
+        "principles": [
+          "Gym buddy test (knowledgeable friend, not textbook)",
+          "Natural analogies (not forced)",
+          "Jargon inline with functional meaning",
+          "15-20 word sentence average",
+          "2-3 sentence paragraphs"
+        ],
+        "audience": "Sophisticated biohackers understanding biochemistry",
+        "encoded_in": "agents/specialists/seo-draft-writer.md (lines 51-99)"
+      },
+      "learned_from": ["seo-orca-phase-1-4-2025-11-07"],
+      "created_at": "2025-11-07T05:06:00Z",
+      "tags": ["communication", "writing", "audience", "clarity"]
+    }
+  ]
+}

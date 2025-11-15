@@ -19,7 +19,7 @@ Sonnet 4.5 | 📊 (68.2%) 136,476/200,000 | 23.5k until auto-compact
 
 ### Line 2: System | Location | Git Status
 ```
-󰻠 25% • 󰍛 68% | 📁 claude-vibe-code •  main | [1 󰄬 • 2 󰛿 • 3 󰋗] • 5 󰜷 • 2 󰜮
+󰻠 25% • 󰍛 68% | 📁 claude-vibe-config •  main | [1 󰄬 • 2 󰛿 • 3 󰋗] • 5 󰜷 • 2 󰜮
 ```
 
 - **CPU usage:** `󰻠 XX%` - green <60%, yellow 60-80%, red >80%

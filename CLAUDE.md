@@ -1,4 +1,4 @@
-# Project: claude-vibe-code
+# Project: claude-vibe-config
 
 # 🚨🚨🚨 DO NOT FUCKING EDIT THIS FILE 🚨🚨🚨
 # ⚠️ THIS IS USER CONFIGURATION - READ ONLY ⚠️
@@ -9,13 +9,33 @@
 
 ## ⚠️ CRITICAL: WHAT THIS REPOSITORY IS ⚠️
 
-**THIS IS A CONFIGURATION ADMINISTRATIVE TOOL FOR GLOBAL CLAUDE CODE**
+**THIS IS A CONFIGURATION RECORD/MIRROR OF ~/.claude (GLOBAL CLAUDE CODE)**
 
 ### What this means:
-- This repo MANAGES configurations that get deployed to `~/.claude` (the GLOBAL Claude Code directory)
-- Agents, commands, MCPs, skills, etc. are INSTALLED GLOBALLY to `~/.claude`
-- Files in this repo are CONFIGURATION SOURCES that get deployed globally
-- This is NOT a regular project - it's an ADMIN TOOL for Claude Code itself
+- This repo MIRRORS and DOCUMENTS what's configured in `~/.claude` (the GLOBAL Claude Code directory)
+- **~/.claude is the SOURCE OF TRUTH** - this repo records what's there
+- Files in this repo are DOCUMENTATION/RECORDS of what exists in ~/.claude
+- This is NOT a deployment tool - it's a VERSION-CONTROLLED RECORD
+
+### The Actual Architecture:
+
+```
+~/.claude/                     ← SOURCE OF TRUTH (what Claude Code reads)
+    ↑
+    │ (you configure directly)
+    │
+_explore/                      ← RESEARCH LAB (experiments, ideas)
+    ↓
+    │ (ideas feed into decisions)
+    │
+    ↓
+~/.claude/                     ← CONFIGURE IT HERE
+    ↓
+    │ (then document what was done)
+    │
+    ↓
+claude-vibe-config/            ← RECORD/MIRROR (this repo)
+```
 
 ### Directory Rules:
 
@@ -28,20 +48,23 @@
 - **NEVER point production configs to here**
 - **TREAT AS READ-ONLY - NO EXCEPTIONS**
 
-#### `mcp/` - Local development copies
-- Contains LOCAL COPIES of MCP servers for development
-- These get DEPLOYED to appropriate global locations
-- The `.mcp.json` should point to production paths, NOT _explore
+#### `mcp/` - Records of custom MCPs
+- Contains RECORDS/COPIES of custom-built MCP servers
+- Documents what's configured in ~/.claude
+- Only custom MCPs (like vibe-memory) are recorded here
+- Standard npm MCPs (playwright, context7, etc.) are NOT recorded here
 
 #### Other directories
-- `agents/` - Agent definitions that deploy to `~/.claude/agents/`
-- `.claude/commands/` - Commands that deploy to `~/.claude/commands/`
-- `scripts/` - Admin scripts for managing the global Claude Code setup
+- `agents/` - Records of custom agent definitions from `~/.claude/agents/`
+- `commands/` - Records of custom commands from `~/.claude/commands/`
+- `scripts/` - Helper scripts and documentation
 
-### Installation Pattern:
-1. Develop/configure in this repo
-2. Deploy to `~/.claude` globally
-3. All Claude Code sessions use the global configs
+### Configuration Workflow:
+1. Research/experiment in `_explore/`
+2. Make configuration decision
+3. **Configure DIRECTLY in ~/.claude or ~/.claude.json**
+4. Update this repo to REFLECT/DOCUMENT what was done
+5. This repo = version-controlled historical record
 
 ## CRITICAL RULES FOR WORKING IN THIS REPO
 
@@ -59,9 +82,42 @@
 - This repo stays **CLEAN AS FUCK**
 
 ### Where Your Output Goes
-- Temporary analysis: `.orchestration/temp/` then DELETE
-- Evidence/logs: `.orchestration/evidence/` then CLEAN UP
+- Temporary analysis: `.claude/orchestration/temp/` then DELETE
+- Evidence/logs: `.claude/orchestration/evidence/` then CLEAN UP
+- Reference materials: `.claude/orchestration/playbooks/`, `reference/`, `orca-commands/`
 - Never leave your working files scattered in the root or main directories
+
+### `.claude/orchestration/` Structure - ENFORCE THIS
+
+```
+.claude/orchestration/
+├── evidence/       ← FINAL ARTIFACTS ONLY (screenshots, final reports, design reviews)
+├── temp/           ← WORKING FILES (audits, analysis, logs, session notes) - DELETE AFTER SESSION
+├── playbooks/      ← REFERENCE: Pattern templates (git, frontend, data, etc.)
+├── reference/      ← REFERENCE: Key reference docs
+└── orca-commands/  ← REFERENCE: ORCA command definitions
+```
+
+**RULES:**
+1. **NEVER create files in `.claude/orchestration/` root** - use `temp/`, `evidence/`, or appropriate reference folder
+2. **Working files go in `temp/`** - audits, analysis, session logs, notes, signal logs
+3. **Final artifacts go in `evidence/`** - screenshots, design reviews, final reports
+4. **Clean up `temp/` after sessions** - delete or archive old working files
+5. **DO NOT create new subdirectories** - use existing structure
+
+**Anti-Pattern:**
+```
+❌ .claude/orchestration/implementation-log.md
+❌ .claude/orchestration/root-cause-analysis.md
+❌ .claude/orchestration/session-context.md
+```
+
+**Correct Pattern:**
+```
+✅ .claude/orchestration/temp/implementation-log.md
+✅ .claude/orchestration/temp/root-cause-analysis.md
+✅ .claude/orchestration/evidence/design-review-final.md
+```
 
 ## THE RULE
 
@@ -74,4 +130,4 @@ If you skip step 1, session ends.
 
 ---
 
-_Last updated: 2025-11-12_
+_Last updated: 2025-11-14_

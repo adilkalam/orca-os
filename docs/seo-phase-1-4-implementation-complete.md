@@ -64,7 +64,7 @@ research/
 
 ### What Was Built
 
-**New Module:** `/Users/adilkalam/claude-vibe-code/scripts/seo_kg_deep_reader.py`
+**New Module:** `/Users/adilkalam/claude-vibe-config/scripts/seo_kg_deep_reader.py`
 
 **Key Functions:**
 
@@ -95,7 +95,7 @@ research/
 
 ### Integration Points
 
-**Updated:** `/Users/adilkalam/claude-vibe-code/scripts/seo_auto_pipeline.py`
+**Updated:** `/Users/adilkalam/claude-vibe-config/scripts/seo_auto_pipeline.py`
 
 1. Added import for deep reader functions (lines 42-52)
 2. Updated `select_relevant_sections()` to use deep reader (lines 974-1012)
@@ -111,7 +111,7 @@ research/
 
 ### What Was Updated
 
-**File:** `/Users/adilkalam/claude-vibe-code/agents/specialists/seo-draft-writer.md`
+**File:** `/Users/adilkalam/claude-vibe-config/agents/specialists/seo-draft-writer.md`
 
 **New Section Added:** "Communication Heuristics (CRITICAL - Phase 3)"
 
@@ -169,7 +169,7 @@ Added three v4 examples showing:
 
 ### What Was Built
 
-**New Module:** `/Users/adilkalam/claude-vibe-code/scripts/seo_clarity_gates.py`
+**New Module:** `/Users/adilkalam/claude-vibe-config/scripts/seo_clarity_gates.py`
 
 ### Functions
 
@@ -213,7 +213,7 @@ Added three v4 examples showing:
 
 ### Integration
 
-**Updated:** `/Users/adilkalam/claude-vibe-code/agents/specialists/seo-quality-guardian.md`
+**Updated:** `/Users/adilkalam/claude-vibe-config/agents/specialists/seo-quality-guardian.md`
 
 Added mandatory "Clarity Quality Gates" section:
 - Instructions to run `scripts/seo_clarity_gates.py`
@@ -226,7 +226,7 @@ Added mandatory "Clarity Quality Gates" section:
 
 ### What Was Updated
 
-**File:** `/Users/adilkalam/claude-vibe-code/commands/seo-orca.md`
+**File:** `/Users/adilkalam/claude-vibe-config/commands/seo-orca.md`
 
 Added new section documenting Phase 1-4 improvements:
 - Research paper index location and format
@@ -363,29 +363,29 @@ Added new section documenting Phase 1-4 improvements:
 
 ### Core Implementation
 
-- `/Users/adilkalam/claude-vibe-code/scripts/seo_kg_deep_reader.py`
-- `/Users/adilkalam/claude-vibe-code/scripts/seo_clarity_gates.py`
-- `/Users/adilkalam/claude-vibe-code/scripts/seo_auto_pipeline.py` (modified)
+- `/Users/adilkalam/claude-vibe-config/scripts/seo_kg_deep_reader.py`
+- `/Users/adilkalam/claude-vibe-config/scripts/seo_clarity_gates.py`
+- `/Users/adilkalam/claude-vibe-config/scripts/seo_auto_pipeline.py` (modified)
 - `/Users/adilkalam/Desktop/OBDN/obdn_site/docs/research/index.json`
 - 7 research paper JSON files
 
 ### Agent Updates
 
-- `/Users/adilkalam/claude-vibe-code/agents/specialists/seo-draft-writer.md`
-- `/Users/adilkalam/claude-vibe-code/agents/specialists/seo-quality-guardian.md`
+- `/Users/adilkalam/claude-vibe-config/agents/specialists/seo-draft-writer.md`
+- `/Users/adilkalam/claude-vibe-config/agents/specialists/seo-quality-guardian.md`
 
 ### Command Updates
 
-- `/Users/adilkalam/claude-vibe-code/commands/seo-orca.md`
+- `/Users/adilkalam/claude-vibe-config/commands/seo-orca.md`
 
 ### Documentation
 
-- `/Users/adilkalam/claude-vibe-code/docs/seo-orca-lessons-learned-implementation.md`
-- `/Users/adilkalam/claude-vibe-code/docs/seo-phase-1-4-implementation-complete.md` (this file)
+- `/Users/adilkalam/claude-vibe-config/docs/seo-orca-lessons-learned-implementation.md`
+- `/Users/adilkalam/claude-vibe-config/docs/seo-phase-1-4-implementation-complete.md` (this file)
 
 ### Gold Standard Reference
 
-- `/Users/adilkalam/claude-vibe-code/outputs/seo/retatrutide-recomp-lean-mass-MANUAL-draft-v4.md`
+- `/Users/adilkalam/claude-vibe-config/outputs/seo/retatrutide-recomp-lean-mass-MANUAL-draft-v4.md`
 
 ---
 

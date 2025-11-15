@@ -3,7 +3,7 @@
 # Design System Viewer - Convert project's design-system.md to HTML
 # Usage: Run this IN YOUR PROJECT directory
 #   cd /path/to/your/project
-#   /path/to/claude-vibe-code/tools/design-system-viewer.sh [--open]
+#   /path/to/claude-vibe-config/tools/design-system-viewer.sh [--open]
 
 set -e
 

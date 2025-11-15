@@ -338,7 +338,7 @@ This preserves quality while maintaining reasonable automation level.
 
 **Automated skeleton:**
 ```
-/Users/adilkalam/claude-vibe-code/outputs/seo/retatrutide-recomp-lean-mass-draft.md
+/Users/adilkalam/claude-vibe-config/outputs/seo/retatrutide-recomp-lean-mass-draft.md
 - 491 words
 - 7 sections with 5 placeholders
 - 0 citations
@@ -347,7 +347,7 @@ This preserves quality while maintaining reasonable automation level.
 
 **Manual draft:**
 ```
-/Users/adilkalam/claude-vibe-code/outputs/seo/retatrutide-recomp-lean-mass-MANUAL-draft.md
+/Users/adilkalam/claude-vibe-config/outputs/seo/retatrutide-recomp-lean-mass-MANUAL-draft.md
 - 2,409 words
 - 7 sections fully developed
 - 20+ citations

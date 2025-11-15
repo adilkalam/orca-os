@@ -144,6 +144,9 @@ Remember: You are a pure coordinator. Delegate implementation and refuse complet
 
 ### PHASE 0: Pre-Flight Checklist (MANDATORY)
 
+**If work is multi-step or cross-domain:**  
+First, dispatch `engineering-director` via the Task tool to produce `.orchestration/engineering-blueprint.md`. Use that blueprint to shape which planning agents you call and how phases are structured. Do not skip this for large projects.
+
 **Before ANY work:**
 ```bash
 Read .orchestration/user-request.md  # Understand EXACT requirements

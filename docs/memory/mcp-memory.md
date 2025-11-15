@@ -11,33 +11,34 @@ What it provides:
 - Results: JSON content with `{ results: [{ path, start, end, score, snippet }], used_vectors: boolean }`
 
 Prereqs:
-- A local memory DB at `.workshop/workshop.db` (create with `python3 scripts/memory-index.py index-all --include-out`)
+- A local memory DB at `.claude/memory/workshop.db` (or legacy `.workshop/workshop.db`)
 - Optional embeddings for rerank: `python3 scripts/memory-embed.py` (requires `sentence-transformers`)
 
-Configure (Global):
-1) Claude Code CLI: edit `~/.claude.json`
-   Claude Desktop (macOS): edit `~/Library/Application Support/Claude/claude_desktop_config.json`
-2) Add an entry under `mcpServers` (use an absolute server path; workspace root is inferred via initialize):
+Configure (Per‑Project in ~/.claude.json):
+1) Edit `~/.claude.json` (Claude Desktop on macOS uses the same file).
+2) Add `vibe-memory` under `projects["/absolute/path/to/your-project"].mcpServers`:
 
 ```json
 {
-  "mcpServers": {
-    "vibe-memory": {
-      "command": "python3",
-      "args": ["/absolute/path/to/repo/mcp/vibe-memory/memory_server.py"],
-      "env": { "PYTHONUNBUFFERED": "1" }
+  "projects": {
+    "/absolute/path/to/your-project": {
+      "mcpServers": {
+        "vibe-memory": {
+          "command": "python3",
+          "args": ["/Users/adilkalam/.claude/mcp/vibe-memory/memory_server.py"],
+          "env": { "PYTHONUNBUFFERED": "1" }
+        }
+      }
     }
   }
 }
-
-CLI helper (optional):
-
-```bash
-python3 scripts/configure_vibe_memory_mcp.py   # writes to ~/.claude.json (backed up)
-```
 ```
 
-Restart Claude. The MCP tool `memory.search` should appear and be callable by agents.
+Notes:
+- Keep standard npm MCPs global under top‑level `mcpServers` to avoid duplication.
+- Do not use `.claude/mcp.json` in the project; Claude Code does not read it.
+
+Restart Claude. The `memory.search` tool should appear and be callable by agents in that project.
 
 Manual test (framing):
 - This server speaks Content‑Length framed JSON‑RPC over stdio. Most MCP clients handle this automatically.

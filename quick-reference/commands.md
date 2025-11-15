@@ -26,6 +26,7 @@ Essential commands for ORCA orchestration and workflow control.
 - `/session-resume` — Restore session context
 
 ## UI & Design
+- `/design-director` — Quiet-luxury layout & UI blueprints (blueprint-first, then code)
 - `/concept` — Iterate on existing layout
 - `/concept -edit` — Edit an existing concept (optional)
 - `/ascii-mockup` — Generate ASCII UI mockups

@@ -1,19 +1,19 @@
-# ⚠️ CRITICAL: claude-vibe-code Repository Purpose ⚠️
+# ⚠️ CRITICAL: claude-vibe-config Repository Purpose ⚠️
 
-**THIS IS A CONFIGURATION ADMINISTRATIVE TOOL FOR GLOBAL CLAUDE CODE**
+**THIS IS A CONFIGURATION RECORD/MIRROR OF ~/.claude (GLOBAL CLAUDE CODE)**
 
 ## What This Repository Is:
-- **Configuration management** for the GLOBAL `~/.claude` directory
-- **NOT a regular project** - it's an admin tool for Claude Code itself
-- Agents, commands, MCPs, skills deploy to `~/.claude` GLOBALLY
-- All Claude Code sessions use these global configurations
+- **Version-controlled record** of what's configured in the GLOBAL `~/.claude` directory
+- **~/.claude is SOURCE OF TRUTH** - this repo mirrors/documents it
+- **NOT a deployment tool** - it's a historical record with version control
+- Configuration happens DIRECTLY in ~/.claude, then this repo documents it
 
 ## Critical Directory Rules:
 - **`_explore/`** = **MY PERSONAL FOLDER - READ ONLY - NEVER TOUCH**
   - NEVER move, install, delete, add, or point configs here
-- **`mcp/`** = Local development copies (deploy globally)
-- **`agents/`** = Deploy to `~/.claude/agents/`
-- **`.claude/commands/`** = Deploy to `~/.claude/commands/`
+- **`mcp/`** = Records of custom-built MCPs (only custom ones like vibe-memory)
+- **`agents/`** = Records of custom agents from `~/.claude/agents/`
+- **`commands/`** = Records of custom commands from `~/.claude/commands/`
 
 ---
 
@@ -319,7 +319,7 @@ python -c "print(12 + 38)"  # = 50 ✓
 
 **Problem:** AI forgets decisions, gotchas, and context between sessions.
 
-**ORCA's Solution:** Workshop — SQLite-backed memory per project.
+**ORCA's Solution:** Workshop — SQLite-backed memory per project + vibe-memory MCP for `memory.search` tool.
 
 ```
 Session 1: Build calculator
@@ -336,13 +336,26 @@ Claude loads Workshop context automatically
 → Knows scientific mode is next
 ```
 
-### Workshop Architecture
+### Workshop Architecture (Per-Project)
+
+**Each project has its own isolated memory:**
 
 ```
+your-project/
+└── .claude/
+    ├── mcp.json                    # (Deprecated; Claude reads ~/.claude.json projects[])
+    ├── memory/
+    │   └── workshop.db             # SQLite FTS5 database
+    ├── orchestration/
+    │   ├── session-context.md      # Loaded at session start
+    │   └── evidence/               # Screenshots, logs
+    └── hooks/
+        └── session-start.sh        # Auto-loads memory + outputs CLAUDE.md
+
 ┌──────────────────────────────────────────────────────┐
 │  Session Start Hook                                  │
 │  ↓                                                   │
-│  workshop init (if needed)                           │
+│  Reads .claude/memory/workshop.db                    │
 │  workshop import (catch-up after crashes)            │
 │  ↓                                                   │
 │  Load recent:                                        │
@@ -350,9 +363,24 @@ Claude loads Workshop context automatically
 │  - Gotchas (last 3)                                  │
 │  - Goals (active)                                    │
 │  ↓                                                   │
+│  Output CLAUDE.md with visual separators             │
+│  ↓                                                   │
 │  Inject into Claude context                          │
 └──────────────────────────────────────────────────────┘
+
+┌──────────────────────────────────────────────────────┐
+│  vibe-memory MCP Server                              │
+│  (per-project config lives in ~/.claude.json → projects[]) │
+│  ↓                                                   │
+│  Exposes: memory.search(query, k=8)                  │
+│  ↓                                                   │
+│  Searches: .claude/memory/workshop.db                │
+│  ↓                                                   │
+│  Returns: Semantic search results (vector or FTS)    │
+└──────────────────────────────────────────────────────┘
 ```
+
+**See:** `quick-reference/memory.md` for complete architecture details.
 
 ### Memory Commands
 
@@ -528,8 +556,8 @@ No blind automation. No surprise agent spawns.
 
 ```bash
 # 1. Clone repo
-git clone https://github.com/yourusername/claude-vibe-code.git
-cd claude-vibe-code
+git clone https://github.com/yourusername/claude-vibe-config.git
+cd claude-vibe-config
 
 # 2. Install global hooks (Workshop + session context)
 bash .claude-global-hooks/install.sh
@@ -537,13 +565,19 @@ bash .claude-global-hooks/install.sh
 # 3. (Optional) Install Workshop CLI
 # Follow: docs/workshop.md
 
-# 4. (Optional) Enable MCP servers
+# 4. (Optional) Enable per-project memory search
+# Add vibe-memory under ~/.claude.json → projects["/abs/path/to/your-project"].mcpServers
+# Initialize Workshop: workshop init
+# Move DB: mkdir -p .claude/memory && mv .workshop/workshop.db .claude/memory/
+# See: quick-reference/memory.md
+
+# 5. (Optional) Enable global MCP servers
 # - XcodeBuild MCP (iOS/macOS builds)
 # - Chrome DevTools MCP (browser automation)
-# - vibe-memory MCP (memory.search tool)
+# - context7 (library documentation)
 # See: docs/mcp-memory.md
 
-# 5. (Recommended) Install repo git hooks (finalize gate)
+# 6. (Recommended) Install repo git hooks (finalize gate)
 bash scripts/install-git-hooks.sh
 
 # Finalize before committing work from an ORCA session
@@ -592,7 +626,7 @@ bash scripts/finalize.sh
 ## Project Structure
 
 ```
-claude-vibe-code/
+claude-vibe-config/
 ├── agents/                     # 65 specialist agents
 │   ├── core/                   # Core orchestrators
 │   ├── planning/               # requirement-analyst, system-architect
@@ -618,7 +652,7 @@ claude-vibe-code/
 │   ├── workshop-*.sh           # Workshop memory scripts
 │   ├── finalize.sh             # Evidence check script
 │   ├── memory-*.py             # Memory operations
-│   └── deploy-to-global.sh     # Install to ~/.claude/
+│   └── deploy-to-global.sh     # [DEPRECATED] Helper script (see DEPLOYMENT_MANIFEST.md)
 │
 ├── docs/                       # Organized documentation
 │   ├── architecture/           # System design docs
@@ -628,19 +662,30 @@ claude-vibe-code/
 ├── quick-reference/            # Quick access guides
 │   ├── agents-teams.md         # Team compositions
 │   ├── commands.md             # Command reference
+│   ├── memory.md               # Memory architecture (NEW)
 │   └── triggers-tools.md       # Natural language triggers
 │
-├── .orchestration/             # Per-project runtime
-│   ├── playbooks/              # ACE patterns (evolve)
-│   ├── evidence/               # Screenshots, artifacts
-│   └── signals/                # Outcome tracking
+├── mcp/                        # Custom MCP servers
+│   └── vibe-memory/            # Per-project memory search MCP
+│       └── memory_server.py    # Exposes memory.search tool
 │
-├── .workshop/                  # Per-project memory
-│   └── workshop.db             # SQLite FTS database
+├── .claude/                    # Per-project (consolidated in v2.0)
+│   ├── mcp.json                # Per-project MCP config
+│   ├── memory/
+│   │   └── workshop.db         # SQLite FTS database
+│   ├── orchestration/
+│   │   ├── session-context.md  # Loaded at session start
+│   │   ├── playbooks/          # ACE patterns (evolve)
+│   │   ├── evidence/           # Screenshots, artifacts
+│   │   └── signals/            # Outcome tracking
+│   └── hooks/
+│       └── session-start.sh    # Auto-loads memory + CLAUDE.md
 │
 └── .claude-global-hooks/       # Global hook installer
     ├── install.sh              # One-time setup
     └── SessionStart.sh         # Auto-loads Workshop
+
+Note: .claude-work/, .orchestration/, .workshop/ are legacy (auto-migrated by /cleanup)
 ```
 
 ---
@@ -767,14 +812,28 @@ ls .orchestration/sessions/*-reflection.md
 
 **Memory search not working (MCP):**
 ```bash
-# Check MCP config
-cat ~/.claude.json | grep vibe-memory
+# Check per-project MCP config in ~/.claude.json (additive to global)
+python3 - << 'EOF'
+import json, os
+from pathlib import Path
+cfg = json.loads(Path(Path.home()/'.claude.json').read_text())
+proj = str(Path.cwd().resolve())
+print(json.dumps(cfg.get('projects',{}).get(proj,{}).get('mcpServers',{}), indent=2))
+EOF
 
-# Verify database exists
-ls .workshop/workshop.db
+# Verify database exists in consolidated location
+ls -lh .claude/memory/workshop.db
 
-# Set WORKSHOP_DB env (if needed)
-export WORKSHOP_DB="/path/to/project/.workshop/workshop.db"
+# Check Workshop CLI works
+workshop context
+
+# Rebuild FTS index if needed
+python3 scripts/memory-index.py index-all --include-out
+
+# Set WORKSHOP_DB env (only if custom location needed)
+export WORKSHOP_DB="/path/to/project/.claude/memory/workshop.db"
+
+# See quick-reference/memory.md for detailed troubleshooting
 ```
 
 ---
@@ -792,6 +851,7 @@ export WORKSHOP_DB="/path/to/project/.workshop/workshop.db"
 ## Documentation
 
 - **Quick Start:** This README
+- **Memory Architecture:** `quick-reference/memory.md` (per-project vibe-memory + Workshop)
 - **Workshop Memory:** `docs/memory/workshop.md`
 - **ACE Playbooks:** `.orchestration/playbooks/readme.md`
 - **Chaos Prevention:** `docs/architecture/chaos-prevention.md`

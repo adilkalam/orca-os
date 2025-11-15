@@ -1,6 +1,6 @@
 # Design System Guide
 
-**Project:** claude-vibe-code
+**Project:** claude-vibe-config
 **Last Updated:** 2025-11-01
 **Status:** Active
 
@@ -388,7 +388,7 @@ Fail → Block + Report
 ### Directory Structure
 
 ```
-claude-vibe-code/
+claude-vibe-config/
 ├── design-system-vX.X.X.md       # Source of truth
 ├── design-dna.json               # Auto-generated tokens
 ├── design-system-vX.X.X.html     # Visual reference

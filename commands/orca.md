@@ -168,31 +168,31 @@ When user requests data analysis (BFCM, ads, product journeys, baseline, etc), D
 // Merch Lifecycle Analyst
 Task({
   subagent_type: "general-purpose",
-  prompt: "Follow methodology in /Users/adilkalam/claude-vibe-code/agents/specialists/data-analysts/merch-lifecycle-analyst.md. Create master product journeys from creation through all sales, month-by-month by price bands and channels. NO aggregation - granular entity-level analysis. CHAOS RULES: Max 2 files, evidence in .orchestration/evidence/, temp in /tmp/orca-session/"
+  prompt: "Follow methodology in /Users/adilkalam/claude-vibe-config/agents/specialists/data-analysts/merch-lifecycle-analyst.md. Create master product journeys from creation through all sales, month-by-month by price bands and channels. NO aggregation - granular entity-level analysis. CHAOS RULES: Max 2 files, evidence in .orchestration/evidence/, temp in /tmp/orca-session/"
 })
 
 // General Performance Analyst (for baseline/organic)
 Task({
   subagent_type: "general-purpose",
-  prompt: "Follow methodology in /Users/adilkalam/claude-vibe-code/agents/specialists/data-analysts/general-performance-analyst.md. Analyze baseline performance during non-sale periods. Track organic growth, seasonality patterns, steady-state operations. NO fabrication. CHAOS RULES: Max 2 files, evidence in .orchestration/evidence/, temp in /tmp/orca-session/"
+  prompt: "Follow methodology in /Users/adilkalam/claude-vibe-config/agents/specialists/data-analysts/general-performance-analyst.md. Analyze baseline performance during non-sale periods. Track organic growth, seasonality patterns, steady-state operations. NO fabrication. CHAOS RULES: Max 2 files, evidence in .orchestration/evidence/, temp in /tmp/orca-session/"
 })
 
 // Ads Creative Analyst
 Task({
   subagent_type: "general-purpose",
-  prompt: "Follow methodology in /Users/adilkalam/claude-vibe-code/agents/specialists/data-analysts/ads-creative-analyst.md. Deep GRANULAR analysis of individual ads - CPM/CTR/CPC by creative, copy effectiveness (first 8 words), timing degradation. NO campaign rollups. CHAOS RULES: Max 2 files, evidence in .orchestration/evidence/, temp in /tmp/orca-session/"
+  prompt: "Follow methodology in /Users/adilkalam/claude-vibe-config/agents/specialists/data-analysts/ads-creative-analyst.md. Deep GRANULAR analysis of individual ads - CPM/CTR/CPC by creative, copy effectiveness (first 8 words), timing degradation. NO campaign rollups. CHAOS RULES: Max 2 files, evidence in .orchestration/evidence/, temp in /tmp/orca-session/"
 })
 
 // BF Sales Analyst (for sales events)
 Task({
   subagent_type: "general-purpose",
-  prompt: "Follow methodology in /Users/adilkalam/claude-vibe-code/agents/specialists/data-analysts/bf-sales-analyst.md. Analyze ACTUAL sales performance, verify every number (no fabrication). Layer onto product journeys and ad data. Always show channel splits. CHAOS RULES: Max 2 files, evidence in .orchestration/evidence/, temp in /tmp/orca-session/"
+  prompt: "Follow methodology in /Users/adilkalam/claude-vibe-config/agents/specialists/data-analysts/bf-sales-analyst.md. Analyze ACTUAL sales performance, verify every number (no fabrication). Layer onto product journeys and ad data. Always show channel splits. CHAOS RULES: Max 2 files, evidence in .orchestration/evidence/, temp in /tmp/orca-session/"
 })
 
 // Story Synthesizer
 Task({
   subagent_type: "general-purpose",
-  prompt: "Follow methodology in /Users/adilkalam/claude-vibe-code/agents/specialists/data-analysts/story-synthesizer.md. Connect ALL dots into causal chains with specific, actionable recommendations. Every claim needs evidence. Question assumptions. CHAOS RULES: Max 2 files, evidence in .orchestration/evidence/, temp in /tmp/orca-session/"
+  prompt: "Follow methodology in /Users/adilkalam/claude-vibe-config/agents/specialists/data-analysts/story-synthesizer.md. Connect ALL dots into causal chains with specific, actionable recommendations. Every claim needs evidence. Question assumptions. CHAOS RULES: Max 2 files, evidence in .orchestration/evidence/, temp in /tmp/orca-session/"
 })
 ```
 
@@ -263,6 +263,10 @@ Task({
 **Phase 0**: Reference Capture (if user mentions reference app/design)
 - Read `.orchestration/reference/reference-capture.md` for full methodology
 - Capture screenshots, get design agent analysis, user approval BEFORE implementation
+
+**Phase 0.5**: Engineering Blueprint (for multi-step / cross-domain work)
+- For larger or multi-agent tasks, first dispatch `engineering-director` (via Task) to produce `.orchestration/engineering-blueprint.md`.
+- Use that blueprint to decide which planning agents (requirement-analyst, system-architect, plan-synthesis-agent, design-director, etc.) should run and in what order.
 
 **Phase 1**: Tech Stack Detection
 - Check prompt keywords and project files
