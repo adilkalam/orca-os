@@ -1,6 +1,31 @@
-# Vibe Code / Claude Agentic OS
+```
+         _______                   _____                    _____                    _____          
+        /::\    \                 /\    \                  /\    \                  /\    \         
+       /::::\    \               /::\    \                /::\    \                /::\    \        
+      /::::::\    \             /::::\    \              /::::\    \              /::::\    \       
+     /::::::::\    \           /::::::\    \            /::::::\    \            /::::::\    \      
+    /:::/~~\:::\    \         /:::/\:::\    \          /:::/\:::\    \          /:::/\:::\    \     
+   /:::/    \:::\    \       /:::/__\:::\    \        /:::/  \:::\    \        /:::/__\:::\    \    
+  /:::/    / \:::\    \     /::::\   \:::\    \      /:::/    \:::\    \      /::::\   \:::\    \   
+ /:::/____/   \:::\____\   /::::::\   \:::\    \    /:::/    / \:::\    \    /::::::\   \:::\    \  
+|:::|    |     |:::|    | /:::/\:::\   \:::\____\  /:::/    /   \:::\    \  /:::/\:::\   \:::\    \ 
+|:::|____|     |:::|    |/:::/  \:::\   \:::|    |/:::/____/     \:::\____\/:::/  \:::\   \:::\____\
+ \:::\    \   /:::/    / \::/   |::::\  /:::|____|\:::\    \      \::/    /\::/    \:::\  /:::/    /
+  \:::\    \ /:::/    /   \/____|:::::\/:::/    /  \:::\    \      \/____/  \/____/ \:::\/:::/    / 
+   \:::\    /:::/    /          |:::::::::/    /    \:::\    \                       \::::::/    /  
+    \:::\__/:::/    /           |::|\::::/    /      \:::\    \                       \::::/    /   
+     \::::::::/    /            |::| \::/____/        \:::\    \                      /:::/    /    
+      \::::::/    /             |::|  ~|               \:::\    \                    /:::/    /     
+       \::::/    /              |::|   |                \:::\    \                  /:::/    /      
+        \::/____/               \::|   |                 \:::\____\                /:::/    /       
+         ~~                      \:|   |                  \::/    /                \::/    /        
+                                  \|___|                   \/____/                  \/____/         
+                                                                                                    
+```                                                                
+                                           
 
-> **CRITICAL — Repo Purpose**
+
+# Vibe Code / Claude Agentic OS
 >
 > This repo is a **version‑controlled mirror** of your global Claude config in `~/.claude`.  
 > **`~/.claude` is the source of truth.**  
@@ -13,7 +38,7 @@
 ### Situation
 
 You’re using Claude Code to build real products:
-- Brand systems (OBDN, PeptideFox, etc.)
+- Brand/design systems
 - Web apps, dashboards, iOS apps
 - Data/SEO tooling and design systems
 
@@ -40,7 +65,9 @@ That model quickly hits hard limits:
   - Multi‑agent systems run without strong scopes or guardrails.
   - No hard requirement to prove work with tests/build/screenshots/logs.
 
-### Resolution — A Personal AI OS for Claude
+---
+
+### 2. Resolution — A Personal AI OS for Claude
 
 This system is a **constrained, evidence‑driven OS** around Claude:
 
@@ -49,54 +76,17 @@ This system is a **constrained, evidence‑driven OS** around Claude:
   - This repo (`claude-vibe-config`) is a mirror of that OS.
 
 - **Project DNA + memory**
-  - Each project (OBDN, PeptideFox, etc.) has its own design system + brand docs.
+  - Each project has its own design system + brand docs.
   - A local memory database (via the `workshop` tool + `vibe-memory` MCP) stores decisions, gotchas, goals.
 
 - **Orchestrators + narrow specialists**
   - Orchestrators (`/response-aware`, `/orca`) own planning + verification.
-  - Narrow agents (`/creative-strategist`, `/design-director`, `/obdn-designer`, `/fox-designer`) stay in strict lanes with hard rules.
+  - Narrow agents (`/creative-strategist`, `/design-director`, `/brand-designer`) stay in strict lanes with hard rules.
 
 - **Evidence‑based completion**
   - Work is not “done” until there is proof: tests, builds, screenshots, logs, all reconciled against meta‑tags.
 
 The rest of this README explains how that OS works.
-
----
-
-## 2. Quickstart: Usage Recipes
-
-For people who just want to use it, not study LLM research:
-
-- **Design a new PeptideFox tool screen**
-  - Plan:  
-    ```text
-    /response-aware -plan "PeptideFox dosing planner v1"
-    ```
-  - Tighten UI blueprint:  
-    ```text
-    /fox-designer -iterate "Refine layout for dosing results section"
-    ```
-  - Implement + verify from blueprint:  
-    ```text
-    /response-aware -build path/to/blueprint.md
-    ```
-
-- **Design an OBDN layout**
-  ```text
-  /obdn-designer "OBDN product detail page layout"
-  ```
-
-- **Full end‑to‑end implementation with proof**
-  ```text
-  /response-aware "Add dark mode to dashboard"
-  ```
-
-- **Analyze creative performance and strategy**
-  ```text
-  /creative-strategist "<paste performance data + ads>"
-  ```
-
-You can get real work done with just these commands; the rest of the README explains what they’re doing under the hood.
 
 ---
 
@@ -137,83 +127,37 @@ Key ideas:
 
 ---
 
-## 4. Example Flow: New PeptideFox Library Screen
 
-Concrete story: designing and implementing a new PeptideFox peptide library screen.
+## 4. Quickstart: Usage Recipes
 
-### 4.1 Plan the work
+For people who just want to use it, not study LLM research:
 
-You start with plan‑only mode:
+- **Design a new tool screen**
+  - Plan:  
+    ```text
+    /response-aware -plan "iOS to React migration"
+    ```
+  - Implement + verify from blueprint:  
+    ```text
+    /response-aware -build path/to/blueprint.md
+    ```
 
-```text
-/response-aware -plan "Peptide library grid v2"
-```
+- **Design an new layout**
+  ```text
+  /designer-director " product detail page layout"
+  ```
 
-Response Awareness will:
+- **Full end‑to‑end implementation with proof**
+  ```text
+  /response-aware "Add dark mode to dashboard"
+  ```
 
-- Load PeptideFox design DNA:
-  - `design-system-v7.0.0.md`
-  - `DESIGN_RULES.md`
-- Query project memory via **vibe‑memory MCP**:
-  - Decisions like “No Tailwind; use design tokens.”
-  - Past gotchas and goals.
-- Run parallel domain planners and synthesize:
-  - One implementation blueprint with explicit interfaces and risks.
-  - A question to you via `AskUserQuestion` to confirm the plan.
+- **Analyze creative performance and strategy**
+  ```text
+  /creative-strategist "<paste performance data + ads>"
+  ```
 
-You review and approve the blueprint (or tweak it).
-
-### 4.2 Refine the UI blueprint
-
-Then you call the brand‑specific UI architect:
-
-```text
-/fox-designer -iterate "Refine card layout + spacing for peptide library grid"
-```
-
-`/fox-designer` will:
-
-- Recall PeptideFox v7 design system and rules.
-- Use its scaffold:
-  - FRAME → STRUCTURE → SURFACE → CALCULATE → CODE GUIDANCE
-- Enforce:
-  - Brown LL / Brown Mono LL / Brown LL Inline rules.
-  - Spacing tokens (2 → 4 → 8 → 12 → 16 → 24 → 32 → 48 → 64 → 96).
-  - Card width math so badges don’t wrap jankily.
-
-It returns a **PeptideFox Design Blueprint** for the UI layer.  
-You fold this into the main implementation blueprint.
-
-### 4.3 Build & verify
-
-Once the blueprint is approved and updated, you run:
-
-```text
-/response-aware -build path/to/blueprint.md
-```
-
-Build mode will:
-
-- Implement strictly from the blueprint (no plan mutation).
-- Tag all assumptions and file operations
-  (`#COMPLETION_DRIVE`, `#FILE_CREATED`, `#FILE_MODIFIED`, etc.).
-- Use tools and MCPs to verify:
-  - Unit/integration tests via `scripts/capture-tests.sh`.
-  - Builds via `scripts/capture-build.sh`.
-  - Visual checks and flows via MCPs:
-    - `playwright` → drive a real browser, capture screenshots/videos.
-    - `chromedevtools` → inspect DOM, network, console.
-  - For native/iOS flows:
-    - `iossimulator` → run iOS Simulator and capture evidence.
-- Store evidence under:
-  - `.orchestration/evidence/` (screenshots, logs)
-  - `.orchestration/implementation-log.md` (tags + meta‑cognition)
-- Run `bash scripts/finalize.sh` to produce a `.verified` marker.
-
-The final synthesis step reports:
-- What was done.
-- What decisions were made.
-- Where to find the evidence.
+You can get real work done with just these commands; the rest of the README explains what they’re doing under the hood.
 
 ---
 
@@ -316,20 +260,15 @@ Specialist agents now follow a consistent pattern:
 1. **Narrow role**
    - `/creative-strategist` → strategy and performance analysis only.
    - `/design-director` → layout, hierarchy, critique.
-   - `/obdn-designer` → OBDN luxury UI architect (no orchestration).
-   - `/fox-designer` → PeptideFox scientific UI architect.
+   - `/brand-designer` → brand specific UI architect (no orchestration).
 
 2. **Mandatory context recall**
    - Read `CLAUDE.md` and project design DNA:
-     - OBDN: `design-dna-v2.0.md`, `system_rules-v2.0.md`, `design-system-v2.0.md`.
-     - PeptideFox: `design-system-v7.0.0.md`, `DESIGN_RULES.md`.
    - Summarize brand voice, typography, color, layout rules, constraints.
 
 3. **Thinking scaffold**
-   - `/design-director`, `/obdn-designer`:  
+   - `/design-director`, `/brand-designer`:  
      `FRAME → STRUCTURE → SURFACE → CODE`
-   - `/fox-designer`:  
-     `FRAME → STRUCTURE → SURFACE → CALCULATE → CODE GUIDANCE`
 
 4. **Hard rules**
    - Type scales, color usage, spacing tokens.
@@ -479,8 +418,6 @@ Live config used by Claude Code:
   - Live command definitions:
     - `creative-strategist.md`
     - `design-director.md`
-    - `fox-designer.md`
-    - `obdn-designer.md`
     - `response-aware.md`
     - `orca.md`
     - and others.
@@ -504,7 +441,7 @@ Live config used by Claude Code:
 This repo mirrors `~/.claude` for version control:
 
 - `commands/`
-  - Snapshots of your live custom commands (`fox-designer.md`, `obdn-designer.md`, `response-aware.md`, etc.).
+  - Snapshots of your live custom commands (`brand-designer.md`, `response-aware.md`, etc.).
 
 - `agents/`
   - Snapshots of custom agents.
@@ -523,22 +460,6 @@ Remember: you change the live config in `~/.claude`, then sync back into this re
 
 Each project has its own DNA and memory:
 
-- **PeptideFox**
-  - Design DNA:
-    - `Desktop/peptidefox/design-dna/design-system-v7.0.0.md`
-    - `Desktop/peptidefox/design-dna/DESIGN_RULES.md`
-  - Project prompt:
-    - `Desktop/peptidefox/design-dna/peptidefox_designer_prompt.md`
-  - Memory:
-    - `project/.claude/memory/workshop.db` (once initialized via Workshop).
-
-- **OBDN**
-  - Design DNA:
-    - `Desktop/OBDN/obdn_site/design-system/design-dna-v2.0.md`
-    - `Desktop/OBDN/obdn_site/design-system/system_rules-v2.0.md`
-    - `Desktop/OBDN/obdn_site/design-system/design-system-v2.0.md`
-  - Project prompt:
-    - `Desktop/OBDN/obdn_site/design-system/obdn_designer_prompt.md`
 
 Other projects follow the same pattern:
 - Project design DNA + brand docs under `design-*` or `docs/`.
