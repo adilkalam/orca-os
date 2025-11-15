@@ -6,7 +6,6 @@
 /.orchestration
 /.workshop
 /ext
-/skills
 Makefile
 /commands/_archive/
 /.deprecated
@@ -32,14 +31,6 @@ Thumbs.db
 # Backups and deprecated files
 *-backup*.md
 deprecated/
-::deprecated/
-
-# Embedded git repositories (reference only)
-archive/claude-sub-agent/
-archive/originals/awesome-swift-claude-code-subagents/
-mcp/chrome-devtools-mcp/
-mcp/xcodebuildmcp/
-
 
 # Internal documentation and logs
 .claude-session-context.md
@@ -49,30 +40,12 @@ mcp/xcodebuildmcp/
 CHANGELOG.md
 archive/
 examples/
-skills/
+
 # docs/ - now tracked (contains permanent system documentation)
 qa-logs/
-::archive/
 dev-logs/
 
-# Node / Next artifacts
-node_modules/
-.next/
-.turbo/
-.vercel/
-dist/
-build/
-.env*
 
-# Local font binaries (proprietary — keep out of VCS)
-public/fonts/soehne/*
-public/fonts/signifier/*
-public/fonts/supreme/*
-public/fonts/gt-pantheon/*
-
-# Build output and orphaned artifacts
-out/
-refrences/
 
 # Internal build/session notes (keep local)
 .diagram-*.md
