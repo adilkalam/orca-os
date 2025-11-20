@@ -1,2 +1,0 @@
-{"timestamp":"2025-11-02T00:57:01.3NZ","layer":"pre-tool-use","operation":"allow","path":".claude-work/test.txt","durationMs":6.216000,"result":"allowed"}
-{"timestamp":"2025-11-02T00:57:01.3NZ","layer":"pre-tool-use","operation":"block","path":".orchestration/test.txt","durationMs":5.414000,"result":"blocked"}
