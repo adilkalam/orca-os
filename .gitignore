@@ -1,6 +1,9 @@
 # Root-level directories and files to exclude
 /.claude/
+/.orchestration
 /.workshop
+/.claude-session-context
+/.playwright-mcp
 /ext
 /commands/_archive/
 /.deprecated/*

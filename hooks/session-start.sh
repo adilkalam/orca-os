@@ -4,15 +4,15 @@ set -euo pipefail
 # SessionStart Hook
 # - Generates a lightweight session context for Claude Code to import
 # - Summarizes native memory, local memory DB, design guard, atlas, and recent changes
-# - Output: .orchestration/session-context.md
+# - Output: .claude/orchestration/temp/session-context.md
 
 ROOT_DIR="$(git rev-parse --show-toplevel 2>/dev/null || pwd)"
 cd "$ROOT_DIR"
 
-ORCH_DIR=".orchestration"
-VER_DIR="$ORCH_DIR/verification"
+ORCH_DIR=".claude/orchestration/temp"
+VER_DIR=".claude/orchestration/verification"
 OUT_MD="$ORCH_DIR/session-context.md"
-DB_PATH=".workshop/workshop.db"
+DB_PATH=".claude/workshop/workshop.db"
 
 mkdir -p "$ORCH_DIR" "$VER_DIR"
 

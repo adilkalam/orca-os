@@ -1,347 +1,724 @@
-# Vibe Code OS 2.0 (Claude Edition)
+# Vibe Code OS 2.0
 
-> A project-local “brain” and operating system for Claude Code – designed to make context and quality structurally mandatory, not optional.
-
-If you’ve used agentic coding tools for anything non-trivial, you’ve probably seen the same failure mode:
-
-- You ask the tool to “just extend yesterday’s feature”.
-- It forgets what exists, ignores past decisions, and **rewrites half your stack**.
-- Each session starts from zero – no project memory, no standards, no structural constraints.
-
-In other words, most setups give you powerful but **amnesiac** agents:
-
-- No persistent project brain (context amnesia).
-- No record of “what happened / cost / rule” to prevent repeat mistakes.
-- No enforced gates; quality checks are suggestions, not structure.
-
-Vibe Code OS 2.0 is an answer to that problem: a seven-layer system that gives each project its own brain, standards, and orchestrated workflows so Claude:
-
-- Always knows what already exists in the codebase.
-- Respects past decisions and project-specific rules.
-- Passes through hard gates before declaring anything “done”.
-- Learns over time from validated fixes instead of repeating the same bugs.
-
-This repo contains my personal Claude Code configuration plus the emerging **Vibe Code OS 2.0**. The focus here is **Claude-only** (Claude Code + MCP + Skills + custom agents). A future pass will generalize the core ideas to other CLIs like Codex.
+**Making Claude remember everything.**
 
 ---
 
-## 1. High-Level Overview
+## The Problem
 
-At a glance, OS 2.0 turns each project into a small operating system around Claude:
+Claude is brilliant at writing code. But it has **zero institutional memory**:
 
-```text
-           +-------------------------------+
-           |          Claude Code          |
-           |   (main assistant + tools)    |
-           +---------------+---------------+
-                           |
-                           v
-                +---------------------+
-                |  Orchestrator       |
-                |     (/orca)         |
-                +---------------------+
-                           |
-                           v
-         +---------------------------------------+
-         |          ProjectContextServer        |
-         |  (per-project context & memory)      |
-         +---------------------------------------+
-             |          |                |
-             v          v                v
-     state.json   context-snapshot   vibe.db + standards
-      (structure)     (hot zones)    (events, chunks, rules)
-```
+**Every session starts from scratch:**
+- No awareness of past decisions or why they were made
+- No knowledge of existing patterns or components
+- No memory of what failed before and why
+- No understanding of project-specific standards
 
-Every serious task flows through the same pattern:
+**This causes cascading failures:**
+1. You build a feature → Claude learns your patterns
+2. Next session → Claude rewrites existing code instead of reusing it
+3. You fix the breaks → Claude forgets why it broke
+4. Repeat forever → Waste tokens, time, and context explaining the same things
 
-1. **Project context is loaded first** (no work without it).
-2. **Domain pipeline** (webdev, iOS, data, SEO, brand) runs with full awareness of what already exists.
-3. **Quality gates** enforce standards and verification before work is “done”.
-4. **Memory is updated** so the next session starts smarter, not fresh.
+**Enterprise solutions exist** (LangGraph, CrewAI, AutoGPT) but they require complex infrastructure, orchestration layers, and don't integrate with Claude Code. They solve different problems (multi-agent systems, workflow automation) not "make Claude remember my project."
+
+**We wanted something different:**
+- Project memory that persists across sessions
+- Context awareness **before** writing any code
+- Learning from every execution
+- Quality gates that prevent regressions
+- For everyday Claude Code users, not enterprises
 
 ---
 
-## 2. The Seven-Layer Architecture
+## Our Approach
 
-### 2.1 Layer 1 – ProjectContextServer (Per‑Project Brain)
+OS 2.0 makes **forgetting structurally impossible** through three innovations:
 
-Each repository gets a **mandatory brain** under a project-local directory (e.g. `.claude/project/`):
+### 1. Persistent Memory (`vibe.db`)
 
-```text
-.claude/project/
-  context-server/      # ProjectContextServer implementation
-  state.json           # Files, components, dependencies, entrypoints
-  context-snapshot.json# Hot zones, recent edits, relationships
-  design-decisions.md  # “Why” log for architecture/UX/brand choices
-  vibe.db              # SQLite: events, standards, chunks, tags
-```
+Every project gets a SQLite database that captures institutional knowledge:
+- **Decisions:** Why choices were made (not just what)
+- **Standards:** Enforced rules learned from failures
+- **Task History:** What worked, what failed, what was learned
+- **Events:** Full audit trail of every action
 
-The brain is exposed to Claude via an MCP-style interface:
+This isn't a cache or embedding store. It's **structured institutional knowledge** that answers "why did we do it this way?"
 
-```text
-ProjectContextServer.query(domain, task) -> ContextBundle
+### 2. Mandatory Context (ProjectContextServer MCP)
 
-ContextBundle {
-  relevantFiles   # from semantic search + indices
-  projectState    # current structure & components
-  pastDecisions   # design-decisions + events
-  relatedStandards# rules likely relevant here
-  similarTasks    # previous attempts in this area
-}
-```
+Before writing **any** code, agents **must** query the ProjectContextServer:
+- Semantic search finds relevant files
+- Decision lookup surfaces past reasoning
+- Standards check loads enforcement rules
+- Task history prevents repeated mistakes
 
-**Hard rule:** no agent, command, or workflow touches the filesystem directly for serious work – it goes through `ProjectContextServer` so context/memory are guaranteed.
+**Result:** Full project awareness before the first line of code.
 
-### 2.2 Layer 2 – Orchestration (/orca)
+This isn't "RAG over your codebase." It's **mandatory context bundling** that makes amnesia architecturally impossible.
 
-`/orca` is the primary orchestrator. It:
+### 3. Domain Pipelines with Quality Gates
 
-- **Never writes code.**
-- Reads:
-  - `phase_state.json` (current phase & blocking conditions)
-  - Domain configs (`docs/domains/<lane>/config.yaml`)
-  - Complexity/task metadata
-- Manages:
-  - Which **domain pipeline** to invoke.
-  - Which **gates** must be satisfied.
-  - How many agents / which coordination mode to use (centralized vs hierarchical, etc.).
+Specialized workflows for each domain (Frontend, iOS, SEO, Data) that enforce:
+- **Context gathering** (mandatory first phase)
+- **Quality gates** that block bad work (90+ threshold)
+- **Learning loops** that capture outcomes
+- **Standards enforcement** that prevents regressions
 
-The orchestrator is a **traffic cop**, not a coder.
-
-### 2.3 Layer 3 – Domain Pipelines (“Lanes”)
-
-Each major workflow is its own “lane” with phases and gates, but all lanes share the same ProjectContextServer.
-
-#### Example: Webdev Lane
-
-```text
-User → /frontend-iterate
-        |
-        v
-  [ProjectContextServer]  <-- loads state, history, patterns
-        |
-        v
-  requirements → customization → implementation → verification → complete
-                           ^                      ^
-                           |                      |
-                  customization gate       standards + visual QA gates
-```
-
-- **requirements** – understand task; fetch similar past features.
-- **customization** – load all existing primitives and enforce “no generic UI”.
-- **implementation** – build with full awareness of current components.
-- **verification** – run visual QA + standards + claim verification.
-
-Similar lanes exist for:
-
-- **iOS** – Swift/SwiftUI workflows with UX, performance, and accessibility gates.
-- **Data** – clarify → explore → model → validate → narrate, with leakage & metric sanity gates.
-- **SEO** – research → brief → outline → draft → quality (already working well).
-- **Brand/Creative** – brief → concept → copy → impact-estimate, constrained by brand and analytics docs.
-
-### 2.4 Layer 4 – Documentation as Operating System
-
-Behavior is driven by **docs and configs**, not just prompts:
-
-```text
-docs/
-  os/
-    vibe-code-os-v2-spec.md     # Architecture spec
-    OS-2.0-*-state.md           # Current deployment snapshots
-    OS v2.0 Codex - *.md        # Research & synthesis logs
-
-  domains/
-    webdev/
-      pipeline.md               # Phases and gates
-      standards.md              # Frontend rules / constraints
-      agents.md                 # Webdev-specific agents
-      config.yaml               # Orchestration config for /frontend-iterate
-    ios/
-    data/
-    seo/
-    brand/
-
-  brands/
-    <brand-name>/
-      brief.md                  # Voice, positioning, creative constraints
-      analytics.md              # Metrics & evaluation patterns
-      standards.md              # On/off-brand examples and rules
-
-requirements/
-  YYYY-MM-DD-HHMM-name/
-    00-initial-request.md
-    01-clarifications.md
-    ...
-    06-requirements-spec.md     # Canonical spec for heavy work
-```
-
-To change behavior, you edit docs/configs, not a buried system prompt.
-
-### 2.5 Layer 5 – Constraint Framework
-
-Every Claude agent or Skill in this OS is constrained structurally:
-
-```yaml
-# Example: domain agent frontmatter (simplified)
-required_context:
-  - ProjectContextServer.query()  # Mandatory per-task bundle
-  - design-dna.json               # Design system / tokens
-  - .standards-local/             # Project-specific rules
-
-forbidden_operations:
-  - inline_styles                 # Structurally impossible
-  - arbitrary_values              # Layout/math via tokens only
-  - raw_filesystem_access         # Must go through context server
-
-verification_required:
-  - screenshot_before_after
-  - design_compliance_check
-  - standards_audit
-  - claim_verification
-```
-
-Constraints shrink the possibility space so low-quality outcomes simply aren’t reachable.
-
-### 2.6 Layer 6 – Learning (Within Safe Boundaries)
-
-Learning is **bounded and auditable**:
-
-- `vibe.db` tables (conceptual):
-  - `events` – what happened (gates, RA tags, errors, successes).
-  - `standards` – What Happened → Cost → Rule, derived from recurring issues.
-  - `chunks` – semantic index of this project’s code/docs.
-- Learning pipeline:
-
-```text
-Execute → Log events → Extract patterns → Propose standards → Human review → Enforce
-```
-
-The system doesn’t learn from arbitrary failures; it learns from **validated corrections and enforced standards**.
-
-### 2.7 Layer 7 – Performance (Opt-in Power-Ups)
-
-For large or demanding projects, OS 2.0 can optionally plug in:
-
-- **Claude Context MCP / similar** – semantic code search at scale.
-- **AgentDB-style vector search** – faster, smarter context retrieval when needed.
-- **Claude-Flow-inspired coordination modes** – centralized / hierarchical / mesh / hybrid orchestration for multi-agent workflows.
-
-These enhance the context layer; they don’t replace it.
+**Result:** Work that improves over time, not regresses.
 
 ---
 
-## 3. Example Flows
+## Architecture
 
-### 3.1 Web Application Feature
-
-```text
-You:   /frontend-iterate "Add multi-step signup flow"
-
-1) ProjectContextServer:
-   - Finds existing auth components and routes
-   - Loads state.json and context-snapshot.json
-   - Pulls past auth-related decisions + standards from vibe.db
-
-2) Orchestrator (/orca):
-   - Selects webdev lane
-   - Loads docs/domains/webdev/pipeline.md + config.yaml
-   - Enters requirements → customization → implementation → verification
-
-3) Frontend agents:
-   - Reuse and extend existing primitives (no 4th Button component)
-   - Respect design tokens and spacing rules
-   - Emit RA tags and structured claims
-
-4) Gates:
-   - Customization gate enforces a non-generic UI
-   - Standards gate enforces layout and design rules
-   - Visual QA reviews screenshots and CSS
-
-5) Memory:
-   - Update project state and snapshot
-   - Log events and new standards into vibe.db
+```
+┌─────────────────────────────────────────────────────────────────────────────────┐
+│                                                                                 │
+│                         User: "/orca add feature X"                             │
+│                                     │                                           │
+│                                     ▼                                           │
+│   ┌─────────────────────────────────────────────────────────────────────┐      │
+│   │                                                                       │      │
+│   │  ORCA ORCHESTRATOR  (/orca command)                                  │      │
+│   │  ─────────────────────────────────────────────────────────────       │      │
+│   │                                                                       │      │
+│   │  1. Detect domain (frontend/ios/seo/data)                            │      │
+│   │  2. Load pipeline (.orchestration/pipelines/{domain}-pipeline.md)    │      │
+│   │  3. Execute phases with constraints                                  │      │
+│   │                                                                       │      │
+│   └───────────────────────────┬───────────────────────────────────────────┘      │
+│                               │                                                  │
+│                               ▼                                                  │
+│   ┌─────────────────────────────────────────────────────────────────────┐      │
+│   │                                                                       │      │
+│   │  PHASE 1: MANDATORY CONTEXT                                          │      │
+│   │  ═══════════════════════════                                         │      │
+│   │                                                                       │      │
+│   │  ┌─────────────────────────────────────────────────────────┐         │      │
+│   │  │                                                          │         │      │
+│   │  │  ProjectContextServer (MCP)                             │         │      │
+│   │  │  ──────────────────────────────────────────             │         │      │
+│   │  │                                                          │         │      │
+│   │  │  query_context({                                        │         │      │
+│   │  │    domain: "frontend",                ┌──────────────┐  │         │      │
+│   │  │    task: "add feature X",             │              │  │         │      │
+│   │  │    projectPath: "/path/to/project"    │   vibe.db    │  │         │      │
+│   │  │  })                                    │  ──────────  │  │         │      │
+│   │  │       │                                │              │  │         │      │
+│   │  │       ├──semantic search──────────────▶│  decisions/  │  │         │      │
+│   │  │       ├──decision lookup───────────────▶│  standards/  │  │         │      │
+│   │  │       ├──standards check───────────────▶│  task_hist/  │  │         │      │
+│   │  │       └──task history──────────────────▶│  events/     │  │         │      │
+│   │  │                                         │              │  │         │      │
+│   │  │                                         └──────────────┘  │         │      │
+│   │  │  Returns: ContextBundle                                  │         │      │
+│   │  │  {                                                       │         │      │
+│   │  │    relevantFiles: [...],                                │         │      │
+│   │  │    pastDecisions: [...],                                │         │      │
+│   │  │    standards: [...],                                    │         │      │
+│   │  │    taskHistory: [...],                                  │         │      │
+│   │  │    designSystem: {...}                                  │         │      │
+│   │  │  }                                                       │         │      │
+│   │  │                                                          │         │      │
+│   │  └─────────────────────────────────────────────────────────┘         │      │
+│   │                                                                       │      │
+│   └───────────────────────────┬───────────────────────────────────────────┘      │
+│                               │                                                  │
+│                               ▼                                                  │
+│   ┌─────────────────────────────────────────────────────────────────────┐      │
+│   │                                                                       │      │
+│   │  PHASE 2-N: SPECIALIZED AGENTS (subagents via Task tool)             │      │
+│   │  ═════════════════════════════════════════════════════               │      │
+│   │                                                                       │      │
+│   │  Domain-specific agents receive ContextBundle:                       │      │
+│   │                                                                       │      │
+│   │  ┌──────────────────┐  ┌──────────────────┐  ┌──────────────────┐   │      │
+│   │  │                  │  │                  │  │                  │   │      │
+│   │  │  Analyzer        │  │  Builder         │  │  Reviewer        │   │      │
+│   │  │  ──────────      │  │  ──────────      │  │  ──────────      │   │      │
+│   │  │                  │  │                  │  │                  │   │      │
+│   │  │  • Reads context │  │  • Uses patterns │  │  • Checks rules  │   │      │
+│   │  │  • Finds files   │  │  • Reuses code   │  │  • Scores work   │   │      │
+│   │  │  • Plans work    │  │  • Follows stds  │  │  • Blocks bad    │   │      │
+│   │  │                  │  │                  │  │                  │   │      │
+│   │  └──────────────────┘  └──────────────────┘  └──────────────────┘   │      │
+│   │                                                                       │      │
+│   │  Each agent:                                                          │      │
+│   │  • Has ContextBundle (knows project history)                         │      │
+│   │  • Uses specialized tools (limited scope)                            │      │
+│   │  • Returns to Orca for next phase                                    │      │
+│   │                                                                       │      │
+│   └───────────────────────────┬───────────────────────────────────────────┘      │
+│                               │                                                  │
+│                               ▼                                                  │
+│   ┌─────────────────────────────────────────────────────────────────────┐      │
+│   │                                                                       │      │
+│   │  PHASE N+1: QUALITY GATES                                            │      │
+│   │  ═════════════════════════                                           │      │
+│   │                                                                       │      │
+│   │  Hard thresholds that block bad work:                                │      │
+│   │                                                                       │      │
+│   │  ┌─────────────────────────────────────────────────┐                 │      │
+│   │  │  Standards Gate (90+ required)                  │                 │      │
+│   │  │  ─────────────────────────────────────          │                 │      │
+│   │  │  ✓ No inline styles                   [95/100] │                 │      │
+│   │  │  ✓ Design token compliance            [92/100] │                 │      │
+│   │  │  ✓ Component reuse                    [100/100]│                 │      │
+│   │  │  → PASS                                         │                 │      │
+│   │  └─────────────────────────────────────────────────┘                 │      │
+│   │                                                                       │      │
+│   │  ┌─────────────────────────────────────────────────┐                 │      │
+│   │  │  Design QA Gate (90+ required)                  │                 │      │
+│   │  │  ─────────────────────────────────────          │                 │      │
+│   │  │  ✓ Spacing (8px grid)                 [100/100]│                 │      │
+│   │  │  ✓ Typography (design system)         [95/100] │                 │      │
+│   │  │  ✓ Visual hierarchy                   [88/100] │                 │      │
+│   │  │  → FAIL (below threshold, needs fixes)          │                 │      │
+│   │  └─────────────────────────────────────────────────┘                 │      │
+│   │                                                                       │      │
+│   │  ┌─────────────────────────────────────────────────┐                 │      │
+│   │  │  Build Gate (must pass)                         │                 │      │
+│   │  │  ─────────────────────────────────────          │                 │      │
+│   │  │  npm run build                                  │                 │      │
+│   │  │  ✓ TypeScript compilation successful            │                 │      │
+│   │  │  ✓ No linting errors                            │                 │      │
+│   │  │  → PASS                                         │                 │      │
+│   │  └─────────────────────────────────────────────────┘                 │      │
+│   │                                                                       │      │
+│   │  If any gate fails: Loop back with feedback                          │      │
+│   │                                                                       │      │
+│   └───────────────────────────┬───────────────────────────────────────────┘      │
+│                               │                                                  │
+│                               ▼                                                  │
+│   ┌─────────────────────────────────────────────────────────────────────┐      │
+│   │                                                                       │      │
+│   │  PHASE N+2: SAVE LEARNINGS                                           │      │
+│   │  ══════════════════════════                                          │      │
+│   │                                                                       │      │
+│   │  ProjectContextServer.save_decision({                                │      │
+│   │    decision: "Used pattern X for feature Y",                         │      │
+│   │    reasoning: "Because it handles edge case Z",                      │      │
+│   │    domain: "frontend",                                               │      │
+│   │    tags: ["patterns", "reusable"]                                    │      │
+│   │  })                                                                  │      │
+│   │                                        │                              │      │
+│   │  ProjectContextServer.save_task_history({                  ┌──────┐  │      │
+│   │    task: "Add feature X",                                  │      │  │      │
+│   │    outcome: "success",                     saved to ───────▶│vibe  │  │      │
+│   │    files: ["Component.tsx", ...],                          │ .db  │  │      │
+│   │    learnings: "Pattern X works well for Y"                 │      │  │      │
+│   │  })                                                         └──────┘  │      │
+│   │                                                                       │      │
+│   │  ProjectContextServer.save_standard({                                │      │
+│   │    what_happened: "Inline styles broke dark mode",                   │      │
+│   │    cost: "2 hours debugging + user frustration",                     │      │
+│   │    rule: "Never use inline styles, use design tokens",               │      │
+│   │    domain: "frontend"                                                │      │
+│   │  })                                                                  │      │
+│   │                                                                       │      │
+│   └───────────────────────────────────────────────────────────────────────┘      │
+│                                                                                 │
+│                                     │                                           │
+│                                     ▼                                           │
+│                                                                                 │
+│                       ✓ Feature shipped with quality                            │
+│                       ✓ Knowledge persisted to vibe.db                          │
+│                       ✓ Standards updated automatically                         │
+│                       ✓ Next session has full context                           │
+│                                                                                 │
+└─────────────────────────────────────────────────────────────────────────────────┘
 ```
 
-### 3.2 iOS Feature
+**Key architectural properties:**
 
-```text
-You:   /ios "Add offline caching to article list"
-
-Context:
-  - ProjectContextServer returns existing networking stack,
-    cache abstractions, and previous performance decisions.
-
-Pipeline:
-  - clarify → plan → implement → test → verify
-
-Gates:
-  - Architecture consistency (reuse existing layers)
-  - UX: loading / offline states handled gracefully
-  - Performance: basic benchmarks stay within bounds
-  - Accessibility: labels & navigation remain correct
-```
-
-### 3.3 Data + Brand Campaign
-
-```text
-You:   /brand-campaign "Concept + copy for product launch"
-
-Context:
-  - Brand brief + analytics docs
-  - Past campaigns and their performance from vibe.db
-
-Phases:
-  - brief → concept → copy → impact-estimate
-
-Gates:
-  - Brand standards (voice, messaging, constraints)
-  - Analytics sanity (no magical unrealistic metrics)
-  - Claim verification against known data where possible
-
-Outcome:
-  - Creative work that’s visually and tonally consistent
-  - Data-informed expectations and tradeoffs documented
-```
+1. **Context is mandatory** - No agent can bypass Phase 1
+2. **Memory is persistent** - vibe.db survives sessions
+3. **Gates enforce quality** - 90+ threshold, no exceptions
+4. **Learning is automatic** - Every outcome captured
+5. **Orchestration is explicit** - Orca controls flow, agents execute
 
 ---
 
-## 4. Influences & Credits
+## Memory System (The Novel Part)
 
-This OS builds on a lot of excellent public work. Concepts, patterns, and specific mechanisms are adapted (with tweaks) from:
+Most AI coding assistants have no memory or session-only memory:
 
-- **Pantheon Framework / Glass Box Process**  
-  - Transparent, auditable workflows; process as the primary artifact.
-- **Agentwise**  
-  - Multi-agent orchestration, project wizards, smart model routing, MCP-centric integrations.
-- **Claude-Flow (swarm benchmarking)**  
-  - Coordination modes, concurrent execution patterns, and performance analysis.
-- **Response Awareness Framework (Michael Jovanovich)**  
-  - Response-awareness tags, metacognitive orchestration, and tiered instruction sets.
-- **Equilateral Agents**  
-  - Standards as “What happened / Cost / Rule” and multi-tier standards layout.
-- **Claude Context MCP (Zilliz)**  
-  - Semantic code search as a first-class part of project context.
-- **Anthropic’s Claude Code Best Practices & Agent Engineering Guides**  
-  - CLAUDE.md patterns, agent design, and best practices around planning and hooks.
+| System | Memory Type | Persistence | Context Awareness |
+|--------|-------------|-------------|-------------------|
+| GitHub Copilot | None | None | File-level only |
+| Cursor | Chat history | Session | Manual @-mentions |
+| Replit Agent | Conversation | Session | Re-explain each time |
+| Enterprise (LangGraph) | Vector DB | Persistent | Complex setup |
 
-The goal of Vibe Code OS 2.0 is not to replace these systems, but to **compose and adapt** their ideas into a cohesive, project-local operating system that fits day-to-day coding work.
+**OS 2.0 combines four memory layers:**
+
+```
+┌──────────────────────────────────────────────────────────────────────┐
+│                                                                      │
+│  Hybrid Memory System                                               │
+│  ═══════════════════════                                            │
+│                                                                      │
+│  ┌────────────────────────────────────────────────────────────┐     │
+│  │                                                             │     │
+│  │  Layer 1: SYMBOLIC MEMORY                                  │     │
+│  │  ────────────────────────────────────────────              │     │
+│  │                                                             │     │
+│  │  SQLite tables in vibe.db:                                 │     │
+│  │                                                             │     │
+│  │  decisions     → Why choices were made                     │     │
+│  │                  "We use CSS vars for theming because..."   │     │
+│  │                                                             │     │
+│  │  standards     → Enforced rules from failures              │     │
+│  │                  "Never inline styles → Use tokens"        │     │
+│  │                                                             │     │
+│  │  task_history  → What worked, what failed                  │     │
+│  │                  "Dark mode: success, lessons learned..."   │     │
+│  │                                                             │     │
+│  │  events        → Full audit trail                          │     │
+│  │                  Timestamped log of every action            │     │
+│  │                                                             │     │
+│  │  Query time: <10ms (indexed by domain, tags, time)         │     │
+│  │                                                             │     │
+│  └────────────────────────────────────────────────────────────┘     │
+│                                                                      │
+│  ┌────────────────────────────────────────────────────────────┐     │
+│  │                                                             │     │
+│  │  Layer 2: SEMANTIC SEARCH                                  │     │
+│  │  ────────────────────────────────────────────              │     │
+│  │                                                             │     │
+│  │  FTS5 full-text search over:                               │     │
+│  │  • Code snippets with context                              │     │
+│  │  • Documentation fragments                                 │     │
+│  │  • Past conversation excerpts                              │     │
+│  │                                                             │     │
+│  │  Optional: e5-small embeddings for reranking               │     │
+│  │  (lightweight local model, not API-dependent)              │     │
+│  │                                                             │     │
+│  │  Query time: <100ms (FTS) or <500ms (with embeddings)      │     │
+│  │                                                             │     │
+│  └────────────────────────────────────────────────────────────┘     │
+│                                                                      │
+│  ┌────────────────────────────────────────────────────────────┐     │
+│  │                                                             │     │
+│  │  Layer 3: COGNITIVE TAGS                                   │     │
+│  │  ────────────────────────────────────────────              │     │
+│  │                                                             │     │
+│  │  Response Awareness tags track HOW code was produced:      │     │
+│  │                                                             │     │
+│  │  #COMPLETION_DRIVE  → Claimed done too early               │     │
+│  │  #POISON_PATH       → This approach failed before          │     │
+│  │  #PHANTOM_PATTERN   → Imagined pattern that doesn't exist  │     │
+│  │  #PLAN_UNCERTAINTY  → Wasn't sure, made assumptions        │     │
+│  │                                                             │     │
+│  │  Used to: Deprioritize bad patterns, surface warnings      │     │
+│  │                                                             │     │
+│  └────────────────────────────────────────────────────────────┘     │
+│                                                                      │
+│  ┌────────────────────────────────────────────────────────────┐     │
+│  │                                                             │     │
+│  │  Layer 4: CROSS-SESSION CONTEXT                            │     │
+│  │  ────────────────────────────────────────────              │     │
+│  │                                                             │     │
+│  │  SharedContext MCP (context compression):                  │     │
+│  │  • Differential updates between sessions                   │     │
+│  │  • Version tracking                                        │     │
+│  │  • 20-30% token savings vs re-sending full context        │     │
+│  │                                                             │     │
+│  │  ProjectContext MCP (mandatory bundling):                  │     │
+│  │  • Semantic file search                                    │     │
+│  │  • Decision/standard lookup                                │     │
+│  │  • Task history analysis                                   │     │
+│  │  • Auto-bundled before every agent execution               │     │
+│  │                                                             │     │
+│  └────────────────────────────────────────────────────────────┘     │
+│                                                                      │
+│  Result:                                                             │
+│  • Fast symbolic queries for structured knowledge                   │
+│  • Smart semantic search for "find similar code"                    │
+│  • Cognitive awareness of HOW decisions were made                   │
+│  • Cross-session persistence without re-explaining                  │
+│                                                                      │
+│  All running locally, no cloud dependencies.                        │
+│                                                                      │
+└──────────────────────────────────────────────────────────────────────┘
+```
+
+### Why This Combination?
+
+**Symbolic memory alone:** Fast but can't find "similar" patterns
+**Semantic search alone:** Good at similarity but no causal reasoning
+**Cognitive tags alone:** Meta-awareness but no structured storage
+**Cross-session context alone:** Compression but no learning
+
+**Together:** Fast structured queries + Smart semantic search + Meta-cognitive awareness + Cross-session persistence = **Institutional knowledge that compounds over time**
 
 ---
 
-## 5. Status & Next Steps
+## Example Flow: Building a Payment Form
 
-This README describes the **target architecture** for the Claude-only system in this repo:
+Let's say you're building an e-commerce checkout flow.
 
-- Some pieces already exist (custom agents, commands, SEO and frontend flows).
-- Others are in active development:
-  - ProjectContextServer implementation.
-  - Per-lane configs and docs.
-  - vibe.db schema and events/standards loop.
+### Session 1: Initial Implementation
 
-As OS 2.0 solidifies, this document will track:
+**User:** `/orca "Add a payment form with credit card validation"`
 
-- Which layers are implemented.
-- How to enable them in your own projects.
-- Concrete examples and templates you can copy.
+**What happens:**
 
-For now, treat this as both **design doc** and **public-facing explanation** of where the system is headed. If you’re exploring similar ideas, feel free to borrow structures and adapt them to your own tooling. 
+```
+[1] Orca detects domain: "frontend"
+    Loads: pipelines/webdev-pipeline.md
+
+[2] Phase: CONTEXT
+    ProjectContextServer.query_context()
+
+    Returns ContextBundle:
+    {
+      relevantFiles: [
+        "src/components/Form/Input.tsx",        // Existing input component
+        "src/styles/design-tokens.ts",          // Design system
+        "src/utils/validation.ts"               // Existing validators
+      ],
+
+      pastDecisions: [
+        {
+          decision: "Form inputs use controlled components",
+          reasoning: "Easier to manage validation state"
+        }
+      ],
+
+      standards: [
+        "Use design tokens for spacing/colors",
+        "Validation feedback must be accessible",
+        "Form fields must have clear error states"
+      ],
+
+      taskHistory: [],  // First time building payment forms
+
+      designSystem: {
+        spacing: [4, 8, 16, 24, 32],
+        colors: { error: "#DC2626", ... }
+      }
+    }
+
+[3] Phase: ANALYZE
+    frontend-layout-analyzer:
+    "I see existing Input component and validators.
+     I'll compose PaymentForm using Input,
+     add new creditCardValidator,
+     follow design token spacing."
+
+[4] Phase: BUILD
+    frontend-builder-agent:
+    • Creates PaymentForm.tsx (reuses Input component)
+    • Adds creditCardValidator to validation.ts
+    • Uses design tokens for layout
+    • Implements accessible error states
+
+[5] Phase: STANDARDS CHECK
+    ✓ Design tokens used (95/100)
+    ✓ Components reused (100/100)
+    ✓ Accessibility (92/100)
+    → PASS
+
+[6] Phase: DESIGN QA
+    ✓ Spacing follows 8px grid (100/100)
+    ✓ Error states visible (90/100)
+    ✓ Typography consistent (95/100)
+    → PASS
+
+[7] Phase: BUILD
+    npm run build → ✓ Success
+
+[8] Phase: SAVE LEARNINGS
+    Saves to vibe.db:
+    • Decision: "Credit card validation uses Luhn algorithm"
+    • Task: "Add payment form → Success"
+    • Standard: (none yet, first implementation)
+```
+
+**Result:** Payment form shipped ✓
+
+---
+
+### Session 2: Bug Fix (Next Day)
+
+**User:** `/orca "Fix the payment form - it's not showing errors on blur"`
+
+**What happens:**
+
+```
+[1] Phase: CONTEXT
+    ProjectContextServer.query_context()
+
+    Returns ContextBundle:
+    {
+      relevantFiles: [
+        "src/components/PaymentForm.tsx",       // Just built yesterday!
+        "src/components/Form/Input.tsx",
+        "src/utils/validation.ts"
+      ],
+
+      pastDecisions: [
+        {
+          decision: "Credit card validation uses Luhn algorithm",
+          when: "2025-11-19",
+          reasoning: "Industry standard, prevents typos"
+        },
+        {
+          decision: "Form inputs use controlled components",
+          reasoning: "Easier to manage validation state"
+        }
+      ],
+
+      standards: [
+        "Validation feedback must be accessible"
+      ],
+
+      taskHistory: [
+        {
+          task: "Add payment form",
+          outcome: "success",
+          when: "2025-11-19",
+          files: ["PaymentForm.tsx", "validation.ts"]
+        }
+      ]
+    }
+
+[2] Phase: ANALYZE
+    "Looking at PaymentForm.tsx from yesterday's session.
+     The Input component has onBlur but validation only runs onChange.
+     Need to add blur validation trigger."
+
+[3] Phase: BUILD
+    • Adds onBlur validation to Input component
+    • Updates PaymentForm to pass validateOnBlur prop
+    • Maintains existing patterns
+
+[4] GATES PASS → Bug fixed
+
+[5] SAVE LEARNINGS
+    Saves to vibe.db:
+    • Standard: "Form validation must run on both change AND blur"
+      (Created from this failure)
+    • Task: "Fix payment form blur validation → Success"
+```
+
+**Result:** Bug fixed + New standard learned ✓
+
+---
+
+### Session 3: New Feature (Week Later)
+
+**User:** `/orca "Add a shipping address form"`
+
+**What happens:**
+
+```
+[1] Phase: CONTEXT
+    ProjectContextServer.query_context()
+
+    Returns ContextBundle:
+    {
+      relevantFiles: [
+        "src/components/PaymentForm.tsx",       // Similar form!
+        "src/components/Form/Input.tsx",
+        "src/utils/validation.ts"
+      ],
+
+      pastDecisions: [
+        "Credit card validation uses Luhn algorithm",
+        "Form inputs use controlled components"
+      ],
+
+      standards: [
+        "Validation feedback must be accessible",
+        "Form validation must run on both change AND blur"  ← Learned from bug!
+      ],
+
+      taskHistory: [
+        "Add payment form → Success",
+        "Fix payment form blur validation → Success"
+      ]
+    }
+
+[2] Phase: BUILD
+    frontend-builder-agent:
+    "I see PaymentForm as a pattern.
+     I'll create ShippingForm following same structure,
+     reuse Input component,
+     apply onChange + onBlur validation (learned standard),
+     use design tokens."
+
+    • Creates ShippingForm.tsx (mirrors PaymentForm structure)
+    • Adds addressValidator to validation.ts
+    • Includes onBlur validation from the start (no bug!)
+
+[3] GATES PASS on first try
+    (Because standards were followed automatically)
+```
+
+**Result:** Shipping form built correctly on first try, no bugs ✓
+
+---
+
+### The Difference
+
+**Without OS 2.0:**
+```
+Session 1: Build payment form
+Session 2: Fix blur bug
+Session 3: Build shipping form
+           → Repeat blur bug (forgot the fix)
+           → Use different pattern (no consistency)
+           → Re-explain design tokens (no memory)
+```
+
+**With OS 2.0:**
+```
+Session 1: Build payment form → Patterns saved
+Session 2: Fix blur bug → Standard learned
+Session 3: Build shipping form → Patterns reused, standards enforced, no bugs
+```
+
+**Impact:**
+- **Token savings:** 40-50% (no re-explaining patterns/decisions)
+- **Time savings:** No debugging repeated mistakes
+- **Quality improvement:** Standards enforced automatically
+- **Knowledge compounds:** Each session makes future sessions better
+
+---
+
+## Getting Started
+
+### Prerequisites
+
+- [Claude Code](https://claude.com/code) (with MCP support)
+- Node.js 18+
+- Python 3.9+ (optional, for memory indexing)
+
+### Quick Setup
+
+1. **Clone the repo:**
+   ```bash
+   git clone https://github.com/yourusername/claude-vibe-config.git
+   cd claude-vibe-config
+   ```
+
+2. **Deploy to ~/.claude:**
+   ```bash
+   ./scripts/deploy-to-global.sh
+   ```
+
+3. **Configure MCP servers in ~/.claude.json:**
+   ```json
+   {
+     "mcpServers": {
+       "shared-context": {
+         "command": "npx",
+         "args": ["-y", "@anthropic-ai/shared-context-mcp"]
+       },
+       "project-context": {
+         "command": "npx",
+         "args": ["-y", "@anthropic-ai/project-context-mcp"]
+       }
+     }
+   }
+   ```
+
+4. **Initialize project memory:**
+   ```bash
+   cd your-project
+   claude /orca "Initialize project memory"
+   ```
+
+### First Command
+
+```bash
+/orca "Add feature X to my app"
+```
+
+Watch as:
+- Context gathered automatically
+- Domain pipeline activates
+- Quality gates enforce standards
+- Learnings saved to vibe.db
+- Future sessions remember everything
+
+---
+
+## Documentation
+
+### Core Architecture
+- [OS 2.0 Specification](docs/architecture/vibe-code-os-v2-spec.md) - Full system design
+- [Memory Architecture](docs/memory/vibe-memory-v2-architecture-2025-11-19.md) - vibe.db schema
+- [Configuration Record](docs/architecture/configuration-record.md) - What's in ~/.claude
+
+### Domain Pipelines
+- [Frontend Pipeline](docs/pipelines/webdev-pipeline.md) - Web development
+- [iOS Pipeline](docs/pipelines/ios-pipeline.md) - Native iOS
+- [Expo Pipeline](docs/pipelines/expo-pipeline.md) - React Native
+- [SEO Pipeline](docs/pipelines/seo-pipeline.md) - Content/SEO
+
+---
+
+## Philosophy
+
+### Context is Mandatory
+No agent works without ContextBundle. Make forgetting architecturally impossible.
+
+### Quality is Enforced
+Hard gates (90+ threshold) block bad work. No bypassing to "move faster."
+
+### Learning is Automatic
+Every execution leaves institutional knowledge. Standards auto-enforce.
+
+### Documentation as Code
+Pipelines are specs. Constraints are configs. States are data.
+
+---
+
+## Status
+
+**Current:** OS 2.0 core complete
+- ✅ Persistent memory (vibe.db)
+- ✅ Mandatory context (ProjectContextServer MCP)
+- ✅ Domain pipelines (Frontend/iOS/Expo/SEO)
+- ✅ Quality gates (Standards/Design/Build)
+
+**Next:**
+- 🚧 Response Awareness tags (cognitive layer)
+- 🚧 Vector search optimization
+- 🚧 Multi-agent coordination improvements
+
+---
+
+## Contributing
+
+Built for everyday Claude Code users who want:
+- Claude to remember project context
+- Quality enforcement without manual checks
+- Learning systems that improve over time
+- Simple setup without enterprise complexity
+
+Contributions welcome. See [CONTRIBUTING.md](CONTRIBUTING.md).
+
+---
+
+## License
+
+MIT License - see [LICENSE](LICENSE)
+
+---
+
+## Acknowledgments
+
+- [Claude Code](https://claude.com/code) - The foundation
+- [MCP Protocol](https://modelcontextprotocol.io/) - Context servers
+- [Workshop](https://github.com/waldzell/workshop) - Memory inspiration
+- Response Awareness methodology - Cognitive framework
+
+---
+
+**Vibe Code OS 2.0:** Making Claude remember everything, so you don't have to explain twice.
+
+_Last updated: 2025-11-19_

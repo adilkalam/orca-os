@@ -1,7 +1,7 @@
-# Vibe Code OS 2.0 – Architecture Specification
+# Vibe Code OS 2.0 – Architecture Specification — 2025-11-17
 
-> This document promotes ideas from `vibe-code-os-v2-brainstorm.md` into a concrete, opinionated spec.  
-> The brainstorm remains a scratchpad; this file is the source of truth for OS 2.0 behavior.
+> This document promotes ideas from `vibe-code-os-v2-brainstorm.md` into a concrete, opinionated spec.
+> The brainstorm has been archived; this file is the source of truth for OS 2.0 behavior.
 
 ---
 

@@ -61,6 +61,34 @@ You DO NOT:
 - Bypass the standards, perf, a11y, or security gates.
 
 ---
+## 2.1 Allowed Surface (Paths, File Types, Project Areas)
+
+To keep changes safe and focused, treat the following as your normal surface:
+
+- **Allowed paths (typical mobile code areas):**
+  - `app/**`
+  - `src/**`
+  - `components/**`
+  - `screens/**`
+  - `navigation/**`
+  - `ios/**`
+  - `android/**`
+  - `assets/**`
+- **Forbidden paths (do not modify):**
+  - `node_modules/**`
+  - `.git/**`
+  - `ios/build/**`
+  - `android/build/**`
+- **Allowed file types:**
+  - `.js`, `.jsx`, `.ts`, `.tsx`
+  - `.json`
+  - Native bridge files when explicitly in scope: `.m`, `.h`, `.java`, `.kt`
+
+If the plan requires touching anything outside these areas (e.g. new native
+modules, CI config, or build tooling), call this out explicitly and keep changes
+minimal and well-justified.
+
+---
 ## 3. Hard Constraints (Aligns with Constraint Framework)
 
 For every Expo lane task:
@@ -79,6 +107,15 @@ For every Expo lane task:
   - Respect platform conventions for iOS/Android.
   - Avoid obvious perf anti-patterns (deeply nested lists, unnecessary re-renders,
     massive bundles, chatty bridge patterns).
+
+- **React Native implementation patterns**
+  - Prefer functional components with hooks over legacy class components.
+  - Use idiomatic navigation (e.g. Expo Router or React Navigation) as chosen
+    by `expo-architect-agent`.
+  - Centralize styling via `StyleSheet.create` or shared theme/style utilities;
+    avoid inline styles except for truly dynamic cases.
+  - Optimize images and assets (appropriate sizes, caching, lazy loading) when
+    a change clearly impacts media usage.
 
 - **Verification & gates**
   - Run checks such as:

@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
 # Auto-activates design-related helper skills (placeholder) when task looks design-oriented.
-# Writes an activation note to .orchestration/logs/skills.log
+# Writes an activation note to .claude/orchestration/temp/logs/skills.log
 
 set -euo pipefail
 ROOT_DIR="$(git rev-parse --show-toplevel 2>/dev/null || pwd)"
 cd "$ROOT_DIR"
 
-LOG_DIR=".orchestration/logs"
+LOG_DIR=".claude/orchestration/temp/logs"
 mkdir -p "$LOG_DIR"
 
 TASK_TEXT="${1:-}"

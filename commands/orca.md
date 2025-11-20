@@ -72,7 +72,7 @@ User Request
    ```typescript
    // Use MCP tool: project-context/query_context
    {
-     domain: "webdev" | "ios" | "data" | "seo" | "brand",
+     domain: "webdev" | "ios" | "data" | "expo" | "seo" | "brand" | "design",
      task: $ARGUMENTS,
      projectPath: "<current working directory>",
      maxFiles: 10,
@@ -126,6 +126,11 @@ Analyze the request and project structure to determine domain:
 - Keywords: content, blog, article, SEO, keywords, metadata
 - Files: `*.md` (content), SEO configs
 - Pipeline: `docs/pipelines/seo-pipeline.md`
+
+**design:**
+- Keywords: design system, design tokens, Figma, landing page design, visual design, mockup, layout exploration
+- Files: `design-system-v*.md`, `bento-system-v*.md`, `CSS-ARCHITECTURE.md`, `.claude/design-dna/*.json`
+- Pipeline: `docs/pipelines/design-pipeline.md`
 
 ---
 
@@ -517,6 +522,47 @@ REQUEST: ${$ARGUMENTS}
 Follow the brand pipeline specification in docs/pipelines/brand-pipeline.md:
 
 Execute the pipeline with full context awareness.
+  `
+})
+```
+
+### 5.6 Design Pipeline
+
+For design‑first work (design systems, layout/visual exploration, tokens/components):
+
+```typescript
+Task({
+  subagent_type: "general-purpose",
+  description: "Design pipeline orchestration",
+  prompt: `
+You are orchestrating the design domain pipeline for OS 2.0.
+
+CONTEXT BUNDLE (from ProjectContextServer):
+${JSON.stringify(contextBundle, null, 2)}
+
+REQUEST: ${$ARGUMENTS}
+
+Follow the design pipeline specification in docs/pipelines/design-pipeline.md:
+
+1. **Phases:**
+   - Context & Brief (design-heavy intent, optional requirements support)
+   - Design Exploration (concept, layout, components)
+   - System & Components (update/synthesize design-dna.json and component specs)
+   - Exports & Handoff (optional Figma/HTML exports)
+   - Design QA Gate (design-review score only)
+   - Completion (handoff to webdev/brand pipelines)
+
+2. **Core Artifacts:**
+   - Updated design-dna.json (schema in docs/design/design-dna-schema.md)
+   - Implementation spec for downstream webdev work
+   - Optional design exports (Figma/HTML/etc.)
+
+3. **Constraints:**
+   - Respect authored design docs (design-system-vX.X.md, bento-system-vX.X.md, CSS-ARCHITECTURE.md)
+   - Treat minimum font sizes, spacing grid, and token usage rules as hard constraints
+   - Prefer extending existing tokens/components over inventing new, parallel systems
+
+Execute this pipeline with full context awareness and prepare clean artifacts for downstream pipelines.
   `
 })
 ```

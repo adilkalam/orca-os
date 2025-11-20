@@ -31,19 +31,16 @@ Request
     ↓
 [Phase 4: Implementation - Pass 1]
     ↓
-[Phase 5: Standards Enforcement]
-    ↓
-[Phase 6: Design QA]
-    ↓
-[GATE: Standards Gate ≥90]
-[GATE: Design QA Gate ≥90]
+[Phase 5: Gate Checks (Parallel Group)]
+  ├─ Standards Enforcement (frontend-standards-enforcer)
+  └─ Design QA (frontend-design-reviewer-agent)
+      [+ Optional: a11y/perf/security gates]
     ↓
 Decision Point:
-├─ Both gates ≥90 → [Phase 8: Verification]
-└─ Either gate <90 → [Phase 4b: Implementation - Pass 2] (ONE corrective pass only)
+├─ All required gates ≥ thresholds → [Phase 8: Verification]
+└─ Any gate < threshold → [Phase 4b: Implementation - Pass 2] (ONE corrective pass only)
     ↓
-[Phase 5b: Standards Re-check]
-[Phase 6b: Design QA Re-check]
+[Phase 5b: Gate Re-checks (same parallel group)]
     ↓
 [Phase 8: Verification] (Build + Test)
     ↓
@@ -161,6 +158,13 @@ Decision Point:
 5. Generate dependency map
 6. Create implementation guidance
 
+Optional (for image/mockup-driven work):
+- When screenshots or mockups are provided, the `visual-layout-analyzer`
+  agent may also be used to produce a `visual_layout_tree`,
+  `detected_components` (including bento patterns), and `token_candidates`
+  that align with `design-dna.json`. These artifacts can be referenced in
+  planning, analysis, and downstream design/implementation phases.
+
 **Output:**
 - Dependency map (what affects what)
 - Current design token usage
@@ -226,7 +230,13 @@ Decision Point:
 
 ---
 
-### Phase 5: Standards Enforcement
+### Phase 5: Gate Checks (Standards & Design QA – Parallel Group)
+
+After Implementation Pass 1, the pipeline runs code-level standards and visual
+design checks as a **parallel gate group**. All gates read from the same
+ContextBundle and modified files; they do not modify code.
+
+#### 5a. Standards Enforcement
 
 **Agent:** frontend-standards-enforcer
 
@@ -270,9 +280,7 @@ Decision Point:
 - Standards report: `.claude/orchestration/evidence/standards-TIMESTAMP.md`
 - Update phase_state.json: standards_score, violations
 
----
-
-### Phase 6: Design QA
+#### 5b. Design QA
 
 **Agent:** frontend-design-reviewer-agent
 

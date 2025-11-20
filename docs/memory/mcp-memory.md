@@ -1,4 +1,4 @@
-# MCP: memory.search Tool
+# MCP: memory.search Tool — 2025-11-19
 
 Expose the local memory DB via an MCP stdio server so agents can fetch top‑k file snippets instantly without scanning the filesystem.
 
@@ -11,7 +11,7 @@ What it provides:
 - Results: JSON content with `{ results: [{ path, start, end, score, snippet }], used_vectors: boolean }`
 
 Prereqs:
-- A local memory DB at `.claude/memory/workshop.db` (or legacy `.workshop/workshop.db`)
+- A local memory DB at `.claude/memory/vibe.db` (or legacy `.workshop/workshop.db` fallback)
 - Optional embeddings for rerank: `python3 scripts/memory-embed.py` (requires `sentence-transformers`)
 
 Configure (Per‑Project in ~/.claude.json):
@@ -44,5 +44,9 @@ Manual test (framing):
 - This server speaks Content‑Length framed JSON‑RPC over stdio. Most MCP clients handle this automatically.
 
 Notes:
-- If `memory_vectors` exists and `sentence-transformers` is installed, the server reranks FTS top‑50 via e5‑small embeddings.
+- If `chunk_vectors` exists and `sentence-transformers` is installed, the server reranks FTS top‑50 via e5‑small embeddings.
 - Otherwise, it falls back to BM25 with `snippet()` previews.
+
+---
+
+_Last updated: 2025-11-19_

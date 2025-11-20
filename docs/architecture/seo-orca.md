@@ -1,6 +1,15 @@
-# SEO-ORCA
+# SEO-ORCA (Architecture Overview, Updated 2025-11-19)
 
-Elite SEO orchestration that mirrors our iOS and data-analysis stacks: a deterministic research pipeline feeds a dedicated agent team, all mediated through ORCA's confirmation gate. The system produces **3,000+ word sophisticated content** with natural clarity—matching manually-crafted gold standards through deep knowledge graph integration, external research citations, and automated clarity quality gates.
+> Status: **OS 2.0 SEO lane architecture.**  
+> Canonical behavior is now specified in:
+> - `docs/pipelines/seo-pipeline.md` (phase definitions)
+> - `docs/reference/phase-configs/seo-phases.yaml` (phase config + gates)
+> - `commands/seo-orca.md` (command-level orchestration)
+>
+> This document describes the architectural intent and historical evolution of
+> the SEO orchestration stack.
+
+Elite SEO orchestration that mirrors our iOS and data-analysis stacks: a deterministic research pipeline feeds a dedicated agent team, all mediated through ORCA's confirmation gate. The system produces **long-form sophisticated content** with natural clarity—matching manually-crafted gold standards through deep knowledge graph integration, external research citations, and automated clarity quality gates.
 
 **What makes this special:** Most AI content automation treats research as snippets. We read complete source files (10-40KB each), extract relevant prose with relevance scoring, load external research papers with DOIs, and verify output passes communication clarity thresholds. The result: content that teaches complex peptide science with conversational authority—biohackers and fitness enthusiasts can understand dual-axis metabolic frameworks without a PhD.
 
@@ -86,18 +95,10 @@ ORCA will propose the specialist team, you confirm, and the workflow executes au
 
 ### Manual fallback (no ORCA)
 
-```bash
-python3 scripts/seo_auto_pipeline.py \
-  "Semax Selank ADHD" \
-  --research-doc /Users/adilkalam/Desktop/OBDN/obdn_site/docs/semax-selank.md \
-  --knowledge-graph /Users/adilkalam/Desktop/OBDN/obdn_site/docs/meta/kg.json \
-  --knowledge-root /Users/adilkalam/Desktop/OBDN/obdn_site \
-  --focus-term anxiety \
-  --focus-term neuroprotective \
-  --draft
-```
-
-This produces the same artifacts without the ORCA check, useful for quick experiments or debugging.
+These pipelines originally supported direct CLI invocation (e.g. via
+`seo_auto_pipeline.py`) for debugging or manual runs. In OS 2.0, the preferred
+entrypoint is the `/seo-orca` command plus the SEO pipeline specification, but
+CLI-only workflows can still be used as implementation details when needed.
 
 ---
 

@@ -1,8 +1,6 @@
-# Claude Vibe Code - Configuration Record
+# Claude Vibe Code - Configuration Record — 2025-11-19
 
 **Purpose:** Version-controlled record of what's configured in `~/.claude` (global Claude Code)
-
-**Last Updated:** 2025-11-12
 
 ---
 
@@ -40,13 +38,15 @@ claude-vibe-config/            ← RECORD/MIRROR (this repo)
 
 ---
 
-## System Counts (What's in ~/.claude)
+## System Counts (What's in ~/.claude) — OS 2.0
 
-- **Agents:** 53 total (excludes 3 template/policy files)
-- **Commands:** 23 total (all active)
-- **Hooks:** 8 total
-- **Scripts:** 3 total
-- **Playbooks:** 7 JSON files
+**Current State (2025-11-19):**
+- **Agents:** 21 total (OS 2.0 focused set)
+- **Commands:** 16 total (all active)
+- **Hooks:** 5 total (startup, project detection, skills)
+- **Scripts:** Minimal (statusline, verification)
+
+**Note:** This represents OS 2.0 - a significantly leaner system compared to pre-v2 (which had 53 agents, 23 commands, 8 hooks). OS 2.0 focuses on core domain pipelines: frontend, iOS, Expo, SEO.
 
 ---
 
@@ -55,130 +55,87 @@ claude-vibe-config/            ← RECORD/MIRROR (this repo)
 ### 1. Root Configuration Files
 
 **What's mirrored:**
-- `CLAUDE.md` (mirrored from `~/.claude/CLAUDE.md` - project memory)
+- `CLAUDE.md` (mirrored from `~/.claude/CLAUDE.md` - workshop integration docs)
 - `QUICK_REFERENCE.md` (mirrored from `~/.claude/QUICK_REFERENCE.md`)
 - `README.md` (repo documentation only - NOT in ~/.claude)
 
 **Note:** Global user memory (`~/.claude/CLAUDE.md` for system-wide settings) is managed separately in `~/.claude/` and NOT tracked in this repo.
 
-### 2. Agents (53 total)
+### 2. Agents (21 total) — OS 2.0
 
 **What's in ~/.claude/agents/ (and recorded here):**
-```
-agents/
-├── implementation/
-│   ├── backend-engineer.md
-│   ├── infrastructure-engineer.md
-│   ├── android-engineer.md
-│   └── cross-platform-mobile.md
-├── orchestration/
-│   ├── workflow-orchestrator.md
-│   ├── orchestration-reflector.md
-│   ├── playbook-curator.md
-│   └── meta-orchestrator.md
-├── planning/
-│   ├── requirement-analyst.md
-│   ├── system-architect.md
-│   └── plan-synthesis-agent.md
-├── quality/
-│   ├── verification-agent.md
-│   ├── quality-validator.md
-│   ├── test-engineer.md
-│   └── content-awareness-validator.md
-└── specialists/
-    ├── design-specialists/ (12 agents including design-ocd-enforcer)
-    ├── frontend-specialists/ (5 agents)
-    └── ios-specialists/ (21 agents)
-```
 
-**Agent Categories:**
-- Implementation: 4
-- Orchestration: 4
-- Planning: 3
-- Quality: 4
-- Design: 12
-- Frontend: 5
-- iOS: 21
+**Domain-Focused Agents:**
+- **Design/A11y (2):** a11y-enforcer, design-token-guardian
+- **Frontend (4):** frontend-builder-agent, frontend-design-reviewer-agent, frontend-layout-analyzer, frontend-standards-enforcer
+- **iOS (4):** ios-architect-agent, ios-standards-enforcer, ios-ui-reviewer-agent, ios-verification-agent
+- **Expo (3):** expo-architect-agent, expo-builder-agent, expo-verification-agent
+- **SEO (4):** seo-brief-strategist, seo-draft-writer, seo-quality-guardian, seo-research-specialist
+- **Performance/Security (3):** performance-enforcer, performance-prophet, security-specialist
+- **Visual (1):** visual-layout-analyzer
 
-**Total: 53**
+**Total: 21 agents**
 
-### 3. Commands (23 total)
+**Architecture Philosophy:**
+- Each domain has architect → builder → standards → verification pipeline
+- No general-purpose "orchestrators" or "meta-agents"
+- Domain-specific expertise over generic coordination
+
+### 3. Commands (16 total) — OS 2.0
 
 **What's in ~/.claude/commands/ (and recorded here):**
-```
-commands/
-├── all-tools.md
-├── ascii-mockup.md
-├── clarify.md
-├── cleanup.md
-├── completion-drive.md
-├── concept-new.md
-├── concept.md
-├── creative-strategist.md
-├── enhance.md
-├── finalize.md
-├── force.md
-├── ios-debug.md
-├── memory-learn.md
-├── memory-pause.md
-├── mode-off.md
-├── mode-strict.md
-├── mode-tweak.md
-├── orca.md
-├── organize.md
-├── session-resume.md
-├── session-save.md
-├── ultra-think.md
-└── visual-review.md
-```
 
-**Active Commands:** 23
-**Deprecated:** 0
+**Orchestration:**
+- `orca.md` - Main orchestrator
+- `seo-orca.md` - SEO pipeline orchestrator
 
-### 4. Hooks (8 total)
+**Requirements System (6 commands):**
+- `requirements-start.md` - Start requirements gathering
+- `requirements-status.md` - Check status
+- `requirements-current.md` - View current requirement
+- `requirements-list.md` - List all requirements
+- `requirements-remind.md` - Remind of rules
+- `requirements-end.md` - End gathering
+
+**Response Awareness (2 commands):**
+- `response-awareness-plan.md` - Plan with RA
+- `response-awareness-implement.md` - Implement from spec
+
+**Tools:**
+- `clone-website.md` - Clone website UI
+- `design-review-from-screenshot.md` - Visual review
+- `enhance.md` - Enhance prompts
+- `ultra-think.md` - Deep analysis
+- `session-resume.md` - Resume session
+- `session-save.md` - Save session
+
+**Total: 16 commands**
+
+### 4. Hooks (5 total) — OS 2.0
 
 **What's in ~/.claude/hooks/ (and recorded here):**
+
 ```
 hooks/
-├── auto-activate-skills.sh
-├── detect-project-type.sh
-├── load-design-dna.sh
-├── load-playbooks.sh
-├── orchestrator-firewall.sh
-├── session-start.sh
-├── SessionEnd.sh
-└── SessionStart.sh
+├── auto-activate-skills.sh         ← Auto-activate skills
+├── detect-project-type.sh          ← Detect project context
+├── file-location-guard.sh          ← Prevent wrong file locations
+├── gate-enforcement.sh             ← Quality gate enforcement
+└── session-start.sh                ← Session initialization
 ```
 
-### 5. Scripts (3 total)
+**Note:** OS 2.0 uses fewer, more focused hooks. Pre-v2 had 8 hooks with more orchestration complexity.
+
+### 5. Scripts
 
 **What's in ~/.claude/scripts/ (and recorded here):**
+
 ```
 scripts/
-├── statusline-README.md
-├── statusline.js
-└── verify-file-organization.sh
+├── statusline-README.md            ← Documentation
+├── statusline.js                   ← Status line for Claude Code
+└── verify-file-organization.sh     ← File organization checker
 ```
-
-### 6. Orchestration System
-
-**What's in ~/.claude/.orchestration/ (partially recorded):**
-```
-.orchestration/
-├── playbooks/                 ← RECORDED in this repo
-│   ├── universal-patterns.json
-│   ├── frontend-patterns.json
-│   ├── git-patterns.json
-│   ├── ios-development-template.json
-│   ├── nextjs-patterns-template.json
-│   ├── universal-patterns-template.json
-│   └── taste-obdn-template.json
-├── sessions/                  ← NOT recorded (runtime data)
-├── signals/                   ← NOT recorded (runtime data)
-└── verification-system/       ← NOT recorded
-```
-
-**Note:** Some .orchestration subdirectories contain runtime data (sessions/, signals/) that are NOT tracked in this repo.
 
 ---
 
@@ -187,25 +144,18 @@ scripts/
 **These exist in ~/.claude but are NOT tracked here:**
 
 ### Runtime Data
-- `.orchestration/sessions/` (session history)
-- `.orchestration/signals/` (runtime signals)
-- `.orchestration/agent-skill-vectors/` (generated data)
-- `.orchestration/knowledge-graph/` (generated data)
-- `todos/` (active todo tracking)
 - `session-env/` (session variables)
 - `ide/` (IDE state)
 - `statsig/` (analytics)
-- `history.jsonl` (session history)
+- `todos/` (active todo tracking)
+- `projects/` (project-specific data)
+- `debug/` (debug logs)
+- `shell-snapshots/` (shell state)
+- `plans/` (runtime plans)
 
 ### Plugin System
 - `plugins/` (installed plugins - managed by Claude Code)
 - `skills/` (user skills - can be tracked separately)
-
-### Archived/Cleaned Data
-- `projects/` (archived - too large)
-- `debug/` (archived - too large)
-- `shell-snapshots/` (archived - too large)
-- `file-history/` (archived - too large)
 
 ---
 
@@ -218,12 +168,12 @@ scripts/
 1. **Global MCPs** (in `~/.claude.json`)
    - Standard npm-based servers
    - Available in ALL projects
-   - Examples: XcodeBuildMCP, chrome-devtools, playwright, context7
+   - Examples: XcodeBuildMCP, chrome-devtools, playwright, context7, bright-data-web, sequential-thinking
 
 2. **Per-Project MCPs** (in `~/.claude.json` under `projects[<abs path>].mcpServers`)
    - Project-specific configurations, additive to global MCPs
    - Each project can have unique setup
-   - Example: vibe-memory (per-project Workshop database)
+   - Example: vibe-memory (per-project memory database)
 
 ### vibe-memory: Per-Project Setup
 
@@ -233,21 +183,21 @@ scripts/
     ↓ (referenced by)
 ~/.claude.json → projects["/abs/path/to/project"].mcpServers   ← Per-project config
     ↓ (accesses)
-Project/.workshop/workshop.db                 ← Per-project data
+Project/.claude/memory/vibe.db                ← Per-project data (OS 2.0)
 ```
 
 **Why per-project:**
-- Each project has its own `.workshop/workshop.db`
+- Each project has its own `.claude/memory/vibe.db` (OS 2.0 uses vibe.db, not workshop.db)
 - Memory is project-specific (not global)
 - Server finds database by walking up from CWD
-- Follows Workshop's intended architecture
+- Semantic search + events + cognitive tags
 
 **Source code in this repo:**
 - `mcp/vibe-memory/memory_server.py` - Server implementation
 - This gets copied to `~/.claude/mcp/vibe-memory/`
 - Projects reference the global server location
 
-**Per-project configuration:** Add under `~/.claude.json`:
+**Per-project configuration in ~/.claude.json:**
 ```json
 {
   "projects": {
@@ -264,12 +214,6 @@ Project/.workshop/workshop.db                 ← Per-project data
 }
 ```
 
-**Then initialize Workshop:**
-```bash
-cd /path/to/project
-workshop init  # Creates .workshop/workshop.db
-```
-
 ### Global MCPs (in ~/.claude.json)
 
 **Standard npm-based MCPs configured globally:**
@@ -277,8 +221,10 @@ workshop init  # Creates .workshop/workshop.db
 - `chrome-devtools` (npx-based, browser automation)
 - `bright-data-web` (npx-based, web scraping)
 - `playwright` (npx-based, browser testing)
-- `context7` (npx-based, context management)
-- `sequential-thinking` (npx-based, reasoning)
+- `context7` (npx-based, documentation lookup)
+- `sequential-thinking` (npx-based, deep reasoning)
+- `shared-context` (npx-based, cross-session context)
+- `project-context` (npx-based, project memory)
 
 **Pattern:**
 - Standard npm MCPs → top‑level `mcpServers` in `~/.claude.json` (global)
@@ -343,48 +289,48 @@ git commit -m "Record: Added new-agent to ~/.claude/agents/"
 **Check what's actually in ~/.claude:**
 
 ```bash
-# Count agents (excluding template/policy files)
-find ~/.claude/agents -name "*.md" | grep -v "TEMPLATE\|README\|POLICY\|context" | wc -l  # Should be 53
+# Count agents (OS 2.0)
+find ~/.claude/agents -name "*.md" | wc -l  # Should be 21
 
-# Count commands
-find ~/.claude/commands -name "*.md" | wc -l  # Should be 23
+# Count commands (OS 2.0)
+find ~/.claude/commands -name "*.md" | wc -l  # Should be 16
 
-# Verify hooks
-ls ~/.claude/hooks/*.sh  # Should show 8 files
+# Verify hooks (OS 2.0)
+ls ~/.claude/hooks/*.sh | wc -l  # Should be 5
 
-# Check playbooks
-ls ~/.claude/.orchestration/playbooks/*.json | wc -l  # Should be 7
+# List specific agents
+ls -1 ~/.claude/agents/*.md
 
-# Verify specific files exist
-ls ~/.claude/QUICK_REFERENCE.md
-ls ~/.claude/commands/session-*.md  # Should show 2 files
+# List specific commands
+ls -1 ~/.claude/commands/*.md
 ```
 
 **Check what's recorded in this repo:**
 
 ```bash
 # From this repo root
-find agents -name "*.md" | grep -v "TEMPLATE\|README\|POLICY" | wc -l  # Should be 53
-find commands -name "*.md" | wc -l  # Should be 23
-ls hooks/*.sh | wc -l  # Should be 8
-ls .orchestration/playbooks/*.json | wc -l  # Should be 7
+find agents -name "*.md" | wc -l
+find commands -name "*.md" | wc -l
+ls hooks/*.sh | wc -l
 ```
+
+**Note:** This repo may contain more files than ~/.claude (historical agents, archived commands, etc.). The verification is to ensure ~/.claude content is RECORDED here, not that they're identical.
 
 ---
 
 ## Verification Checklist
 
-**When syncing, verify both sides match:**
+**When syncing, verify ~/.claude content is recorded:**
 
-- [ ] `find ~/.claude/agents -name "*.md" | grep -v "TEMPLATE\|README\|POLICY\|context" | wc -l` returns 53
-- [ ] `find agents -name "*.md" | grep -v "TEMPLATE\|README\|POLICY" | wc -l` returns 53
-- [ ] `find ~/.claude/commands -name "*.md" | wc -l` returns 23
-- [ ] `find commands -name "*.md" | wc -l` returns 23
-- [ ] `ls ~/.claude/hooks/*.sh | wc -l` returns 8
-- [ ] `ls hooks/*.sh | wc -l` returns 8
-- [ ] `ls ~/.claude/.orchestration/playbooks/*.json | wc -l` returns 7
-- [ ] `ls .orchestration/playbooks/*.json | wc -l` returns 7
+- [ ] `find ~/.claude/agents -name "*.md" | wc -l` returns 21 (OS 2.0)
+- [ ] `find ~/.claude/commands -name "*.md" | wc -l` returns 16 (OS 2.0)
+- [ ] `ls ~/.claude/hooks/*.sh | wc -l` returns 5 (OS 2.0)
+- [ ] All files in ~/.claude/agents/ exist in this repo's agents/
+- [ ] All files in ~/.claude/commands/ exist in this repo's commands/
+- [ ] All files in ~/.claude/hooks/ exist in this repo's hooks/
 
 ---
 
 **This file documents what's configured in ~/.claude. Update this file when ~/.claude changes to maintain version-controlled history.**
+
+_Last updated: 2025-11-19 (OS 2.0)_

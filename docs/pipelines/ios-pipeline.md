@@ -14,6 +14,18 @@ The iOS pipeline handles **native iOS app development** using Swift 6.x and mode
 Goal: implement and evolve native iOS features with **architecture-aware plans**, **safety and concurrency guarantees**, and **structured gates** for quality and verification.
 
 ---
+## Scope & Domain
+
+Use this pipeline when:
+- The task clearly concerns a native iOS (or Apple platform) app:
+  - Keywords: "iOS app", "SwiftUI", "UIKit", "Xcode", "iPhone", "iPad".
+  - Files: `*.xcodeproj`, `*.xcworkspace`, `Sources/**/*.swift`, Swift packages.
+
+If the request is for:
+- Expo/React Native mobile → use the **Expo** pipeline.
+- Browser-based React/Next.js work → use the **webdev** pipeline.
+
+---
 
 ## Pipeline Architecture
 
@@ -264,4 +276,3 @@ Same implementation agents as Phase 4, but:
 **Artifacts:**
 - Task history record in `vibe.db`.
 - Updated iOS standards where applicable.
-

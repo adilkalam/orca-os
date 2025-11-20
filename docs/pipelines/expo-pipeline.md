@@ -14,6 +14,20 @@ The Expo pipeline handles React Native mobile development for projects using Exp
 Goal: build and maintain high-quality Expo apps with structural guarantees around design tokens, accessibility, performance, and security.
 
 ---
+## Scope & Domain
+
+Use this pipeline when:
+- The task clearly concerns an Expo/React Native mobile app
+  (keywords: "Expo", "React Native", "mobile app", "iOS app", "Android app").
+- The repo contains typical Expo/RN surfaces:
+  - `app.json`, `app.config.*`, `App.tsx`/`App.js`.
+  - `app/**`, `src/**`, `screens/**`, `navigation/**`, `ios/**`, `android/**`.
+
+If the work is purely web/frontend (Next.js/React without mobile shells), use
+the **webdev** pipeline instead. If it targets pure native iOS without Expo,
+use the **iOS** pipeline.
+
+---
 
 ## Phase State Contract (`phase_state.json`)
 
