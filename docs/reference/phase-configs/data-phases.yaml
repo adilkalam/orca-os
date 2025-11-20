@@ -1,0 +1,557 @@
+# Data Domain Phase Configuration
+# Version: 2.0.0
+# Last Updated: 2025-11-19
+
+domain: data
+version: "2.0.0"
+
+# Phase definitions
+phases:
+  context_query:
+    order: 1
+    required: true
+    description: "Load project context from ProjectContextServer"
+    agent: "ProjectContextServer"
+    agent_type: "mcp_tool"
+
+    inputs:
+      - domain: "data"
+      - task: "${request}"
+      - projectPath: "${cwd}"
+      - maxFiles: 15
+      - includeHistory: true
+
+    outputs:
+      - contextBundle
+      - relevantFiles
+      - dataSchemas
+      - relatedStandards
+
+    success_criteria:
+      - "contextBundle.relevantFiles.length > 0"
+      - "contextBundle.dataSchemas !== undefined"
+
+    failure_action: "block_pipeline"
+    estimated_duration_ms: 12000
+
+    gates_before: []
+    gates_after: []
+
+  planning:
+    order: 2
+    required: true
+    description: "Plan data pipeline implementation approach"
+    agent: "Orchestrator"
+    agent_type: "internal"
+
+    inputs:
+      - request
+      - contextBundle
+
+    outputs:
+      - scope
+      - dataSourcesAffected
+      - transformationsNeeded
+      - complexity
+      - schemaImpact
+
+    tasks:
+      - "Parse request and identify scope"
+      - "Determine affected data sources from contextBundle"
+      - "Identify required transformations (ETL, aggregations, joins)"
+      - "Estimate complexity (simple/medium/complex)"
+      - "Check for schema breaking changes"
+      - "Assess performance implications"
+
+    success_criteria:
+      - "scope is clear"
+      - "dataSourcesAffected.length > 0"
+      - "complexity in ['simple', 'medium', 'complex']"
+      - "schemaImpact assessed"
+
+    failure_action: "ask_user_clarification"
+    estimated_duration_ms: 60000
+
+    gates_before: []
+    gates_after: ["schema_gate"]
+
+  analysis:
+    order: 3
+    required: true
+    description: "Analyze data schemas and dependencies"
+    agent: "data-analyzer"
+    agent_type: "subagent"
+
+    inputs:
+      - request
+      - contextBundle
+      - planningOutput
+
+    outputs:
+      - schemaDependencyMap
+      - dataQualityRisks
+      - performanceImpact
+      - safeChangeRecommendations
+
+    tasks:
+      - "Read all relevant schema files from contextBundle"
+      - "Analyze table/collection dependencies"
+      - "Identify foreign key constraints"
+      - "Check for data quality validation gaps"
+      - "Estimate query performance impact"
+      - "Generate safe change recommendations"
+
+    success_criteria:
+      - "schemaDependencyMap created"
+      - "dataQualityRisks analyzed"
+      - "performanceImpact assessed"
+      - "safeChangeRecommendations.length > 0"
+
+    failure_action: "retry_once"
+    estimated_duration_ms: 150000
+
+    gates_before: ["schema_gate"]
+    gates_after: []
+
+    artifacts:
+      - type: "analysis_report"
+        path: ".claude/orchestration/temp/data-analysis-${timestamp}.md"
+
+  implementation_pass_1:
+    order: 4
+    required: true
+    description: "Initial implementation of data pipeline changes"
+    agent: "data-builder-agent"
+    agent_type: "subagent"
+
+    inputs:
+      - request
+      - contextBundle
+      - analysisOutput
+      - dataSchemas
+
+    outputs:
+      - filesModified
+      - changesApplied
+      - verificationResults
+
+    constraints:
+      max_files_simple: 4
+      max_files_medium: 8
+      max_files_complex: 15
+      forbidden_operations:
+        - "destructive_migrations"
+        - "unindexed_queries"
+        - "sql_injection_risks"
+        - "missing_validations"
+        - "scope_expansion"
+      verification_required:
+        - "schema_validation"
+        - "data_quality_tests"
+        - "performance_tests"
+        - "integration_tests"
+
+    tasks:
+      - "Load data schemas from contextBundle"
+      - "Read target migration/model files"
+      - "Apply changes using Edit tool (never rewrite)"
+      - "Add proper indexes for new queries"
+      - "Include data validation rules"
+      - "Parameterize all queries (prevent SQL injection)"
+      - "Run schema validation, tests"
+      - "Tag all file operations"
+
+    success_criteria:
+      - "filesModified.length <= max_files"
+      - "schema_validation passed"
+      - "data_quality_tests passed"
+      - "performance_tests passed"
+
+    failure_action: "report_and_block"
+    estimated_duration_ms: 420000
+
+    gates_before: []
+    gates_after: ["data_quality_gate", "performance_gate"]
+
+    artifacts:
+      - type: "implementation_log"
+        path: ".claude/orchestration/temp/data-implementation-${timestamp}.md"
+
+  data_quality_enforcement:
+    order: 5
+    required: true
+    description: "Audit for data quality violations"
+    agent: "data-quality-enforcer"
+    agent_type: "subagent"
+
+    inputs:
+      - filesModified
+      - relatedStandards
+      - dataSchemas
+
+    outputs:
+      - dataQualityScore  # 0-100
+      - violations
+      - gateResult  # PASS/CAUTION/FAIL
+
+    checks:
+      - check: "no_missing_validations"
+        weight: 30
+        severity: "critical"
+
+      - check: "no_sql_injection_risks"
+        weight: 30
+        severity: "critical"
+
+      - check: "proper_indexing"
+        weight: 20
+        severity: "high"
+
+      - check: "foreign_key_constraints"
+        weight: 10
+        severity: "medium"
+
+      - check: "null_handling"
+        weight: 5
+        severity: "medium"
+
+      - check: "data_type_consistency"
+        weight: 5
+        severity: "medium"
+
+    scoring:
+      start: 100
+      missing_validation: -30
+      sql_injection_risk: -30
+      missing_index: -20
+      missing_foreign_key: -10
+      poor_null_handling: -5
+      type_inconsistency: -5
+
+    success_criteria:
+      - "dataQualityScore >= 90"
+
+    pass_threshold: 90
+    caution_threshold: 70
+
+    failure_action: "record_violations_as_standards"
+    estimated_duration_ms: 120000
+
+    gates_before: []
+    gates_after: []
+
+    artifacts:
+      - type: "data_quality_report"
+        path: ".claude/orchestration/evidence/data-quality-${timestamp}.md"
+
+  performance_review:
+    order: 6
+    required: true
+    description: "Automated performance analysis"
+    agent: "data-performance-reviewer-agent"
+    agent_type: "subagent"
+
+    inputs:
+      - filesModified
+      - dataSchemas
+      - contextBundle
+
+    outputs:
+      - performanceScore  # 0-100
+      - performanceIssues
+      - gateResult  # PASS/CAUTION/FAIL
+
+    checks:
+      - check: "query_optimization"
+        weight: 30
+        severity: "high"
+
+      - check: "index_coverage"
+        weight: 25
+        severity: "high"
+
+      - check: "n_plus_1_queries"
+        weight: 20
+        severity: "high"
+
+      - check: "connection_pooling"
+        weight: 10
+        severity: "medium"
+
+      - check: "batch_operations"
+        weight: 10
+        severity: "medium"
+
+      - check: "caching_strategy"
+        weight: 5
+        severity: "low"
+
+    scoring:
+      start: 100
+      unoptimized_query: -30
+      missing_index_coverage: -25
+      n_plus_1_detected: -20
+      poor_connection_management: -10
+      missing_batching: -10
+      no_caching: -5
+
+    success_criteria:
+      - "performanceScore >= 90"
+
+    pass_threshold: 90
+    caution_threshold: 70
+
+    failure_action: "record_issues_as_standards"
+    estimated_duration_ms: 150000
+
+    gates_before: []
+    gates_after: []
+
+    artifacts:
+      - type: "performance_review_report"
+        path: ".claude/orchestration/evidence/data-performance-${timestamp}.md"
+
+  implementation_pass_2:
+    order: 7
+    required: false  # Only if gates failed
+    description: "Corrective implementation pass"
+    agent: "data-builder-agent"
+    agent_type: "subagent"
+
+    trigger_condition: "dataQualityScore < 90 OR performanceScore < 90"
+
+    inputs:
+      - request
+      - contextBundle
+      - violations  # from data_quality_enforcement
+      - performanceIssues  # from performance_review
+      - dataSchemas
+
+    outputs:
+      - filesModified
+      - fixesApplied
+      - verificationResults
+
+    constraints:
+      max_files: 10  # Smaller than pass 1
+      forbidden_operations:
+        - "scope_expansion"  # CRITICAL: Fix violations only, no new work
+      verification_required:
+        - "schema_validation"
+        - "data_quality_tests"
+        - "performance_tests"
+
+    tasks:
+      - "Load violations and performance issues"
+      - "Fix each violation systematically"
+      - "Optimize each performance issue"
+      - "Run verification"
+      - "Do NOT expand scope"
+
+    success_criteria:
+      - "all violations addressed"
+      - "all performance issues addressed"
+      - "schema_validation passed"
+      - "data_quality_tests passed"
+      - "performance_tests passed"
+
+    failure_action: "report_partial_completion"
+    estimated_duration_ms: 360000
+
+    gates_before: []
+    gates_after: ["data_quality_gate", "performance_gate"]
+
+    artifacts:
+      - type: "fixes_log"
+        path: ".claude/orchestration/temp/data-fixes-${timestamp}.md"
+
+  verification:
+    order: 8
+    required: true
+    description: "Schema and data test verification"
+    agent: "Orchestrator"
+    agent_type: "internal"
+
+    inputs:
+      - filesModified
+      - contextBundle
+
+    outputs:
+      - schemaValidationStatus
+      - dataTestResults
+      - integrationTestResults
+
+    checks:
+      - check: "schema_validation"
+        command: "npm run db:validate"
+        threshold: "exit_code_0"
+        required: true
+
+      - check: "data_quality_tests"
+        command: "npm run test:data-quality"
+        threshold: "all_pass"
+        required: true
+
+      - check: "integration_tests"
+        command: "npm run test:integration"
+        threshold: "all_pass"
+        required: true
+
+      - check: "performance_tests"
+        command: "npm run test:performance"
+        threshold: "within_thresholds"
+        required: false
+
+    success_criteria:
+      - "schemaValidationStatus === 'valid'"
+      - "dataTestResults === 'passed'"
+      - "integrationTestResults === 'passed'"
+
+    failure_action: "block_completion"
+    estimated_duration_ms: 300000
+
+    gates_before: ["data_quality_gate", "performance_gate"]
+    gates_after: ["test_gate"]
+
+    artifacts:
+      - type: "schema_validation_log"
+        path: ".claude/orchestration/evidence/data-schema-validation-${timestamp}.log"
+      - type: "data_test_results"
+        path: ".claude/orchestration/evidence/data-test-${timestamp}.log"
+      - type: "integration_test_results"
+        path: ".claude/orchestration/evidence/data-integration-${timestamp}.log"
+
+  completion:
+    order: 9
+    required: true
+    description: "Finalize and record results"
+    agent: "Orchestrator"
+    agent_type: "internal"
+
+    inputs:
+      - allPhaseResults
+      - gateResults
+      - artifacts
+
+    outputs:
+      - finalSummary
+      - taskHistoryRecord
+
+    tasks:
+      - "Verify all required phases completed"
+      - "Verify all gates passed"
+      - "Collect all artifacts"
+      - "Generate final summary"
+      - "Save task history to vibe.db"
+      - "Update phase_state.json to completed"
+      - "Clean up temp files"
+
+    save_to_vibe_db:
+      table: "task_history"
+      fields:
+        domain: "data"
+        task: "${request}"
+        outcome: "success|partial|failure"
+        learnings: "Data quality scores, gate results, etc."
+        files_modified: "${filesModified}"
+
+    success_criteria:
+      - "all required gates passed"
+      - "task history saved"
+
+    failure_action: "report_final_state"
+    estimated_duration_ms: 60000
+
+    gates_before: ["test_gate"]
+    gates_after: []
+
+# Gate definitions
+gates:
+  schema_gate:
+    type: "pre_implementation"
+    description: "Block if breaking schema changes detected without migration strategy"
+    phase: "planning"
+    blocking: true
+
+    checks:
+      - "breaking_schema_change_detected"
+      - "missing_migration_strategy"
+      - "foreign_key_violations_possible"
+      - "data_loss_risk"
+
+    pass_action: "proceed_to_analysis"
+    fail_action: "block_and_require_migration_plan"
+
+    sensitivity: "high"  # low | medium | high
+
+  data_quality_gate:
+    type: "quality"
+    description: "Enforce data quality compliance"
+    phase: "data_quality_enforcement"
+    blocking: true
+
+    threshold: 90
+    metric: "dataQualityScore"
+
+    pass_action: "proceed"
+    fail_action:
+      - if: "implementation_pass === 1"
+        then: "allow_corrective_pass"
+      - if: "implementation_pass === 2"
+        then: "block_and_report_final_score"
+
+  performance_gate:
+    type: "quality"
+    description: "Enforce performance compliance"
+    phase: "performance_review"
+    blocking: true
+
+    threshold: 90
+    metric: "performanceScore"
+
+    pass_action: "proceed"
+    fail_action:
+      - if: "implementation_pass === 1"
+        then: "allow_corrective_pass"
+      - if: "implementation_pass === 2"
+        then: "block_and_report_final_score"
+
+  test_gate:
+    type: "verification"
+    description: "Data tests must pass"
+    phase: "verification"
+    blocking: true
+
+    threshold: "passed"
+    metric: "dataTestResults"
+
+    pass_action: "proceed_to_completion"
+    fail_action: "block_completion_require_manual_fix"
+
+# Configuration
+config:
+  max_implementation_passes: 2
+  max_file_edits:
+    simple: 4
+    medium: 8
+    complex: 15
+
+  gate_strictness: "standard"  # relaxed | standard | strict
+
+  auto_retry_on_failure:
+    schema_validation: true
+    data_quality_tests: false  # Require manual fix
+    performance_tests: false  # Require manual fix
+
+  save_artifacts:
+    temp: ".claude/orchestration/temp/"
+    evidence: ".claude/orchestration/evidence/"
+    cleanup_temp_after: true
+
+  phase_state_location: ".claude/project/phase_state.json"
+  vibe_db_location: ".claude/project/vibe.db"
+
+  performance_thresholds:
+    max_query_time_ms: 100
+    max_n_plus_1_queries: 0
+    min_index_coverage_percent: 80

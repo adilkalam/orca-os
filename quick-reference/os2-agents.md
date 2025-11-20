@@ -82,6 +82,56 @@
 - **Key Features:** Runs Xcode builds and tests (via xcodebuild or MCP), summarizes build/test status, feeds final Build/Test Gate decision
 - **Location:** `~/.claude/agents/ios-verification-agent.md`
 
+### Expo / React Native Pipeline Agents
+
+#### 1. `expo-architect-agent`
+- **Purpose:** Expo lane architect for requirements, impact analysis, and architecture planning
+- **Phase:** Requirements & Impact, Architecture & Plan
+- **Key Features:** Uses ProjectContextServer (`domain: expo`) and React Native best practices to map impact, choose architecture, and hand off to implementation and gate agents
+- **Location:** `~/.claude/agents/expo-architect-agent.md`
+
+#### 2. `expo-builder-agent`
+- **Purpose:** Expo/React Native implementation specialist
+- **Phase:** Implementation (Pass 1/2)
+- **Key Features:** Implements mobile features according to the Expo pipeline plan, respects design tokens and standards, prepares work for gate agents, runs local checks
+- **Location:** `~/.claude/agents/expo-builder-agent.md`
+
+#### 3. `expo-verification-agent`
+- **Purpose:** Build/test verification gate for the Expo lane
+- **Phase:** Verification (Build/Test)
+- **Key Features:** Runs tests, linting, and Expo-specific health checks (e.g. expo doctor), summarizes verification status for the Verification Gate
+- **Location:** `~/.claude/agents/expo-verification-agent.md`
+
+#### 4. `design-token-guardian`
+- **Purpose:** Expo/React Native design token enforcement
+- **Phase:** Standards & Budgets (Design Tokens Gate)
+- **Key Features:** Scans RN/Expo components for hardcoded colors/spacing/typography, enforces theme tokens, computes a Design Tokens/Standards Score (0–100)
+- **Location:** `~/.claude/agents/design-token-guardian.md`
+
+#### 5. `a11y-enforcer`
+- **Purpose:** Accessibility compliance gate for Expo/React Native UI
+- **Phase:** Standards & Budgets (A11y Gate)
+- **Key Features:** Checks WCAG 2.2 compliance (labels, hitSlop, roles, contrast), reports issues and an Accessibility Score (0–100), can propose targeted auto-fixes
+- **Location:** `~/.claude/agents/a11y-enforcer.md`
+
+#### 6. `performance-enforcer`
+- **Purpose:** Performance budget gate for Expo/React Native apps
+- **Phase:** Standards & Budgets (Performance Gate)
+- **Key Features:** Monitors bundle size and runtime characteristics, detects heavy imports and unnecessary re-renders, outputs a Performance Score (0–100)
+- **Location:** `~/.claude/agents/performance-enforcer.md`
+
+#### 7. `performance-prophet`
+- **Purpose:** Predictive performance analysis for Expo/React Native features
+- **Phase:** Power Checks (optional)
+- **Key Features:** Uses static analysis and known patterns to predict FPS drops and bottlenecks before runtime, recommends fixes, integrates with ProjectContextServer
+- **Location:** `~/.claude/agents/performance-prophet.md`
+
+#### 8. `security-specialist`
+- **Purpose:** Security gate for Expo/React Native apps
+- **Phase:** Power Checks / Security Gate
+- **Key Features:** Audits for OWASP Mobile Top 10 issues (storage, network, auth, secrets, deeplinks), produces structured Security Audit Reports for gate decisions
+- **Location:** `~/.claude/agents/security-specialist.md`
+
 ## Agent Architecture (OS 2.0)
 
 ### Constraint Framework Categories

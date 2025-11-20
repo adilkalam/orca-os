@@ -1,0 +1,559 @@
+# iOS Domain Phase Configuration
+# Version: 2.0.0
+# Last Updated: 2025-11-19
+
+domain: ios
+version: "2.0.0"
+
+# Phase definitions
+phases:
+  context_query:
+    order: 1
+    required: true
+    description: "Load project context from ProjectContextServer"
+    agent: "ProjectContextServer"
+    agent_type: "mcp_tool"
+
+    inputs:
+      - domain: "ios"
+      - task: "${request}"
+      - projectPath: "${cwd}"
+      - maxFiles: 10
+      - includeHistory: true
+
+    outputs:
+      - contextBundle
+      - relevantFiles
+      - architecturePatterns
+      - relatedStandards
+
+    success_criteria:
+      - "contextBundle.relevantFiles.length > 0"
+      - "contextBundle.architecturePatterns !== undefined"
+
+    failure_action: "block_pipeline"
+    estimated_duration_ms: 10000
+
+    gates_before: []
+    gates_after: []
+
+  planning:
+    order: 2
+    required: true
+    description: "Plan implementation approach for iOS"
+    agent: "Orchestrator"
+    agent_type: "internal"
+
+    inputs:
+      - request
+      - contextBundle
+
+    outputs:
+      - scope
+      - filesAffected
+      - complexity
+      - architecturalImpact
+
+    tasks:
+      - "Parse request and identify scope"
+      - "Determine affected Swift files from contextBundle"
+      - "Estimate complexity (simple/medium/complex)"
+      - "Check for architectural pattern violations"
+      - "Identify UIKit vs SwiftUI implications"
+
+    success_criteria:
+      - "scope is clear"
+      - "filesAffected.length > 0"
+      - "complexity in ['simple', 'medium', 'complex']"
+      - "architecturalImpact assessed"
+
+    failure_action: "ask_user_clarification"
+    estimated_duration_ms: 60000
+
+    gates_before: []
+    gates_after: ["architecture_gate"]
+
+  analysis:
+    order: 3
+    required: true
+    description: "Analyze Swift code structure and dependencies"
+    agent: "ios-analyzer"
+    agent_type: "subagent"
+
+    inputs:
+      - request
+      - contextBundle
+      - planningOutput
+
+    outputs:
+      - dependencyMap
+      - retainCycleRisks
+      - architectureCompliance
+      - safeChangeRecommendations
+
+    tasks:
+      - "Read all relevant Swift files from contextBundle"
+      - "Analyze class/struct dependencies"
+      - "Check for potential retain cycle risks"
+      - "Validate architecture pattern compliance (MVVM/Clean)"
+      - "Generate safe change recommendations"
+
+    success_criteria:
+      - "dependencyMap created"
+      - "retainCycleRisks analyzed"
+      - "safeChangeRecommendations.length > 0"
+
+    failure_action: "retry_once"
+    estimated_duration_ms: 120000
+
+    gates_before: ["architecture_gate"]
+    gates_after: []
+
+    artifacts:
+      - type: "analysis_report"
+        path: ".claude/orchestration/temp/ios-analysis-${timestamp}.md"
+
+  implementation_pass_1:
+    order: 4
+    required: true
+    description: "Initial implementation of requested changes"
+    agent: "ios-builder-agent"
+    agent_type: "subagent"
+
+    inputs:
+      - request
+      - contextBundle
+      - analysisOutput
+      - architecturePatterns
+
+    outputs:
+      - filesModified
+      - changesApplied
+      - verificationResults
+
+    constraints:
+      max_files_simple: 3
+      max_files_medium: 7
+      max_files_complex: 12
+      forbidden_operations:
+        - "massive_view_controllers"
+        - "forced_unwrapping"
+        - "retain_cycles"
+        - "architecture_violations"
+        - "scope_expansion"
+      verification_required:
+        - "swiftlint"
+        - "build"
+        - "tests"
+
+    tasks:
+      - "Load architecture patterns from contextBundle"
+      - "Read target Swift files"
+      - "Apply changes using Edit tool (never rewrite entire files)"
+      - "Follow MVVM/Clean Architecture patterns"
+      - "Use weak/unowned for delegate/closure patterns"
+      - "Run SwiftLint, build, tests"
+      - "Tag all file operations"
+
+    success_criteria:
+      - "filesModified.length <= max_files"
+      - "swiftlint passed"
+      - "build passed"
+      - "tests passed"
+
+    failure_action: "report_and_block"
+    estimated_duration_ms: 360000
+
+    gates_before: []
+    gates_after: ["standards_gate", "code_review_gate"]
+
+    artifacts:
+      - type: "implementation_log"
+        path: ".claude/orchestration/temp/ios-implementation-${timestamp}.md"
+
+  standards_enforcement:
+    order: 5
+    required: true
+    description: "Audit for Swift standards violations"
+    agent: "ios-standards-enforcer"
+    agent_type: "subagent"
+
+    inputs:
+      - filesModified
+      - relatedStandards
+      - architecturePatterns
+
+    outputs:
+      - standardsScore  # 0-100
+      - violations
+      - gateResult  # PASS/CAUTION/FAIL
+
+    checks:
+      - check: "no_forced_unwrapping"
+        weight: 25
+        severity: "critical"
+
+      - check: "no_retain_cycles"
+        weight: 30
+        severity: "critical"
+
+      - check: "no_massive_view_controllers"
+        weight: 20
+        severity: "high"
+
+      - check: "proper_access_control"
+        weight: 10
+        severity: "medium"
+
+      - check: "naming_conventions"
+        weight: 10
+        severity: "medium"
+
+      - check: "architecture_compliance"
+        weight: 5
+        severity: "medium"
+
+    scoring:
+      start: 100
+      forced_unwrap: -25
+      retain_cycle: -30
+      massive_view_controller: -20
+      access_control_violation: -10
+      naming_violation: -5
+      architecture_violation: -15
+
+    success_criteria:
+      - "standardsScore >= 90"
+
+    pass_threshold: 90
+    caution_threshold: 70
+
+    failure_action: "record_violations_as_standards"
+    estimated_duration_ms: 120000
+
+    gates_before: []
+    gates_after: []
+
+    artifacts:
+      - type: "standards_report"
+        path: ".claude/orchestration/evidence/ios-standards-${timestamp}.md"
+
+  code_review:
+    order: 6
+    required: true
+    description: "Automated code quality review"
+    agent: "ios-code-reviewer-agent"
+    agent_type: "subagent"
+
+    inputs:
+      - filesModified
+      - architecturePatterns
+      - contextBundle
+
+    outputs:
+      - codeQualityScore  # 0-100
+      - qualityIssues
+      - gateResult  # PASS/CAUTION/FAIL
+
+    checks:
+      - check: "function_complexity"
+        weight: 20
+        severity: "high"
+
+      - check: "class_size"
+        weight: 15
+        severity: "medium"
+
+      - check: "dependency_injection"
+        weight: 15
+        severity: "medium"
+
+      - check: "error_handling"
+        weight: 15
+        severity: "medium"
+
+      - check: "testability"
+        weight: 10
+        severity: "low"
+
+      - check: "documentation"
+        weight: 10
+        severity: "low"
+
+      - check: "performance_concerns"
+        weight: 15
+        severity: "medium"
+
+    scoring:
+      start: 100
+      high_complexity_function: -20
+      oversized_class: -15
+      missing_dependency_injection: -15
+      poor_error_handling: -15
+      low_testability: -10
+      missing_documentation: -10
+      performance_issue: -15
+
+    success_criteria:
+      - "codeQualityScore >= 90"
+
+    pass_threshold: 90
+    caution_threshold: 70
+
+    failure_action: "record_issues_as_standards"
+    estimated_duration_ms: 120000
+
+    gates_before: []
+    gates_after: []
+
+    artifacts:
+      - type: "code_review_report"
+        path: ".claude/orchestration/evidence/ios-code-review-${timestamp}.md"
+
+  implementation_pass_2:
+    order: 7
+    required: false  # Only if gates failed
+    description: "Corrective implementation pass"
+    agent: "ios-builder-agent"
+    agent_type: "subagent"
+
+    trigger_condition: "standardsScore < 90 OR codeQualityScore < 90"
+
+    inputs:
+      - request
+      - contextBundle
+      - violations  # from standards_enforcement
+      - qualityIssues  # from code_review
+      - architecturePatterns
+
+    outputs:
+      - filesModified
+      - fixesApplied
+      - verificationResults
+
+    constraints:
+      max_files: 7  # Smaller than pass 1
+      forbidden_operations:
+        - "scope_expansion"  # CRITICAL: Fix violations only, no new work
+      verification_required:
+        - "swiftlint"
+        - "build"
+        - "tests"
+
+    tasks:
+      - "Load violations and quality issues"
+      - "Fix each violation systematically"
+      - "Fix each quality issue systematically"
+      - "Run verification"
+      - "Do NOT expand scope"
+
+    success_criteria:
+      - "all violations addressed"
+      - "all quality issues addressed"
+      - "swiftlint passed"
+      - "build passed"
+      - "tests passed"
+
+    failure_action: "report_partial_completion"
+    estimated_duration_ms: 300000
+
+    gates_before: []
+    gates_after: ["standards_gate", "code_review_gate"]
+
+    artifacts:
+      - type: "fixes_log"
+        path: ".claude/orchestration/temp/ios-fixes-${timestamp}.md"
+
+  verification:
+    order: 8
+    required: true
+    description: "Build and test verification"
+    agent: "Orchestrator"
+    agent_type: "internal"
+
+    inputs:
+      - filesModified
+      - contextBundle
+
+    outputs:
+      - buildStatus
+      - buildOutput
+      - testResults
+      - swiftlintResults
+
+    checks:
+      - check: "swiftlint"
+        command: "swiftlint lint"
+        threshold: "exit_code_0"
+        required: true
+
+      - check: "build"
+        command: "xcodebuild build -scheme ${scheme}"
+        threshold: "exit_code_0"
+        required: true
+
+      - check: "tests"
+        command: "xcodebuild test -scheme ${scheme}"
+        threshold: "all_pass"
+        required: true
+
+    success_criteria:
+      - "swiftlintResults === 'passed'"
+      - "buildStatus === 'success'"
+      - "testResults === 'passed' OR testResults === 'no_tests'"
+
+    failure_action: "block_completion"
+    estimated_duration_ms: 240000
+
+    gates_before: ["standards_gate", "code_review_gate"]
+    gates_after: ["build_gate", "test_gate"]
+
+    artifacts:
+      - type: "build_log"
+        path: ".claude/orchestration/evidence/ios-build-${timestamp}.log"
+      - type: "test_results"
+        path: ".claude/orchestration/evidence/ios-test-${timestamp}.log"
+      - type: "swiftlint_results"
+        path: ".claude/orchestration/evidence/ios-swiftlint-${timestamp}.log"
+
+  completion:
+    order: 9
+    required: true
+    description: "Finalize and record results"
+    agent: "Orchestrator"
+    agent_type: "internal"
+
+    inputs:
+      - allPhaseResults
+      - gateResults
+      - artifacts
+
+    outputs:
+      - finalSummary
+      - taskHistoryRecord
+
+    tasks:
+      - "Verify all required phases completed"
+      - "Verify all gates passed"
+      - "Collect all artifacts"
+      - "Generate final summary"
+      - "Save task history to vibe.db"
+      - "Update phase_state.json to completed"
+      - "Clean up temp files"
+
+    save_to_vibe_db:
+      table: "task_history"
+      fields:
+        domain: "ios"
+        task: "${request}"
+        outcome: "success|partial|failure"
+        learnings: "Standards scores, gate results, etc."
+        files_modified: "${filesModified}"
+
+    success_criteria:
+      - "all required gates passed"
+      - "task history saved"
+
+    failure_action: "report_final_state"
+    estimated_duration_ms: 60000
+
+    gates_before: ["build_gate", "test_gate"]
+    gates_after: []
+
+# Gate definitions
+gates:
+  architecture_gate:
+    type: "pre_implementation"
+    description: "Block if architectural pattern violations detected"
+    phase: "planning"
+    blocking: true
+
+    checks:
+      - "massive_view_controller_risk"
+      - "mvvm_violation_risk"
+      - "tight_coupling_risk"
+      - "dependency_injection_missing"
+
+    pass_action: "proceed_to_analysis"
+    fail_action: "block_and_require_architecture_refactor"
+
+    sensitivity: "medium"  # low | medium | high
+
+  standards_gate:
+    type: "quality"
+    description: "Enforce Swift standards compliance"
+    phase: "standards_enforcement"
+    blocking: true
+
+    threshold: 90
+    metric: "standardsScore"
+
+    pass_action: "proceed"
+    fail_action:
+      - if: "implementation_pass === 1"
+        then: "allow_corrective_pass"
+      - if: "implementation_pass === 2"
+        then: "block_and_report_final_score"
+
+  code_review_gate:
+    type: "quality"
+    description: "Enforce code quality compliance"
+    phase: "code_review"
+    blocking: true
+
+    threshold: 90
+    metric: "codeQualityScore"
+
+    pass_action: "proceed"
+    fail_action:
+      - if: "implementation_pass === 1"
+        then: "allow_corrective_pass"
+      - if: "implementation_pass === 2"
+        then: "block_and_report_final_score"
+
+  build_gate:
+    type: "verification"
+    description: "Build must succeed"
+    phase: "verification"
+    blocking: true
+
+    threshold: "success"
+    metric: "buildStatus"
+
+    pass_action: "proceed_to_test"
+    fail_action: "block_completion_require_manual_fix"
+
+  test_gate:
+    type: "verification"
+    description: "Tests must pass"
+    phase: "verification"
+    blocking: true
+
+    threshold: "passed"
+    metric: "testResults"
+
+    pass_action: "proceed_to_completion"
+    fail_action: "block_completion_require_manual_fix"
+
+# Configuration
+config:
+  max_implementation_passes: 2
+  max_file_edits:
+    simple: 3
+    medium: 7
+    complex: 12
+
+  gate_strictness: "standard"  # relaxed | standard | strict
+
+  auto_retry_on_failure:
+    swiftlint: true
+    build: false  # Require manual fix
+    tests: false  # Require manual fix
+
+  save_artifacts:
+    temp: ".claude/orchestration/temp/"
+    evidence: ".claude/orchestration/evidence/"
+    cleanup_temp_after: true
+
+  phase_state_location: ".claude/project/phase_state.json"
+  vibe_db_location: ".claude/project/vibe.db"

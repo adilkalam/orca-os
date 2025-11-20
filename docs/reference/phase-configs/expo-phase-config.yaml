@@ -1,0 +1,260 @@
+# Expo Pipeline Phase Configuration - OS 2.0
+# React Native / Expo Mobile Development Workflow
+
+pipeline:
+  name: expo
+  description: Expo/React Native mobile development with design tokens, a11y, perf, and security gates
+  version: 2.0
+  sdk_versions:
+    expo: "50+"
+    react_native: "0.74+"
+    typescript: required
+
+# Context Integration (MANDATORY)
+context:
+  provider: ProjectContextServer
+  required: true
+  query_on_start: true
+  max_files: 15
+  include_history: true
+
+# Pipeline Phases
+phases:
+  # Phase 1: Context Query (handled by ORCA automatically)
+
+  # Phase 2: Requirements & Impact
+  - name: requirements
+    agent: expo-architect-agent
+    description: Analyze request, identify affected components, classify change type (Requirements & Impact)
+    context_required: true
+    outputs:
+      - impact_summary
+      - change_classification
+      - affected_modules
+      - risk_areas
+    constraints:
+      scope: Analysis only, no code changes
+      quality: Clear categorization (bugfix/feature/multi-feature/architecture_change)
+      integration: Map to navigation, state management, and cross-cutting concerns
+
+  # Phase 3: Architecture & Plan
+  - name: planning
+    agent: expo-architect-agent
+    description: Choose architecture path, decompose into tasks, map to agents (Architecture & Plan)
+    dependencies:
+      - requirements
+    context_required: true
+    inputs:
+      - impact_summary
+      - change_classification
+    outputs:
+      - architecture_plan
+      - task_breakdown
+      - agent_mapping
+    constraints:
+      scope: Feature-based folder structure, navigation choice, state management
+      quality: Atomic tasks with clear success criteria
+      integration: Aligned with Expo Router / React Navigation / state patterns
+
+  # Phase 4: Implementation - Pass 1
+  - name: implementation
+    agent: expo-builder-agent
+    description: Implement UI, navigation, state flow, maintain design tokens (Implementation Pass 1)
+    dependencies:
+      - planning
+    context_required: true
+    inputs:
+      - architecture_plan
+      - task_breakdown
+    outputs:
+      - implemented_code
+      - modified_files
+      - test_coverage
+    constraints:
+      scope: Localized edits, no sweeping rewrites
+      quality: TypeScript, Expo SDK 50+, Fabric architecture where applicable
+      integration: Follow RN best practices, maintain platform conventions
+      resource: Run expo doctor, local tests before gates
+
+  # Phase 5: Design Token Guardian
+  - name: design_tokens
+    agent: design-token-guardian
+    description: Validate design token usage, no hard-coded values
+    dependencies:
+      - implementation
+    context_required: true
+    inputs:
+      - implemented_code
+      - modified_files
+    outputs:
+      - token_score
+      - token_violations
+      - gate_decision
+    quality_gates:
+      token_score:
+        threshold: 90
+        type: hard
+        message: Design token compliance must be ≥90
+
+  # Phase 5b: Accessibility Enforcement
+  - name: accessibility
+    agent: a11y-enforcer
+    description: WCAG 2.2 validation - labels, roles, focus, contrast, touch targets
+    dependencies:
+      - implementation
+    context_required: true
+    inputs:
+      - implemented_code
+      - modified_files
+    outputs:
+      - a11y_violations
+      - critical_issues
+      - gate_decision
+    quality_gates:
+      critical_violations:
+        threshold: 0
+        type: hard
+        message: Critical WCAG violations must be resolved
+
+  # Phase 5c: Performance Enforcement
+  - name: performance_budget
+    agent: performance-enforcer
+    description: Check bundle size, critical path, runtime budgets
+    dependencies:
+      - implementation
+    context_required: true
+    inputs:
+      - implemented_code
+      - modified_files
+    outputs:
+      - perf_metrics
+      - performance_issues
+      - gate_decision
+    quality_gates:
+      budget_exceeded:
+        threshold: false
+        type: hard
+        message: Performance budgets must not be exceeded
+
+  # Phase 6: Performance Prophet (Optional Power Check)
+  - name: perf_analysis
+    agent: performance-prophet
+    description: Predictive performance analysis, identify emerging bottlenecks
+    dependencies:
+      - performance_budget
+    context_required: true
+    optional: true
+    inputs:
+      - implemented_code
+      - perf_metrics
+    outputs:
+      - perf_predictions
+      - optimization_recommendations
+    constraints:
+      scope: Advisory only, not blocking
+
+  # Phase 6b: Security Specialist (Optional Power Check)
+  - name: security_audit
+    agent: security-specialist
+    description: OWASP Mobile Top 10 audit - storage, network, auth, env vars
+    dependencies:
+      - implementation
+    context_required: true
+    optional: true
+    inputs:
+      - implemented_code
+      - modified_files
+    outputs:
+      - security_issues
+      - owasp_compliance
+    quality_gates:
+      critical_security:
+        threshold: 0
+        type: hard
+        message: Critical OWASP issues must be resolved
+
+  # Phase 4b: Implementation - Pass 2 (Corrective, if gates fail)
+  - name: correction
+    agent: expo-builder-agent
+    description: Address issues from design/a11y/perf/security gates (Implementation Pass 2 - ONE pass only)
+    dependencies:
+      - design_tokens
+      - accessibility
+      - performance_budget
+    trigger: gate_failure
+    max_iterations: 1
+    context_required: true
+    inputs:
+      - token_violations
+      - a11y_violations
+      - perf_metrics
+      - security_issues
+    outputs:
+      - corrected_code
+      - retest_results
+    constraints:
+      scope: Fix reported issues only, no new features
+      quality: Must pass gates on second attempt or escalate
+
+  # Phase 7: Verification (Build/Test)
+  - name: verification
+    agent: expo-verification-agent
+    description: Run build, tests, expo doctor (Verification Gate)
+    dependencies:
+      - correction
+    context_required: true
+    inputs:
+      - implemented_code
+    outputs:
+      - build_status
+      - test_results
+      - doctor_results
+    quality_gates:
+      build_success:
+        threshold: true
+        type: hard
+        message: Build and tests must pass
+    constraints:
+      scope: Run npm test / expo doctor / E2E if configured
+      integration: Capture logs and errors
+
+  # Phase 8: Completion & Learning
+  - name: completion
+    agent: orca
+    description: Save task history, update vibe.db, store artifacts
+    dependencies:
+      - verification
+    context_required: true
+    inputs:
+      - all_phase_outputs
+      - gate_results
+    outputs:
+      - task_history_record
+      - memory_updates
+      - final_summary
+    actions:
+      - save_task_history
+      - save_standards
+      - save_decisions
+      - store_artifacts
+
+# Gate Configuration
+gates:
+  standards:
+    threshold: 90
+    type: warning
+    retry: allow_one_pass
+
+  accessibility:
+    threshold: 0_critical_violations
+    type: hard
+    retry: allow_one_pass
+
+  performance:
+    threshold: within_budgets
+    type: hard
+    retry: allow_one_pass
+
+  security:
+    threshold: 0_critical_owasp
+    type: hard

@@ -1,0 +1,1749 @@
+{
+  "meta": {
+    "title": "LLM & Agentic Coding Knowledge Graph",
+    "description": "Hand-authored graph summarizing key frameworks, notes, and resources under _explore/LLM-research for LLMs and agentic coding.",
+    "version": 1,
+    "generated_by": "gpt-5.1 (Codex CLI)",
+    "generated_at": "2025-11-16"
+  },
+  "nodes": [
+    {
+      "id": "llm_agentic_coding",
+      "label": "LLM Agentic Coding",
+      "type": "theme",
+      "summary": "Overall space of LLM-based agentic coding, workflows, and practices.",
+      "tags": ["agentic", "coding", "workflows"]
+    },
+    {
+      "id": "response_awareness",
+      "label": "Response Awareness",
+      "type": "theme",
+      "summary": "Metacognitive methods where models label and respond to their own generation patterns.",
+      "tags": ["metacognition", "response-awareness", "verification"]
+    },
+    {
+      "id": "system_prompts_transparency",
+      "label": "System Prompts & Transparency",
+      "type": "theme",
+      "summary": "System prompts, safety scaffolds, and transparency/observability around AI behavior.",
+      "tags": ["system-prompts", "transparency", "observability"]
+    },
+    {
+      "id": "evolutionary_architecture",
+      "label": "Evolutionary Architecture",
+      "type": "theme",
+      "summary": "Biologically inspired, signal-driven and evolutionary approaches to code and architecture.",
+      "tags": ["evolution", "mixture-of-experts", "architecture"]
+    },
+    {
+      "id": "vendor_best_practices",
+      "label": "Vendor Best Practices",
+      "type": "theme",
+      "summary": "Best-practice guides and official documentation from model providers.",
+      "tags": ["anthropic", "best-practices", "docs"]
+    },
+    {
+      "id": "agentic_frameworks",
+      "label": "Agentic Frameworks",
+      "type": "theme",
+      "summary": "Frameworks and toolkits for orchestrating multi-agent workflows and AI-assisted development.",
+      "tags": ["frameworks", "orchestration", "multi-agent"]
+    },
+    {
+      "id": "response_awareness_framework",
+      "label": "Response Awareness Framework",
+      "type": "framework",
+      "summary": "Meta-cognitive orchestration system that channels response generation awareness into structured multi-agent workflows.",
+      "sources": [
+        "_explore/LLM-research/Response-Awareness-Framework/README.md"
+      ],
+      "tags": ["response-awareness", "claude-code", "metacognition", "orchestration"]
+    },
+    {
+      "id": "pantheon_framework",
+      "label": "Pantheon Framework",
+      "type": "framework",
+      "summary": "Glass Box Process-based framework for custom AI teams and software development workflows with auditable artifacts.",
+      "sources": [
+        "_explore/LLM-research/Pantheon-Framework/README.md"
+      ],
+      "tags": ["glass-box", "teams", "process", "multi-agent"]
+    },
+    {
+      "id": "bmad_core",
+      "label": "BMad CORE + BMad Method",
+      "type": "framework",
+      "summary": "Collaboration-optimized reflection engine with modular agents and workflows for human-AI co-development.",
+      "sources": [
+        "_explore/LLM-research/BMad-Core/README.md"
+      ],
+      "tags": ["bmad", "agents", "workflow", "reflection"]
+    },
+    {
+      "id": "agentic_context_engine",
+      "label": "Agentic Context Engine (ACE)",
+      "type": "framework",
+      "summary": "Playbook-based agent learning system that improves agents over time through generator, reflector, and curator roles.",
+      "sources": [
+        "_explore/LLM-research/ACE-Playbook/README.md"
+      ],
+      "tags": ["ace", "playbook", "learning", "evaluation"]
+    },
+    {
+      "id": "cybergenic_framework",
+      "label": "Cybergenic Framework",
+      "type": "framework",
+      "summary": "Biologically-inspired framework that grows applications via evolutionary, signal-driven code generation and self-maintenance.",
+      "sources": [
+        "_explore/LLM-research/Cybergenic-Framework/README.md"
+      ],
+      "tags": ["evolutionary", "cybergenic", "signals", "self-healing"]
+    },
+    {
+      "id": "cl4r1t4s",
+      "label": "CL4R1T4S",
+      "type": "framework",
+      "summary": "Collection of extracted system prompts and guidelines for major AI systems to improve transparency and observability.",
+      "sources": [
+        "_explore/LLM-research/CL4R1T4S-main/CL4R1T4S-main/README.md"
+      ],
+      "tags": ["system-prompts", "transparency", "observability"]
+    },
+    {
+      "id": "anthropic_agentic_resources",
+      "label": "Anthropic Agentic Coding Resources",
+      "type": "docs_collection",
+      "summary": "Anthropic articles and cookbooks on agentic coding, tools, MCP, and best practices for Claude Code.",
+      "sources": [
+        "_explore/LLM-research/Anthropic/best-practices-agentic-coding.md",
+        "_explore/LLM-research/Anthropic/building-agents-sdk.md",
+        "_explore/LLM-research/Anthropic/building-effective-agents.md",
+        "_explore/LLM-research/Anthropic/equipping-agents-real-world.md",
+        "_explore/LLM-research/Anthropic/json-output-consistency.md",
+        "_explore/LLM-research/Anthropic/model-context-protocol.md",
+        "_explore/LLM-research/Anthropic/writing-tools-for-ai-agents.md"
+      ],
+      "tags": ["anthropic", "docs", "agents", "mcp"]
+    },
+    {
+      "id": "system_prompts_collection",
+      "label": "System Prompts Collection",
+      "type": "docs_collection",
+      "summary": "Local collection of system prompts and tool schemas for various tools and platforms.",
+      "sources": [
+        "_explore/LLM-research/system-prompts"
+      ],
+      "tags": ["system-prompts", "tools", "orchestration"]
+    },
+    {
+      "id": "stop_claude_building_wrong_thing",
+      "label": "7 Steps: Stop Claude Code from Building the Wrong Thing",
+      "type": "note",
+      "summary": "Spec-Driven Development methodology for preventing Claude Code from rewriting architecture with vague prompts.",
+      "sources": [
+        "_explore/LLM-research/“7 Steps” How to Stop Claude Code from Building the Wrong Thing (Part 1)_ The Foundation of….md",
+        "_explore/LLM-research/“7 Steps” How to Stop Claude Code from Building the Wrong Thing (Part 2)_ Execution, Results, and….md"
+      ],
+      "tags": ["spec-driven-development", "claude-code", "process"]
+    },
+    {
+      "id": "additional_response_awareness_tags",
+      "label": "Additional Response Awareness Tags",
+      "type": "note",
+      "summary": "Extension of the Response Awareness tag taxonomy with additional metacognitive markers like poisoned path and phantom pattern.",
+      "sources": [
+        "_explore/LLM-research/Additional Response Awareness Tags.md"
+      ],
+      "tags": ["response-awareness", "tags", "metacognition"]
+    },
+    {
+      "id": "claude_response_awareness_early_slash",
+      "label": "Claude AI Response Awareness Early Slash Command Breakdown",
+      "type": "note",
+      "summary": "Early breakdown of response-awareness slash commands and how they interact with Claude's generation process.",
+      "sources": [
+        "_explore/LLM-research/Claude AI Response Awareness Early Slash Command Break Down v2.md"
+      ],
+      "tags": ["response-awareness", "slash-commands"]
+    },
+    {
+      "id": "claude_code_subagents_orchestrator_dilemma",
+      "label": "Claude Code Subagents: The Orchestrator’s Dilemma",
+      "type": "note",
+      "summary": "Analysis of orchestration vs implementation roles for main agents and subagents in complex Claude Code workflows.",
+      "sources": [
+        "_explore/LLM-research/Claude Code Subagents_ The Orchestrator’s Dilemma.md"
+      ],
+      "tags": ["orchestration", "subagents", "claude-code"]
+    },
+    {
+      "id": "claude_log_agent_engineering",
+      "label": "Agent Engineering (ClaudeLog)",
+      "type": "note",
+      "summary": "Foundations of custom agent design in Claude Code, including initialization cost, tool selection, and performance tradeoffs.",
+      "sources": [
+        "_explore/LLM-research/claude-log-agent-eng.md"
+      ],
+      "tags": ["custom-agents", "engineering", "claude-code"]
+    },
+    {
+      "id": "claude_log_agent_tactics",
+      "label": "Custom Agent Tactics (ClaudeLog)",
+      "type": "note",
+      "summary": "Advanced tactics for chaining, composing, and evolving custom agents across disciplines.",
+      "sources": [
+        "_explore/LLM-research/claude-log-agent-tactics.md"
+      ],
+      "tags": ["custom-agents", "tactics", "workflows"]
+    },
+    {
+      "id": "correlating_response_awareness_outcomes",
+      "label": "Correlating Response Awareness to Coding Outcomes",
+      "type": "note",
+      "summary": "Experimental exploration correlating Claude's self-reported generation states with bug rates and coding outcomes.",
+      "sources": [
+        "_explore/LLM-research/Correlating AI Claude's response generation awareness to verifiable coding outcomes v2.md"
+      ],
+      "tags": ["response-awareness", "experiments", "bugs"]
+    },
+    {
+      "id": "good_results_claude_code",
+      "label": "Getting Good Results from Claude Code",
+      "type": "note",
+      "summary": "Practical guide to specs, CLAUDE.md, and validation practices for reliable Claude Code usage.",
+      "sources": [
+        "_explore/LLM-research/Good-Results-Claude-Code.md"
+      ],
+      "tags": ["best-practices", "claude-code"]
+    },
+    {
+      "id": "llms_as_interpreters",
+      "label": "LLMs as Interpreters: Probabilistic Runtime for English Programs",
+      "type": "note",
+      "summary": "Interprets Response Awareness as a compiler/runtime for English programs executed via LLM attention and token probabilities.",
+      "sources": [
+        "_explore/LLM-research/LLMs as Interpreters_ The Probabilistic Runtime for English Programs.md"
+      ],
+      "tags": ["response-awareness", "theory", "runtime"]
+    },
+    {
+      "id": "response_awareness_meta_cognition",
+      "label": "Response Awareness and Meta Cognition in Claude",
+      "type": "note",
+      "summary": "Connects Response Awareness methodology to research on metacognitive spaces in LLMs and explicit vs implicit control.",
+      "sources": [
+        "_explore/LLM-research/Response Awareness and Meta Cognition in Claude.md"
+      ],
+      "tags": ["metacognition", "research", "response-awareness"]
+    },
+    {
+      "id": "science_internal_state_awareness",
+      "label": "Science of AI Internal State Awareness",
+      "type": "note",
+      "summary": "Clipping that ties interpretability research and internal state awareness to the Response Awareness methodology.",
+      "sources": [
+        "_explore/LLM-research/The Science of AI Internal State Awareness_ Two Papers That Validate Response-Awareness Methodology.md"
+      ],
+      "tags": ["interpretability", "internal-state", "response-awareness"]
+    },
+    {
+      "id": "sp_anthropic",
+      "label": "Anthropic System Prompts",
+      "type": "system_prompt_bundle",
+      "summary": "Extracted and custom Anthropic system prompts, Claude Code configs, and tool definitions.",
+      "sources": [
+        "_explore/LLM-research/system-prompts/_Anthropic",
+        "_explore/LLM-research/system-prompts/ANTHROPIC"
+      ],
+      "tags": ["system-prompts", "anthropic", "claude", "tools"]
+    },
+    {
+      "id": "sp_openai",
+      "label": "OpenAI System Prompts",
+      "type": "system_prompt_bundle",
+      "summary": "Extracted system prompts and tool schemas for OpenAI models and tooling.",
+      "sources": [
+        "_explore/LLM-research/system-prompts/_OpenAI",
+        "_explore/LLM-research/system-prompts/OPENAI"
+      ],
+      "tags": ["system-prompts", "openai", "tools"]
+    },
+    {
+      "id": "sp_open_source_agents",
+      "label": "Open Source Agent Prompts",
+      "type": "system_prompt_bundle",
+      "summary": "Prompt scaffolds and tool configs for open source coding agents and CLIs.",
+      "sources": [
+        "_explore/LLM-research/system-prompts/_Open Source prompts"
+      ],
+      "tags": ["system-prompts", "open-source", "agents"]
+    },
+    {
+      "id": "sp_amp",
+      "label": "Amp Agent Prompts",
+      "type": "system_prompt_bundle",
+      "summary": "System prompts and tools for the Amp agent.",
+      "sources": [
+        "_explore/LLM-research/system-prompts/Amp"
+      ],
+      "tags": ["system-prompts", "amp", "agent"]
+    },
+    {
+      "id": "sp_augment_code",
+      "label": "Augment Code Prompts",
+      "type": "system_prompt_bundle",
+      "summary": "Extracted prompts for Augment Code developer assistant.",
+      "sources": [
+        "_explore/LLM-research/system-prompts/Augment Code"
+      ],
+      "tags": ["system-prompts", "augment-code", "coding"]
+    },
+    {
+      "id": "sp_blackbox_ai",
+      "label": "Blackbox.ai Prompts",
+      "type": "system_prompt_bundle",
+      "summary": "System prompts and instructions for Blackbox.ai coding assistant.",
+      "sources": [
+        "_explore/LLM-research/system-prompts/Blackbox.ai"
+      ],
+      "tags": ["system-prompts", "blackbox", "coding"]
+    },
+    {
+      "id": "sp_bolt",
+      "label": "Bolt Prompts",
+      "type": "system_prompt_bundle",
+      "summary": "System prompts and tool schemas for Bolt agents.",
+      "sources": [
+        "_explore/LLM-research/system-prompts/BOLT"
+      ],
+      "tags": ["system-prompts", "bolt", "agent"]
+    },
+    {
+      "id": "sp_brave",
+      "label": "Brave Prompts",
+      "type": "system_prompt_bundle",
+      "summary": "System prompts for Brave's AI features and assistants.",
+      "sources": [
+        "_explore/LLM-research/system-prompts/BRAVE"
+      ],
+      "tags": ["system-prompts", "brave", "assistant"]
+    },
+    {
+      "id": "sp_cline",
+      "label": "Cline Prompts",
+      "type": "system_prompt_bundle",
+      "summary": "Prompt and tool configuration extractions for the Cline coding agent.",
+      "sources": [
+        "_explore/LLM-research/system-prompts/Cline"
+      ],
+      "tags": ["system-prompts", "cline", "coding"]
+    },
+    {
+      "id": "sp_cluely",
+      "label": "Cluely Prompts",
+      "type": "system_prompt_bundle",
+      "summary": "System prompt experiments for the Cluely assistant.",
+      "sources": [
+        "_explore/LLM-research/system-prompts/Cluely"
+      ],
+      "tags": ["system-prompts", "cluely", "assistant"]
+    },
+    {
+      "id": "sp_codebuddy",
+      "label": "CodeBuddy Prompts",
+      "type": "system_prompt_bundle",
+      "summary": "Prompts and tools for CodeBuddy developer assistant.",
+      "sources": [
+        "_explore/LLM-research/system-prompts/CodeBuddy Prompts"
+      ],
+      "tags": ["system-prompts", "codebuddy", "coding"]
+    },
+    {
+      "id": "sp_comet_assistant",
+      "label": "Comet Assistant Prompts",
+      "type": "system_prompt_bundle",
+      "summary": "System prompts and schemas for Comet Assistant.",
+      "sources": [
+        "_explore/LLM-research/system-prompts/Comet Assistant"
+      ],
+      "tags": ["system-prompts", "comet", "assistant"]
+    },
+    {
+      "id": "sp_cursor",
+      "label": "Cursor Prompts",
+      "type": "system_prompt_bundle",
+      "summary": "Extracted prompts and tool definitions for Cursor editor agents.",
+      "sources": [
+        "_explore/LLM-research/system-prompts/CURSOR"
+      ],
+      "tags": ["system-prompts", "cursor", "editor"]
+    },
+    {
+      "id": "sp_devin",
+      "label": "Devin Prompts",
+      "type": "system_prompt_bundle",
+      "summary": "System prompts and behaviors for the Devin autonomous engineer.",
+      "sources": [
+        "_explore/LLM-research/system-prompts/DEVIN"
+      ],
+      "tags": ["system-prompts", "devin", "agent"]
+    },
+    {
+      "id": "sp_devin_ai",
+      "label": "Devin AI Variants",
+      "type": "system_prompt_bundle",
+      "summary": "Alternative or updated prompt extractions for Devin AI.",
+      "sources": [
+        "_explore/LLM-research/system-prompts/Devin AI"
+      ],
+      "tags": ["system-prompts", "devin", "variants"]
+    },
+    {
+      "id": "sp_dia",
+      "label": "Dia Prompts",
+      "type": "system_prompt_bundle",
+      "summary": "System prompts for Dia AI tools.",
+      "sources": [
+        "_explore/LLM-research/system-prompts/dia"
+      ],
+      "tags": ["system-prompts", "dia", "agent"]
+    },
+    {
+      "id": "sp_emergent",
+      "label": "Emergent Prompts",
+      "type": "system_prompt_bundle",
+      "summary": "Prompts and tools for Emergent AI products.",
+      "sources": [
+        "_explore/LLM-research/system-prompts/Emergent"
+      ],
+      "tags": ["system-prompts", "emergent"]
+    },
+    {
+      "id": "sp_factory",
+      "label": "FACTORY Prompts",
+      "type": "system_prompt_bundle",
+      "summary": "System prompts for FACTORY agent workflows.",
+      "sources": [
+        "_explore/LLM-research/system-prompts/FACTORY"
+      ],
+      "tags": ["system-prompts", "factory", "agent"]
+    },
+    {
+      "id": "sp_gemini",
+      "label": "Gemini Prompts",
+      "type": "system_prompt_bundle",
+      "summary": "Prompt extractions for Gemini CLI and coding assistants.",
+      "sources": [
+        "_explore/LLM-research/system-prompts/Gemini"
+      ],
+      "tags": ["system-prompts", "gemini", "google"]
+    },
+    {
+      "id": "sp_google",
+      "label": "Google Prompts",
+      "type": "system_prompt_bundle",
+      "summary": "System prompts for Google AI chat and agents.",
+      "sources": [
+        "_explore/LLM-research/system-prompts/Google"
+      ],
+      "tags": ["system-prompts", "google", "assistant"]
+    },
+    {
+      "id": "sp_google_jules",
+      "label": "Google Jules Prompts",
+      "type": "system_prompt_bundle",
+      "summary": "System prompts for Google Jules developer assistant.",
+      "sources": [
+        "_explore/LLM-research/system-prompts/Google-Jules"
+      ],
+      "tags": ["system-prompts", "google", "jules", "coding"]
+    },
+    {
+      "id": "sp_grok",
+      "label": "Grok Prompts",
+      "type": "system_prompt_bundle",
+      "summary": "System prompts and personas for xAI Grok models.",
+      "sources": [
+        "_explore/LLM-research/system-prompts/Grok"
+      ],
+      "tags": ["system-prompts", "grok", "xai"]
+    },
+    {
+      "id": "sp_hume",
+      "label": "Hume Prompts",
+      "type": "system_prompt_bundle",
+      "summary": "System prompts related to Hume AI tools.",
+      "sources": [
+        "_explore/LLM-research/system-prompts/HUME"
+      ],
+      "tags": ["system-prompts", "hume"]
+    },
+    {
+      "id": "sp_junie",
+      "label": "Junie Prompts",
+      "type": "system_prompt_bundle",
+      "summary": "Prompt extractions for Junie agents.",
+      "sources": [
+        "_explore/LLM-research/system-prompts/Junie"
+      ],
+      "tags": ["system-prompts", "junie"]
+    },
+    {
+      "id": "sp_kiro",
+      "label": "Kiro Prompts",
+      "type": "system_prompt_bundle",
+      "summary": "System prompts for Kiro coding assistant.",
+      "sources": [
+        "_explore/LLM-research/system-prompts/Kiro"
+      ],
+      "tags": ["system-prompts", "kiro", "coding"]
+    },
+    {
+      "id": "sp_leap_new",
+      "label": "Leap.new Prompts",
+      "type": "system_prompt_bundle",
+      "summary": "System prompts for Leap.new tools.",
+      "sources": [
+        "_explore/LLM-research/system-prompts/Leap.new"
+      ],
+      "tags": ["system-prompts", "leap", "coding"]
+    },
+    {
+      "id": "sp_lovable",
+      "label": "Lovable Prompts",
+      "type": "system_prompt_bundle",
+      "summary": "System prompts and tool schemas for Lovable builder.",
+      "sources": [
+        "_explore/LLM-research/system-prompts/LOVABLE"
+      ],
+      "tags": ["system-prompts", "lovable", "builder"]
+    },
+    {
+      "id": "sp_manus",
+      "label": "Manus Prompts",
+      "type": "system_prompt_bundle",
+      "summary": "System prompts and tools for Manus agents.",
+      "sources": [
+        "_explore/LLM-research/system-prompts/Manus"
+      ],
+      "tags": ["system-prompts", "manus", "agent"]
+    },
+    {
+      "id": "sp_meta",
+      "label": "Meta Prompts",
+      "type": "system_prompt_bundle",
+      "summary": "System prompts for Meta AI chat and tools.",
+      "sources": [
+        "_explore/LLM-research/system-prompts/META"
+      ],
+      "tags": ["system-prompts", "meta", "assistant"]
+    },
+    {
+      "id": "sp_metaai_whatsapp",
+      "label": "MetaAI WhatsApp Prompts",
+      "type": "system_prompt_bundle",
+      "summary": "Prompt extractions for MetaAI on WhatsApp.",
+      "sources": [
+        "_explore/LLM-research/system-prompts/MetaAI-Whatsapp"
+      ],
+      "tags": ["system-prompts", "meta", "whatsapp"]
+    },
+    {
+      "id": "sp_minimax",
+      "label": "MINIMAX Prompts",
+      "type": "system_prompt_bundle",
+      "summary": "System prompts for MINIMAX tools.",
+      "sources": [
+        "_explore/LLM-research/system-prompts/MINIMAX"
+      ],
+      "tags": ["system-prompts", "minimax"]
+    },
+    {
+      "id": "sp_misc",
+      "label": "Misc Prompts",
+      "type": "system_prompt_bundle",
+      "summary": "Miscellaneous system prompts and experiments.",
+      "sources": [
+        "_explore/LLM-research/system-prompts/Misc"
+      ],
+      "tags": ["system-prompts", "misc"]
+    },
+    {
+      "id": "sp_mistral",
+      "label": "Mistral Prompts",
+      "type": "system_prompt_bundle",
+      "summary": "System prompts for Mistral and related tools.",
+      "sources": [
+        "_explore/LLM-research/system-prompts/Mistral"
+      ],
+      "tags": ["system-prompts", "mistral"]
+    },
+    {
+      "id": "sp_moonshot",
+      "label": "Moonshot Prompts",
+      "type": "system_prompt_bundle",
+      "summary": "System prompts for Moonshot AI products.",
+      "sources": [
+        "_explore/LLM-research/system-prompts/MOONSHOT"
+      ],
+      "tags": ["system-prompts", "moonshot"]
+    },
+    {
+      "id": "sp_multion",
+      "label": "Multion Prompts",
+      "type": "system_prompt_bundle",
+      "summary": "Prompt extractions for Multion agents.",
+      "sources": [
+        "_explore/LLM-research/system-prompts/MULTION"
+      ],
+      "tags": ["system-prompts", "multion"]
+    },
+    {
+      "id": "sp_notionai",
+      "label": "Notion AI Prompts",
+      "type": "system_prompt_bundle",
+      "summary": "System prompts for Notion AI features.",
+      "sources": [
+        "_explore/LLM-research/system-prompts/NotionAi"
+      ],
+      "tags": ["system-prompts", "notion", "assistant"]
+    },
+    {
+      "id": "sp_notte",
+      "label": "notte Prompts",
+      "type": "system_prompt_bundle",
+      "summary": "Prompt extractions for notte agent.",
+      "sources": [
+        "_explore/LLM-research/system-prompts/notte"
+      ],
+      "tags": ["system-prompts", "notte"]
+    },
+    {
+      "id": "sp_orchids",
+      "label": "Orchids Prompts",
+      "type": "system_prompt_bundle",
+      "summary": "System prompts for Orchids app and agents.",
+      "sources": [
+        "_explore/LLM-research/system-prompts/Orchids"
+      ],
+      "tags": ["system-prompts", "orchids", "app"]
+    },
+    {
+      "id": "sp_parahelp",
+      "label": "Parahelp Prompts",
+      "type": "system_prompt_bundle",
+      "summary": "System prompts for Parahelp tools.",
+      "sources": [
+        "_explore/LLM-research/system-prompts/Parahelp"
+      ],
+      "tags": ["system-prompts", "parahelp"]
+    },
+    {
+      "id": "sp_perplexity",
+      "label": "Perplexity Prompts",
+      "type": "system_prompt_bundle",
+      "summary": "System prompts for Perplexity AI chat and coding.",
+      "sources": [
+        "_explore/LLM-research/system-prompts/PERPLEXITY"
+      ],
+      "tags": ["system-prompts", "perplexity"]
+    },
+    {
+      "id": "sp_poke",
+      "label": "Poke Prompts",
+      "type": "system_prompt_bundle",
+      "summary": "Prompt extractions for Poke AI.",
+      "sources": [
+        "_explore/LLM-research/system-prompts/Poke"
+      ],
+      "tags": ["system-prompts", "poke"]
+    },
+    {
+      "id": "sp_proton",
+      "label": "Proton Prompts",
+      "type": "system_prompt_bundle",
+      "summary": "System prompts for Proton's AI helper.",
+      "sources": [
+        "_explore/LLM-research/system-prompts/Proton"
+      ],
+      "tags": ["system-prompts", "proton"]
+    },
+    {
+      "id": "sp_qoder",
+      "label": "Qoder Prompts",
+      "type": "system_prompt_bundle",
+      "summary": "Prompt and quest schemas for Qoder.",
+      "sources": [
+        "_explore/LLM-research/system-prompts/Qoder"
+      ],
+      "tags": ["system-prompts", "qoder"]
+    },
+    {
+      "id": "sp_replit",
+      "label": "Replit Prompts",
+      "type": "system_prompt_bundle",
+      "summary": "System, prompt, and tools definitions for Replit agents across versions.",
+      "sources": [
+        "_explore/LLM-research/system-prompts/Replit"
+      ],
+      "tags": ["system-prompts", "replit", "coding"]
+    },
+    {
+      "id": "sp_samedev",
+      "label": "Same.dev Prompts",
+      "type": "system_prompt_bundle",
+      "summary": "System prompts and tools for Same.dev agents.",
+      "sources": [
+        "_explore/LLM-research/system-prompts/SAMEDEV"
+      ],
+      "tags": ["system-prompts", "samedev"]
+    },
+    {
+      "id": "sp_trae",
+      "label": "Trae Prompts",
+      "type": "system_prompt_bundle",
+      "summary": "Builder and chat prompts plus tool schemas for Trae.",
+      "sources": [
+        "_explore/LLM-research/system-prompts/Trae"
+      ],
+      "tags": ["system-prompts", "trae"]
+    },
+    {
+      "id": "sp_traycer_ai",
+      "label": "Traycer AI Prompts",
+      "type": "system_prompt_bundle",
+      "summary": "Phase and plan mode prompts for Traycer AI.",
+      "sources": [
+        "_explore/LLM-research/system-prompts/Traycer AI"
+      ],
+      "tags": ["system-prompts", "traycer"]
+    },
+    {
+      "id": "sp_vercel_v0",
+      "label": "Vercel v0 Prompts",
+      "type": "system_prompt_bundle",
+      "summary": "System prompts and tool schemas for Vercel v0, including multiple versions.",
+      "sources": [
+        "_explore/LLM-research/system-prompts/VERCEL V0"
+      ],
+      "tags": ["system-prompts", "vercel", "v0"]
+    },
+    {
+      "id": "sp_vscode_agent",
+      "label": "VSCode Agent Prompts",
+      "type": "system_prompt_bundle",
+      "summary": "System prompts for VSCode Agent across multiple model backends.",
+      "sources": [
+        "_explore/LLM-research/system-prompts/VSCode Agent"
+      ],
+      "tags": ["system-prompts", "vscode", "agent"]
+    },
+    {
+      "id": "sp_warp",
+      "label": "Warp.dev Prompts",
+      "type": "system_prompt_bundle",
+      "summary": "System prompts for Warp.dev terminal assistant.",
+      "sources": [
+        "_explore/LLM-research/system-prompts/Warp.dev"
+      ],
+      "tags": ["system-prompts", "warp", "terminal"]
+    },
+    {
+      "id": "sp_windsurf",
+      "label": "Windsurf Prompts",
+      "type": "system_prompt_bundle",
+      "summary": "Prompt and tool definitions for Windsurf editor agents.",
+      "sources": [
+        "_explore/LLM-research/system-prompts/windsurf"
+      ],
+      "tags": ["system-prompts", "windsurf", "editor"]
+    },
+    {
+      "id": "sp_xai",
+      "label": "xAI Prompts",
+      "type": "system_prompt_bundle",
+      "summary": "System prompts and personas for xAI models and Grok variants.",
+      "sources": [
+        "_explore/LLM-research/system-prompts/xAI"
+      ],
+      "tags": ["system-prompts", "xai", "grok"]
+    },
+    {
+      "id": "sp_xcode",
+      "label": "Xcode Prompts",
+      "type": "system_prompt_bundle",
+      "summary": "System prompts for Xcode AI actions such as explain, document, and preview.",
+      "sources": [
+        "_explore/LLM-research/system-prompts/Xcode"
+      ],
+      "tags": ["system-prompts", "xcode", "ide"]
+    },
+    {
+      "id": "sp_zai",
+      "label": "Z.ai Prompts",
+      "type": "system_prompt_bundle",
+      "summary": "System prompts for Z.ai code assistant and chat.",
+      "sources": [
+        "_explore/LLM-research/system-prompts/Z.ai"
+      ],
+      "tags": ["system-prompts", "z.ai", "coding"]
+    },
+    {
+      "id": "vibe_code_os",
+      "label": "Vibe Code OS",
+      "type": "theme",
+      "summary": "Local orchestration system built from internal agents, skills, commands, and exploratory assets.",
+      "tags": ["vibe-code-os", "orchestration", "local"]
+    },
+    {
+      "id": "vibe_v1_agents",
+      "label": "V1 Agents (Archive)",
+      "type": "agent_bundle",
+      "summary": "First-generation orchestration and specialist agents archived under agents/_archive.",
+      "sources": [
+        "agents/_archive"
+      ],
+      "tags": ["v1", "agents", "archive", "orchestration"]
+    },
+    {
+      "id": "vibe_v1_skills",
+      "label": "V1 Skills",
+      "type": "skill_bundle",
+      "summary": "Current local skills used as the v1 baseline for specialized behaviors.",
+      "sources": [
+        "skills"
+      ],
+      "tags": ["v1", "skills", "local"]
+    },
+    {
+      "id": "vibe_v1_commands",
+      "label": "V1 Commands",
+      "type": "command_bundle",
+      "summary": "First-generation command set for vibe code OS orchestration.",
+      "sources": [
+        "commands/v1"
+      ],
+      "tags": ["v1", "commands", "orchestration"]
+    },
+    {
+      "id": "vibe_explore_agents",
+      "label": "Exploratory Agents",
+      "type": "agent_bundle",
+      "summary": "Exploratory agent configurations and patterns collected under _explore/_AGENTS.",
+      "sources": [
+        "_explore/_AGENTS"
+      ],
+      "tags": ["explore", "agents", "reference"]
+    },
+    {
+      "id": "vibe_explore_mcps",
+      "label": "Exploratory MCPs",
+      "type": "mcp_bundle",
+      "summary": "Exploratory MCP servers and examples collected under _explore/_MCPs.",
+      "sources": [
+        "_explore/_MCPs"
+      ],
+      "tags": ["explore", "mcps", "reference"]
+    },
+    {
+      "id": "vibe_explore_skills",
+      "label": "Exploratory Skills",
+      "type": "skill_bundle",
+      "summary": "Exploratory skills libraries and examples collected under _explore/_SKILLS.",
+      "sources": [
+        "_explore/_SKILLS"
+      ],
+      "tags": ["explore", "skills", "reference"]
+    }
+  ],
+  "edges": [
+    {
+      "source": "llm_agentic_coding",
+      "target": "agentic_frameworks",
+      "type": "organizes",
+      "summary": "Agentic frameworks are primary tools for realizing LLM-based agentic coding."
+    },
+    {
+      "source": "llm_agentic_coding",
+      "target": "vendor_best_practices",
+      "type": "relies_on",
+      "summary": "Best-practice docs guide safe and effective agentic coding."
+    },
+    {
+      "source": "llm_agentic_coding",
+      "target": "system_prompts_transparency",
+      "type": "depends_on",
+      "summary": "System prompts and transparency shape how agentic coding behaves in practice."
+    },
+    {
+      "source": "llm_agentic_coding",
+      "target": "stop_claude_building_wrong_thing",
+      "type": "informed_by",
+      "summary": "Spec-Driven Development is a core methodology for steering agentic coding."
+    },
+    {
+      "source": "llm_agentic_coding",
+      "target": "good_results_claude_code",
+      "type": "informed_by",
+      "summary": "Practical Claude Code usage patterns influence your broader agentic coding habits."
+    },
+    {
+      "source": "agentic_frameworks",
+      "target": "response_awareness_framework",
+      "type": "includes",
+      "summary": "Response Awareness Framework is one of your primary multi-agent orchestration systems."
+    },
+    {
+      "source": "agentic_frameworks",
+      "target": "pantheon_framework",
+      "type": "includes",
+      "summary": "Pantheon Framework is a core reference implementation for AI teams and workflows."
+    },
+    {
+      "source": "agentic_frameworks",
+      "target": "bmad_core",
+      "type": "includes",
+      "summary": "BMad CORE provides modular agents and workflows that complement your other frameworks."
+    },
+    {
+      "source": "agentic_frameworks",
+      "target": "agentic_context_engine",
+      "type": "includes",
+      "summary": "ACE adds execution feedback and playbook learning to agent workflows."
+    },
+    {
+      "source": "agentic_frameworks",
+      "target": "cybergenic_framework",
+      "type": "includes",
+      "summary": "Cybergenic adds evolutionary, signal-driven development patterns to your toolkit."
+    },
+    {
+      "source": "agentic_frameworks",
+      "target": "claude_log_agent_engineering",
+      "type": "grounded_by",
+      "summary": "ClaudeLog agent engineering concepts inform how you design and tune agents in these frameworks."
+    },
+    {
+      "source": "agentic_frameworks",
+      "target": "claude_log_agent_tactics",
+      "type": "grounded_by",
+      "summary": "ClaudeLog tactics guide advanced combinations and chains across frameworks."
+    },
+    {
+      "source": "response_awareness",
+      "target": "response_awareness_framework",
+      "type": "implemented_by",
+      "summary": "Framework operationalizes response-awareness concepts into concrete workflows and slash commands."
+    },
+    {
+      "source": "response_awareness",
+      "target": "additional_response_awareness_tags",
+      "type": "extended_by",
+      "summary": "Additional tag set deepens the Response Awareness taxonomy."
+    },
+    {
+      "source": "response_awareness",
+      "target": "claude_response_awareness_early_slash",
+      "type": "documented_by",
+      "summary": "Early slash command breakdown documents how Response Awareness was first prototyped."
+    },
+    {
+      "source": "response_awareness",
+      "target": "correlating_response_awareness_outcomes",
+      "type": "validated_by",
+      "summary": "Experimental write-up connects response-awareness practices to measurable coding outcomes."
+    },
+    {
+      "source": "response_awareness",
+      "target": "llms_as_interpreters",
+      "type": "theorized_by",
+      "summary": "LLMs-as-interpreters explains Response Awareness as a probabilistic runtime for English programs."
+    },
+    {
+      "source": "response_awareness",
+      "target": "response_awareness_meta_cognition",
+      "type": "supported_by",
+      "summary": "Meta-cognition article links Response Awareness to research on metacognitive spaces."
+    },
+    {
+      "source": "response_awareness",
+      "target": "science_internal_state_awareness",
+      "type": "supported_by",
+      "summary": "Internal state awareness clipping connects interpretability work to the framework."
+    },
+    {
+      "source": "response_awareness_framework",
+      "target": "anthropic_agentic_resources",
+      "type": "builds_on",
+      "summary": "Framework design is informed by Anthropic interpretability and agentic coding research."
+    },
+    {
+      "source": "response_awareness_framework",
+      "target": "claude_code_subagents_orchestrator_dilemma",
+      "type": "explained_by",
+      "summary": "Subagent architecture article explains orchestration choices inside the framework."
+    },
+    {
+      "source": "response_awareness_framework",
+      "target": "stop_claude_building_wrong_thing",
+      "type": "compatible_with",
+      "summary": "Spec-driven development patterns integrate with Response Awareness orchestration."
+    },
+    {
+      "source": "system_prompts_transparency",
+      "target": "cl4r1t4s",
+      "type": "collects",
+      "summary": "CL4R1T4S aggregates system prompts and guidelines from many providers."
+    },
+    {
+      "source": "system_prompts_transparency",
+      "target": "system_prompts_collection",
+      "type": "collects",
+      "summary": "Local system prompts directory stores your own prompt and tool configurations."
+    },
+    {
+      "source": "system_prompts_transparency",
+      "target": "llms_as_interpreters",
+      "type": "conceptually_related_to",
+      "summary": "Runtime framing clarifies how system prompts act as programs for model behavior."
+    },
+    {
+      "source": "evolutionary_architecture",
+      "target": "cybergenic_framework",
+      "type": "implemented_by",
+      "summary": "Cybergenic Framework is your main evolutionary architecture experiment."
+    },
+    {
+      "source": "vendor_best_practices",
+      "target": "anthropic_agentic_resources",
+      "type": "contains",
+      "summary": "Anthropic docs define many of your baseline patterns for safe agentic coding."
+    },
+    {
+      "source": "vendor_best_practices",
+      "target": "good_results_claude_code",
+      "type": "complements",
+      "summary": "Community best practices complement official Anthropic guidance."
+    },
+    {
+      "source": "pantheon_framework",
+      "target": "bmad_core",
+      "type": "peer_framework",
+      "summary": "Both provide multi-agent, process-focused frameworks that can coexist and cross-pollinate."
+    },
+    {
+      "source": "pantheon_framework",
+      "target": "response_awareness_framework",
+      "type": "complements",
+      "summary": "Pantheon’s glass-box processes align with Response Awareness’ explicit tagging and verification."
+    },
+    {
+      "source": "bmad_core",
+      "target": "agentic_context_engine",
+      "type": "can_integrate_with",
+      "summary": "ACE-style execution feedback can be layered into BMad workflows conceptually."
+    },
+    {
+      "source": "cybergenic_framework",
+      "target": "agentic_context_engine",
+      "type": "can_integrate_with",
+      "summary": "ACE-style learning could be applied to Cybergenic’s evolutionary runs in principle."
+    },
+    {
+      "source": "claude_log_agent_engineering",
+      "target": "claude_log_agent_tactics",
+      "type": "followed_by",
+      "summary": "Tactics article assumes the foundations laid in the engineering article."
+    },
+    {
+      "source": "stop_claude_building_wrong_thing",
+      "target": "good_results_claude_code",
+      "type": "reinforced_by",
+      "summary": "Both emphasize specs, context, and validation as keys to reliable Claude Code output."
+    },
+    {
+      "source": "vibe_code_os",
+      "target": "vibe_v1_agents",
+      "type": "includes",
+      "summary": "V1 agent definitions form the historical baseline for orchestration design."
+    },
+    {
+      "source": "vibe_code_os",
+      "target": "vibe_v1_skills",
+      "type": "includes",
+      "summary": "V1 skills represent the current stable skill set used in the system."
+    },
+    {
+      "source": "vibe_code_os",
+      "target": "vibe_v1_commands",
+      "type": "includes",
+      "summary": "V1 commands capture the original command vocabulary for vibe code orchestration."
+    },
+    {
+      "source": "vibe_code_os",
+      "target": "vibe_explore_agents",
+      "type": "explores",
+      "summary": "Exploratory agents provide patterns and ideas for future orchestration upgrades."
+    },
+    {
+      "source": "vibe_code_os",
+      "target": "vibe_explore_mcps",
+      "type": "explores",
+      "summary": "Exploratory MCP servers inform how external tools and APIs could be integrated."
+    },
+    {
+      "source": "vibe_code_os",
+      "target": "vibe_explore_skills",
+      "type": "explores",
+      "summary": "Exploratory skills libraries offer candidate patterns for future specialized behaviors."
+    },
+    {
+      "source": "system_prompts_transparency",
+      "target": "sp_anthropic",
+      "type": "captures",
+      "summary": "Contains Anthropic Claude and Claude Code system prompts used for comparison and design."
+    },
+    {
+      "source": "system_prompts_transparency",
+      "target": "sp_openai",
+      "type": "captures",
+      "summary": "Includes multiple generations of OpenAI system prompts and tool schemas."
+    },
+    {
+      "source": "system_prompts_transparency",
+      "target": "sp_open_source_agents",
+      "type": "captures",
+      "summary": "Aggregates prompts for open source coding agents and CLIs."
+    },
+    {
+      "source": "system_prompts_transparency",
+      "target": "sp_amp",
+      "type": "captures",
+      "summary": "Captures Amp agent prompt experiments."
+    },
+    {
+      "source": "system_prompts_transparency",
+      "target": "sp_augment_code",
+      "type": "captures",
+      "summary": "Covers Augment Code assistant prompts."
+    },
+    {
+      "source": "system_prompts_transparency",
+      "target": "sp_blackbox_ai",
+      "type": "captures",
+      "summary": "Captures Blackbox.ai coding prompt design."
+    },
+    {
+      "source": "system_prompts_transparency",
+      "target": "sp_bolt",
+      "type": "captures",
+      "summary": "Includes Bolt system prompts and tools for comparison with other agents."
+    },
+    {
+      "source": "system_prompts_transparency",
+      "target": "sp_brave",
+      "type": "captures",
+      "summary": "Contains Brave AI assistant prompt scaffolds."
+    },
+    {
+      "source": "system_prompts_transparency",
+      "target": "sp_cline",
+      "type": "captures",
+      "summary": "Stores Cline coding agent system prompts."
+    },
+    {
+      "source": "system_prompts_transparency",
+      "target": "sp_cluely",
+      "type": "captures",
+      "summary": "Tracks Cluely system prompt experiments."
+    },
+    {
+      "source": "system_prompts_transparency",
+      "target": "sp_codebuddy",
+      "type": "captures",
+      "summary": "Includes CodeBuddy assistant prompts and behaviors."
+    },
+    {
+      "source": "system_prompts_transparency",
+      "target": "sp_comet_assistant",
+      "type": "captures",
+      "summary": "Captures Comet Assistant prompt designs."
+    },
+    {
+      "source": "system_prompts_transparency",
+      "target": "sp_cursor",
+      "type": "captures",
+      "summary": "Contains Cursor editor agent scaffolding for cross-tool comparisons."
+    },
+    {
+      "source": "system_prompts_transparency",
+      "target": "sp_devin",
+      "type": "captures",
+      "summary": "Stores core Devin autonomous engineer prompts."
+    },
+    {
+      "source": "system_prompts_transparency",
+      "target": "sp_devin_ai",
+      "type": "captures",
+      "summary": "Captures alternative Devin AI prompt variants and updates."
+    },
+    {
+      "source": "system_prompts_transparency",
+      "target": "sp_dia",
+      "type": "captures",
+      "summary": "Tracks Dia tool system prompt designs."
+    },
+    {
+      "source": "system_prompts_transparency",
+      "target": "sp_emergent",
+      "type": "captures",
+      "summary": "Contains Emergent AI prompt extracts."
+    },
+    {
+      "source": "system_prompts_transparency",
+      "target": "sp_factory",
+      "type": "captures",
+      "summary": "Captures FACTORY agent workflow prompts."
+    },
+    {
+      "source": "system_prompts_transparency",
+      "target": "sp_gemini",
+      "type": "captures",
+      "summary": "Includes Gemini CLI/system prompt extractions for tool parity work."
+    },
+    {
+      "source": "system_prompts_transparency",
+      "target": "sp_google",
+      "type": "captures",
+      "summary": "Stores Google AI assistant prompts for UX and capability comparison."
+    },
+    {
+      "source": "system_prompts_transparency",
+      "target": "sp_google_jules",
+      "type": "captures",
+      "summary": "Tracks Google Jules developer assistant prompt strategies."
+    },
+    {
+      "source": "system_prompts_transparency",
+      "target": "sp_grok",
+      "type": "captures",
+      "summary": "Contains xAI Grok system prompt variants and personas."
+    },
+    {
+      "source": "system_prompts_transparency",
+      "target": "sp_hume",
+      "type": "captures",
+      "summary": "Stores Hume AI-related prompts for affective computing research."
+    },
+    {
+      "source": "system_prompts_transparency",
+      "target": "sp_junie",
+      "type": "captures",
+      "summary": "Captures Junie assistant prompt extractions."
+    },
+    {
+      "source": "system_prompts_transparency",
+      "target": "sp_kiro",
+      "type": "captures",
+      "summary": "Contains Kiro coding assistant prompt setups."
+    },
+    {
+      "source": "system_prompts_transparency",
+      "target": "sp_leap_new",
+      "type": "captures",
+      "summary": "Stores Leap.new tool system prompts."
+    },
+    {
+      "source": "system_prompts_transparency",
+      "target": "sp_lovable",
+      "type": "captures",
+      "summary": "Captures Lovable builder prompts and behaviors for benchmarking build flows."
+    },
+    {
+      "source": "system_prompts_transparency",
+      "target": "sp_manus",
+      "type": "captures",
+      "summary": "Stores Manus agent prompt architectures."
+    },
+    {
+      "source": "system_prompts_transparency",
+      "target": "sp_meta",
+      "type": "captures",
+      "summary": "Contains Meta AI chat prompt scaffolds."
+    },
+    {
+      "source": "system_prompts_transparency",
+      "target": "sp_metaai_whatsapp",
+      "type": "captures",
+      "summary": "Tracks MetaAI WhatsApp-specific prompt structures."
+    },
+    {
+      "source": "system_prompts_transparency",
+      "target": "sp_minimax",
+      "type": "captures",
+      "summary": "Stores MINIMAX tool prompt extractions."
+    },
+    {
+      "source": "system_prompts_transparency",
+      "target": "sp_misc",
+      "type": "captures",
+      "summary": "Collects miscellaneous system prompt experiments not yet categorized."
+    },
+    {
+      "source": "system_prompts_transparency",
+      "target": "sp_mistral",
+      "type": "captures",
+      "summary": "Contains Mistral model assistant prompt designs."
+    },
+    {
+      "source": "system_prompts_transparency",
+      "target": "sp_moonshot",
+      "type": "captures",
+      "summary": "Stores Moonshot AI prompt variants."
+    },
+    {
+      "source": "system_prompts_transparency",
+      "target": "sp_multion",
+      "type": "captures",
+      "summary": "Captures Multion multi-agent prompt setups."
+    },
+    {
+      "source": "system_prompts_transparency",
+      "target": "sp_notionai",
+      "type": "captures",
+      "summary": "Contains Notion AI system prompt designs."
+    },
+    {
+      "source": "system_prompts_transparency",
+      "target": "sp_notte",
+      "type": "captures",
+      "summary": "Stores notte agent prompt samples."
+    },
+    {
+      "source": "system_prompts_transparency",
+      "target": "sp_orchids",
+      "type": "captures",
+      "summary": "Captures Orchids app prompt frameworks for app-building comparisons."
+    },
+    {
+      "source": "system_prompts_transparency",
+      "target": "sp_parahelp",
+      "type": "captures",
+      "summary": "Stores Parahelp system prompts."
+    },
+    {
+      "source": "system_prompts_transparency",
+      "target": "sp_perplexity",
+      "type": "captures",
+      "summary": "Contains Perplexity AI prompt structures for search+chat comparison."
+    },
+    {
+      "source": "system_prompts_transparency",
+      "target": "sp_poke",
+      "type": "captures",
+      "summary": "Tracks Poke AI prompt experiments."
+    },
+    {
+      "source": "system_prompts_transparency",
+      "target": "sp_proton",
+      "type": "captures",
+      "summary": "Stores Proton AI helper prompts."
+    },
+    {
+      "source": "system_prompts_transparency",
+      "target": "sp_qoder",
+      "type": "captures",
+      "summary": "Captures Qoder quest design and action prompts."
+    },
+    {
+      "source": "system_prompts_transparency",
+      "target": "sp_replit",
+      "type": "captures",
+      "summary": "Contains multi-version Replit agent prompt/tool schemas for longitudinal comparison."
+    },
+    {
+      "source": "system_prompts_transparency",
+      "target": "sp_samedev",
+      "type": "captures",
+      "summary": "Stores Same.dev system prompts and tool specs."
+    },
+    {
+      "source": "system_prompts_transparency",
+      "target": "sp_trae",
+      "type": "captures",
+      "summary": "Captures Trae builder/chat prompt architectures for phased workflows."
+    },
+    {
+      "source": "system_prompts_transparency",
+      "target": "sp_traycer_ai",
+      "type": "captures",
+      "summary": "Contains Traycer AI phase/plan-mode system prompts and tools."
+    },
+    {
+      "source": "system_prompts_transparency",
+      "target": "sp_vercel_v0",
+      "type": "captures",
+      "summary": "Stores Vercel v0 prompts and tools across versions for app-builder comparisons."
+    },
+    {
+      "source": "system_prompts_transparency",
+      "target": "sp_vscode_agent",
+      "type": "captures",
+      "summary": "Captures VSCode Agent prompts across different model backends."
+    },
+    {
+      "source": "system_prompts_transparency",
+      "target": "sp_warp",
+      "type": "captures",
+      "summary": "Contains Warp.dev terminal agent prompt designs."
+    },
+    {
+      "source": "system_prompts_transparency",
+      "target": "sp_windsurf",
+      "type": "captures",
+      "summary": "Stores Windsurf Wave prompts/tools and historical variants."
+    },
+    {
+      "source": "system_prompts_transparency",
+      "target": "sp_xai",
+      "type": "captures",
+      "summary": "Captures xAI Grok prompts used for capability and UX comparisons."
+    },
+    {
+      "source": "system_prompts_transparency",
+      "target": "sp_xcode",
+      "type": "captures",
+      "summary": "Contains Xcode AI actions system prompts for IDE integration research."
+    },
+    {
+      "source": "system_prompts_transparency",
+      "target": "sp_zai",
+      "type": "captures",
+      "summary": "Stores Z.ai system prompts for code and chat agents."
+    },
+    {
+      "source": "system_prompts_collection",
+      "target": "sp_anthropic",
+      "type": "includes",
+      "summary": "System prompts collection includes Anthropic-related prompts."
+    },
+    {
+      "source": "system_prompts_collection",
+      "target": "sp_openai",
+      "type": "includes",
+      "summary": "System prompts collection includes OpenAI-related prompts."
+    },
+    {
+      "source": "system_prompts_collection",
+      "target": "sp_open_source_agents",
+      "type": "includes",
+      "summary": "System prompts collection includes open source agent prompts."
+    },
+    {
+      "source": "system_prompts_collection",
+      "target": "sp_amp",
+      "type": "includes",
+      "summary": "Collection includes Amp agent prompts."
+    },
+    {
+      "source": "system_prompts_collection",
+      "target": "sp_augment_code",
+      "type": "includes",
+      "summary": "Collection includes Augment Code prompts."
+    },
+    {
+      "source": "system_prompts_collection",
+      "target": "sp_blackbox_ai",
+      "type": "includes",
+      "summary": "Collection includes Blackbox.ai prompts."
+    },
+    {
+      "source": "system_prompts_collection",
+      "target": "sp_bolt",
+      "type": "includes",
+      "summary": "Collection includes Bolt system prompts."
+    },
+    {
+      "source": "system_prompts_collection",
+      "target": "sp_brave",
+      "type": "includes",
+      "summary": "Collection includes Brave AI prompts."
+    },
+    {
+      "source": "system_prompts_collection",
+      "target": "sp_cline",
+      "type": "includes",
+      "summary": "Collection includes Cline agent prompts."
+    },
+    {
+      "source": "system_prompts_collection",
+      "target": "sp_cluely",
+      "type": "includes",
+      "summary": "Collection includes Cluely prompts."
+    },
+    {
+      "source": "system_prompts_collection",
+      "target": "sp_codebuddy",
+      "type": "includes",
+      "summary": "Collection includes CodeBuddy prompts."
+    },
+    {
+      "source": "system_prompts_collection",
+      "target": "sp_comet_assistant",
+      "type": "includes",
+      "summary": "Collection includes Comet Assistant prompts."
+    },
+    {
+      "source": "system_prompts_collection",
+      "target": "sp_cursor",
+      "type": "includes",
+      "summary": "Collection includes Cursor prompts."
+    },
+    {
+      "source": "system_prompts_collection",
+      "target": "sp_devin",
+      "type": "includes",
+      "summary": "Collection includes Devin prompts."
+    },
+    {
+      "source": "system_prompts_collection",
+      "target": "sp_devin_ai",
+      "type": "includes",
+      "summary": "Collection includes Devin AI variants."
+    },
+    {
+      "source": "system_prompts_collection",
+      "target": "sp_dia",
+      "type": "includes",
+      "summary": "Collection includes Dia prompts."
+    },
+    {
+      "source": "system_prompts_collection",
+      "target": "sp_emergent",
+      "type": "includes",
+      "summary": "Collection includes Emergent prompts."
+    },
+    {
+      "source": "system_prompts_collection",
+      "target": "sp_factory",
+      "type": "includes",
+      "summary": "Collection includes FACTORY prompts."
+    },
+    {
+      "source": "system_prompts_collection",
+      "target": "sp_gemini",
+      "type": "includes",
+      "summary": "Collection includes Gemini prompts."
+    },
+    {
+      "source": "system_prompts_collection",
+      "target": "sp_google",
+      "type": "includes",
+      "summary": "Collection includes Google assistant prompts."
+    },
+    {
+      "source": "system_prompts_collection",
+      "target": "sp_google_jules",
+      "type": "includes",
+      "summary": "Collection includes Google Jules prompts."
+    },
+    {
+      "source": "system_prompts_collection",
+      "target": "sp_grok",
+      "type": "includes",
+      "summary": "Collection includes Grok prompts."
+    },
+    {
+      "source": "system_prompts_collection",
+      "target": "sp_hume",
+      "type": "includes",
+      "summary": "Collection includes Hume prompts."
+    },
+    {
+      "source": "system_prompts_collection",
+      "target": "sp_junie",
+      "type": "includes",
+      "summary": "Collection includes Junie prompts."
+    },
+    {
+      "source": "system_prompts_collection",
+      "target": "sp_kiro",
+      "type": "includes",
+      "summary": "Collection includes Kiro prompts."
+    },
+    {
+      "source": "system_prompts_collection",
+      "target": "sp_leap_new",
+      "type": "includes",
+      "summary": "Collection includes Leap.new prompts."
+    },
+    {
+      "source": "system_prompts_collection",
+      "target": "sp_lovable",
+      "type": "includes",
+      "summary": "Collection includes Lovable prompts."
+    },
+    {
+      "source": "system_prompts_collection",
+      "target": "sp_manus",
+      "type": "includes",
+      "summary": "Collection includes Manus prompts."
+    },
+    {
+      "source": "system_prompts_collection",
+      "target": "sp_meta",
+      "type": "includes",
+      "summary": "Collection includes Meta AI prompts."
+    },
+    {
+      "source": "system_prompts_collection",
+      "target": "sp_metaai_whatsapp",
+      "type": "includes",
+      "summary": "Collection includes MetaAI WhatsApp prompts."
+    },
+    {
+      "source": "system_prompts_collection",
+      "target": "sp_minimax",
+      "type": "includes",
+      "summary": "Collection includes MINIMAX prompts."
+    },
+    {
+      "source": "system_prompts_collection",
+      "target": "sp_misc",
+      "type": "includes",
+      "summary": "Collection includes miscellaneous prompt experiments."
+    },
+    {
+      "source": "system_prompts_collection",
+      "target": "sp_mistral",
+      "type": "includes",
+      "summary": "Collection includes Mistral prompts."
+    },
+    {
+      "source": "system_prompts_collection",
+      "target": "sp_moonshot",
+      "type": "includes",
+      "summary": "Collection includes Moonshot prompts."
+    },
+    {
+      "source": "system_prompts_collection",
+      "target": "sp_multion",
+      "type": "includes",
+      "summary": "Collection includes Multion prompts."
+    },
+    {
+      "source": "system_prompts_collection",
+      "target": "sp_notionai",
+      "type": "includes",
+      "summary": "Collection includes Notion AI prompts."
+    },
+    {
+      "source": "system_prompts_collection",
+      "target": "sp_notte",
+      "type": "includes",
+      "summary": "Collection includes notte prompts."
+    },
+    {
+      "source": "system_prompts_collection",
+      "target": "sp_orchids",
+      "type": "includes",
+      "summary": "Collection includes Orchids app prompts."
+    },
+    {
+      "source": "system_prompts_collection",
+      "target": "sp_parahelp",
+      "type": "includes",
+      "summary": "Collection includes Parahelp prompts."
+    },
+    {
+      "source": "system_prompts_collection",
+      "target": "sp_perplexity",
+      "type": "includes",
+      "summary": "Collection includes Perplexity prompts."
+    },
+    {
+      "source": "system_prompts_collection",
+      "target": "sp_poke",
+      "type": "includes",
+      "summary": "Collection includes Poke prompts."
+    },
+    {
+      "source": "system_prompts_collection",
+      "target": "sp_proton",
+      "type": "includes",
+      "summary": "Collection includes Proton prompts."
+    },
+    {
+      "source": "system_prompts_collection",
+      "target": "sp_qoder",
+      "type": "includes",
+      "summary": "Collection includes Qoder prompts."
+    },
+    {
+      "source": "system_prompts_collection",
+      "target": "sp_replit",
+      "type": "includes",
+      "summary": "Collection includes Replit prompts across versions."
+    },
+    {
+      "source": "system_prompts_collection",
+      "target": "sp_samedev",
+      "type": "includes",
+      "summary": "Collection includes Same.dev prompts."
+    },
+    {
+      "source": "system_prompts_collection",
+      "target": "sp_trae",
+      "type": "includes",
+      "summary": "Collection includes Trae prompts."
+    },
+    {
+      "source": "system_prompts_collection",
+      "target": "sp_traycer_ai",
+      "type": "includes",
+      "summary": "Collection includes Traycer AI prompts."
+    },
+    {
+      "source": "system_prompts_collection",
+      "target": "sp_vercel_v0",
+      "type": "includes",
+      "summary": "Collection includes Vercel v0 prompts and tools."
+    },
+    {
+      "source": "system_prompts_collection",
+      "target": "sp_vscode_agent",
+      "type": "includes",
+      "summary": "Collection includes VSCode Agent prompts."
+    },
+    {
+      "source": "system_prompts_collection",
+      "target": "sp_warp",
+      "type": "includes",
+      "summary": "Collection includes Warp.dev prompts."
+    },
+    {
+      "source": "system_prompts_collection",
+      "target": "sp_windsurf",
+      "type": "includes",
+      "summary": "Collection includes Windsurf prompts."
+    },
+    {
+      "source": "system_prompts_collection",
+      "target": "sp_xai",
+      "type": "includes",
+      "summary": "Collection includes xAI prompts."
+    },
+    {
+      "source": "system_prompts_collection",
+      "target": "sp_xcode",
+      "type": "includes",
+      "summary": "Collection includes Xcode prompts."
+    },
+    {
+      "source": "system_prompts_collection",
+      "target": "sp_zai",
+      "type": "includes",
+      "summary": "Collection includes Z.ai prompts."
+    }
+  ]
+}

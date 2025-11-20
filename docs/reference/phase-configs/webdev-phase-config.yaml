@@ -1,0 +1,130 @@
+# Webdev Pipeline Phase Configuration - OS 2.0
+# Frontend/Web Development Workflow
+
+pipeline:
+  name: webdev
+  description: Frontend web development pipeline with design-first approach
+  version: 2.0
+
+# Context Integration (MANDATORY)
+context:
+  provider: ProjectContextServer
+  required: true
+  query_on_start: true
+
+# Pipeline Phases
+phases:
+  # Phase 1: Layout Analysis
+  - name: analysis
+    agent: frontend-layout-analyzer
+    description: Structure-first layout analysis before changes
+    context_required: true
+    outputs:
+      - layout_structure
+      - component_hierarchy
+      - style_sources
+    constraints:
+      scope: Read-only analysis, no code edits
+      quality: Complete component tree mapping
+      integration: Must identify all CSS/token sources
+
+  # Phase 2: Implementation
+  - name: implementation
+    agent: frontend-builder-agent
+    description: Component construction with design system integration
+    dependencies:
+      - analysis
+    context_required: true
+    inputs:
+      - layout_structure
+      - component_hierarchy
+    outputs:
+      - implemented_code
+      - changes_manifest
+    constraints:
+      scope: Edit-not-rewrite, scoped diffs only
+      quality: design-dna.json enforcement
+      integration: Lint and typecheck before gates
+      resource: Token-conscious, no unnecessary refactors
+
+  # Phase 3: Design QA
+  - name: design_qa
+    agent: frontend-design-reviewer-agent
+    description: Visual quality assurance gate
+    dependencies:
+      - implementation
+    context_required: true
+    inputs:
+      - implemented_code
+      - layout_structure
+    outputs:
+      - design_score
+      - visual_issues
+      - gate_decision
+    quality_gates:
+      design_score:
+        threshold: 90
+        type: hard_block
+        message: Design QA score must be ≥90 for completion
+
+  # Phase 4: Standards Enforcement
+  - name: standards
+    agent: frontend-standards-enforcer
+    description: Code-level standards and compliance gate
+    dependencies:
+      - implementation
+    context_required: true
+    inputs:
+      - implemented_code
+      - changes_manifest
+    outputs:
+      - standards_score
+      - violations
+      - gate_decision
+    quality_gates:
+      standards_score:
+        threshold: 90
+        type: hard_block
+        message: Standards violations detected
+      inline_styles:
+        threshold: 0
+        type: hard_block
+        message: Inline styles not allowed
+      token_violations:
+        threshold: 0
+        type: hard_block
+        message: Design token violations
+
+# Additional Enforcers (Optional)
+optional_phases:
+  - name: accessibility
+    agent: a11y-enforcer
+    description: Accessibility compliance check
+    trigger: on_demand
+
+  - name: performance
+    agent: performance-enforcer
+    description: Performance impact analysis
+    trigger: on_demand
+
+  - name: security
+    agent: security-specialist
+    description: Security vulnerability scan
+    trigger: on_demand
+
+# Memory Integration
+memory:
+  ephemeral: AgentDB
+  persistent: vibe.db
+  learnings:
+    - design_patterns
+    - common_violations
+    - user_preferences
+
+# Success Criteria
+success:
+  all_gates_pass: true
+  design_score_min: 90
+  standards_score_min: 90
+  no_hard_blocks: true
+

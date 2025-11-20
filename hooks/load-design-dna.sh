@@ -10,7 +10,7 @@ OUTPUT_FILE=".claude-design-dna-context.md"
 # Detect project-specific design DNA
 detect_design_dna() {
   # Check for OBDN project markers
-  if [ -d "~/Desktop/OBDN" ] || grep -q "obdn" <<< "$(pwd)" 2>/dev/null; then
+  if [ -d "$HOME/Desktop/OBDN" ] || grep -q "obdn" <<< "$(pwd)" 2>/dev/null; then
     if [ -f "$DNA_DIR/obdn.json" ]; then
       echo "obdn"
       return

@@ -121,8 +121,3 @@ fi
 } > "$OUT_MD"
 
 echo "SessionStart context written: $OUT_MD"
-
-# Ensure ACE Playbooks are initialized (quiet)
-if [ -f "hooks/load-playbooks.sh" ]; then
-  bash hooks/load-playbooks.sh >/dev/null 2>&1 || true
-fi

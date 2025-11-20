@@ -1,18 +1,14 @@
 # Root-level directories and files to exclude
-/.claude-global-hooks
-/.feedback
-/.claude-work
-/.orchestration
+/.claude/
 /.workshop
 /ext
-Makefile
 /commands/_archive/
-/.deprecated
+/.deprecated/*
+!/.deprecated/v1-legacy/
 /.
 .*
 !.gitignore
 !.git
-/mm-agents
 
 # OS
 .DS_Store
@@ -28,7 +24,6 @@ Thumbs.db
 
 
 # Design Memory (personal preferences, keep local)
-.design-memory/
 /commands/project-specific/
 
 
@@ -37,17 +32,9 @@ Thumbs.db
 deprecated/
 
 # Internal documentation and logs
-.claude-session-context.md
-.claude-orchestration-context.md
-.claude-playbook-context.md
-.claude-design-dna-context.md
 CHANGELOG.md
-archive/
-examples/
 
 # docs/ - now tracked (contains permanent system documentation)
-qa-logs/
-dev-logs/
 
 
 

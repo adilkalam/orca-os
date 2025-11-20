@@ -1,0 +1,342 @@
+domain: seo
+version: "2.0.0"
+
+phases:
+  # Phase 1: Context Query (MANDATORY)
+  context_query:
+    order: 1
+    required: true
+    agent: "ProjectContextServer"
+    agent_type: "mcp_tool"
+    tool_name: "query_context"
+    description: "Load project context before starting SEO research"
+    inputs:
+      - domain: "seo"
+      - task: "SEO content generation for keyword: ${KEYWORD}"
+      - projectPath: "${PROJECT_ROOT}"
+      - maxFiles: 10
+      - includeHistory: true
+    outputs:
+      - contextBundle: "Full project awareness"
+    next_phase: "serp_analysis"
+
+  # Phase 2: SERP Analysis
+  serp_analysis:
+    order: 2
+    required: true
+    agent: "seo-research-specialist"
+    description: "Gather keyword intelligence via Ahrefs MCP"
+    inputs:
+      - keyword: "${KEYWORD}"
+      - country: "us"
+    tools_required:
+      - "mcp__ahrefs__keywords-explorer-overview"
+      - "mcp__ahrefs__keywords-explorer-related-terms"
+      - "mcp__ahrefs__serp-overview-serp-overview"
+    outputs:
+      - serp_json: "outputs/seo/${SLUG}-serp.json"
+      - serp_summary: "outputs/seo/${SLUG}-serp-summary.md"
+    agentdb_cache:
+      - serp_overview
+      - related_keywords
+      - serp_features
+    next_phase: "knowledge_extraction"
+
+  # Phase 3: Knowledge Graph Extraction
+  knowledge_extraction:
+    order: 3
+    required: true
+    agent: "seo-research-specialist"
+    description: "Deep KG reading + external research loading"
+    inputs:
+      - serp_data: "outputs/seo/${SLUG}-serp.json"
+      - research_docs: "${RESEARCH_DOC_PATHS}"
+      - knowledge_graph: "${KG_PATH}"
+      - knowledge_root: "${KG_ROOT}"
+      - focus_terms: "${FOCUS_TERMS}"
+    scripts_required:
+      - "scripts/seo_auto_pipeline.py"
+      - "scripts/seo_kg_deep_reader.py"
+      - "scripts/seo_serp_bridge.py"
+    outputs:
+      - report_json: "outputs/seo/${SLUG}-report.json"
+      - brief_json: "outputs/seo/${SLUG}-brief.json"
+      - brief_md: "outputs/seo/${SLUG}-brief.md"
+      - draft_md: "outputs/seo/${SLUG}-draft.md"  # heuristic draft
+    agentdb_cache:
+      - kg_extracts
+      - research_papers
+      - keyword_strategy
+    next_phase: "brief_refinement"
+
+  # Phase 4: Brief Refinement
+  brief_refinement:
+    order: 4
+    required: true
+    agent: "seo-brief-strategist"
+    description: "Strategic enhancement with project context"
+    inputs:
+      - brief_json: "outputs/seo/${SLUG}-brief.json"
+      - brief_md: "outputs/seo/${SLUG}-brief.md"
+      - agentdb_session: "${SESSION_ID}"
+    constraints:
+      max_files_created: 0  # Edit only
+      max_files_modified: 1  # brief.md only
+      forbidden_operations:
+        - "create_new_files"
+        - "skip_compliance_check"
+    outputs:
+      - enhanced_brief: "outputs/seo/${SLUG}-brief.md"  # edited
+    agentdb_cache:
+      - refined_strategy
+    vibe_db_save:
+      - decision: "Content angle and targeting strategy"
+    next_phase: "content_writing"
+
+  # Phase 5: Content Writing
+  content_writing:
+    order: 5
+    required: true
+    agent: "seo-draft-writer"
+    description: "Sophisticated content with v4 gold-standard clarity"
+    inputs:
+      - enhanced_brief: "outputs/seo/${SLUG}-brief.md"
+      - agentdb_session: "${SESSION_ID}"
+    constraints:
+      max_files_created: 1  # draft.md only
+      max_file_size: "200KB"
+      forbidden_operations:
+        - "generic_content"
+        - "repeat_paragraphs"
+        - "unexplained_jargon"
+        - "forced_analogies"
+      communication_heuristics:
+        - "gym_buddy_test"
+        - "inline_jargon_explanation"
+        - "natural_analogies"
+        - "progressive_disclosure"
+    outputs:
+      - draft_md: "outputs/seo/${SLUG}-draft.md"
+    quality_targets:
+      - word_count_min: 1500
+      - word_count_ideal: 2500
+      - citations_min: 5
+      - internal_links_min: 3
+    next_phase: "quality_assurance"
+
+  # Phase 6: Quality Assurance
+  quality_assurance:
+    order: 6
+    required: true
+    agent: "seo-quality-guardian"
+    description: "Comprehensive QA with clarity gates and compliance checks"
+    inputs:
+      - brief_md: "outputs/seo/${SLUG}-brief.md"
+      - draft_md: "outputs/seo/${SLUG}-draft.md"
+      - agentdb_session: "${SESSION_ID}"
+    scripts_required:
+      - "scripts/seo_clarity_gates.py"
+    constraints:
+      max_files_created: 2  # qa.md + clarity-report.json
+      max_files_modified: 2  # brief.md + draft.md (TODOs only)
+      forbidden_operations:
+        - "skip_clarity_gates"
+        - "skip_standards_check"
+        - "rewrite_content"
+    outputs:
+      - qa_report: "outputs/seo/${SLUG}-qa.md"
+      - clarity_report: "outputs/seo/${SLUG}-draft-clarity-report.json"
+      - modified_draft: "outputs/seo/${SLUG}-draft.md"  # with TODOs
+      - modified_brief: "outputs/seo/${SLUG}-brief.md"  # with TODOs
+    vibe_db_save:
+      - task_history: "Pipeline outcome and learnings"
+      - standards: "Violations for future enforcement"
+    next_phase: "completion"
+
+  # Phase 7: Completion
+  completion:
+    order: 7
+    required: true
+    description: "Hand off to human reviewer"
+    criteria:
+      - all_phases_complete: true
+      - quality_gates_passed_or_flagged: true
+      - qa_report_generated: true
+      - todos_added_where_needed: true
+    outputs_location: "outputs/seo/"
+    artifacts:
+      - "${SLUG}-serp.json"
+      - "${SLUG}-serp-summary.md"
+      - "${SLUG}-report.json"
+      - "${SLUG}-brief.json"
+      - "${SLUG}-brief.md"
+      - "${SLUG}-draft.md"
+      - "${SLUG}-qa.md"
+      - "${SLUG}-draft-clarity-report.json"
+    human_review_required: true
+    publish_ready: false  # Human approval needed
+
+# Quality Gates
+gates:
+  clarity_gate:
+    phase: "quality_assurance"
+    threshold: 70
+    metric: "clarity_score"
+    blocks_if_failed: false  # Flags TODOs but doesn't block
+    script: "scripts/seo_clarity_gates.py"
+    saves_issues_as_standards: true
+
+  keyword_density_gate:
+    phase: "quality_assurance"
+    threshold_min: 0.5
+    threshold_max: 1.5
+    metric: "primary_keyword_density"
+    blocks_if_failed: false
+
+  word_count_gate:
+    phase: "quality_assurance"
+    threshold: 1500
+    metric: "total_words"
+    blocks_if_failed: false
+
+  citation_gate:
+    phase: "quality_assurance"
+    threshold: 5
+    metric: "external_citations"
+    blocks_if_failed: false
+
+  compliance_gate:
+    phase: "quality_assurance"
+    checks:
+      - "fda_disclaimers"
+      - "medical_disclaimers"
+      - "absolute_claims"
+      - "risk_disclosure"
+    blocks_if_failed: true  # Compliance is hard requirement
+    saves_violations_as_standards: true
+
+  standards_gate:
+    phase: "quality_assurance"
+    source: "contextBundle.relatedStandards"
+    blocks_if_failed: false
+    saves_violations_as_standards: true
+
+# Configuration
+config:
+  # AgentDB Settings
+  agentdb_enabled: true
+  agentdb_ttl_ms: 3600000  # 1 hour
+  agentdb_location: "/tmp/seo-agentdb-${SESSION_ID}.json"
+
+  # vibe.db Settings
+  vibe_db_location: ".claude/project/vibe.db"
+  vibe_db_tables:
+    - "decisions"
+    - "standards"
+    - "task_history"
+    - "events"
+
+  # Output Settings
+  output_directory: "outputs/seo/"
+  slug_format: "kebab-case"
+  preserve_heuristic_draft: false  # Overwrite with LLM draft
+
+  # Research Settings
+  research_index: "/Users/adilkalam/Desktop/OBDN/obdn_site/docs/research/index.json"
+  knowledge_graph_default: "/Users/adilkalam/Desktop/OBDN/obdn_site/docs/meta/kg.json"
+  knowledge_root_default: "/Users/adilkalam/Desktop/OBDN/obdn_site"
+
+  # Quality Targets
+  word_count_minimum: 1500
+  word_count_ideal: 2500
+  citations_minimum: 5
+  internal_links_minimum: 3
+  clarity_score_minimum: 70
+
+  # Communication Style
+  audience: "Biohackers, fitness enthusiasts, people on GLP-1s"
+  tone: "Sophisticated but clear - teach don't preach"
+  voice: "Authoritative, conversational, uses natural analogies"
+  writing_style: "Progressive disclosure, inline jargon explanation"
+
+# Constraints
+constraints:
+  # File Creation Limits
+  max_files_per_agent: 2
+  max_files_per_pipeline: 10
+  max_file_size: "500KB"
+
+  # Time Limits
+  max_phase_duration_ms: 300000  # 5 minutes per phase
+  max_pipeline_duration_ms: 1800000  # 30 minutes total
+
+  # Banned Operations
+  forbidden_operations:
+    - "skip_context_query"
+    - "skip_serp_analysis"
+    - "generic_content"
+    - "hallucinated_citations"
+    - "unexplained_jargon"
+    - "skip_clarity_gates"
+    - "auto_publish"
+
+# Learning System
+learning:
+  # What to save to vibe.db
+  save_decisions_when:
+    - "keyword_targeting_chosen"
+    - "content_angle_defined"
+    - "unique_positioning_decided"
+
+  save_standards_when:
+    - "clarity_gate_failed"
+    - "standards_violations_found"
+    - "compliance_issues_detected"
+
+  save_task_history_when:
+    - "pipeline_complete"
+
+  # What to cache in AgentDB
+  agentdb_cache_keys:
+    - "context_bundle"
+    - "serp_overview"
+    - "related_keywords"
+    - "serp_features"
+    - "kg_extracts"
+    - "research_papers"
+    - "keyword_strategy"
+    - "refined_strategy"
+
+# Success Metrics
+success_criteria:
+  quantitative:
+    - word_count: "2500-3500"
+    - clarity_score: "70+"
+    - external_citations: "8-12"
+    - unexplained_jargon: "<10"
+    - analogies: "3-5"
+
+  qualitative:
+    - "Passes gym buddy test"
+    - "Sophisticated but accessible tone"
+    - "Dual-axis frameworks properly explained"
+    - "AMPK/mTOR taught clearly"
+    - "Reads like v4 gold standard"
+
+# Error Handling
+error_handling:
+  ahrefs_rate_limit:
+    action: "fallback_to_cached_serp_or_skip"
+    notify: true
+
+  kg_file_not_found:
+    action: "use_available_kg_sections"
+    notify: true
+
+  clarity_script_error:
+    action: "skip_clarity_gates_but_flag"
+    notify: true
+
+  llm_quota_exceeded:
+    action: "use_heuristic_draft_fallback"
+    notify: true
