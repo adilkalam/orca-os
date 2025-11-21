@@ -10,17 +10,18 @@
 ```                                                                                                                        
 
 
-# A Context-Aware, Memory Persistent OS for Claude
+# A Context-Aware, IMemory Persistent OS for Claude
 
 ```
 ┌────────────────────────────────────────────────────────────────┐
 │                                                                │
 │   Beyond "Ask AI" → Systematic Software Development            │
 │                                                                │
-│   • Memory-First Architecture                                  │
-│   • Evidence-Based Completion                                  │
-│   • Design-OCD Quality Gates                                   │
-│   • Multi-Agent Orchestration with Guardrails                  │
+│   • Context & Memory-First Architecture                        │
+│   • Introspective Response Awareness                           │
+│   • Evidence Based Completion with Quality Gates               │ 
+│   • Multi-Agent Parallel Orchestration                         │
+│   • Workflow Specific Pipelines and Phase Schema               │
 │                                                                │
 └────────────────────────────────────────────────────────────────┘
 ```
@@ -29,15 +30,17 @@
 
 ## The Problem This Solves
 
-**Claude Code is extremely powerful but has the memory of a goldfish**
+**Claude Code is extremely powerful but has the memory of a goldfish. It also lies. A lot.**
 
-**Generic AI assistants drift.** They say "done" when code doesn't compile, tests fail, and UI is broken. They hallucinate design systems, ignore constraints, and produce janky outputs that require endless iteration loops.
+**Generic AI assistants drift.** They say "done" when code doesn't compile, tests fail, and UI is broken. They hallucinate design systems, ignore constraints, and produce janky outputs that require endless iteration loops. Without guardrails and scope, an AI assistant will default to what it believes are 'best-practice' behaviors and over-optimize for effeciency at the expense of proper execution. When working with complex projects (or even smaller ones), they can be incredibly slow as they need to repeatedly gather context in order to execute a task.
 
-**This framework enforces discipline:**
-- Work isn't "done" until there's **evidence** (tests, builds, screenshots, logs)
+**This framework enforces awareness and discipline:**
+- Projects are indexed locally with **persistent context** that utilizes vectors for fast queries
+- **An orchestration layer** that ONLY coordinates sub-agents to execute a task
 - Agents operate in **strict lanes** with hard scopes
 - **Memory persists** across sessions (no re-explaining decisions)
 - **Quality gates** catch issues before humans see them
+- Work isn't "done" until there's **evidence** (tests, builds, screenshots, logs)
 
 ---
 
