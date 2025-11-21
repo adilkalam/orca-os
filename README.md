@@ -129,7 +129,7 @@ When working with complex projects (or even smaller ones), they can be incredibl
       │
       ▼
 ┌────────────────────────────────────────────────────────────┐
-│ PHASE 4: IMPLEMENTATION                                    │
+│ PHASE 4: IMPLEMENTATION (Parallel)                         │
 │ ┌──────────┐  ┌──────────┐  ┌──────────┐                   │
 │ │ Frontend │  │ Backend  │  │  Tests   │                   │
 │ │  Agent   │  │  Agent   │  │  Agent   │                   │
