@@ -1,0 +1,189 @@
+{
+  "$schema": "blueprint-gate-schema-v1",
+  "version": "1.0.0",
+  "description": "Blueprint-first workflow enforcement - no code until blueprint approved",
+  "phases": {
+    "phase_1_blueprint": {
+      "name": "Blueprint & Planning",
+      "allowed_tools": [
+        "Read",
+        "Grep",
+        "Glob",
+        "Bash",
+        "mcp__project-context__query_context",
+        "mcp__sequential-thinking__sequentialthinking"
+      ],
+      "forbidden_tools": [
+        "Write",
+        "Edit",
+        "MultiEdit",
+        "NotebookEdit"
+      ],
+      "required_outputs": {
+        "design_blueprint": {
+          "file": "00-blueprint/design-blueprint.md",
+          "required_sections": [
+            "Component Hierarchy",
+            "Design Token Usage",
+            "Layout System",
+            "Spacing & Typography",
+            "Responsive Behavior",
+            "Interaction States"
+          ],
+          "must_include": [
+            "Specific measurements (not 'looks good')",
+            "Design token references (var(--color-primary))",
+            "Grid system usage (8px grid)",
+            "Breakpoint strategy"
+          ]
+        },
+        "technical_spec": {
+          "file": "00-blueprint/technical-spec.md",
+          "required_sections": [
+            "Tech Stack Justification",
+            "File Structure",
+            "Component Architecture",
+            "State Management",
+            "Data Flow"
+          ]
+        }
+      },
+      "approval_required": true,
+      "approval_criteria": {
+        "user_must_confirm": "Blueprint matches requirements and design system",
+        "auto_checks": [
+          {
+            "check": "design_tokens_referenced",
+            "pattern": "var\\(--[a-z-]+\\)",
+            "min_count": 5,
+            "message": "Blueprint must reference design tokens"
+          },
+          {
+            "check": "specific_measurements",
+            "pattern": "[0-9]+(px|rem|em)",
+            "min_count": 10,
+            "message": "Blueprint must include specific measurements"
+          },
+          {
+            "check": "no_vague_language",
+            "forbidden_phrases": ["looks good", "nice spacing", "clean design", "modern UI"],
+            "message": "Blueprint must be specific, not vague"
+          }
+        ]
+      }
+    },
+    "phase_2_implementation": {
+      "name": "Implementation",
+      "allowed_tools": [
+        "Read",
+        "Grep",
+        "Glob",
+        "Bash",
+        "Write",
+        "Edit",
+        "MultiEdit",
+        "NotebookEdit",
+        "mcp__project-context__query_context"
+      ],
+      "forbidden_tools": [],
+      "entry_requirements": {
+        "blueprint_approved": true,
+        "context_proof_passed": true,
+        "user_explicit_approval": true
+      },
+      "continuous_verification": {
+        "check_against_blueprint": true,
+        "pattern_violation_detection": true,
+        "design_token_enforcement": true
+      }
+    }
+  },
+  "enforcement": {
+    "tool_intercept": {
+      "description": "Hook intercepts tool calls and checks phase",
+      "implementation": "pre-tool-use hook",
+      "behavior": {
+        "phase_1_code_attempt": {
+          "action": "BLOCK",
+          "message": "Phase 1 = Blueprint only. Code tools forbidden until blueprint approved.",
+          "awareness_tag": "#POISON_PATH: Trying to code before blueprint approved",
+          "suggest": "Complete blueprint in 00-blueprint/ and request user approval"
+        },
+        "phase_2_blueprint_deviation": {
+          "action": "WARN",
+          "message": "Implementation deviates from approved blueprint",
+          "awareness_tag": "#PATH_DECISION: Deviating from blueprint",
+          "suggest": "Explain deviation reason or update blueprint"
+        }
+      }
+    },
+    "file_location_guard": {
+      "phase_1": {
+        "allowed_paths": ["00-blueprint/", ".claude/orchestration/temp/"],
+        "forbidden_paths": ["src/", "components/", "lib/", "app/"],
+        "message": "Phase 1 files must go in 00-blueprint/"
+      },
+      "phase_2": {
+        "allowed_paths": ["src/", "components/", "lib/", "app/", "tests/"],
+        "reference_required": "00-blueprint/",
+        "message": "Implementation must reference approved blueprint"
+      }
+    }
+  },
+  "workflow": {
+    "step_1_context_proof": {
+      "description": "Agent proves they read and understood design system",
+      "schema": "context-proof-schema.json",
+      "required": true
+    },
+    "step_2_blueprint_creation": {
+      "description": "Agent creates detailed blueprint in 00-blueprint/",
+      "tools_allowed": ["Read", "Grep", "Glob"],
+      "tools_forbidden": ["Write", "Edit"],
+      "output": ["design-blueprint.md", "technical-spec.md"]
+    },
+    "step_3_user_review": {
+      "description": "User reviews blueprint for accuracy and completeness",
+      "user_checks": [
+        "Does blueprint reference actual design tokens?",
+        "Are measurements specific (not vague)?",
+        "Does it match design system rules?",
+        "Is component hierarchy clear?"
+      ],
+      "approval_options": [
+        "Approve - proceed to implementation",
+        "Request changes - agent revises blueprint",
+        "Reject - restart with different approach"
+      ]
+    },
+    "step_4_implementation": {
+      "description": "Agent implements according to approved blueprint",
+      "tools_allowed": ["Write", "Edit", "MultiEdit"],
+      "continuous_checks": [
+        "Pattern violation detection",
+        "Blueprint adherence",
+        "Design token usage"
+      ]
+    },
+    "step_5_verification": {
+      "description": "Final verification against blueprint and design system",
+      "checks": [
+        "All blueprint sections implemented",
+        "No pattern violations",
+        "Design tokens used correctly",
+        "Measurements match blueprint"
+      ]
+    }
+  },
+  "exemptions": {
+    "skip_blueprint_when": [
+      "user explicitly says 'skip blueprint'",
+      "trivial change (typo fix, version bump)",
+      "emergency hotfix"
+    ],
+    "simplified_blueprint_when": [
+      "small feature (<50 LOC)",
+      "iteration on existing component"
+    ]
+  }
+}

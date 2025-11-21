@@ -1,0 +1,198 @@
+{
+  "$schema": "context-proof-schema-v1",
+  "version": "1.0.0",
+  "description": "Schema for context proof verification - agents must prove they read and understood project context",
+  "proof_requirements": {
+    "design_specialist": {
+      "required_artifacts": [
+        "design-system-vX.X.X.md",
+        "CSS-ARCHITECTURE.md",
+        "design-dna.json"
+      ],
+      "must_articulate": [
+        {
+          "concept": "spacing_system",
+          "question": "What is the spacing scale?",
+          "expected_keywords": ["4px", "8px", "16px", "24px", "32px", "grid"],
+          "min_accuracy": 0.8
+        },
+        {
+          "concept": "max_width",
+          "question": "What is the maximum container width?",
+          "expected_values": ["1200px"],
+          "min_accuracy": 1.0
+        },
+        {
+          "concept": "typography_scale",
+          "question": "What is the typography system?",
+          "expected_keywords": ["scale", "harmonious", "ratio"],
+          "min_accuracy": 0.7
+        },
+        {
+          "concept": "color_system",
+          "question": "How are colors managed?",
+          "expected_keywords": ["tokens", "css variables", "var(--"],
+          "min_accuracy": 0.8
+        }
+      ],
+      "verification_method": "extract_and_compare"
+    },
+    "frontend_specialist": {
+      "required_artifacts": [
+        "package.json",
+        "tsconfig.json",
+        "CSS-ARCHITECTURE.md"
+      ],
+      "must_articulate": [
+        {
+          "concept": "tech_stack",
+          "question": "What framework and version?",
+          "expected_source": "package.json",
+          "min_accuracy": 1.0
+        },
+        {
+          "concept": "css_approach",
+          "question": "What CSS methodology?",
+          "expected_keywords": ["css modules", "tailwind", "styled-components"],
+          "min_accuracy": 0.8
+        },
+        {
+          "concept": "component_patterns",
+          "question": "What component architecture?",
+          "expected_keywords": ["composition", "props", "atomic"],
+          "min_accuracy": 0.7
+        }
+      ],
+      "verification_method": "extract_and_compare"
+    },
+    "ios_specialist": {
+      "required_artifacts": [
+        "*.xcodeproj",
+        "project.pbxproj",
+        "design-system-vX.X.X.md"
+      ],
+      "must_articulate": [
+        {
+          "concept": "deployment_target",
+          "question": "What is the minimum iOS version?",
+          "expected_source": "project.pbxproj",
+          "min_accuracy": 1.0
+        },
+        {
+          "concept": "ui_framework",
+          "question": "SwiftUI or UIKit?",
+          "expected_keywords": ["swiftui", "uikit"],
+          "min_accuracy": 1.0
+        },
+        {
+          "concept": "design_tokens",
+          "question": "How are design tokens implemented?",
+          "expected_keywords": ["color assets", "spacing constants"],
+          "min_accuracy": 0.7
+        }
+      ],
+      "verification_method": "extract_and_compare"
+    }
+  },
+  "verification_process": {
+    "steps": [
+      {
+        "step": 1,
+        "action": "agent_reads_artifacts",
+        "description": "Agent reads required artifacts based on specialist type"
+      },
+      {
+        "step": 2,
+        "action": "agent_articulates_understanding",
+        "description": "Agent must answer concept questions in natural language"
+      },
+      {
+        "step": 3,
+        "action": "extract_key_facts",
+        "description": "System extracts agent's stated understanding"
+      },
+      {
+        "step": 4,
+        "action": "compare_against_reality",
+        "description": "Compare agent's understanding vs actual artifact contents"
+      },
+      {
+        "step": 5,
+        "action": "calculate_accuracy",
+        "description": "Measure accuracy using keyword matching and semantic similarity"
+      },
+      {
+        "step": 6,
+        "action": "user_confirmation",
+        "description": "Present to user for final approval"
+      },
+      {
+        "step": 7,
+        "action": "gate_decision",
+        "description": "Allow work if accuracy >= min_accuracy, else block"
+      }
+    ]
+  },
+  "response_format": {
+    "proof_passed": {
+      "status": "verified",
+      "accuracy": 0.85,
+      "agent_understanding": {
+        "spacing_system": "8px grid with 4/8/16/24/32 progression",
+        "max_width": "1200px",
+        "typography_scale": "Harmonious scale based on 1.25 ratio",
+        "color_system": "CSS variables with design tokens"
+      },
+      "verification_details": {
+        "concepts_verified": 4,
+        "concepts_total": 4,
+        "min_accuracy_met": true
+      },
+      "gate_decision": "ALLOW"
+    },
+    "proof_failed": {
+      "status": "failed",
+      "accuracy": 0.45,
+      "agent_understanding": {
+        "spacing_system": "Looks good spacing",
+        "max_width": "800px",
+        "typography_scale": "Standard fonts",
+        "color_system": "Colors"
+      },
+      "verification_details": {
+        "concepts_verified": 1,
+        "concepts_total": 4,
+        "min_accuracy_met": false,
+        "failures": [
+          {
+            "concept": "max_width",
+            "agent_said": "800px",
+            "actual": "1200px",
+            "reason": "Agent didn't read design system"
+          },
+          {
+            "concept": "spacing_system",
+            "agent_said": "Looks good spacing",
+            "actual": "8px grid system",
+            "reason": "Vague response, no specifics"
+          }
+        ]
+      },
+      "gate_decision": "BLOCK",
+      "awareness_tag": "#COMPLETION_DRIVE: Agent claimed understanding but clearly didn't read design-system.md"
+    }
+  },
+  "exemptions": {
+    "skip_proof_when": [
+      "user explicitly says 'skip context proof'",
+      "emergency hotfix",
+      "simple documentation update"
+    ],
+    "reduced_accuracy_when": [
+      {
+        "condition": "new project with minimal docs",
+        "min_accuracy": 0.5
+      }
+    ]
+  }
+}
