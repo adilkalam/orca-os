@@ -8,10 +8,12 @@
  *
  * Every agent receives a ContextBundle before work begins.
  */
-import type { ContextBundle, ContextQuery, MemoryStore, SemanticSearch } from './types.js';
+import type { ContextBundle, ContextQuery, MemoryStore, SemanticSearch, ProjectState } from './types.js';
 export declare class ContextBundler {
     private memory;
     private semantic;
+    private structureAnalyzer;
+    private cacheMaxAge;
     constructor(memory: MemoryStore, semantic: SemanticSearch);
     /**
      * Create a complete context bundle for an agent operation
@@ -34,11 +36,19 @@ export declare class ContextBundler {
      */
     private getSimilarTasks;
     /**
-     * Get current project state
+     * Get current project state (with caching)
      */
     private getProjectState;
     /**
-     * Get design system context for webdev
+     * Force reanalysis of project structure
+     */
+    reanalyzeProject(projectPath: string): Promise<ProjectState>;
+    /**
+     * Cache project state to disk
+     */
+    private cacheProjectState;
+    /**
+     * Get design system context for webdev and expo
      */
     private getDesignSystem;
 }

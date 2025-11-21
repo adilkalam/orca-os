@@ -6,7 +6,8 @@
  */
 
 import Database from 'better-sqlite3';
-import { join } from 'path';
+import { join, dirname } from 'path';
+import { mkdirSync } from 'fs';
 import type {
   Decision,
   Standard,
@@ -25,6 +26,10 @@ export class MemoryStoreImpl implements MemoryStore {
     if (projectPath && projectPath !== this.projectPath) {
       this.projectPath = projectPath;
       const dbPath = join(projectPath, '.claude', 'project', 'vibe.db');
+
+      // Ensure directory exists before creating database
+      mkdirSync(dirname(dbPath), { recursive: true });
+
       this.db = new Database(dbPath);
       this.initSchema();
     }

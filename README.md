@@ -143,6 +143,21 @@ Specialized workflows for each domain (Frontend, iOS, SEO, Data) that enforce:
 │   │  │                  │  │                  │  │                  │   │      │
 │   │  └──────────────────┘  └──────────────────┘  └──────────────────┘   │      │
 │   │                                                                       │      │
+│   │  ┌─────────────────────────────────────────────────────────────┐     │      │
+│   │  │  PARALLEL DEPLOYMENT (for independent components)           │     │      │
+│   │  │                                                              │     │      │
+│   │  │  When: Multiple independent screens/components              │     │      │
+│   │  │  How: Spawn multiple agents concurrently in ONE message     │     │      │
+│   │  │                                                              │     │      │
+│   │  │  Example: 4 screens needing similar work                    │     │      │
+│   │  │    → Builder₁ (Screen A) ┐                                  │     │      │
+│   │  │    → Builder₂ (Screen B) ├── All run simultaneously         │     │      │
+│   │  │    → Builder₃ (Screen C) │   Total time ≈ longest task      │     │      │
+│   │  │    → Builder₄ (Screen D) ┘   Not sum of all tasks           │     │      │
+│   │  │                                                              │     │      │
+│   │  │  Result: 3-4x throughput improvement                        │     │      │
+│   │  └─────────────────────────────────────────────────────────────┘     │      │
+│   │                                                                       │      │
 │   │  Each agent:                                                          │      │
 │   │  • Has ContextBundle (knows project history)                         │      │
 │   │  • Uses specialized tools (limited scope)                            │      │
@@ -351,6 +366,20 @@ Most AI coding assistants have no memory or session-only memory:
 **Cross-session context alone:** Compression but no learning
 
 **Together:** Fast structured queries + Smart semantic search + Meta-cognitive awareness + Cross-session persistence = **Institutional knowledge that compounds over time**
+
+### Deep Dive: Memory v2 Documentation
+
+For complete architectural details, see:
+- **[Memory v2 Architecture](docs/memory/vibe-memory-v2-architecture-2025-11-19.md)** - Schema, tables, indices, and query patterns
+- **[Memory v2 Conventions](docs/memory/vibe-memory-v2-conventions.md)** - Event taxonomy, retention, search ranking
+- **[Memory CLI Reference](docs/memory/README.md)** - workshop, vibe-context, vibe-decision, and other tools
+
+Key v2 features:
+- **Event taxonomy:** 7 canonical kinds (decision, standard, task, note, preference, gotcha, generic)
+- **WAL mode:** MANDATORY for concurrent access and reliability
+- **Retention strategy:** Time-based (old events), compaction-based (redundant events)
+- **Search ranking:** Safe mode (FTS5-only) + optional embeddings reranking
+- **OS 2.0 integration:** ProjectContextServer queries vibe.db for every agent spawn
 
 ---
 
@@ -650,13 +679,19 @@ Watch as:
 
 ### Core Architecture
 - [OS 2.0 Specification](docs/architecture/vibe-code-os-v2-spec.md) - Full system design
-- [Memory Architecture](docs/memory/vibe-memory-v2-architecture-2025-11-19.md) - vibe.db schema
+- [Memory v2 Architecture](docs/memory/vibe-memory-v2-architecture-2025-11-19.md) - vibe.db schema and design
+- [Memory v2 Conventions](docs/memory/vibe-memory-v2-conventions.md) - Event taxonomy and retention
+- [Memory CLI Reference](docs/memory/README.md) - workshop and vibe-* tools
 - [Configuration Record](docs/architecture/configuration-record.md) - What's in ~/.claude
+
+### Orchestration & Patterns
+- [ORCA Orchestrator](commands/orca.md) - Global coordination command
+- [Parallel Agent Deployment](.claude/orchestration/playbooks/parallel-agent-deployment.md) - Concurrent agent execution pattern
 
 ### Domain Pipelines
 - [Frontend Pipeline](docs/pipelines/webdev-pipeline.md) - Web development
 - [iOS Pipeline](docs/pipelines/ios-pipeline.md) - Native iOS
-- [Expo Pipeline](docs/pipelines/expo-pipeline.md) - React Native
+- [Expo Pipeline](docs/pipelines/expo-pipeline.md) - React Native (with parallel deployment)
 - [SEO Pipeline](docs/pipelines/seo-pipeline.md) - Content/SEO
 
 ---
@@ -679,16 +714,33 @@ Pipelines are specs. Constraints are configs. States are data.
 
 ## Status
 
-**Current:** OS 2.0 core complete
-- ✅ Persistent memory (vibe.db)
-- ✅ Mandatory context (ProjectContextServer MCP)
-- ✅ Domain pipelines (Frontend/iOS/Expo/SEO)
-- ✅ Quality gates (Standards/Design/Build)
+**Current:** OS 2.0 core complete (v2.0)
+
+**Memory System:**
+- ✅ vibe.db v2 architecture (SQLite + FTS5)
+- ✅ Event taxonomy (7 canonical event kinds)
+- ✅ WAL mode + retention/compaction
+- ✅ Search ranking with safe mode
+- ✅ CLI tools (workshop, vibe-context, vibe-decision, vibe-standard, vibe-task)
+- ✅ MCP integration (ProjectContextServer)
+
+**Orchestration:**
+- ✅ ORCA orchestrator (/orca command)
+- ✅ Domain-specific coordinators (/orca-expo, /orca-ios, etc.)
+- ✅ Phase state management (phase_state.json)
+- ✅ Parallel agent deployment (3-4x throughput improvement)
+
+**Pipeline Infrastructure:**
+- ✅ Domain pipelines (Frontend/iOS/Expo/SEO/Data)
+- ✅ Quality gates (Standards/Design/A11y/Performance/Security)
+- ✅ Mandatory context gathering (Phase 1)
+- ✅ Learning loops (automatic standard creation)
 
 **Next:**
-- 🚧 Response Awareness tags (cognitive layer)
-- 🚧 Vector search optimization
-- 🚧 Multi-agent coordination improvements
+- 🚧 Response Awareness tags integration (cognitive layer)
+- 🚧 Vector embeddings (optional e5-small reranking)
+- 🚧 Multi-project memory aggregation
+- 🚧 Performance profiling dashboard
 
 ---
 

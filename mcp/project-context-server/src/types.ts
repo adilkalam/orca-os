@@ -136,6 +136,7 @@ export interface ContextQuery {
  * Memory storage interface
  */
 export interface MemoryStore {
+  initializeDb(projectPath: string): Promise<void>;
   saveDecision(decision: Omit<Decision, 'id' | 'timestamp'>): Promise<void>;
   queryDecisions(query: string, limit?: number): Promise<Decision[]>;
   saveStandard(standard: Omit<Standard, 'id' | 'created'>): Promise<void>;

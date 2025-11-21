@@ -110,7 +110,7 @@ export interface DesignSystemContext {
  * Query parameters for context retrieval
  */
 export interface ContextQuery {
-    domain: 'webdev' | 'ios' | 'data' | 'seo' | 'brand';
+    domain: 'webdev' | 'ios' | 'expo' | 'data' | 'seo' | 'brand';
     task: string;
     projectPath: string;
     maxFiles?: number;

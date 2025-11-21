@@ -133,7 +133,7 @@ hooks/
 ```
 scripts/
 ├── statusline-README.md            ← Documentation
-├── statusline.js                   ← Status line for Claude Code
+├── statusline.sh                   ← Status line for Claude Code
 └── verify-file-organization.sh     ← File organization checker
 ```
 

@@ -5,7 +5,8 @@
  * Stores: decisions, standards, task history, events
  */
 import Database from 'better-sqlite3';
-import { join } from 'path';
+import { join, dirname } from 'path';
+import { mkdirSync } from 'fs';
 export class MemoryStoreImpl {
     db = null;
     projectPath = null;
@@ -16,6 +17,8 @@ export class MemoryStoreImpl {
         if (projectPath && projectPath !== this.projectPath) {
             this.projectPath = projectPath;
             const dbPath = join(projectPath, '.claude', 'project', 'vibe.db');
+            // Ensure directory exists before creating database
+            mkdirSync(dirname(dbPath), { recursive: true });
             this.db = new Database(dbPath);
             this.initSchema();
         }

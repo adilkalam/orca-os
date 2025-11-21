@@ -1,6 +1,6 @@
 # Custom Claude Code Status Bar
 
-**Location:** `~/.claude/scripts/statusline.js`
+**Location:** `~/.claude/statusline.sh`
 **Config:** `~/.claude/settings.json`
 
 ---

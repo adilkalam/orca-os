@@ -139,13 +139,14 @@ export class ProjectContextServer {
         inputSchema: {
           type: 'object',
           properties: {
+            projectPath: { type: 'string', description: 'Absolute path to project root' },
             domain: { type: 'string' },
             decision: { type: 'string' },
             reasoning: { type: 'string' },
             context: { type: 'string' },
             tags: { type: 'array', items: { type: 'string' } },
           },
-          required: ['domain', 'decision', 'reasoning'],
+          required: ['projectPath', 'domain', 'decision', 'reasoning'],
         },
       },
       {
@@ -156,12 +157,13 @@ export class ProjectContextServer {
         inputSchema: {
           type: 'object',
           properties: {
+            projectPath: { type: 'string', description: 'Absolute path to project root' },
             what_happened: { type: 'string' },
             cost: { type: 'string' },
             rule: { type: 'string' },
             domain: { type: 'string' },
           },
-          required: ['what_happened', 'cost', 'rule', 'domain'],
+          required: ['projectPath', 'what_happened', 'cost', 'rule', 'domain'],
         },
       },
       {
@@ -170,13 +172,14 @@ export class ProjectContextServer {
         inputSchema: {
           type: 'object',
           properties: {
+            projectPath: { type: 'string', description: 'Absolute path to project root' },
             domain: { type: 'string' },
             task: { type: 'string' },
             outcome: { type: 'string', enum: ['success', 'failure', 'partial'] },
             learnings: { type: 'string' },
             files_modified: { type: 'array', items: { type: 'string' } },
           },
-          required: ['domain', 'task', 'outcome'],
+          required: ['projectPath', 'domain', 'task', 'outcome'],
         },
       },
       {
@@ -228,6 +231,7 @@ export class ProjectContextServer {
   }
 
   private async handleSaveDecision(args: any) {
+    await this.memory.initializeDb(args.projectPath);
     await this.memory.saveDecision(args);
     return {
       content: [{ type: 'text', text: 'Decision saved to project memory' }],
@@ -235,6 +239,7 @@ export class ProjectContextServer {
   }
 
   private async handleSaveStandard(args: any) {
+    await this.memory.initializeDb(args.projectPath);
     await this.memory.saveStandard(args);
     return {
       content: [{ type: 'text', text: 'Standard saved and will be enforced' }],
@@ -242,6 +247,7 @@ export class ProjectContextServer {
   }
 
   private async handleSaveTaskHistory(args: any) {
+    await this.memory.initializeDb(args.projectPath);
     await this.memory.saveTaskHistory(args);
     return {
       content: [{ type: 'text', text: 'Task history recorded' }],

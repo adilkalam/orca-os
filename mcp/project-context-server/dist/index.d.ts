@@ -32,6 +32,8 @@ export declare class ProjectContextServer {
     private handleSaveStandard;
     private handleSaveTaskHistory;
     private handleIndexProject;
+    private handleReanalyzeProject;
+    private countFilesInTree;
     /**
      * Start the MCP server
      */
