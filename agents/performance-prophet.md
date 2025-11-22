@@ -1,4 +1,5 @@
 ---
+name: performance-prophet
 description: "Expo/React Native predictive performance specialist with OS 2.0 integration"
 model: opus
 allowed-tools: ["Read", "Grep", "Glob", "WebFetch", "mcp__project-context__query_context"]
