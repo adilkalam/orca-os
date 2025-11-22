@@ -48,9 +48,10 @@ Before executing the pipeline, classify the request and set **budgets**.
 Using the Expo pipeline terminology (`docs/pipelines/expo-pipeline.md`), classify:
 - `change_type`: `"bugfix" | "feature" | "multi_feature" | "architecture_change"`.
 
-### 1.2 Complexity Bands & Budgets
+### 1.2 Complexity Bands & Routing Decision
 
-Borrowing from Anthropic’s research orchestrator patterns, map complexity to:
+Borrowing from Anthropic's research orchestrator patterns, map complexity to:
+- **Routing decision** (handle directly vs delegate to expo-grand-orchestrator).
 - **Subagent count** (how many specialized agents to involve).
 - **Tool call budget** (approximate ceiling for MCP/tool invocations).
 
@@ -58,32 +59,113 @@ Use this table as guidance:
 
 - **Simple / Straightforward**
   - Examples: small bugfix in one screen, minor style tweak, single prop fix.
+  - **Routing:** `/orca-expo` handles directly (no grand-orchestrator needed)
   - Agents: `expo-builder-agent` + gates as needed.
   - Subagents: 1–3.
   - Tool calls: ≤ 5 total (including context queries).
 
 - **Standard Feature**
   - Examples: single new screen, small flow change, modest navigation update.
+  - **Routing:** `/orca-expo` handles directly
   - Agents: `expo-architect-agent`, `expo-builder-agent`, gates.
   - Subagents: 3–5.
   - Tool calls: ~5–10.
 
-- **Medium / Multi-Feature**
-  - Examples: multi-screen flow, cross-cutting state changes, offline tweaks.
+- **Medium / Multi-Feature** (DECISION POINT)
+  - Examples: multi-screen flow (2-3 screens), cross-cutting state changes, offline tweaks.
+  - **Routing:** `/orca-expo` handles directly UNLESS 3+ specialized agents required
   - Agents: `expo-architect-agent`, `expo-builder-agent`, gates,
     `performance-prophet` **or** `security-specialist` as needed.
   - Subagents: 5–8.
   - Tool calls: ~10–15.
+  - **Delegate to `expo-grand-orchestrator` if:**
+    - Auth/payment systems (requires security-specialist + multiple builders)
+    - Multi-screen flows (4+ screens requiring coordination)
+    - Cross-cutting refactors (3+ specialized agents needed)
 
-- **High / Architecture Change**
-  - Examples: navigation refactor, state management overhaul, major arch change.
+- **High / Architecture Change** (ALWAYS DELEGATE)
+  - Examples: navigation refactor, state management overhaul, offline-first architecture,
+    authentication systems, payment integration, major arch change.
+  - **Routing:** **ALWAYS delegate to `expo-grand-orchestrator`**
   - Agents: `expo-architect-agent` (heavy use), `expo-builder-agent`, gates,
     both `performance-prophet` and `security-specialist`.
   - Subagents: 8–12.
   - Tool calls: up to ~20 (hard ceiling).
 
+### Routing Rules (When to Delegate to expo-grand-orchestrator)
+
+**ALWAYS delegate when:**
+- Request requires **3+ specialized agents** (architect + builder + 2+ specialists)
+- **High-risk domains:** Authentication, payments, PII handling, security-critical features
+- **Complex multi-phase workflows:** Offline sync, real-time features, multi-screen flows (4+ screens)
+- **Architecture changes:** Navigation refactor, state migration, design system overhaul
+
+**Handle directly in /orca-expo when:**
+- Simple/standard features (1-5 subagents)
+- Single screen or isolated component
+- No high-risk domains involved
+- Can be completed in 1-2 pipeline phases
+
 Respect these budgets as **soft limits**; if you need to exceed them, pause,
 surface the tradeoff, and ask the user explicitly.
+
+### 1.3 Delegation Example (High-Complexity Tasks)
+
+When complexity analysis indicates delegation is required (3+ specialized agents, high-risk
+domains, architecture changes), delegate to `expo-grand-orchestrator`:
+
+```typescript
+// Example: Authentication system implementation (ALWAYS DELEGATE)
+await Task({
+  subagent_type: 'expo-grand-orchestrator',
+  description: 'Expo authentication system - multi-agent orchestration',
+  model: 'opus',  // Grand-orchestrator uses opus for complex coordination
+  prompt: `
+You are expo-grand-orchestrator for OS 2.0.
+
+REQUEST: ${$ARGUMENTS}
+
+COMPLEXITY ANALYSIS:
+- Change type: architecture_change (authentication system)
+- Required agents: 6+ (architect, builder, security-specialist, a11y, performance, verification)
+- High-risk domain: Authentication (CVSS 9+ vulnerabilities possible)
+- Multi-phase workflow: Login, signup, token refresh, biometric auth
+
+CONTEXT BUNDLE:
+${JSON.stringify(contextBundle, null, 2)}
+
+DELEGATION SCOPE:
+You are responsible for coordinating the entire authentication implementation
+across multiple specialized agents. Follow agents/expo-grand-orchestrator.md:
+
+Phase 1-2: Requirements & Planning
+- Use expo-architect-agent for auth architecture (SecureStore, token refresh, biometric)
+
+Phase 3-5: Multi-agent implementation
+- Delegate login screen to expo-builder-agent
+- Delegate signup flow to expo-builder-agent (separate agent instance)
+- Run security-specialist for OWASP Mobile audit (auth tokens, storage)
+- Run a11y-enforcer for form accessibility
+
+Phase 6-7: Verification & Integration
+- Run expo-verification-agent for end-to-end auth flow testing
+- Ensure all gates pass before completion
+
+Report final outcome to /orca-expo for phase_state.json updates.
+  `
+});
+```
+
+**When /orca-expo delegates:**
+- It provides the ContextBundle and complexity analysis
+- expo-grand-orchestrator handles all agent coordination
+- /orca-expo waits for final report and updates `phase_state.json`
+- User receives consolidated results from grand-orchestrator
+
+**When /orca-expo handles directly:**
+- For simple/standard features (complexity bands 1-2)
+- Single agent or simple multi-agent work (≤5 subagents)
+- Non-critical flows that don't require opus-level coordination
 
 ---
 
@@ -151,7 +233,7 @@ Use the `ContextBundle` fields as described in `docs/pipelines/expo-pipeline.md`
 - `relatedStandards` – Expo/RN standards + React Native best practices.
 - `similarTasks` – historical Expo tasks and outcomes.
 
-Initialize or update `.claude/project/phase_state.json`:
+Initialize or update `.claude/orchestration/phase_state.json`:
 - `domain`: `"expo"`.
 - `current_phase`: `"context_query"`.
 - `phases.context_query.status`: `"completed"`.

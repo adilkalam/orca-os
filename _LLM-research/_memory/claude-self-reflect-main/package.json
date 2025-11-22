@@ -1,0 +1,69 @@
+{
+  "name": "claude-self-reflect",
+  "version": "7.0.0",
+  "description": "Give Claude perfect memory of all your conversations - Installation wizard for Python MCP server",
+  "keywords": [
+    "claude",
+    "mcp",
+    "model-context-protocol",
+    "semantic-search",
+    "conversation-memory",
+    "qdrant",
+    "vector-search",
+    "ai-memory",
+    "claude-code"
+  ],
+  "badges": {
+    "npm": "https://badge.fury.io/js/claude-self-reflect.svg",
+    "license": "https://img.shields.io/badge/License-MIT-yellow.svg",
+    "docker": "https://img.shields.io/badge/Docker-Required-blue.svg",
+    "claude": "https://img.shields.io/badge/Claude%20Code-Compatible-green.svg"
+  },
+  "homepage": "https://github.com/ramakay/claude-self-reflect#readme",
+  "bugs": {
+    "url": "https://github.com/ramakay/claude-self-reflect/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ramakay/claude-self-reflect.git"
+  },
+  "license": "MIT",
+  "author": "Claude-Self-Reflect Contributors",
+  "type": "module",
+  "bin": {
+    "claude-self-reflect": "installer/cli.js",
+    "csr-status": "scripts/csr-status"
+  },
+  "files": [
+    "installer/**/*.js",
+    "scripts/auto-migrate.cjs",
+    "scripts/migrate-to-unified-state.py",
+    "scripts/csr-status",
+    "mcp-server/src/**/*.py",
+    "mcp-server/pyproject.toml",
+    "mcp-server/run-mcp.sh",
+    "mcp-server/run-mcp-clean.sh",
+    "mcp-server/run-mcp-docker.sh",
+    "src/**/*.py",
+    "src/**/*.sh",
+    "shared/**/*.py",
+    ".claude/agents/*.md",
+    "!.claude/agents/*test*.md",
+    "config/qdrant-config.yaml",
+    "docker-compose.yaml",
+    "Dockerfile.*",
+    ".env.example",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "postinstall": "node installer/postinstall.js && node scripts/auto-migrate.cjs || true"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  }
+}

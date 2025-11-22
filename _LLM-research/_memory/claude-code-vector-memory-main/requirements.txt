@@ -1,0 +1,14 @@
+# Claude Code Vector Memory - Semantic Search System
+# Minimal requirements - pip will install all necessary sub-dependencies
+
+# Core Dependencies
+chromadb>=1.0.0              # Vector database for storing embeddings
+sentence-transformers>=4.0.0  # For generating embeddings from text
+rich>=14.0.0                 # Terminal UI for better output formatting
+PyYAML>=6.0.0               # YAML file processing
+
+# Development Dependencies
+pytest>=8.0.0               # Testing framework
+mypy>=1.7.0                 # Static type checking
+ruff>=0.1.0                 # Fast Python linter
+pre-commit>=3.6.0           # Git hooks for code quality

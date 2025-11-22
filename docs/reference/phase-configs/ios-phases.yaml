@@ -26,6 +26,7 @@ phases:
       - relevantFiles
       - architecturePatterns
       - relatedStandards
+      - designTokens  # optional pointer if provided by standards
 
     success_criteria:
       - "contextBundle.relevantFiles.length > 0"
@@ -41,8 +42,8 @@ phases:
     order: 2
     required: true
     description: "Plan implementation approach for iOS"
-    agent: "Orchestrator"
-    agent_type: "internal"
+    agent: "ios-grand-architect"
+    agent_type: "subagent"
 
     inputs:
       - request
@@ -53,6 +54,8 @@ phases:
       - filesAffected
       - complexity
       - architecturalImpact
+      - architectureChoice
+      - dataStrategy
 
     tasks:
       - "Parse request and identify scope"
@@ -60,6 +63,7 @@ phases:
       - "Estimate complexity (simple/medium/complex)"
       - "Check for architectural pattern violations"
       - "Identify UIKit vs SwiftUI implications"
+      - "Note design DNA/token source if UI work is in scope"
 
     success_criteria:
       - "scope is clear"
@@ -77,7 +81,7 @@ phases:
     order: 3
     required: true
     description: "Analyze Swift code structure and dependencies"
-    agent: "ios-analyzer"
+    agent: "ios-architect"
     agent_type: "subagent"
 
     inputs:
@@ -117,7 +121,7 @@ phases:
     order: 4
     required: true
     description: "Initial implementation of requested changes"
-    agent: "ios-builder-agent"
+    agent: "ios-builder"
     agent_type: "subagent"
 
     inputs:
@@ -242,7 +246,7 @@ phases:
     order: 6
     required: true
     description: "Automated code quality review"
-    agent: "ios-code-reviewer-agent"
+    agent: "ios-standards-enforcer"
     agent_type: "subagent"
 
     inputs:
@@ -314,7 +318,7 @@ phases:
     order: 7
     required: false  # Only if gates failed
     description: "Corrective implementation pass"
-    agent: "ios-builder-agent"
+    agent: "ios-builder"
     agent_type: "subagent"
 
     trigger_condition: "standardsScore < 90 OR codeQualityScore < 90"
@@ -485,6 +489,23 @@ gates:
     phase: "standards_enforcement"
     blocking: true
 
+    # THRESHOLD RATIONALE: 90+ ensures critical issues are absent
+    # Historical data shows:
+    #   95-100: Production-ready, zero critical issues
+    #   90-94:  Safe to ship, minor issues only (e.g., missing docs)
+    #   85-89:  CAUTION - multiple medium issues or 1 high issue
+    #   70-84:  CAUTION - significant issues, review carefully
+    #   <70:    FAIL - critical issues present (force unwraps, retain cycles)
+    #
+    # Why 90 instead of 95? Allows minor issues while blocking criticals
+    # Why 90 instead of 85? Prevents critical issues from slipping through
+    #
+    # SCORING EXAMPLES:
+    #   Score 100: Perfect adherence, zero violations
+    #   Score 95:  1 minor (e.g., missing documentation on private method)
+    #   Score 90:  2 minor violations OR 1 medium (e.g., access control)
+    #   Score 85:  1 high violation (e.g., massive view controller)
+    #   Score 70:  1 critical (e.g., force unwrap, retain cycle)
     threshold: 90
     metric: "standardsScore"
 
@@ -501,6 +522,21 @@ gates:
     phase: "code_review"
     blocking: true
 
+    # THRESHOLD RATIONALE: UI quality directly impacts user experience
+    # Quality score measures:
+    #   - Layout correctness (small/large devices, Dynamic Type)
+    #   - Navigation flow completeness
+    #   - State handling (loading/empty/error/success)
+    #   - Interaction clarity (tap targets, gestures, feedback)
+    #   - Basic accessibility (labels, focus order, contrast)
+    #
+    # Score ranges:
+    #   95-100: Pixel-perfect, all states covered, accessible
+    #   90-94:  Minor visual issues (4pt spacing off, small alignment)
+    #   80-89:  CAUTION - missing states or layout issues on some devices
+    #   <80:    FAIL - blocking UX issues (navigation broken, states missing)
+    #
+    # Why 90? Ensures core UX works while allowing minor polish issues
     threshold: 90
     metric: "codeQualityScore"
 
@@ -555,5 +591,5 @@ config:
     evidence: ".claude/orchestration/evidence/"
     cleanup_temp_after: true
 
-  phase_state_location: ".claude/project/phase_state.json"
-  vibe_db_location: ".claude/project/vibe.db"
+  phase_state_location: ".claude/orchestration/phase_state.json"
+  vibe_db_location: ".claude/orchestration/vibe.db"

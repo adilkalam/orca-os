@@ -9,7 +9,8 @@ The iOS pipeline handles **native iOS app development** using Swift 6.x and mode
 
 - OS 2.0 primitives (ProjectContextServer, phase_state.json, vibe.db, constraint framework)
 - Swift/iOS specialist agents (Swift architect/developer/SwiftUI specialists)
-- Your own OS 2.0 lane agents (ios-architect-agent, ios-standards-enforcer, ios-ui-reviewer-agent, ios-verification-agent)
+- Your own OS 2.0 lane agents (`ios-grand-architect`, `ios-architect`, `ios-builder`, `ios-standards-enforcer`, `ios-ui-reviewer`, `ios-verification`)
+- Project design DNA/tokens (for UI-forward work) and chosen persistence strategy (SwiftData vs Core Data/GRDB) when relevant.
 
 Goal: implement and evolve native iOS features with **architecture-aware plans**, **safety and concurrency guarantees**, and **structured gates** for quality and verification.
 
@@ -60,7 +61,7 @@ Decision Point:
 ### Phase 1: Context Query (MANDATORY)
 
 **Agent:** ProjectContextServer (MCP tool)  
-**Invoker:** `/orca`
+**Invoker:** `/orca-ios`
 
 **Input:**
 ```json
@@ -77,7 +78,7 @@ Decision Point:
 - `relevantFiles` – Swift/SwiftUI/UIKit files for the feature/bug.
 - `projectState` – targets, schemes, modules, architecture hints (SwiftUI vs UIKit, MVVM/TCA/MVC).
 - `pastDecisions` – prior iOS decisions, refactors, gotchas.
-- `relatedStandards` – iOS standards from `vibe.db` (architecture, concurrency, safety).
+- `relatedStandards` – iOS standards from `vibe.db` (architecture, concurrency, safety, design DNA pointers).
 - `similarTasks` – previous iOS tasks and outcomes.
 
 **Artifacts:**
@@ -88,7 +89,7 @@ Decision Point:
 
 ### Phase 2: Requirements & Impact Analysis
 
-**Agent:** `ios-architect-agent`
+**Agent:** `ios-architect`
 
 **Tasks:**
 1. Restate the request clearly (what feature/bug/refactor is needed).
@@ -96,6 +97,7 @@ Decision Point:
    - Affected screens/views (SwiftUI views, view controllers, navigation flows).
    - Affected state/business logic (stores, reducers, view models, services).
    - External dependencies (APIs, persistence, feature flags).
+   - Design DNA / token sources if UI changes are in scope.
 3. Classify change type:
    - `bugfix`, `small_feature`, `multi_screen_feature`, `structural`.
 4. Estimate impact and risk:
@@ -111,8 +113,8 @@ Decision Point:
 ### Phase 3: Architecture & Plan
 
 **Agents:**
-- `ios-architect-agent` (primary planner)
-- Swift specialists (e.g. `swift-architect`, `swift-expert`, `swiftui-architect` indirectly)
+- `ios-architect` (primary planner)
+- Swift specialists (e.g. `swift-architect`, `swift-expert`, `swiftui-specialist` indirectly)
 
 **Tasks:**
 1. Choose architecture path:
@@ -120,11 +122,12 @@ Decision Point:
      - For SwiftUI-first features/projects without entrenched MVVM/TCA.
    - **Existing architecture path** (MVVM, TCA, UIKit/MVC):
      - Follow existing patterns; do not forcibly rewrite architecture.
+   - Choose data layer strategy (SwiftData for iOS 17+/Swift 6 unless project is locked to Core Data/GRDB; do not migrate implicitly).
 2. Define:
    - Which types/modules will be extended or created.
    - How state and data flow should be wired (reducers/view models/stores).
    - How UI and navigation will change.
-   - Testing strategy (what tests should exist).
+   - Testing strategy (what tests should exist, Swift Testing vs XCTest per project).
 3. Produce a concise, stepwise plan:
    - UI changes.
    - Logic changes.
@@ -139,15 +142,20 @@ Decision Point:
 
 ### Phase 4: Implementation – Pass 1
 
-**Agents:** iOS implementation specialists (from Swift agent packs), guided by `/orca` and the plan:
-- SwiftUI work: `swiftui-developer` (or equivalent).
-- UIKit-heavy work: `uikit-specialist` (or equivalent).
+**Agents:** `ios-builder` (primary), with specialists as needed:
+- SwiftUI work: `swiftui-specialist`.
+- UIKit-heavy work: `uikit-specialist`.
+- Tokens: `design-dna-guardian` to enforce design DNA.
+- Data: `persistence-specialist` when persistence is touched.
+- Networking: `networking-specialist` for API work.
+- Testing: `testing-specialist` / `ui-testing-specialist`.
 
 **Constraints (HARD):**
 - Use Swift 6.x semantics and modern concurrency by default.
 - Respect architecture plan from Phase 3:
   - If SwiftUI-native: prefer `@Observable` + `@Environment` over new view models.
   - If MVVM/TCA/UIKit: follow the dominant pattern.
+- Use the project’s design DNA/tokens for UI-forward work; do not hardcode ad-hoc styling.
 - Keep edits cohesive and scoped to the modules/features identified.
 - Add/update tests where new logic is introduced.
 
@@ -195,7 +203,7 @@ Decision Point:
 
 ### Phase 6: UI / Interaction QA Gate
 
-**Agent:** `ios-ui-reviewer-agent`
+**Agent:** `ios-ui-reviewer`
 
 **Inputs:**
 - Feature/flow under review.
@@ -239,11 +247,11 @@ Same implementation agents as Phase 4, but:
 
 ### Phase 7: Build & Test Verification
 
-**Agent:** `ios-verification-agent`
+**Agent:** `ios-verification`
 
 **Tasks:**
 1. Build the iOS app for the appropriate scheme/target using Xcode tools:
-   - `xcodebuild` or XcodeBuildMCP.
+   - `xcodebuild` or XcodeBuildMCP (if available).
 2. Run tests:
    - Relevant unit/integration/UI tests.
 3. Capture:
@@ -276,3 +284,219 @@ Same implementation agents as Phase 4, but:
 **Artifacts:**
 - Task history record in `vibe.db`.
 - Updated iOS standards where applicable.
+
+---
+
+## Failure Scenarios & Recovery
+
+### Scenario 1: Build/Test Gate Fails After Corrective Pass
+
+**What happened:** Standards/UI gates passed, but build or tests fail.
+
+**Cause:** Code compiles locally but breaks in full build context, or tests fail due to integration issues.
+
+**Recovery:**
+1. Mark task as "partial completion" in `vibe.db`.
+2. Log failure with gate scores + build/test errors.
+3. Present user with:
+   - Build/test errors with file/line references.
+   - Options: manual fix | rollback changes | accept partial state.
+4. If rollback chosen: `git checkout HEAD~1 -- <files_modified>`.
+
+---
+
+### Scenario 2: Both Gates Fail After Pass 2
+
+**What happened:** Corrective pass (Pass 2) didn't meet 90+ threshold on Standards or UI gates.
+
+**Cause:** Issues too complex for single corrective iteration; architectural problems requiring redesign.
+
+**Recovery:**
+1. BLOCK pipeline completion.
+2. Report final scores (e.g., Standards: 82, UI: 75).
+3. Save violations as new standards via ProjectContextServer to prevent future occurrences.
+4. Require human decision:
+   - Manual fix (continue outside pipeline).
+   - Accept partial (merge with known issues).
+   - Rollback entirely (restore original state).
+
+---
+
+### Scenario 3: Design DNA Missing (Hard Block)
+
+**What happened:** `design-dna-guardian` blocks UI implementation due to missing design tokens.
+
+**Cause:** No `design-dna.json` or `DesignTokens.swift` found in project or `.claude/design-dna/`.
+
+**Detection:** ios-grand-architect identifies early in Phase 2 (Requirements & Impact).
+
+**Recovery:**
+1. BLOCK pipeline immediately.
+2. Ask user via AskUserQuestion:
+   - "Create minimal design DNA now?" → Quick-start wizard.
+   - "Use universal-taste.json?" → Copy from `~/.claude/design-dna/universal-taste.json`.
+   - "Skip UI work, logic only?" → Proceed with backend/logic changes only.
+3. If design DNA created, save decision and restart from Phase 2.
+4. If skipped, adjust plan scope to exclude UI changes.
+
+---
+
+### Scenario 4: ProjectContextServer Timeout
+
+**What happened:** MCP tool `mcp__project-context__query_context` doesn't respond within 10s.
+
+**Cause:** Large repository, slow vector database, network latency, or MCP server crash.
+
+**Recovery:**
+1. Retry once with extended timeout (30s).
+2. If still fails, enter DEGRADED mode:
+   - Use `Grep`/`Glob` to manually locate relevant Swift files.
+   - Skip `pastDecisions`, `relatedStandards`, and `similarTasks`.
+   - Warn: "Context quality reduced – operating with limited history".
+3. Log degraded context event to `vibe.db`.
+4. Proceed with available context (architect makes more conservative decisions).
+
+---
+
+### Scenario 5: Rollback After Broken Implementation
+
+**What happened:** New implementation breaks existing features not covered by tests.
+
+**Cause:** Side effects, unexpected dependencies, or regression in untested paths.
+
+**Detection:** User reports: "Feature X is now broken after your changes".
+
+**Recovery:**
+1. Identify files modified via `phase_state.json` → `implementation.filesModified`.
+2. Git rollback: `git checkout HEAD~1 -- <files_modified>`.
+3. Log failure to `vibe.db`:
+   - Outcome: `failure`.
+   - Learnings: "Implementation caused regression in Feature X".
+4. Save as new standard: "When modifying Y, verify Feature X still works".
+5. Optionally restart pipeline with stricter constraints:
+   - Add Feature X to verification checklist.
+   - Require manual QA gate before completion.
+
+---
+
+## Agent Communication Protocol
+
+### Phase State Structure
+
+Agents communicate via a shared `phase_state.json` file located at `.claude/orchestration/phase_state.json`.
+
+**Structure:**
+```json
+{
+  "domain": "ios",
+  "task": "Add biometric login",
+  "phase": "implementation_pass_1",
+  "status": "in_progress",
+
+  "context": {
+    "relevantFiles": ["LoginView.swift", "AuthService.swift"],
+    "architectureChoice": "SwiftUI + @Observable",
+    "dataStrategy": "SwiftData",
+    "designDNA": ".claude/design-dna/app-tokens.json"
+  },
+
+  "plan": {
+    "scope": "Add Face ID/Touch ID to login flow",
+    "changeType": "small_feature",
+    "complexity": "medium",
+    "filesAffected": 3,
+    "steps": ["UI", "Logic", "Tests", "Verification"],
+    "constraints": ["tokens-only styling", "no force unwraps", "async/await"]
+  },
+
+  "implementation": {
+    "pass": 1,
+    "filesModified": [
+      "LoginView.swift",
+      "BiometricAuth.swift",
+      "LoginTests.swift"
+    ],
+    "changesApplied": "Added LocalAuthentication integration with fallback",
+    "localChecks": {
+      "swiftlint": "passed",
+      "build": "passed",
+      "tests": "passed"
+    }
+  },
+
+  "gates": {
+    "standards": {
+      "score": 95,
+      "status": "PASS",
+      "violations": []
+    },
+    "ui": {
+      "score": 92,
+      "status": "PASS",
+      "findings": [
+        {
+          "severity": "minor",
+          "issue": "Biometric icon could be 4pt larger for better tap target"
+        }
+      ]
+    },
+    "build": "pending",
+    "test": "pending"
+  },
+
+  "artifacts": {
+    "standards_report": ".claude/orchestration/evidence/ios-standards-20251122-1430.md",
+    "ui_review": ".claude/orchestration/evidence/ios-ui-review-20251122-1432.md"
+  }
+}
+```
+
+---
+
+### Handoff Protocol
+
+**Phase 1: ProjectContextServer → ios-grand-architect**
+- **Input:** `domain`, `task`, `projectPath`, `maxFiles`, `includeHistory`.
+- **Output:** ContextBundle with `relevantFiles`, `projectState`, `pastDecisions`, `relatedStandards`, `designTokens`.
+- **Signal:** ContextBundle stored in `phase_state.json` → `context` field.
+
+**Phase 2: ios-grand-architect → ios-architect**
+- **Input:** ContextBundle + user request.
+- **Output:** `architectureChoice` (SwiftUI/MVVM/TCA), `dataStrategy` (SwiftData/CoreData), `designDNA` path.
+- **Signal:** Decision saved via `mcp__project-context__save_decision`; `phase_state.json` updated.
+
+**Phase 3: ios-architect → ios-builder**
+- **Input:** Plan with `scope`, `changeType`, `complexity`, `steps`, `constraints`.
+- **Output:** Concrete implementation instructions and specialist assignments.
+- **Signal:** `phase_state.json` updated with `plan` field.
+
+**Phase 4: ios-builder → Specialists**
+- **Input:** Plan + architecture constraints + design tokens.
+- **Output:** Modified files + local check results.
+- **Signal:** `phase_state.json` updated with `implementation` field (pass number, files, checks).
+
+**Phase 5: ios-builder → ios-standards-enforcer**
+- **Input:** `filesModified` + `relatedStandards` from context.
+- **Output:** `standardsScore` (0-100) + `violations` array + `gateStatus` (PASS/CAUTION/FAIL).
+- **Signal:** `phase_state.json` → `gates.standards` updated.
+
+**Phase 6: ios-standards-enforcer → ios-ui-reviewer**
+- **Input:** Feature/flow description + navigation steps + target devices.
+- **Output:** `uiScore` (0-100) + `findings` array + `gateStatus`.
+- **Signal:** `phase_state.json` → `gates.ui` updated.
+
+**Phase 7: Gates → ios-builder (Corrective Pass)**
+- **Trigger:** If `gates.standards.status === "FAIL"` OR `gates.ui.status === "FAIL"` AND `implementation.pass === 1`.
+- **Input:** `violations` + `findings` from failed gates.
+- **Output:** Scoped fixes addressing only gate issues (NO new features).
+- **Signal:** `phase_state.json` → `implementation.pass` incremented to 2; gates re-run.
+
+**Phase 8: ios-ui-reviewer → ios-verification**
+- **Input:** Scheme + device/OS + test plan.
+- **Output:** `buildStatus` (success/fail) + `testResults` (passed/failed).
+- **Signal:** `phase_state.json` → `gates.build` and `gates.test` updated.
+
+**Phase 9: ios-verification → Completion**
+- **Input:** All phase results + gate outcomes + artifacts.
+- **Output:** Final summary + task history record.
+- **Signal:** `vibe.db` updated; `phase_state.json` → `status: "completed"` or `"partial"`.

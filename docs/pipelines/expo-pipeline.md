@@ -34,7 +34,7 @@ use the **iOS** pipeline.
 All Expo lane work shares a common phase state file:
 
 ```text
-.claude/project/phase_state.json
+.claude/orchestration/phase_state.json
 ```
 
 For Expo, the contract is:
@@ -98,6 +98,378 @@ Each phase SHOULD write a structured entry under `phases.<phase_name>`:
 Agents in this lane (`expo-architect-agent`, `expo-builder-agent`,
 Expo gate agents, and `expo-verification-agent`) MUST update the
 appropriate phase entries when they complete their work.
+
+---
+
+## Agent Handoff Protocol
+
+Agents communicate through `phase_state.json` to coordinate multi-phase workflows. This section defines the handoff patterns and state update protocols.
+
+### Handoff Pattern 1: Architect → Builder
+
+**Scenario:** Architecture planning complete, ready for implementation
+
+**Architect Output (Phase 3):**
+```json
+{
+  "domain": "expo",
+  "current_phase": "architecture_plan",
+  "phases": {
+    "architecture_plan": {
+      "status": "completed",
+      "architecture_path": "expo-router + react-query + zustand",
+      "plan_summary": "Add product filtering screen. Use Expo Router for navigation. React Query for API data fetching (GET /api/products?category=X). Zustand for filter state (category, price range). FlatList for product list with ProductCard component.",
+      "assigned_agents": ["expo-builder-agent", "design-token-guardian", "a11y-enforcer"]
+    }
+  }
+}
+```
+
+**Builder Reads:**
+1. `architecture_path` → Use specified tech stack
+2. `plan_summary` → Implementation requirements
+3. `assigned_agents` → Knows which gate agents will review work
+
+**Builder Updates (Phase 4):**
+```json
+{
+  "current_phase": "implementation_pass1",
+  "phases": {
+    "implementation_pass1": {
+      "status": "completed",
+      "files_modified": [
+        "app/(tabs)/products/filter.tsx",
+        "src/components/ProductCard.tsx",
+        "src/hooks/useProducts.ts",
+        "src/store/filterStore.ts"
+      ],
+      "notes": "Implemented product filtering screen with category/price filters. Used design tokens for styling."
+    }
+  }
+}
+```
+
+---
+
+### Handoff Pattern 2: Builder → Gate Agents (Parallel)
+
+**Scenario:** Implementation complete, ready for quality gates
+
+**Builder Output (Phase 4):**
+```json
+{
+  "current_phase": "standards_budgets",
+  "phases": {
+    "implementation_pass1": {
+      "status": "completed",
+      "files_modified": ["app/(tabs)/products/filter.tsx", "src/components/ProductCard.tsx"]
+    }
+  }
+}
+```
+
+**Gate Agents Read:**
+1. `files_modified` → Know which files to audit
+2. `current_phase` → Confirms they should run
+
+**Gate Agents Update (Phase 5 - in parallel):**
+
+**design-token-guardian:**
+```json
+{
+  "phases": {
+    "standards_budgets": {
+      "design_tokens_score": 92,
+      "status": "in_progress"
+    }
+  }
+}
+```
+
+**a11y-enforcer:**
+```json
+{
+  "phases": {
+    "standards_budgets": {
+      "a11y_score": 78,
+      "status": "in_progress"
+    }
+  }
+}
+```
+
+**performance-enforcer:**
+```json
+{
+  "phases": {
+    "standards_budgets": {
+      "performance_score": 88,
+      "status": "in_progress"
+    }
+  }
+}
+```
+
+**All Complete:**
+```json
+{
+  "current_phase": "standards_budgets",
+  "phases": {
+    "standards_budgets": {
+      "status": "completed",
+      "design_tokens_score": 92,
+      "a11y_score": 78,
+      "aesthetics_score": 85,
+      "performance_score": 88
+    }
+  },
+  "gates_passed": ["design_tokens", "aesthetics", "performance"],
+  "gates_failed": ["a11y"]
+}
+```
+
+---
+
+### Handoff Pattern 3: Gate Failure → Corrective Pass
+
+**Scenario:** Accessibility gate failed (score 78, threshold 90)
+
+**Orchestrator Reads:**
+1. `gates_failed: ["a11y"]` → Trigger corrective pass
+2. `phases.standards_budgets.a11y_score: 78` → Know severity
+
+**Orchestrator Updates:**
+```json
+{
+  "current_phase": "implementation_pass2",
+  "phases": {
+    "implementation_pass2": {
+      "status": "in_progress",
+      "scope": "Fix accessibility violations from a11y-enforcer",
+      "target_gates": ["a11y"]
+    }
+  }
+}
+```
+
+**Builder Reads:**
+1. `phases.implementation_pass2.scope` → Only fix a11y issues
+2. `target_gates` → Focus on specific gates
+
+**Builder Updates:**
+```json
+{
+  "phases": {
+    "implementation_pass2": {
+      "status": "completed",
+      "files_modified": ["app/(tabs)/products/filter.tsx", "src/components/ProductCard.tsx"],
+      "notes": "Added accessibilityLabel/Role/Hint to all interactive elements. Increased touch targets to 44x44."
+    }
+  },
+  "current_phase": "standards_budgets"
+}
+```
+
+**Re-run a11y-enforcer:**
+```json
+{
+  "phases": {
+    "standards_budgets": {
+      "a11y_score": 95
+    }
+  },
+  "gates_passed": ["design_tokens", "a11y", "aesthetics", "performance"],
+  "gates_failed": []
+}
+```
+
+---
+
+### Handoff Pattern 4: All Gates Pass → Verification
+
+**Scenario:** All quality gates passed, ready for build/test
+
+**Orchestrator Reads:**
+1. `gates_failed: []` → All gates passed
+2. `gates_passed: ["design_tokens", "a11y", "aesthetics", "performance"]` → Confirms readiness
+
+**Orchestrator Updates:**
+```json
+{
+  "current_phase": "verification",
+  "phases": {
+    "verification": {
+      "status": "in_progress"
+    }
+  }
+}
+```
+
+**Verification Agent Reads:**
+1. `current_phase: "verification"` → Knows to run
+2. `files_modified` → Can run selective tests if needed
+
+**Verification Agent Updates:**
+```json
+{
+  "phases": {
+    "verification": {
+      "status": "completed",
+      "verification_status": "pass",
+      "commands_run": ["npm test", "npm run lint", "expo doctor"]
+    }
+  },
+  "gates_passed": ["design_tokens", "a11y", "aesthetics", "performance", "verification"],
+  "current_phase": "completion"
+}
+```
+
+---
+
+### Handoff Pattern 5: Power Checks (Optional)
+
+**Scenario:** Run deep performance/security analysis before verification
+
+**Orchestrator Reads:**
+1. User requested power checks OR high-risk change detected
+2. `gates_passed` includes basic gates
+
+**Orchestrator Updates:**
+```json
+{
+  "current_phase": "power_checks",
+  "phases": {
+    "power_checks": {
+      "status": "in_progress"
+    }
+  }
+}
+```
+
+**Performance Prophet Updates:**
+```json
+{
+  "phases": {
+    "power_checks": {
+      "perf_findings_ref": ".claude/orchestration/evidence/perf-report-2025-11-19.md",
+      "status": "in_progress"
+    }
+  }
+}
+```
+
+**Security Specialist Updates:**
+```json
+{
+  "phases": {
+    "power_checks": {
+      "security_findings_ref": ".claude/orchestration/evidence/security-report-2025-11-19.md",
+      "status": "completed"
+    }
+  },
+  "gates_passed": ["design_tokens", "a11y", "aesthetics", "performance", "security"],
+  "current_phase": "verification"
+}
+```
+
+---
+
+### State Update Rules
+
+**Rule 1: Atomic Updates**
+- Each agent updates ONLY its phase entry
+- Never overwrite other agents' data
+- Use merge strategy, not replace
+
+**Rule 2: Status Progression**
+```text
+pending → in_progress → completed
+                     ↓
+                   blocked (if cannot proceed)
+```
+
+**Rule 3: Gate Registration**
+- Agent adds to `gates_passed` when score ≥ threshold
+- Agent adds to `gates_failed` when score < threshold
+- Orchestrator reads these arrays to decide next phase
+
+**Rule 4: Current Phase Coordination**
+- Only orchestrator (`/orca`) updates `current_phase`
+- Agents read `current_phase` to know if they should execute
+- Linear progression: context_query → requirements → architecture → implementation → gates → verification → completion
+
+**Rule 5: Artifact Tracking**
+- Agents add report paths to `artifacts` array
+- Use repo-relative paths (`.claude/orchestration/evidence/...`)
+- Never absolute paths
+
+---
+
+### Example: Complete Phase State After Successful Run
+
+```json
+{
+  "domain": "expo",
+  "current_phase": "completion",
+  "phases": {
+    "context_query": {
+      "status": "completed",
+      "timestamp": "2025-11-19T10:23:45Z",
+      "summary": "Product filtering feature. Screens: app/(tabs)/products/filter.tsx. Stack: Expo Router, React Query, Zustand."
+    },
+    "requirements_impact": {
+      "status": "completed",
+      "change_type": "feature",
+      "impacted_screens": ["products", "products/filter"],
+      "impacted_modules": ["useProducts", "filterStore"]
+    },
+    "architecture_plan": {
+      "status": "completed",
+      "architecture_path": "expo-router + react-query + zustand",
+      "plan_summary": "Add product filtering with category/price filters. FlatList + ProductCard components.",
+      "assigned_agents": ["expo-builder-agent", "design-token-guardian", "a11y-enforcer", "performance-enforcer"]
+    },
+    "implementation_pass1": {
+      "status": "completed",
+      "files_modified": [
+        "app/(tabs)/products/filter.tsx",
+        "src/components/ProductCard.tsx",
+        "src/hooks/useProducts.ts",
+        "src/store/filterStore.ts"
+      ],
+      "notes": "Implemented filtering screen with design tokens, accessible labels, optimized FlatList."
+    },
+    "standards_budgets": {
+      "status": "completed",
+      "design_tokens_score": 92,
+      "a11y_score": 95,
+      "aesthetics_score": 88,
+      "performance_score": 91
+    },
+    "implementation_pass2": {
+      "status": "completed",
+      "files_modified": ["app/(tabs)/products/filter.tsx"],
+      "notes": "Fixed a11y violations: added accessibilityHint, increased touch targets."
+    },
+    "verification": {
+      "status": "completed",
+      "verification_status": "pass",
+      "commands_run": ["npm test", "npm run lint", "expo doctor"]
+    },
+    "completion": {
+      "status": "completed",
+      "outcome": "success",
+      "learnings": "Design tokens enforced early prevented rework. A11y gate caught missing hints."
+    }
+  },
+  "gates_passed": ["design_tokens", "a11y", "aesthetics", "performance", "verification"],
+  "gates_failed": [],
+  "artifacts": [
+    ".claude/orchestration/evidence/design-tokens-report.md",
+    ".claude/orchestration/evidence/a11y-report.md"
+  ]
+}
+```
 
 ---
 
@@ -386,3 +758,325 @@ Same agents and constraints as Phase 4, but:
 **Artifacts:**
 - Task history record in `vibe.db`.
 - Final summary for the user and future context.
+
+---
+
+## Failure Recovery Scenarios
+
+This section documents common failure modes and standard recovery protocols for the Expo pipeline. Use these patterns when gates fail or unexpected issues arise.
+
+### Scenario 1: Design Token Gate Failure (<90 score)
+
+**Failure Signal:**
+```json
+{
+  "phases": {
+    "standards_budgets": {
+      "design_tokens_score": 72,
+      "status": "completed"
+    }
+  },
+  "gates_failed": ["design_tokens"]
+}
+```
+
+**Common Causes:**
+- Hardcoded colors/spacing in new components (`#007AFF`, `padding: 16`)
+- Missing theme imports (`useTheme()` not used)
+- Arbitrary values instead of design tokens
+
+**Recovery Protocol:**
+1. Read findings from `design-token-guardian` output
+2. Trigger **Phase 4b: Corrective Pass 2** with scope limited to design token violations
+3. For each violation:
+   ```typescript
+   // ❌ Before (violation)
+   <View style={{ backgroundColor: '#007AFF', padding: 16 }} />
+
+   // ✅ After (compliant)
+   const { colors, spacing } = useTheme();
+   <View style={{ backgroundColor: colors.primary, padding: spacing.md }} />
+   ```
+4. Re-run `design-token-guardian` to verify score ≥90
+5. Update `phase_state.json`:
+   ```json
+   {
+     "gates_passed": ["design_tokens"],
+     "gates_failed": []
+   }
+   ```
+
+**Escalation:** If score still <90 after Pass 2, flag for manual design review before proceeding.
+
+---
+
+### Scenario 2: Accessibility Gate Failure (WCAG violations)
+
+**Failure Signal:**
+```json
+{
+  "phases": {
+    "standards_budgets": {
+      "a11y_score": 58,
+      "status": "completed"
+    }
+  },
+  "gates_failed": ["a11y"]
+}
+```
+
+**Common Causes:**
+- Missing `accessibilityLabel` on buttons/icons
+- Touch targets <44x44 points
+- Low contrast ratios (<4.5:1)
+- Missing `accessibilityRole`
+
+**Recovery Protocol:**
+1. Read findings from `a11y-enforcer` (prioritize WCAG Level A violations)
+2. Trigger **Phase 4b: Corrective Pass 2** focused only on accessibility fixes
+3. Apply fixes in priority order:
+   - **CRITICAL (Level A):** Missing labels, missing roles, touch targets
+   - **HIGH (Level AA):** Contrast ratios, keyboard navigation
+   - **MEDIUM:** Hints, state announcements
+4. Example fix:
+   ```typescript
+   // ❌ Before (WCAG 4.1.2 violation)
+   <TouchableOpacity onPress={onPress}>
+     <Icon name="cart" size={20} />
+   </TouchableOpacity>
+
+   // ✅ After (compliant)
+   <TouchableOpacity
+     onPress={onPress}
+     accessibilityLabel="Add to cart"
+     accessibilityRole="button"
+     accessibilityHint="Double tap to add item to shopping cart"
+   >
+     <Icon name="cart" size={20} />
+   </TouchableOpacity>
+   ```
+5. Re-run `a11y-enforcer` to verify no critical violations
+6. Update `phase_state.json` to mark gate passed
+
+**Escalation:** Accessibility is a **hard gate** - do not proceed to Phase 7 with critical WCAG violations (risk of App Store rejection).
+
+---
+
+### Scenario 3: Performance Gate Failure (Budget exceeded)
+
+**Failure Signal:**
+```json
+{
+  "phases": {
+    "standards_budgets": {
+      "performance_score": 65,
+      "status": "completed"
+    }
+  },
+  "gates_failed": ["performance"]
+}
+```
+
+**Common Causes:**
+- Bundle size over budget (Android >25MB, iOS >30MB)
+- FlatList without optimization (`getItemLayout`, `React.memo`)
+- Heavy synchronous operations on UI thread
+- Excessive bridge calls (>60/sec)
+
+**Recovery Protocol:**
+1. Read findings from `performance-enforcer` (identify highest impact issues)
+2. Trigger **Phase 4b: Corrective Pass 2** scoped to performance optimizations
+3. Apply optimizations by category:
+
+   **Bundle Size:**
+   ```typescript
+   // ❌ Heavy import
+   import moment from 'moment'; // 983KB
+
+   // ✅ Lightweight alternative
+   import { format } from 'date-fns'; // 71KB
+   ```
+
+   **FlatList Performance:**
+   ```typescript
+   // ❌ No optimization
+   <FlatList data={products} renderItem={({item}) => <ProductCard product={item} />} />
+
+   // ✅ Optimized
+   const ProductCardMemo = React.memo(ProductCard);
+   const getItemLayout = (data, index) => ({
+     length: 120, offset: 120 * index, index
+   });
+
+   <FlatList
+     data={products}
+     renderItem={({item}) => <ProductCardMemo product={item} />}
+     getItemLayout={getItemLayout}
+     removeClippedSubviews
+     maxToRenderPerBatch={10}
+   />
+   ```
+
+4. Re-run `performance-enforcer` to verify score ≥90
+5. Update `phase_state.json` to mark gate passed
+
+**Escalation:** If bundle size >30% over budget, consider breaking implementation into smaller increments or lazy-loading heavy features.
+
+---
+
+### Scenario 4: Security Gate Failure (OWASP violations)
+
+**Failure Signal:**
+```json
+{
+  "phases": {
+    "power_checks": {
+      "security_findings_ref": ".claude/orchestration/evidence/security-report-2025-11-19.md",
+      "status": "completed"
+    }
+  },
+  "gates_failed": ["security"]
+}
+```
+
+**Common Causes:**
+- Sensitive data in AsyncStorage (tokens, passwords)
+- Hardcoded API keys/secrets
+- Insecure HTTP connections
+- Missing certificate pinning for sensitive endpoints
+
+**Recovery Protocol:**
+1. Read security report from `security-specialist` (prioritize CRITICAL/HIGH CVSS scores)
+2. **BLOCK IMMEDIATELY** - Do not proceed to Phase 7 with critical security issues
+3. Trigger **Phase 4b: Corrective Pass 2** scoped to security fixes
+4. Apply fixes by OWASP category:
+
+   **M2: Insecure Storage**
+   ```typescript
+   // ❌ CRITICAL (CVSS 9.1)
+   await AsyncStorage.setItem('authToken', token);
+
+   // ✅ SECURE
+   import * as SecureStore from 'expo-secure-store';
+   await SecureStore.setItemAsync('authToken', token, {
+     keychainAccessible: SecureStore.WHEN_UNLOCKED
+   });
+   ```
+
+   **M3: Insecure Communication**
+   ```typescript
+   // ❌ CRITICAL (CVSS 8.2)
+   fetch('http://api.example.com/payment')
+
+   // ✅ SECURE
+   fetch('https://api.example.com/payment', {
+     headers: {
+       'Content-Type': 'application/json',
+       'Authorization': `Bearer ${await SecureStore.getItemAsync('token')}`
+     }
+   })
+   ```
+
+5. Re-run `security-specialist` to verify no critical issues
+6. Update `phase_state.json` to mark gate passed
+
+**Escalation:** Security is a **hard gate** - never proceed with CVSS 9+ (CRITICAL) vulnerabilities. Consult security expert for complex auth/payment flows.
+
+---
+
+### Scenario 5: Verification Gate Failure (Build/test failures)
+
+**Failure Signal:**
+```json
+{
+  "phases": {
+    "verification": {
+      "verification_status": "fail",
+      "status": "completed",
+      "commands_run": ["npm test", "expo doctor"]
+    }
+  },
+  "gates_failed": ["verification"]
+}
+```
+
+**Common Causes:**
+- Test regressions (existing tests fail after changes)
+- Build errors (TypeScript errors, import issues)
+- Expo doctor warnings (version mismatches, config issues)
+
+**Recovery Protocol:**
+1. Read verification output from `expo-verification-agent`
+2. Categorize failures:
+   - **Build errors:** Fix immediately (TypeScript, imports, syntax)
+   - **Test failures:** Distinguish regression vs outdated tests
+   - **Expo doctor:** Configuration issues (dependencies, SDK version)
+
+3. **For test regressions:**
+   ```bash
+   # Identify failing tests
+   npm test -- --verbose
+
+   # Example failure:
+   # FAIL src/hooks/useAuth.test.ts
+   # ● useAuth › should logout user
+   #   Expected: user to be null after logout
+   #   Received: user still present
+   ```
+
+   Trigger **Phase 4b: Corrective Pass 2** to fix implementation bug causing regression
+
+4. **For build errors:**
+   ```typescript
+   // ❌ TypeScript error
+   // Property 'name' does not exist on type 'Product'
+   <Text>{product.name}</Text>
+
+   // ✅ Fix type definition
+   interface Product {
+     id: string;
+     name: string;  // ← Add missing field
+     price: number;
+   }
+   ```
+
+5. Re-run verification (`npm test` + `expo doctor`)
+6. Update `phase_state.json`:
+   ```json
+   {
+     "verification": {
+       "verification_status": "pass",
+       "commands_run": ["npm test", "expo doctor"]
+     },
+     "gates_passed": ["verification"]
+   }
+   ```
+
+**Escalation:** If verification fails after Pass 2, rollback changes and investigate root cause before retrying implementation.
+
+---
+
+### Recovery Decision Tree
+
+```text
+Gate Failure Detected
+    ↓
+Is it a CRITICAL issue? (Security CVSS 9+, Accessibility WCAG A violation)
+    ├─ YES → BLOCK: Fix immediately, do not proceed
+    └─ NO → Continue
+        ↓
+Have we already done Pass 2 (corrective)?
+    ├─ NO → Trigger Phase 4b (Pass 2) with scoped fixes
+    │        ↓
+    │    Re-run failed gates
+    │        ↓
+    │    Gates pass? → Proceed to Phase 7
+    │    Gates fail? → Mark "partial", user decides next steps
+    │
+    └─ YES (already did Pass 2) → Mark "partial", consult user
+             ↓
+         Options:
+         1. Manual intervention (design review, security audit)
+         2. Waive non-critical gates (aesthetics, minor perf)
+         3. Rollback and re-plan implementation
+```
