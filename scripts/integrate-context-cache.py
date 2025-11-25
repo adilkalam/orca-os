@@ -4,7 +4,7 @@ integrate-context-cache.py
 ==========================
 
 Helper CLI for inspecting and managing the SharedContext cache that backs
-OS 2.0's unified memory architecture.
+OS 2.2's unified memory architecture.
 
 This script is designed to live at:
   ~/.claude/scripts/integrate-context-cache.py

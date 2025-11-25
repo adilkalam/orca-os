@@ -5,7 +5,7 @@ set -euo pipefail
 # Purpose: Fast confirmation that UI tweaks landed without heavy gates or screenshots.
 # - Summarizes diffs for changed UI files (css/scss/sass/js/ts/jsx/tsx/html)
 # - Runs Design UI Guard in warn-only mode (can be disabled via mode.json or env)
-# - Writes report to .claude/orchestration/verification/tweak-report.md
+# - Writes report to .claude/orchestration/temp/verification/tweak-report.md
 # - Emits a lightweight .tweak_verified marker
 
 ROOT_DIR="$(git rev-parse --show-toplevel 2>/dev/null || pwd)"

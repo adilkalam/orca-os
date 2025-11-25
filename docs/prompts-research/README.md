@@ -1,10 +1,10 @@
 # Prompts Research (Historical)
 
 This folder contains **research and analysis documents** used while designing
-OS 2.0 prompts, quality heuristics, and agent behaviors.
+OS 2.2 prompts, quality heuristics, and agent behaviors.
 
 These docs are valuable for understanding *why* certain prompt/agent patterns
-exist, but they are not the canonical OS 2.0 specification.
+exist, but they are not the canonical OS 2.2 specification.
 
 - For current behavior, see:
   - `docs/architecture/vibe-code-os-v2-spec.md`

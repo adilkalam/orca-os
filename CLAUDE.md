@@ -1,6 +1,6 @@
 # Project: claude-vibe-config
 
-**This repo:** Records the OS 2.1 configuration that solves orchestration breakdown.
+**This repo:** Records the OS 2.2 configuration that solves orchestration breakdown.
 
 ## ⚠️ CRITICAL: WHAT THIS REPOSITORY IS ⚠️
 
@@ -43,7 +43,7 @@
 - **TREAT AS READ-ONLY - NO EXCEPTIONS**
 
 
-## YOUR ROLE WORKING HERE (OS 2.1)
+## YOUR ROLE WORKING HERE (OS 2.2)
 
 **Just like orchestrators don't write code, YOU don't fix user projects.**
 
@@ -102,7 +102,7 @@ When user shares logs/feedback from other projects:
 ✅ .claude/orchestration/evidence/design-review-final.md
 ```
 
-## OS 2.1 QUICK REFERENCE
+## OS 2.2 QUICK REFERENCE
 
 **57 agents** (3 Opus grand-architects, 54 Sonnet specialists) across 6 domains: Next.js (13), iOS (18), Expo (10), Data (4), SEO (4), Design (2), Cross-cutting (6).
 
@@ -118,5 +118,5 @@ When user shares logs/feedback from other projects:
 
 ---
 
-_Version: OS 2.1_
+_Version: OS 2.2_
 _Last updated: 2025-11-24_

@@ -5,8 +5,8 @@ description: >
   optimizes data pipelines, analyses, and models using Python (NumPy, pandas,
   PyTorch, DuckDB/dbt-style patterns) in line with modern data engineering and
   analytics best practices.
-model: inherit
 tools: [Read, Edit, MultiEdit, Grep, Glob, Bash]
+model: inherit
 ---
 
 # Python Analytics Expert – OS 2.0 Data Implementation Agent

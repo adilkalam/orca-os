@@ -18,7 +18,7 @@ The `events.kind` field uses a small, fixed vocabulary:
 | `retro` | Session retrospective or learning summary | "Session 2025-11-19: Fixed calculator layout issues" |
 | `ra-tagged-snippet` | Response Awareness marker event | "COMPLETION_DRIVE detected in agent response" |
 | `task_history` | Completed task with outcome | "Implemented user authentication flow" |
-| `phase_complete` | OS 2.0 pipeline phase completion | "Expo build pipeline phase 3 complete" |
+| `phase_complete` | OS 2.2 pipeline phase completion | "Expo build pipeline phase 3 complete" |
 
 **Rule:** Use only these kinds. If you need a new one, document it here first.
 
@@ -218,7 +218,7 @@ for result in results:
 
 ---
 
-## 5. OS 2.0 Integration Points
+## 5. OS 2.2 Integration Points
 
 ### 5.1 ORCA Commands MUST Use Memory First
 
@@ -260,7 +260,7 @@ Specialized agents should consult memory during their workflows:
 
 ### 5.3 Phase State Integration
 
-When an OS 2.0 pipeline completes a phase:
+When an OS 2.2 pipeline completes a phase:
 
 **Hook:** End of phase (e.g., after `phase_state.json` updated)
 

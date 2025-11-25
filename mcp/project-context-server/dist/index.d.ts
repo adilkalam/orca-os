@@ -14,7 +14,6 @@
  */
 export declare class ProjectContextServer {
     private server;
-    private memory;
     private semantic;
     private bundler;
     constructor();

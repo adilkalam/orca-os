@@ -38,15 +38,15 @@ claude-vibe-config/            ← RECORD/MIRROR (this repo)
 
 ---
 
-## System Counts (What's in ~/.claude) — OS 2.0
+## System Counts (What's in ~/.claude) — OS 2.2
 
 **Current State (2025-11-19):**
-- **Agents:** 21 total (OS 2.0 focused set)
+- **Agents:** 21 total (OS 2.2 focused set)
 - **Commands:** 16 total (all active)
 - **Hooks:** 5 total (startup, project detection, skills)
 - **Scripts:** Minimal (statusline, verification)
 
-**Note:** This represents OS 2.0 - a significantly leaner system compared to pre-v2 (which had 53 agents, 23 commands, 8 hooks). OS 2.0 focuses on core domain pipelines: frontend, iOS, Expo, SEO.
+**Note:** This represents OS 2.2 - a significantly leaner system compared to pre-v2 (which had 53 agents, 23 commands, 8 hooks). OS 2.2 focuses on core domain pipelines: frontend, iOS, Expo, SEO.
 
 ---
 
@@ -61,7 +61,7 @@ claude-vibe-config/            ← RECORD/MIRROR (this repo)
 
 **Note:** Global user memory (`~/.claude/CLAUDE.md` for system-wide settings) is managed separately in `~/.claude/` and NOT tracked in this repo.
 
-### 2. Agents (21 total) — OS 2.0
+### 2. Agents (21 total) — OS 2.2
 
 **What's in ~/.claude/agents/ (and recorded here):**
 
@@ -81,7 +81,7 @@ claude-vibe-config/            ← RECORD/MIRROR (this repo)
 - No general-purpose "orchestrators" or "meta-agents"
 - Domain-specific expertise over generic coordination
 
-### 3. Commands (16 total) — OS 2.0
+### 3. Commands (16 total) — OS 2.2
 
 **What's in ~/.claude/commands/ (and recorded here):**
 
@@ -111,7 +111,7 @@ claude-vibe-config/            ← RECORD/MIRROR (this repo)
 
 **Total: 16 commands**
 
-### 4. Hooks (5 total) — OS 2.0
+### 4. Hooks (5 total) — OS 2.2
 
 **What's in ~/.claude/hooks/ (and recorded here):**
 
@@ -124,7 +124,7 @@ hooks/
 └── session-start.sh                ← Session initialization
 ```
 
-**Note:** OS 2.0 uses fewer, more focused hooks. Pre-v2 had 8 hooks with more orchestration complexity.
+**Note:** OS 2.2 uses fewer, more focused hooks. Pre-v2 had 8 hooks with more orchestration complexity.
 
 ### 5. Scripts
 
@@ -183,11 +183,11 @@ scripts/
     ↓ (referenced by)
 ~/.claude.json → projects["/abs/path/to/project"].mcpServers   ← Per-project config
     ↓ (accesses)
-Project/.claude/memory/vibe.db                ← Per-project data (OS 2.0)
+Project/.claude/memory/vibe.db                ← Per-project data (OS 2.2)
 ```
 
 **Why per-project:**
-- Each project has its own `.claude/memory/vibe.db` (OS 2.0 uses vibe.db, not workshop.db)
+- Each project has its own `.claude/memory/vibe.db` (OS 2.2 uses vibe.db, not workshop.db)
 - Memory is project-specific (not global)
 - Server finds database by walking up from CWD
 - Semantic search + events + cognitive tags
@@ -289,13 +289,13 @@ git commit -m "Record: Added new-agent to ~/.claude/agents/"
 **Check what's actually in ~/.claude:**
 
 ```bash
-# Count agents (OS 2.0)
+# Count agents (OS 2.2)
 find ~/.claude/agents -name "*.md" | wc -l  # Should be 21
 
-# Count commands (OS 2.0)
+# Count commands (OS 2.2)
 find ~/.claude/commands -name "*.md" | wc -l  # Should be 16
 
-# Verify hooks (OS 2.0)
+# Verify hooks (OS 2.2)
 ls ~/.claude/hooks/*.sh | wc -l  # Should be 5
 
 # List specific agents
@@ -322,9 +322,9 @@ ls hooks/*.sh | wc -l
 
 **When syncing, verify ~/.claude content is recorded:**
 
-- [ ] `find ~/.claude/agents -name "*.md" | wc -l` returns 21 (OS 2.0)
-- [ ] `find ~/.claude/commands -name "*.md" | wc -l` returns 16 (OS 2.0)
-- [ ] `ls ~/.claude/hooks/*.sh | wc -l` returns 5 (OS 2.0)
+- [ ] `find ~/.claude/agents -name "*.md" | wc -l` returns 21 (OS 2.2)
+- [ ] `find ~/.claude/commands -name "*.md" | wc -l` returns 16 (OS 2.2)
+- [ ] `ls ~/.claude/hooks/*.sh | wc -l` returns 5 (OS 2.2)
 - [ ] All files in ~/.claude/agents/ exist in this repo's agents/
 - [ ] All files in ~/.claude/commands/ exist in this repo's commands/
 - [ ] All files in ~/.claude/hooks/ exist in this repo's hooks/
@@ -333,4 +333,4 @@ ls hooks/*.sh | wc -l
 
 **This file documents what's configured in ~/.claude. Update this file when ~/.claude changes to maintain version-controlled history.**
 
-_Last updated: 2025-11-19 (OS 2.0)_
+_Last updated: 2025-11-19 (OS 2.2)_

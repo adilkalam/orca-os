@@ -4,8 +4,8 @@ description: >
   Data research specialist for OS 2.0. Designs and executes data discovery,
   collection, and analysis plans across internal and external sources to
   surface patterns, risks, and opportunities for other agents.
-model: sonnet
 tools: [Read, Grep, Glob, WebSearch, WebFetch, Bash]
+model: inherit
 ---
 
 # Data Researcher – OS 2.0 Data Discovery & Analysis Agent

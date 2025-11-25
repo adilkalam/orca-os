@@ -1,24 +1,14 @@
 # Customization Gate
 
-**Version:** OS 2.1
-**Domain:** All UI domains (Next.js, iOS, Expo)
-**Last Updated:** 2025-11-24
+**Version:** 2.0.0
+**Domain:** webdev
+**Last Updated:** 2025-11-19
 
 ## Overview
 
-The Customization Gate is a critical quality gate in UI pipelines that blocks implementation if customization/theming needs are detected without proper design system support.
+The Customization Gate is a critical quality gate in the webdev pipeline that blocks implementation if customization/theming needs are detected without proper design system support.
 
 **Purpose:** Prevent inline styles and arbitrary values by catching customization requirements early and forcing design system updates first.
-
-### OS 2.1 Integration
-
-**What's New:**
-- **Team Confirmation:** Customization gate agents confirmed via AskUserQuestion before execution
-- **Role Boundaries:** Orchestrators delegate to customization-checker agents via Task tool (never check customization directly)
-- **State Preservation:** Gate results stored in phase_state.json for resumption after interruptions
-- **Early Detection:** Runs after planning, before implementation (prevents wasted work)
-- **Design DNA Integration:** Automatically triggers /design-dna generate when tokens needed
-- **Multi-Domain:** Applies to Next.js (Tailwind), iOS (design tokens), and Expo (design tokens)
 
 ---
 

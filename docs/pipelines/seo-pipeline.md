@@ -1,6 +1,6 @@
 # SEO Domain Pipeline
 
-**Status:** OS 2.0 Pipeline (SEO Lane)  
+**Status:** OS 2.2 Pipeline (SEOPipeline)  
 **Last Updated:** 2025-11-19
 
 ## Overview
@@ -27,7 +27,7 @@ Use this pipeline when:
     "create SEO brief for topic Z".
 - There is a clear target keyword or topic to rank for.
 
-This lane assumes:
+This pipeline assumes:
 - Access to SEO research outputs (SERP analyses, KG files) when configured.
 - Content lives in or is written to SEO output folders (e.g. `outputs/seo/`).
 

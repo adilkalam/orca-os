@@ -13,8 +13,8 @@ export interface ContextBundle {
   /** Files relevant to the current task (via semantic search) */
   relevantFiles: FileContext[];
 
-  /** Current project state (components, structure, dependencies) */
-  projectState: ProjectState;
+  /** Current project state SUMMARY (not full dump) */
+  projectState: ProjectStateSummary;
 
   /** Past decisions from project memory */
   pastDecisions: Decision[];
@@ -25,8 +25,24 @@ export interface ContextBundle {
   /** Similar tasks attempted in the past */
   similarTasks: TaskHistory[];
 
-  /** Design system tokens and patterns */
+  /** Design system summary (key tokens only) */
   designSystem?: DesignSystemContext;
+}
+
+/**
+ * Project state SUMMARY (for token efficiency)
+ * Full state cached at .claude/memory/state.json
+ */
+export interface ProjectStateSummary {
+  summary: {
+    totalFiles: number;
+    totalDependencies: number;
+    totalComponents: number;
+    lastUpdated: Date;
+  };
+  topLevelDirectories: string[];
+  keyDependencies: string[];
+  componentNames: string[];
 }
 
 /**
@@ -113,19 +129,23 @@ export interface TaskHistory {
 }
 
 /**
- * Design system context
+ * Design system context (summary version for token efficiency)
  */
 export interface DesignSystemContext {
-  tokens: Record<string, any>;
-  customizations: Record<string, any>;
-  patterns: string[];
+  hasDesignSystem: boolean;
+  source?: string;
+  primaryColors?: string[];
+  fontFamily?: string;
+  spacing?: string;
+  borderRadius?: string;
+  // Full system available via design-dna.json if needed
 }
 
 /**
  * Query parameters for context retrieval
  */
 export interface ContextQuery {
-  domain: 'webdev' | 'ios' | 'expo' | 'data' | 'seo' | 'brand';
+  domain: 'webdev' | 'nextjs' | 'ios' | 'expo' | 'data' | 'seo' | 'brand';
   task: string;
   projectPath: string;
   maxFiles?: number;

@@ -231,7 +231,7 @@ python3 scripts/memory-log-event.py \
 - `retro` — Session retrospective
 - `ra-tagged-snippet` — Response Awareness marker
 - `task_history` — Completed task with outcome
-- `phase_complete` — OS 2.0 pipeline phase completion
+- `phase_complete` — OS 2.2 pipeline phase completion
 
 **Detail JSON structure (recommended fields):**
 

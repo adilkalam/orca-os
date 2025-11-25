@@ -2,7 +2,7 @@
 name: security-specialist
 description: Finds security vulnerabilities, performs security audit, checks for security issues, identifies security holes, validates secure storage, checks for exposed secrets, finds insecure code, tests security, performs penetration testing, checks OWASP Mobile Top 10, finds API vulnerabilities, validates authentication security, checks data encryption, finds security risks in React Native/Expo apps
 tools: Read, Grep, Bash
-model: opus
+model: inherit
 
 # OS 2.0 Constraint Framework
 required_context:

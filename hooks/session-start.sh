@@ -1,87 +1,202 @@
 #!/usr/bin/env bash
-set -euo pipefail
-
-# SessionStart Hook
+# SessionStart Hook (Hardened v2)
 # - Loads session context FROM Workshop (source of truth)
+# - Initializes/syncs vibe.db for local context cache
 # - Displays CLAUDE.md instructions
 # - Output: .claude/orchestration/temp/session-context.md
+#
+# Error Handling Strategy:
+# - Each component can fail independently
+# - Failures are logged but don't block session start
+# - Hook always succeeds (exit 0) to not block Claude Code
+
+# Don't use -e (exit on error) - we handle errors explicitly
+set -uo pipefail
+
+# ============================================================
+# CONFIGURATION
+# ============================================================
 
 ROOT_DIR="$(git rev-parse --show-toplevel 2>/dev/null || pwd)"
-cd "$ROOT_DIR"
+cd "$ROOT_DIR" || exit 0
 
 ORCH_DIR=".claude/orchestration"
 TEMP_DIR="$ORCH_DIR/temp"
 OUT_MD="$TEMP_DIR/session-context.md"
+ERROR_LOG="$TEMP_DIR/session-start-errors.log"
 DB_PATH=".claude/memory/workshop.db"
 WORKSHOP_DIR=".claude/memory"
 VIBE_DB="$WORKSHOP_DIR/vibe.db"
+VIBE_SYNC_SCRIPT="$HOME/.claude/scripts/vibe-sync.py"
 
-mkdir -p "$ORCH_DIR" "$TEMP_DIR" "$WORKSHOP_DIR"
+# ============================================================
+# UTILITIES
+# ============================================================
 
 ts() { date -u '+%Y-%m-%dT%H:%M:%SZ'; }
 
-# Native memory status (CLAUDE.md)
+log_error() {
+  local component="$1"
+  local message="$2"
+  echo "[$(ts)] [$component] ERROR: $message" >> "$ERROR_LOG"
+}
+
+log_info() {
+  local component="$1"
+  local message="$2"
+  echo "[$(ts)] [$component] INFO: $message" >> "$ERROR_LOG"
+}
+
+# ============================================================
+# SETUP
+# ============================================================
+
+# Create directories (fail silently)
+mkdir -p "$ORCH_DIR" "$TEMP_DIR" "$WORKSHOP_DIR" 2>/dev/null || true
+
+# Clear previous error log
+> "$ERROR_LOG" 2>/dev/null || true
+
+# ============================================================
+# NATIVE MEMORY (CLAUDE.md)
+# ============================================================
+
 NATIVE_PATH=""
+NATIVE_NOTE="missing"
+
 if [ -f "CLAUDE.md" ]; then
   NATIVE_PATH="CLAUDE.md"
 elif [ -f ".claude/CLAUDE.md" ]; then
   NATIVE_PATH=".claude/CLAUDE.md"
 fi
 
-NATIVE_NOTE="missing"
 if [ -n "$NATIVE_PATH" ]; then
-  NATIVE_NOTE="$(wc -l < "$NATIVE_PATH" | tr -d ' ') lines"
+  NATIVE_NOTE="$(wc -l < "$NATIVE_PATH" 2>/dev/null | tr -d ' ') lines" || NATIVE_NOTE="exists"
 fi
 
-# Load context from Workshop (source of truth)
+# ============================================================
+# WORKSHOP CONTEXT (Primary memory store)
+# ============================================================
+
 WORKSHOP_CONTEXT=""
-if [ -f "$DB_PATH" ] && command -v workshop >/dev/null 2>&1; then
-  WORKSHOP_CONTEXT=$(workshop --workspace "$WORKSHOP_DIR" context 2>/dev/null || echo "Workshop available but no context yet")
-else
-  WORKSHOP_CONTEXT="Workshop not initialized - run: workshop --workspace .claude/memory init"
-fi
+WORKSHOP_STATUS="unknown"
 
-# Initialize vibe.db if needed
-VIBE_STATUS="not initialized"
-if [ ! -f "$VIBE_DB" ]; then
-  if command -v python3 >/dev/null 2>&1 && [ -f "$HOME/.claude/scripts/memory-index.py" ]; then
-    python3 "$HOME/.claude/scripts/memory-index.py" --init --db "$VIBE_DB" >/dev/null 2>&1 && VIBE_STATUS="initialized"
+if [ -f "$DB_PATH" ]; then
+  if command -v workshop >/dev/null 2>&1; then
+    WORKSHOP_CONTEXT=$(workshop --workspace "$WORKSHOP_DIR" context 2>&1) && WORKSHOP_STATUS="loaded" || {
+      log_error "workshop" "Failed to load context: $WORKSHOP_CONTEXT"
+      WORKSHOP_CONTEXT="Workshop context load failed - check $ERROR_LOG"
+      WORKSHOP_STATUS="error"
+    }
+  else
+    WORKSHOP_CONTEXT="Workshop CLI not found - install: pip install claude-workshop"
+    WORKSHOP_STATUS="cli-missing"
+    log_error "workshop" "CLI not in PATH"
   fi
 else
-  VIBE_STATUS="ready ($(du -h "$VIBE_DB" | cut -f1))"
+  WORKSHOP_CONTEXT="Workshop not initialized - run: workshop --workspace .claude/memory init"
+  WORKSHOP_STATUS="not-initialized"
+  log_info "workshop" "Database not found at $DB_PATH"
 fi
 
-# Generate session context from Workshop
+# ============================================================
+# VIBE.DB (Local context cache with embeddings)
+# ============================================================
+
+VIBE_STATUS="not initialized"
+
+if [ -f "$VIBE_DB" ]; then
+  VIBE_SIZE=$(du -h "$VIBE_DB" 2>/dev/null | cut -f1) || VIBE_SIZE="?"
+  VIBE_STATUS="ready ($VIBE_SIZE)"
+
+  # Optionally sync on session start (if vibe-sync.py exists)
+  if [ -f "$VIBE_SYNC_SCRIPT" ] && command -v python3 >/dev/null 2>&1; then
+    # Run sync in background to not block startup
+    (python3 "$VIBE_SYNC_SCRIPT" sync >/dev/null 2>&1 &) || {
+      log_error "vibe" "Background sync failed"
+    }
+  fi
+else
+  # Try to initialize vibe.db
+  if [ -f "$VIBE_SYNC_SCRIPT" ] && command -v python3 >/dev/null 2>&1; then
+    if python3 "$VIBE_SYNC_SCRIPT" init >/dev/null 2>&1; then
+      VIBE_STATUS="initialized"
+      log_info "vibe" "Database initialized"
+    else
+      VIBE_STATUS="init-failed"
+      log_error "vibe" "Failed to initialize database"
+    fi
+  else
+    VIBE_STATUS="script-missing"
+    log_info "vibe" "vibe-sync.py not found at $VIBE_SYNC_SCRIPT"
+  fi
+fi
+
+# ============================================================
+# GENERATE SESSION CONTEXT
+# ============================================================
+
+# Count errors if any
+ERROR_COUNT=0
+if [ -f "$ERROR_LOG" ]; then
+  ERROR_COUNT=$(grep -c "ERROR:" "$ERROR_LOG" 2>/dev/null || echo 0)
+fi
+
 {
   echo "# Session Context"
   echo
   echo "- Timestamp: $(ts)"
   echo "- Native Memory: ${NATIVE_PATH:-none} (${NATIVE_NOTE})"
+  echo "- Workshop: $WORKSHOP_STATUS"
   echo "- Vibe DB: $VIBE_STATUS"
+  if [ "$ERROR_COUNT" -gt 0 ]; then
+    echo "- Errors: $ERROR_COUNT (see $ERROR_LOG)"
+  fi
   echo
   echo "## Workshop Context (Source of Truth)"
   echo
   echo "$WORKSHOP_CONTEXT"
   echo
-} > "$OUT_MD"
+} > "$OUT_MD" 2>/dev/null || {
+  # If we can't write the file, just continue
+  log_error "output" "Could not write to $OUT_MD"
+}
 
-echo "SessionStart context written: $OUT_MD"
+# Report success (even if some components had issues)
+if [ "$ERROR_COUNT" -gt 0 ]; then
+  echo "SessionStart:startup hook success (with $ERROR_COUNT warnings): SessionStart context written: $OUT_MD"
+else
+  echo "SessionStart:startup hook success: SessionStart context written: $OUT_MD"
+fi
 
-# SharedContext auto-load instruction
+# Project context auto-load instruction
 echo ""
 echo "═══════════════════════════════════════════════════════════"
-echo "SHAREDCONTEXT AUTO-LOAD REQUIRED"
+echo "PROJECT CONTEXT AUTO-LOAD"
 echo "═══════════════════════════════════════════════════════════"
 echo ""
-echo "INSTRUCTION FOR CLAUDE: Immediately run the following MCP call:"
+echo "Memory systems available:"
+echo "  - Workshop: workshop --workspace .claude/memory <command>"
+echo "  - vibe.db: python3 ~/.claude/scripts/vibe-sync.py <command>"
+echo "  - ProjectContext MCP: mcp__project-context__query_context"
 echo ""
-echo "mcp__shared-context__get_shared_context({ projectId: \"$ROOT_DIR\" })"
-echo ""
-echo "This will load stored project context including architecture decisions,"
-echo "critical rules, and project configuration. DO THIS FIRST before any work."
+echo "Quick commands:"
+echo "  workshop --workspace .claude/memory why \"<topic>\"  # Query past decisions"
+echo "  workshop --workspace .claude/memory recent         # Recent activity"
 echo ""
 echo "═══════════════════════════════════════════════════════════"
 echo ""
+
+# Show recent Workshop entries for immediate context
+if [ "$WORKSHOP_STATUS" = "loaded" ] && command -v workshop >/dev/null 2>&1; then
+  echo ""
+  echo "═══════════════════════════════════════════════════════════"
+  echo "RECENT WORKSHOP ENTRIES (last 5)"
+  echo "═══════════════════════════════════════════════════════════"
+  echo ""
+  workshop --workspace "$WORKSHOP_DIR" recent --limit 5 2>/dev/null || echo "(Could not load recent entries)"
+  echo ""
+fi
 
 # Output CLAUDE.md contents so Claude actually reads and follows instructions
 if [ -n "$NATIVE_PATH" ]; then
@@ -90,9 +205,12 @@ if [ -n "$NATIVE_PATH" ]; then
   echo "PROJECT INSTRUCTIONS (CLAUDE.md) - FOLLOW THESE THROUGHOUT SESSION"
   echo "═══════════════════════════════════════════════════════════"
   echo ""
-  cat "$NATIVE_PATH"
+  cat "$NATIVE_PATH" 2>/dev/null || echo "(Could not read $NATIVE_PATH)"
   echo ""
   echo "═══════════════════════════════════════════════════════════"
   echo "END OF PROJECT INSTRUCTIONS - THESE MUST BE FOLLOWED"
   echo "═══════════════════════════════════════════════════════════"
 fi
+
+# Always exit successfully to not block Claude Code startup
+exit 0

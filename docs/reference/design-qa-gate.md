@@ -1,24 +1,14 @@
 # Design QA Gate
 
-**Version:** OS 2.1
-**Domain:** All UI domains (Next.js, iOS, Expo)
-**Last Updated:** 2025-11-24
+**Version:** 2.0.0
+**Domain:** webdev
+**Last Updated:** 2025-11-19
 
 ## Overview
 
-The Design QA Gate is a critical quality gate that enforces visual design system compliance after implementation. It blocks progression if the design QA score falls below the threshold (≥90/100).
+The Design QA Gate is a critical quality gate that enforces visual design system compliance after implementation. It blocks progression if the design QA score falls below the threshold (default: 90/100).
 
 **Purpose:** Prevent visual inconsistencies and design system violations from reaching production by catching them during implementation.
-
-### OS 2.1 Integration
-
-**What's New:**
-- **Team Confirmation:** Design QA agents (design-reviewer, ui-reviewer) confirmed via AskUserQuestion before execution
-- **Role Boundaries:** Orchestrators delegate to design-reviewer agents via Task tool (never perform design QA directly)
-- **State Preservation:** Gate results stored in phase_state.json for resumption after interruptions
-- **Mandatory Enforcement:** Score ≥90 required to pass (no exceptions for UI work)
-- **Meta-Audit Integration:** `/audit` command analyzes design QA bypass patterns and creates standards from failures
-- **Multi-Domain:** Applies to nextjs-design-reviewer, ios-ui-reviewer, and expo design checks
 
 ---
 

@@ -1,27 +1,17 @@
 # Expo / React Native Domain Pipeline
 
-**Status:** OS 2.1 Core Pipeline (Expo Lane)
-**Last Updated:** 2025-11-24
+**Status:** OS 2.2 Core Pipeline (ExpoPipeline)  
+**Last Updated:** 2025-11-19
 
 ## Overview
 
-The Expo pipeline handles React Native mobile development for projects using Expo SDK 50+ / React Native 0.74+ with TypeScript, with role boundary enforcement, state preservation, and team confirmation.
+The Expo pipeline handles React Native mobile development for projects using Expo SDK 50+ / React Native 0.74+ with TypeScript. It combines:
 
-**OS 2.1 Enhancements:**
-- **Role Boundaries:** Orchestrator NEVER writes code, only coordinates via Task tool
-- **State Preservation:** phase_state.json survives interruptions (questions, pauses)
-- **Team Confirmation:** User approves 10-agent team before execution
-- **Unified Planning:** `/plan` command creates blueprint first
-- **Meta-Audit:** `/audit` analyzes patterns and creates standards from failures
-- **Complexity Bands:** Low/medium/high/critical determine delegation strategy
+- OS 2.2 primitives (ProjectContextServer, phase_state.json, vibe.db, constraint framework)
+- SenaiVerse’s Expo agent system (Grand Architect + design/a11y/perf/security agents)
+- React Native best practices (from Agent Farm’s REACT_NATIVE_BEST_PRACTICES)
 
-**System Integration:**
-- OS 2.1 primitives (ProjectContextServer, phase_state.json, vibe.db, constraint framework)
-- Expo agent system (10 agents: 1 Opus grand-orchestrator, 9 Sonnet specialists)
-- Expo lane agents (`expo-grand-orchestrator`, `expo-architect`, `expo-builder`, `design-token-guardian`, `a11y-enforcer`, `performance-enforcer`, `security-specialist`, `expo-aesthetics-specialist`, `expo-verification`)
-- React Native best practices and mobile-specific quality gates
-
-**Goal:** Build and maintain high-quality Expo apps with **structural guarantees** around design tokens, accessibility, performance, security, and **orchestration continuity**.
+Goal: build and maintain high-quality Expo apps with structural guarantees around design tokens, accessibility, performance, and security.
 
 ---
 ## Scope & Domain
@@ -41,7 +31,7 @@ use the **iOS** pipeline.
 
 ## Phase State Contract (`phase_state.json`)
 
-All Expo lane work shares a common phase state file:
+All Expo pipeline work shares a common phase state file:
 
 ```text
 .claude/orchestration/phase_state.json
@@ -50,7 +40,7 @@ All Expo lane work shares a common phase state file:
 For Expo, the contract is:
 
 - Top-level:
-  - `domain`: must be `"expo"` for this lane.
+  - `domain`: must be `"expo"` for this pipeline.
   - `current_phase`: one of:
     - `"context_query"`, `"requirements_impact"`, `"architecture_plan"`,
       `"implementation_pass1"`, `"standards_budgets"`, `"power_checks"`,
@@ -105,7 +95,7 @@ Each phase SHOULD write a structured entry under `phases.<phase_name>`:
   - `outcome`: `"success" | "partial" | "failure"`.
   - `learnings`: short text (what worked, what didn’t).
 
-Agents in this lane (`expo-architect-agent`, `expo-builder-agent`,
+Agents in this pipeline (`expo-architect-agent`, `expo-builder-agent`,
 Expo gate agents, and `expo-verification-agent`) MUST update the
 appropriate phase entries when they complete their work.
 
@@ -553,8 +543,8 @@ Decision Point:
 ### Phase 2: Requirements & Impact
 
 **Agents:**
-- `expo-architect-agent` (Expo lane architect)
-- `/orca` + OS 2.0 constraint framework
+- `expo-architect-agent` (Expo pipeline architect)
+- `/orca` + OS 2.2 constraint framework
 
 **Tasks:**
 1. Restate the request in clear, concrete terms (feature, bugfix, refactor).
@@ -612,7 +602,7 @@ Use parallel deployment when:
 - ✅ No inter-dependencies (component A doesn't need B's output)
 - ✅ Same implementation scope (all UI wiring, or all data layer work, etc.)
 
-See `commands/orca-expo.md` Section 7.3 and `.claude/orchestration/playbooks/parallel-agent-deployment.md` for implementation details.
+See `commands/orca.md` Section 7.3 and `.claude/orchestration/playbooks/parallel-agent-deployment.md` for implementation details.
 
 **Constraints (HARD):**
 - Respect Expo/React Native best practices:

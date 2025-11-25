@@ -5,7 +5,7 @@
 
 ## Overview
 
-Phase state tracking is OS 2.0's mechanism for managing workflow progression through domain pipelines. Each pipeline execution maintains a `phase_state.json` file that tracks current phase, gates passed/failed, and artifacts created.
+Phase state tracking is OS 2.2's mechanism for managing workflow progression through domain pipelines. Each pipeline execution maintains a `phase_state.json` file that tracks current phase, gates passed/failed, and artifacts created.
 
 **Purpose:** Provide persistent, queryable state for pipeline orchestration and recovery.
 
@@ -103,7 +103,7 @@ interface RecoveryInfo {
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
   "title": "PhaseState",
-  "description": "OS 2.0 Pipeline Phase State",
+  "description": "OS 2.2 Pipeline Phase State",
   "type": "object",
   "required": ["version", "domain", "session_id", "created_at", "current_phase", "status", "request", "phases"],
   "properties": {
@@ -999,4 +999,4 @@ completeSession(state, 'completed');
 
 ---
 
-_Phase State: Persistent workflow tracking for OS 2.0 pipelines._
+_Phase State: Persistent workflow tracking for OS 2.2 pipelines._

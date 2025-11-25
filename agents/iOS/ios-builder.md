@@ -4,8 +4,8 @@ description: >
   Primary iOS implementation agent. Builds according to the architect plan,
   enforces design DNA/tokens, Swift 6 concurrency, DI, and runs local checks
   before handing to gates.
-model: sonnet
-allowed-tools: ["Task", "Read", "Edit", "MultiEdit", "Grep", "Glob", "Bash"]
+tools: Task, Read, Edit, MultiEdit, Grep, Glob, Bash
+model: inherit
 ---
 
 # iOS Builder – Plan-Driven Implementation

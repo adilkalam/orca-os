@@ -2,8 +2,8 @@ name: ios-security-specialist
 description: >
   iOS security/privacy specialist. Assesses ATS/pinning, Keychain usage,
   permissions/privacy manifests, data protection, and secret handling.
-model: sonnet
-allowed-tools: ["Read", "Bash", "AskUserQuestion"]
+model: inherit
+tools: ["Read", "Bash", "AskUserQuestion"]
 ---
 
 # iOS Security Specialist

@@ -1,31 +1,26 @@
 # Data / Analytics Domain Pipeline
 
-**Status:** OS 2.1 Pipeline (Data Lane)
-**Last Updated:** 2025-11-24
+**Status:** OS 2.2 Pipeline (DataPipeline)  
+**Last Updated:** 2025-11-20
 
 ---
 
 ## Overview
 
-The data/analytics pipeline handles work where the primary output is data understanding, analyses, models, and decision-support artifacts, with role boundary enforcement and state preservation.
+The data/analytics pipeline handles work where the primary output is:
+- Data understanding (what exists, how good it is).
+- Analyses and models (what patterns exist and what they mean).
+- Decision-support artifacts (briefs, dashboards, metrics, reports).
 
-**Primary Outputs:**
-- Data understanding (what exists, how good it is)
-- Analyses and models (what patterns exist and what they mean)
-- Decision-support artifacts (briefs, dashboards, metrics, reports)
-
-**OS 2.1 Enhancements:**
-- **Role Boundaries:** Orchestrator NEVER writes code, only coordinates via Task tool
-- **State Preservation:** phase_state.json survives interruptions (questions, pauses)
-- **Team Confirmation:** User approves 4-agent team before execution
-- **Unified Planning:** `/plan` command creates blueprint first
-- **Meta-Audit:** `/audit` analyzes patterns and creates standards from failures
-
-**System Integration:**
-- OS 2.1 primitives (ProjectContextServer, phase_state.json, vibe.db, constraint framework)
-- Data agent system (4 Sonnet agents: data-researcher, research-specialist, python-analytics-expert, competitive-analyst)
-- Data engineering/analytics best practices
-- Quality gates for data quality, verification, and narrative coherence
+It combines:
+- OS 2.2 primitives (ProjectContextServer, `phase_state.json`, vibe.db).
+- Data/analytics agents:
+  - `data-researcher`
+  - `research-specialist`
+  - `python-analytics-expert`
+- Modern data engineering/analytics practices from:
+  - `DATA_ENGINEERING_AND_ANALYTICS_BEST_PRACTICES.md`
+    (`_explore/orchestration_repositories/claude_code_agent_farm-main/...`).
 
 ---
 
@@ -52,7 +47,7 @@ If the work is primarily:
 
 ## Phase State Contract (`phase_state.json`)
 
-All data lane work shares a common phase state file:
+All data pipeline work shares a common phase state file:
 
 ```text
 .claude/project/phase_state.json
@@ -108,7 +103,7 @@ Each phase SHOULD write a structured entry under `phases.<phase_name>`:
   - `outcome`: `"success" | "partial" | "failure"`.
   - `learnings`: short text (what worked, what didn’t).
 
-Agents in this lane (`data-researcher`, `research-specialist`,
+Agents in this pipeline (`data-researcher`, `research-specialist`,
 `python-analytics-expert`) MUST update the appropriate entries when their
 phase work completes.
 
@@ -119,7 +114,7 @@ phase work completes.
 ```text
 Request (Data / Analytics)
     ↓
-/orca-data (Data Orchestrator)
+/orca (Data Orchestrator)
     ↓
 [Phase 1: Context Query] ← MANDATORY (ProjectContextServer)
     ↓
@@ -145,7 +140,7 @@ Request (Data / Analytics)
 ### Phase 1: Context Query (MANDATORY)
 
 **Agent:** ProjectContextServer (MCP tool)  
-**Invoker:** `/orca-data`
+**Invoker:** `/orca`
 
 Loads a **ContextBundle** with:
 - `relevantFiles`: existing data/analysis code, notebooks, schemas, docs.
@@ -281,7 +276,7 @@ Gate:
 
 ### Phase 8: Completion & Handoff
 
-**Agent:** `/orca-data` + ProjectContextServer integrations
+**Agent:** `/orca` + ProjectContextServer integrations
 
 Tasks:
 - Confirm:

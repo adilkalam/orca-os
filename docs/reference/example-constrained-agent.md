@@ -625,4 +625,4 @@ VALUES (
 
 ---
 
-_This example demonstrates complete constraint framework application for OS 2.0 agents._
+_This example demonstrates complete constraint framework application for OS 2.2 agents._

@@ -1,11 +1,11 @@
-# Verification & Evidence Quick Reference (OS 2.1)
+# Verification & Evidence Quick Reference (OS 2.2)
 
-**Version:** OS 2.1
+**Version:** OS 2.2
 **Last Updated:** 2025-11-24
 
-Verification in OS 2.1 is **automated** within pipelines. This guide covers manual verification for edge cases.
+Verification in OS 2.2 is **automated** within pipelines. This guide covers manual verification for edge cases.
 
-## OS 2.1 Verification (Automated)
+## OS 2.2 Verification (Automated)
 
 ### How Verification Works Now
 
@@ -14,14 +14,14 @@ Verification in OS 2.1 is **automated** within pipelines. This guide covers manu
 2. `/orca-ios` → Implementation → **Standards Gate (≥90)** → **UI Review Gate (≥90)** → **xcodebuild + tests (automatic)** → Done
 3. `/orca-expo` → Implementation → **Design Tokens** → **A11y** → **Performance** → **Security** → **Build/Test (automatic)** → Done
 
-**What Changed from OS 2.0:**
+**What Changed from OS 2.2:**
 - ❌ No more manual `/finalize` script
 - ✅ Verification agents run automatically in Phase 6
 - ✅ Evidence captured automatically in `.claude/orchestration/evidence/`
 - ✅ Build/test results stored in phase_state.json
 - ✅ Gate scores enforced (≥90 or fail)
 
-### Where Evidence Lives (OS 2.1)
+### Where Evidence Lives (OS 2.2)
 
 ```
 <project>/.claude/
@@ -99,7 +99,7 @@ xcodebuild test 2>&1 | tee .claude/orchestration/evidence/test-$(date +%Y%m%d-%H
 xcrun simctl io booted screenshot .claude/orchestration/evidence/screenshots/after-$(date +%s).png
 ```
 
-## Quality Gates (OS 2.1)
+## Quality Gates (OS 2.2)
 
 ### Standards Gate (≥90 required)
 **Agent:** domain-standards-enforcer
@@ -139,7 +139,7 @@ xcrun simctl io booted screenshot .claude/orchestration/evidence/screenshots/aft
 - PASS → Continue to completion
 - FAIL → Block pipeline, fix issues
 
-## Response Awareness Tags (OS 2.1)
+## Response Awareness Tags (OS 2.2)
 
 Tags now recorded automatically in `/plan` output:
 
@@ -159,7 +159,7 @@ Tags now recorded automatically in `/plan` output:
 - Premature completion (#RESOLUTION_PRESSURE)
 - Unvalidated assumptions (#COMPLETION_DRIVE)
 
-## Typical Flows (OS 2.1)
+## Typical Flows (OS 2.2)
 
 ### Frontend Feature (Next.js)
 ```bash
@@ -249,7 +249,7 @@ Standards Gate Re-run: 92/100 → PASS
 - Evidence stored in `.claude/orchestration/evidence/screenshots/`
 - Gate re-runs
 
-## Deprecated Workflows (OS 2.0)
+## Deprecated Workflows (OS 2.2)
 
 ### Old Way (Manual)
 ```bash
@@ -288,4 +288,4 @@ Standards Gate Re-run: 92/100 → PASS
 
 ---
 
-_OS 2.1 verification is automatic, enforced, and evidence-based. Manual verification is rarely needed._
+_OS 2.2 verification is automatic, enforced, and evidence-based. Manual verification is rarely needed._

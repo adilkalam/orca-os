@@ -2,7 +2,7 @@
 name: test-generator
 description: Generates comprehensive tests for React Native/Expo components, hooks, and utilities. Creates unit tests with @testing-library/react-native, integration tests, snapshot tests, and edge case coverage automatically.
 tools: Read, Grep, Write, Edit
-model: sonnet
+model: inherit
 
 # OS 2.0 Constraint Framework
 required_context:

@@ -3,8 +3,8 @@ name: ios-accessibility-specialist
 description: >
   iOS accessibility specialist. Ensures VoiceOver, Dynamic Type, focus order,
   hit targets, and contrast are acceptable for SwiftUI/UIKit flows.
-model: sonnet
-allowed-tools: ["Read", "Bash", "AskUserQuestion"]
+tools: Read, Bash, AskUserQuestion
+model: inherit
 ---
 
 # iOS Accessibility Specialist

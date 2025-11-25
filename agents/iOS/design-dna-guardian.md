@@ -3,8 +3,8 @@ name: design-dna-guardian
 description: >
   Enforces presence and correct use of design DNA/tokens for iOS UI work.
   Blocks ad-hoc styling and ensures token-only colors/typography/spacing.
-model: sonnet
-allowed-tools: ["Read", "Grep", "Glob", "AskUserQuestion"]
+tools: Read, Grep, Glob, AskUserQuestion
+model: inherit
 ---
 
 # Design DNA Guardian – Tokens or No Go

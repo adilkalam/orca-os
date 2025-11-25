@@ -1,10 +1,10 @@
 #!/bin/bash
 
-# OS 2.0 Project Cleanup Script
+# OS 2.2 Project Cleanup Script
 # Run this in any project directory to clean up pre-OS2 structures
 
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-echo "🧹 OS 2.0 Project Cleanup"
+echo "🧹 OS 2.2 Project Cleanup"
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 echo ""
 echo "Project: $(pwd)"
@@ -158,7 +158,7 @@ echo "📝 Checking .gitignore..."
 if [ -f ".gitignore" ]; then
     if ! grep -q "^\.deprecated" .gitignore 2>/dev/null; then
         echo "  → Adding .deprecated/ to .gitignore"
-        echo -e "\n# OS 2.0 Cleanup\n.deprecated/" >> .gitignore
+        echo -e "\n# OS 2.2 Cleanup\n.deprecated/" >> .gitignore
         ACTIONS=$((ACTIONS + 1))
         echo "  ✓ Updated .gitignore"
     else
@@ -179,7 +179,7 @@ else
     if [ -d ".deprecated/pre-os2" ]; then
         echo "📦 Archived in .deprecated/pre-os2/:"
         [ -d ".deprecated/pre-os2/claude-work" ] && echo "  • .claude-work/"
-        [ -d ".deprecated/pre-os2/workshop" ] && echo "  • .claude/memory/"
+        [ -d ".deprecated/pre-os2/workshop" ] && echo "  • .workshop/"
         [ -d ".deprecated/pre-os2/orchestration-evidence" ] && echo "  • .claude/orchestration/evidence/"
         [ -d ".deprecated/pre-os2/memory-playbooks" ] && echo "  • .claude/memory/playbooks/"
         [ -d ".deprecated/pre-os2/memory-files" ] && echo "  • Memory database files"
@@ -190,7 +190,7 @@ else
     echo "Next steps:"
     echo "  1. Run: git status"
     echo "  2. Review changes"
-    echo "  3. Commit: git add -A && git commit -m \"Clean up for OS 2.0\""
+    echo "  3. Commit: git add -A && git commit -m \"Clean up for OS 2.2\""
 fi
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 

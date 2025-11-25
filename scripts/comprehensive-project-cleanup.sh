@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Comprehensive Project Cleanup Script for OS 2.0
+# Comprehensive Project Cleanup Script for OS 2.2
 # Fixes ALL common issues with project structure
 # Version: 2.0 - Complete cleanup
 
@@ -14,7 +14,7 @@ BLUE='\033[0;34m'
 NC='\033[0m' # No Color
 
 echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
-echo -e "${BLUE}🧹 Comprehensive Project Cleanup for OS 2.0${NC}"
+echo -e "${BLUE}🧹 Comprehensive Project Cleanup for OS 2.2${NC}"
 echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
 echo ""
 
@@ -269,7 +269,7 @@ echo -e "${BLUE}📝 Phase 8: Updating .gitignore...${NC}"
 if [ -f ".gitignore" ]; then
     # Check if .deprecated is already in gitignore
     if ! grep -q "^\.deprecated" .gitignore 2>/dev/null; then
-        echo -e "\n# OS 2.0 Cleanup\n.deprecated/" >> .gitignore
+        echo -e "\n# OS 2.2 Cleanup\n.deprecated/" >> .gitignore
         echo -e "  ${GREEN}✓${NC} Added .deprecated/ to .gitignore"
         ACTIONS=$((ACTIONS + 1))
     else
@@ -350,7 +350,7 @@ else
     echo -e "${YELLOW}Next steps:${NC}"
     echo -e "  1. Run: ${BLUE}git status${NC}"
     echo -e "  2. Review changes"
-    echo -e "  3. Commit: ${BLUE}git add -A && git commit -m \"Clean up project structure for OS 2.0\"${NC}"
+    echo -e "  3. Commit: ${BLUE}git add -A && git commit -m \"Clean up project structure for OS 2.2\"${NC}"
 fi
 
 echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"

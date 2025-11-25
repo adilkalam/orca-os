@@ -1,6 +1,23 @@
-# Ignore dot-prefixed files and folders
-.*
-.*/
+# Keep essential dot files/folders
+!.gitignore
+!.git
+!.claude/
+
+# Ignore temporary/generated dot files
+.DS_Store
+.workshop/
+.claude-session-context.md
+*.db-shm
+*.db-wal
+
+# BBEdit/TextWrangler crash recovery files
+.!*!*
+
+# Ignore .claude temp and cache
+.claude/cache/
+.claude/orchestration/temp/
+.claude/memory/*.db-shm
+.claude/memory/*.db-wal
 
 # Ignore codex folders
 /ext
@@ -13,6 +30,13 @@
 # Ignore anything with 'mm-' in the name
 *mm-*
 
-# Keep essential git files
-!.gitignore
-!.git
+# Ignore _explore (research folder - read only)
+/_explore/
+
+# Ignore node_modules in MCPs
+mcp/*/node_modules/
+mcp/*/dist/
+
+# Python
+__pycache__/
+*.pyc

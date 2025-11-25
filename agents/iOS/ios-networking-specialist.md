@@ -3,8 +3,8 @@ description: >
   iOS networking specialist. Designs/implements URLSession async/await,
   retries/backoff, background transfers, security (ATS/pinning), and
   mobile-first API usage. Supports Combine when required.
-model: sonnet
-allowed-tools: ["Read", "Edit", "MultiEdit", "Grep", "Glob", "Bash", "curl"]
+model: inherit
+tools: ["Read", "Edit", "MultiEdit", "Grep", "Glob", "Bash", "curl"]
 ---
 
 # iOS Networking Specialist

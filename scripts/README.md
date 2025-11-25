@@ -1,19 +1,18 @@
-# Scripts Directory - OS 2.1 Structure
+# Scripts Directory - OS 2.2 Structure
 
-**Last Organized:** 2025-11-24
-**Version:** OS 2.1
+**Last Organized:** 2025-11-19
 
 ## 📁 Current Organization
 
-### `/os2-cleanup/` - OS 2.0 Cleanup Scripts ✅
-Essential cleanup scripts for migrating to OS 2.0:
+### `/os2-cleanup/` - OS 2.2 Cleanup Scripts ✅
+Essential cleanup scripts for migrating to OS 2.2:
 - `cleanup-for-os2.sh` - Clean individual projects
 - `cleanup-global-claude.sh` - Clean global ~/.claude
 - `cleanup-home-directory.sh` - Clean home directory
 - `project-cleanup-guide.md` - Cleanup documentation
 
 ### `/utilities/` - Active Utility Scripts
-Useful utilities that still work with OS 2.0:
+Useful utilities that still work with OS 2.2:
 - `capture-*.sh` - Screenshot/build capture utilities
 - `evidence-utils.sh` - Evidence collection
 - `perf-*.sh` - Performance logging
@@ -37,7 +36,7 @@ README files moved from scripts root:
 (Preserved - may still be useful)
 
 ### `/.archived-v1/` - Legacy v1 Scripts 📦
-Archived scripts from pre-OS 2.0 systems:
+Archived scripts from pre-OS 2.2 systems:
 
 **Migration/Deployment:**
 - `migrate-to-claude-work.sh`
@@ -91,7 +90,7 @@ Archived scripts from pre-OS 2.0 systems:
 
 ## Usage
 
-### For OS 2.0 Migration:
+### For OS 2.2 Migration:
 ```bash
 # Clean a project
 bash scripts/os2-cleanup/cleanup-for-os2.sh
@@ -117,23 +116,10 @@ bash scripts/utilities/test-enforcement.sh
 ## Maintenance Notes
 
 - **DO NOT** use scripts in `.archived-v1/` - they're for v1 systems
-- **OS 2.1** uses agents and MCP servers, not Python scripts
+- **OS 2.2** uses agents and MCP servers, not Python scripts
 - **Utilities** folder contains scripts that work with any system
 - **Keep this organized** - new scripts should go in appropriate folders
 
-## OS 2.1 Integration
-
-**What's Changed:**
-- Scripts now work with OS 2.1 architecture (role boundaries, state preservation)
-- Cleanup scripts compatible with `.claude/project/` structure (phase_state.json, requirements/)
-- Evidence scripts work with new audit output locations (`.claude/orchestration/evidence/audit-*.md`)
-- No script changes required - OS 2.1 is backward compatible
-
-**New Workflows:**
-- Use `/plan` command instead of manual requirement scripts
-- Use `/audit` command for meta-review (generates audit-*.md files)
-- Phase state tracked in `.claude/project/phase_state.json` (no script needed)
-
 ---
 
-_Scripts directory compatible with OS 2.1 architecture_
+_Scripts directory cleaned and organized for OS 2.2 architecture_

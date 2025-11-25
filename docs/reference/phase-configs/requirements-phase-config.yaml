@@ -1,8 +1,8 @@
-# Requirements Pipeline Phase Configuration - OS 2.0
+# Requirements Pipeline Phase Configuration - OS 2.2
 
 pipeline:
   name: requirements
-  description: Requirements gathering lane for OS 2.0
+  description: Requirements gathering lane for OS 2.2
   version: 2.0
 
 context:

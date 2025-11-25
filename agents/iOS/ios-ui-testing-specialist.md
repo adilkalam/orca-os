@@ -3,8 +3,8 @@ description: >
   iOS XCUITest/UI automation specialist. Builds reliable UI tests with page
   objects, accessibility identifiers, screenshot/regression coverage, and
   async-safe waits.
-model: sonnet
-allowed-tools: ["Read", "Edit", "MultiEdit", "Grep", "Glob", "Bash", "xcrun"]
+model: inherit
+tools: ["Read", "Edit", "MultiEdit", "Grep", "Glob", "Bash", "xcrun"]
 ---
 
 # iOS UI Testing Specialist (XCUITest)

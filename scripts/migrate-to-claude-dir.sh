@@ -1,4 +1,20 @@
 #!/usr/bin/env bash
+#
+# migrate-to-claude-dir.sh - DEPRECATED
+#
+# This script has been replaced by init-memory.sh
+# Keeping for backwards compatibility
+#
+
+echo "Note: This script is deprecated. Using init-memory.sh instead."
+echo ""
+
+# Call the new init-memory script
+exec bash "$(dirname "$0")/init-memory.sh" "$@"
+
+# Original code below (no longer executed)
+exit 0
+
 set -euo pipefail
 
 # Migrate to .claude/ directory structure

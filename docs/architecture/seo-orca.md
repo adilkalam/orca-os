@@ -1,6 +1,6 @@
 # SEO-ORCA (Architecture Overview, Updated 2025-11-19)
 
-> Status: **OS 2.0 SEO lane architecture.**  
+> Status: **OS 2.2 SEO lane architecture.**  
 > Canonical behavior is now specified in:
 > - `docs/pipelines/seo-pipeline.md` (phase definitions)
 > - `docs/reference/phase-configs/seo-phases.yaml` (phase config + gates)
@@ -96,7 +96,7 @@ ORCA will propose the specialist team, you confirm, and the workflow executes au
 ### Manual fallback (no ORCA)
 
 These pipelines originally supported direct CLI invocation (e.g. via
-`seo_auto_pipeline.py`) for debugging or manual runs. In OS 2.0, the preferred
+`seo_auto_pipeline.py`) for debugging or manual runs. In OS 2.2, the preferred
 entrypoint is the `/seo-orca` command plus the SEO pipeline specification, but
 CLI-only workflows can still be used as implementation details when needed.
 

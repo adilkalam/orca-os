@@ -2,8 +2,8 @@ name: ios-spm-config-specialist
 description: >
   iOS Swift Package Manager and Xcode config specialist. Manages Package.swift,
   dependencies, Package.resolved hygiene, xcconfig/schemes/test plans.
-model: sonnet
-allowed-tools: ["Read", "Edit", "Grep", "Glob", "Bash"]
+model: inherit
+tools: ["Read", "Edit", "Grep", "Glob", "Bash"]
 ---
 
 # iOS SPM / Config Specialist

@@ -8,7 +8,7 @@
    ░▒▓██▓▒░  ░▒▓█▓▒░▒▓███████▓▒░░▒▓████████▓▒░       ░▒▓██████▓▒░░▒▓███████▓▒░       ░▒▓████████▓▒░▒▓██▓▒░▒▓████████▓▒░
 ```
 
-# OS 2.1: Context-Aware, Memory-Persistent Orchestration for Claude Code
+# OS 2.2: Context-Aware, Memory-Persistent Orchestration for Claude Code
 
 ```
 ┌────────────────────────────────────────────────────────────────┐
@@ -25,14 +25,14 @@
 └────────────────────────────────────────────────────────────────┘
 ```
 
-**Version:** 2.1 (November 2024)
-**New in 2.1:** Unified planning (`/plan`), meta-audit (`/audit`), strict role boundaries, team confirmation, state preservation across interruptions
+**Version:** 2.2 (November 2024)
+**New in 2.2:** Simplified memory architecture (Workshop + vibe.db), unified planning (`/plan`), meta-audit (`/audit`), strict role boundaries, team confirmation, state preservation across interruptions
 
 ---
 
 ## What Is This?
 
-**Vibe OS 2.1** is a disciplined orchestration system for Claude Code that fixes the fundamental problems of generic AI assistants:
+**Vibe OS 2.2** is a disciplined orchestration system for Claude Code that fixes the fundamental problems of generic AI assistants:
 
 - ❌ **Memory loss** → ✅ Persistent knowledge graph (decisions, standards, failures)
 - ❌ **Context thrashing** → ✅ Intelligent context bundles (ProjectContext MCP)
@@ -55,7 +55,7 @@
 - Hallucinate design systems
 - Abandon orchestration when you ask a question
 
-**OS 2.1 enforces discipline:**
+**OS 2.2 enforces discipline:**
 - Projects are indexed with **persistent context** (vectors + semantic search)
 - **Pure orchestration layer** (only coordinates, never codes)
 - **Role boundaries** explicitly enforced (orchestrators vs specialists)
@@ -66,11 +66,11 @@
 
 ---
 
-## System Architecture: OS 2.1
+## System Architecture: OS 2.2
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
-│                         VIBE CODE OS 2.1                        │
+│                         VIBE CODE OS 2.2                        │
 ├─────────────────────────────────────────────────────────────────┤
 │                                                                 │
 │  ┌──────────────┐      ┌──────────────┐      ┌──────────────┐  │
@@ -106,7 +106,7 @@
 
 ---
 
-## New in OS 2.1 (November 2024)
+## New in OS 2.2 (November 2024)
 
 ### 1. Unified Planning Command
 **Old (OS 2.0):**
@@ -114,7 +114,7 @@
 /requirements-start → /requirements-status → /response-awareness-plan
 ```
 
-**New (OS 2.1):**
+**New (OS 2.2):**
 ```bash
 /plan "feature description"
 ```
@@ -185,7 +185,7 @@ AskUserQuestion({
 
 ---
 
-## Request Flow: OS 2.1 Workflow
+## Request Flow: OS 2.2 Workflow
 
 ```
 User Request
@@ -220,7 +220,7 @@ User Request
 
 ## Domain Pipelines: Specialized Workflows
 
-OS 2.1 includes **6 mature domain pipelines:**
+OS 2.2 includes **6 mature domain pipelines:**
 
 ### iOS Pipeline
 - **Grand Architect** (Opus) - Architecture planning
@@ -267,7 +267,7 @@ OS 2.1 includes **6 mature domain pipelines:**
 
 ## Command Reference
 
-### Active Commands (OS 2.1)
+### Active Commands (OS 2.2)
 
 **Planning:**
 - `/plan` - Unified requirements + RA blueprint (replaces 8+ commands)
@@ -288,7 +288,7 @@ OS 2.1 includes **6 mature domain pipelines:**
 - `/session-save` / `/session-resume` - Manual session context control
 - `/design-dna` - Initialize/update project design system
 - `/seo` - SEO content pipeline
-- `/clone-website` - Clone website UI into OS 2.0 project
+- `/clone-website` - Clone website UI into OS 2.2 project
 
 ### Deprecated (Backward Compatible)
 - `/requirements-{start,status,end,current,list,remind}` → Use `/plan`
@@ -560,7 +560,7 @@ Add to `~/.claude.json`:
 mcp__project-context__index_project()
 ```
 
-### 5. Start Using OS 2.1
+### 5. Start Using OS 2.2
 ```bash
 # Plan work
 /plan "Add dark mode support"
@@ -578,7 +578,7 @@ mcp__project-context__index_project()
 
 ```
 /
-├── README.md                        ← You are here (OS 2.1 overview)
+├── README.md                        ← You are here (OS 2.2 overview)
 ├── quick-reference/
 │   ├── commands.md                  ← Command reference
 │   ├── agents.md                    ← Agent teams
@@ -608,7 +608,7 @@ mcp__project-context__index_project()
 
 **Generic AI assistants are helpful but undisciplined.** They drift from requirements, hallucinate constraints, say "done" when reality disagrees, and abandon orchestration when interrupted.
 
-**OS 2.1 treats Claude Code as a disciplined operating system:**
+**OS 2.2 treats Claude Code as a disciplined operating system:**
 - **Commands** are system calls (orchestrators with role boundaries)
 - **Agents** are processes (constrained, observable, specialized)
 - **MCPs** are I/O interfaces (structured, permission-bounded)
@@ -647,7 +647,7 @@ Spacing, typography, layout follow mathematical systems. No arbitrary values.
 
 ## What's Next?
 
-**OS 2.1 focuses on:**
+**OS 2.2 focuses on:**
 - ✅ Unified planning workflow
 - ✅ Meta-audit for continuous improvement
 - ✅ Role boundary enforcement

@@ -2,7 +2,7 @@
 name: refactor-surgeon
 description: Performs safe, targeted refactoring for React Native/Expo code. Handles code smells, duplicated code, complex functions, and improves code quality without changing behavior. Uses automated verification to ensure refactoring safety.
 tools: Read, Grep, Edit, Bash
-model: sonnet
+model: inherit
 
 # OS 2.0 Constraint Framework
 required_context:

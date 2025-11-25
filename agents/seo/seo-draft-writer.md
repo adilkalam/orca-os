@@ -1,8 +1,8 @@
 ---
 name: seo-draft-writer
 description: "Produce sophisticated long-form SEO content with natural clarity and v4 gold-standard quality"
-model: sonnet
-allowed-tools: ["Read", "Write", "Edit", "mcp__project-context__query_context"]
+tools: Read, Write, Edit, mcp__project-context__query_context
+model: inherit
 
 # OS 2.0 Constraint Framework
 required_context:

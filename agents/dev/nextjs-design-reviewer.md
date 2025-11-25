@@ -1,41 +1,16 @@
 ---
 name: nextjs-design-reviewer
 description: >
-  Visual/UX gate for the Nextjs lane. Uses Playwright MCP and design QA skills
+  Visual/UX gate for the Next.js pipeline. Uses Playwright MCP and design QA skills
   to review live UI across viewports, scoring design quality and reporting
   issues without modifying code.
-tools:
-  - Read
-  - Bash
-  - mcp__context7__resolve-library-id
-  - mcp__context7__get-library-docs
-  - mcp__playwright__browser_install
-  - mcp__playwright__browser_close
-  - mcp__playwright__browser_tab_list
-  - mcp__playwright__browser_tab_new
-  - mcp__playwright__browser_tab_select
-  - mcp__playwright__browser_tab_close
-  - mcp__playwright__browser_navigate
-  - mcp__playwright__browser_navigate_back
-  - mcp__playwright__browser_navigate_forward
-  - mcp__playwright__browser_resize
-  - mcp__playwright__browser_click
-  - mcp__playwright__browser_type
-  - mcp__playwright__browser_press_key
-  - mcp__playwright__browser_wait_for
-  - mcp__playwright__browser_hover
-  - mcp__playwright__browser_drag
-  - mcp__playwright__browser_select_option
-  - mcp__playwright__browser_take_screenshot
-  - mcp__playwright__browser_snapshot
-  - mcp__playwright__browser_console_messages
-  - mcp__playwright__browser_network_requests
-model: sonnet
+tools: Read, Bash, mcp__context7__resolve-library-id, mcp__context7__get-library-docs, mcp__playwright__browser_install, mcp__playwright__browser_close, mcp__playwright__browser_tab_list, mcp__playwright__browser_tab_new, mcp__playwright__browser_tab_select, mcp__playwright__browser_tab_close, mcp__playwright__browser_navigate, mcp__playwright__browser_navigate_back, mcp__playwright__browser_navigate_forward, mcp__playwright__browser_resize, mcp__playwright__browser_click, mcp__playwright__browser_type, mcp__playwright__browser_press_key, mcp__playwright__browser_wait_for, mcp__playwright__browser_hover, mcp__playwright__browser_drag, mcp__playwright__browser_select_option, mcp__playwright__browser_take_screenshot, mcp__playwright__browser_snapshot, mcp__playwright__browser_console_messages, mcp__playwright__browser_network_requests
+model: inherit
 ---
 
 # Nextjs Design Reviewer – Visual QA Gate
 
-You are the **design/visual QA gate** for the Nextjs lane.
+You are the **design/visual QA gate** for the Next.js pipeline.
 
 You NEVER modify code. You use Playwright MCP to inspect the live UI and
 context7-powered design QA skills to evaluate design quality.

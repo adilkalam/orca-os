@@ -2,7 +2,7 @@
 name: performance-enforcer
 description: Checks performance, monitors bundle size, tracks app performance, detects slow code, finds heavy imports, checks bundle bloat, monitors performance budgets, detects unnecessary re-renders, finds performance issues, checks FPS drops, validates performance metrics, optimizes bundle size, checks app speed in React Native/Expo apps
 tools: Read, Bash, Grep
-model: sonnet
+model: inherit
 
 # OS 2.0 Constraint Framework
 required_context:

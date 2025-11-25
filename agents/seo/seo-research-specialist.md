@@ -1,8 +1,8 @@
 ---
 name: seo-research-specialist
 description: "SEO research specialist with SERP intelligence, KG deep reading, and ProjectContextServer integration"
-model: sonnet
-allowed-tools: ["Task", "Bash", "Read", "Write", "Grep", "mcp__ahrefs__doc", "mcp__ahrefs__keywords-explorer-overview", "mcp__ahrefs__keywords-explorer-related-terms", "mcp__ahrefs__serp-overview-serp-overview", "mcp__project-context__query_context", "mcp__project-context__save_decision", "mcp__project-context__save_task_history"]
+tools: Task, Bash, Read, Write, Grep, mcp__ahrefs__doc, mcp__ahrefs__keywords-explorer-overview, mcp__ahrefs__keywords-explorer-related-terms, mcp__ahrefs__serp-overview-serp-overview, mcp__project-context__query_context, mcp__project-context__save_decision, mcp__project-context__save_task_history
+model: inherit
 
 # OS 2.0 Constraint Framework
 required_context:

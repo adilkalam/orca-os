@@ -1,6 +1,6 @@
 # Design Domain Pipeline
 
-**Status:** OS 2.0 Draft Pipeline  
+**Status:** OS 2.2 Draft Pipeline  
 **Last Updated:** 2025-11-19
 
 The design pipeline handles design‑first work: turning briefs and visual inputs
@@ -29,7 +29,7 @@ Request (design-heavy)
 [Phase 6: Completion]
 ```
 
-Design work is domain‑specific but still follows OS 2.0 principles:
+Design work is domain‑specific but still follows OS 2.2 principles:
 - Context is mandatory (ProjectContextServer).
 - Design-dna is the machine source of truth.
 - Constraints (minimums, tokens, CSS architecture) are enforced.
@@ -40,7 +40,7 @@ Design work is domain‑specific but still follows OS 2.0 principles:
 **Agents:**  
 - `/orca` (orchestrator)  
 - ProjectContextServer (MCP)  
-- Design brief helper (requirements lane, optional)
+- Design brief helper (requirements pipeline, optional)
 
 **Inputs:**
 - User request (design‑heavy).  

@@ -1,8 +1,8 @@
 ---
 name: seo-brief-strategist
 description: "Transform research pack into production-ready SEO content brief with strategic refinement"
-model: sonnet
-allowed-tools: ["Read", "Write", "Edit", "mcp__project-context__query_context", "mcp__project-context__save_decision"]
+tools: Read, Write, Edit, mcp__project-context__query_context, mcp__project-context__save_decision
+model: inherit
 
 # OS 2.0 Constraint Framework
 required_context:

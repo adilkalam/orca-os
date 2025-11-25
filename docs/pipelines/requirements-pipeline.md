@@ -1,13 +1,13 @@
 # Requirements Domain Pipeline
 
-**Status:** OS 2.0 Core Requirements Lane  
+**Status:** OS 2.2 Core Requirements Pipeline  
 **Last Updated:** 2025-11-19
 
 ## Overview
 
-The requirements lane turns fuzzy feature requests into **structured, code-aware specs** before any heavy implementation. It combines:
+The requirements pipeline turns fuzzy feature requests into **structured, code-aware specs** before any heavy implementation. It combines:
 
-- OS 2.0 primitives (ProjectContextServer, phase_state.json, vibe.db)
+- OS 2.2 primitives (ProjectContextServer, phase_state.json, vibe.db)
 - The Claude Requirements Builder workflow (00–06 docs)
 - Optional Response Awareness tags for metacognitive tracking
 

@@ -1,12 +1,12 @@
-# Project Cleanup Guide for OS 2.0
+# Project Cleanup Guide for OS 2.2
 
 ## Quick Cleanup Script (Run in Each Project)
 
 ```bash
 #!/bin/bash
-# OS 2.0 Project Cleanup Script
+# OS 2.2 Project Cleanup Script
 
-echo "🧹 OS 2.0 Project Cleanup Starting..."
+echo "🧹 OS 2.2 Project Cleanup Starting..."
 
 # 1. Create archive structure
 mkdir -p .deprecated/pre-os2
@@ -40,7 +40,7 @@ rm -f .session-context-*.md 2>/dev/null
 # 5. Update .gitignore if needed
 if [ -f ".gitignore" ]; then
     # Add deprecated folder to gitignore if not present
-    grep -q "^.deprecated" .gitignore || echo -e "\n# OS 2.0 Cleanup\n.deprecated/" >> .gitignore
+    grep -q "^.deprecated" .gitignore || echo -e "\n# OS 2.2 Cleanup\n.deprecated/" >> .gitignore
 fi
 
 echo "✅ Cleanup complete! Check git status to review changes."
@@ -88,7 +88,7 @@ git status
 
 # Stage cleanup (careful - review first!)
 git add -A
-git commit -m "Clean up for OS 2.0 - archive pre-OS2 structures"
+git commit -m "Clean up for OS 2.2 - archive pre-OS2 structures"
 ```
 
 ---
@@ -118,7 +118,7 @@ mkdir -p .deprecated/pre-os2
 [ -d ".claude/orchestration/temp" ] && rm -rf .claude/orchestration/temp/*
 rm -f .claude-session-context.md.backup*
 echo ".deprecated/" >> .gitignore
-echo "✅ Cleaned up for OS 2.0"
+echo "✅ Cleaned up for OS 2.2"
 git status
 EOF
 
@@ -132,7 +132,7 @@ chmod +x cleanup.sh
 
 ### ❌ REMOVE/ARCHIVE:
 - `.claude-work/` - Old working directory
-- `.claude/memory/` - Old context system
+- `.workshop/` - Old context system
 - `.claude/orchestration/evidence/` - Project-specific artifacts
 - `.claude/orchestration/temp/*` - Working files
 - `.claude/memory/playbooks/` - Old memory system
@@ -148,13 +148,13 @@ chmod +x cleanup.sh
 
 ## Why This Cleanup?
 
-OS 2.0 uses:
-- **ProjectContextServer** instead of local `.claude/memory/`
+OS 2.2 uses:
+- **ProjectContextServer** instead of local `.workshop/`
 - **Clean .claude structure** instead of scattered folders
 - **Ephemeral temp/** that should be empty between sessions
 - **No project-specific evidence** in config folders
 
-Each project becomes lighter, cleaner, and ready for OS 2.0 orchestration.
+Each project becomes lighter, cleaner, and ready for OS 2.2 orchestration.
 
 ---
 

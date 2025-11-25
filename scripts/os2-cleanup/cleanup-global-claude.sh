@@ -1,10 +1,10 @@
 #!/bin/bash
 
-# OS 2.0 Global ~/.claude Cleanup Script
+# OS 2.2 Global ~/.claude Cleanup Script
 # Removes legacy v1 systems and archives old content
 
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-echo "🧹 OS 2.0 Global ~/.claude Cleanup"
+echo "🧹 OS 2.2 Global ~/.claude Cleanup"
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 echo ""
 echo "Target: ~/.claude (global)"
@@ -187,9 +187,9 @@ if [ -f "$HOME/.claude/CLAUDE.md.project" ]; then
     echo "  ✓ Removed project file"
 fi
 
-# 9. Create docs structure for OS 2.0 if needed
+# 9. Create docs structure for OS 2.2 if needed
 echo ""
-echo "📚 Setting up OS 2.0 structure..."
+echo "📚 Setting up OS 2.2 structure..."
 if [ ! -d "$HOME/.claude/docs/reference/phase-configs" ]; then
     echo "  → Creating docs/reference/phase-configs directory"
     mkdir -p ~/.claude/docs/reference/phase-configs
@@ -219,15 +219,15 @@ else
     [ -d "$HOME/.claude/.deprecated-os1/debug" ] && echo "  • debug folder"
 
     echo ""
-    echo "🎯 Current OS 2.0 Structure:"
+    echo "🎯 Current OS 2.2 Structure:"
     echo "  ~/.claude/"
-    echo "    ├── agents/       (OS 2.0 agents)"
+    echo "    ├── agents/       (OS 2.2 agents)"
     echo "    ├── commands/     (orca, seo-orca, etc.)"
     echo "    ├── mcp/          (project-context-server)"
     echo "    ├── skills/       (current skills)"
     echo "    ├── hooks/        (cleaned)"
     echo "    ├── scripts/      (cleaned)"
-    echo "    └── docs/         (OS 2.0 reference)"
+    echo "    └── docs/         (OS 2.2 reference)"
 fi
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 

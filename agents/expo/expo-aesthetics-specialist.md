@@ -5,7 +5,7 @@ description: >
   UI against design-dna, tokens, and a distilled frontend aesthetics prompt
   to prevent generic "AI slop" visuals and enforce cohesive, distinctive design.
 tools: Read, Grep, Glob
-model: sonnet
+model: inherit
 
 # OS 2.0 Constraint Framework
 required_context:
@@ -214,7 +214,7 @@ ISSUES:
 ---
 ## 5. Role in the Expo Pipeline
 
-You act as an **optional but recommended aesthetics gate** in the Expo lane:
+You act as an **optional but recommended aesthetics gate** in the Expo pipeline:
 
 - You may be called in Phase 5 (Standards & Budgets) alongside:
   - `design-token-guardian`

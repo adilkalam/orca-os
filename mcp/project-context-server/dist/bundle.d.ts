@@ -2,41 +2,54 @@
  * Context Bundler
  *
  * Creates tailored context bundles by combining:
- * - Semantic file search
- * - Project memory (decisions, standards, history)
+ * - Code search via vibe.db (hybrid: semantic + symbol + fulltext)
+ * - Session memory via Workshop (decisions, standards, history)
  * - Project state (components, structure)
  *
  * Every agent receives a ContextBundle before work begins.
  */
-import type { ContextBundle, ContextQuery, MemoryStore, SemanticSearch, ProjectState } from './types.js';
+import type { ContextBundle, ContextQuery, SemanticSearch, ProjectState } from './types.js';
 export declare class ContextBundler {
-    private memory;
     private semantic;
     private structureAnalyzer;
     private cacheMaxAge;
-    constructor(memory: MemoryStore, semantic: SemanticSearch);
+    private codeSearchCache;
+    constructor(semantic: SemanticSearch);
+    /**
+     * Get or create CodeSearch for a project
+     */
+    private getCodeSearch;
     /**
      * Create a complete context bundle for an agent operation
+     *
+     * KEY PRINCIPLE: Return MINIMAL, RELEVANT context - not full project dumps.
+     * A 25k token response is a failure. Target: <3k tokens.
      */
     createBundle(query: ContextQuery): Promise<ContextBundle>;
     /**
-     * Get files semantically relevant to the task
+     * Get files relevant to the task using hybrid search
+     *
+     * Uses vibe.db's hybrid search (semantic + symbol + fulltext) if available,
+     * falls back to basic keyword search if vibe.db doesn't exist.
      */
     private getRelevantFiles;
     /**
-     * Get past decisions from project memory
+     * Get PROJECT STATE SUMMARY - minimal context, not full dumps
+     * Returns counts and key directories, not full file trees
      */
-    private getPastDecisions;
+    private getProjectStateSummary;
     /**
-     * Get standards relevant to this domain
+     * Summarize project state to minimal tokens
+     * Target: <500 tokens for project state
      */
-    private getRelatedStandards;
+    private summarizeProjectState;
     /**
-     * Get history of similar tasks
+     * Extract only key dependencies (frameworks, not utilities)
      */
-    private getSimilarTasks;
+    private extractKeyDependencies;
     /**
-     * Get current project state (with caching)
+     * Get current project state (with caching) - FULL VERSION
+     * Used for reanalyze, not for query_context
      */
     private getProjectState;
     /**
@@ -48,8 +61,17 @@ export declare class ContextBundler {
      */
     private cacheProjectState;
     /**
-     * Get design system context for webdev and expo
+     * Get design system SUMMARY - key tokens only, not full system
+     * Target: <200 tokens
      */
-    private getDesignSystem;
+    private getDesignSystemSummary;
+    /**
+     * Extract primary colors from design system (max 5)
+     */
+    private extractPrimaryColors;
+    /**
+     * Count files in tree (helper)
+     */
+    private countFilesInTree;
 }
 //# sourceMappingURL=bundle.d.ts.map

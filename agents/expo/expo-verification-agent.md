@@ -3,8 +3,8 @@ name: expo-verification-agent
 description: >
   Expo/React Native verification agent for OS 2.0. Runs build/tests and
   health checks (expo doctor, etc.) and reports Verification Gate status.
-model: sonnet
-allowed-tools: ["Bash", "Read", "Grep", "mcp__project-context__query_context"]
+tools: Bash, Read, Grep, mcp__project-context__query_context
+model: inherit
 ---
 
 # Expo Verification – OS 2.0 Verification Agent

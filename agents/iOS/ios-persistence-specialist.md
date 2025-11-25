@@ -3,8 +3,8 @@ name: ios-persistence-specialist
 description: >
   iOS data layer specialist for SwiftData (iOS 17+), Core Data, and GRDB/SQLite.
   Chooses/extends the correct store, migrations, and performance safety.
-model: sonnet
-allowed-tools: ["Read", "Edit", "MultiEdit", "Grep", "Glob", "Bash"]
+tools: Read, Edit, MultiEdit, Grep, Glob, Bash
+model: inherit
 ---
 
 # iOS Persistence Specialist

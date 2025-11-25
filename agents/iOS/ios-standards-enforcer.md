@@ -4,8 +4,8 @@ description: >
   Standards gate for iOS. Audits recent changes for architecture adherence,
   concurrency safety, safety/security, performance smells, persistence
   consistency, accessibility basics, and test discipline.
-model: sonnet
-allowed-tools: ["Read", "Grep", "Glob", "Bash", "mcp__project-context__query_context"]
+tools: Read, Grep, Glob, Bash, mcp__project-context__query_context
+model: inherit
 ---
 
 # iOS Standards Enforcer – Code-Level Gate

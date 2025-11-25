@@ -1,9 +1,9 @@
-# OS 2.0 Skills Architecture (Draft)
+# OS 2.2 Skills Architecture (Draft)
 
-**Status:** Draft – Skills integration for OS 2.0  
+**Status:** Draft – Skills integration for OS 2.2  
 **Last Updated:** 2025-11-20
 
-This document defines how **Agent Skills** fit into the OS 2.0 system alongside
+This document defines how **Agent Skills** fit into the OS 2.2 system alongside
 agents, pipelines, and MCP tools.
 
 It builds directly on Anthropic’s Skills spec:
@@ -11,13 +11,13 @@ It builds directly on Anthropic’s Skills spec:
 - `_explore/claude-cookbooks/skills`
 - `_explore/orchestration_repositories/claude-flow-main/docs/skills/skills-tutorial.md`
 
-and adapts them to OS 2.0 constraints and domain pipelines.
+and adapts them to OS 2.2 constraints and domain pipelines.
 
 ---
 
 ## 1. Roles: Agents vs Skills vs Tools
 
-OS 2.0 distinguishes three layers:
+OS 2.2 distinguishes three layers:
 
 - **Agents** (`agents/*.md`)
   - Personas with tools, constraints, and lane-specific responsibilities.
@@ -87,9 +87,9 @@ should prefer project skills when both exist.
 
 ---
 
-## 3. SKILL.md Format (OS 2.0)
+## 3. SKILL.md Format (OS 2.2)
 
-OS 2.0 adopts the Anthropic Agent Skills spec:
+OS 2.2 adopts the Anthropic Agent Skills spec:
 
 - `_explore/_SKILLS/agent_skills_spec.md`
 
@@ -119,7 +119,7 @@ Body content...
   - Clear “when to use”.
   - Aids auto-selection.
 - `allowed-tools` can further narrow tools for code-executing skills.
-- `metadata` may include OS 2.0 hints:
+- `metadata` may include OS 2.2 hints:
   - `os2_domain` (`"webdev" | "expo" | "ios" | "seo" | "design" | "brand" | ...`)
   - `pipeline_phase` (if skill is tailored to a specific phase).
   - `project` (e.g. `"peptidefox"`).
@@ -133,7 +133,7 @@ pattern:
 
 ---
 
-## 4. How Agents Use Skills in OS 2.0
+## 4. How Agents Use Skills in OS 2.2
 
 Agents should treat skills as **optional, task-specific amplifiers**:
 
@@ -177,7 +177,7 @@ The `skills/creative-strategist/SKILL.md` is a good exemplar:
   - Defines mindset, operating sequence, rules, domains, output structure,
     tone, and example use cases.
 
-In OS 2.0, appropriate agents might:
+In OS 2.2, appropriate agents might:
 - Load this skill in **webdev** or **brand** pipelines when asked to:
   - Analyze campaign creative.
   - Propose creative strategy for a landing page or campaign.
@@ -191,7 +191,7 @@ work.
 
 ## 6. Skills vs Pipelines vs CLAUDE.md
 
-OS 2.0 already uses:
+OS 2.2 already uses:
 
 - **Pipelines** (`docs/pipelines/*`):
   - Domain-specific, multi-phase workflows with phase configs.
@@ -214,9 +214,9 @@ Example:
 
 ---
 
-## 7. OS 2.0 Guidance for Writing Skills
+## 7. OS 2.2 Guidance for Writing Skills
 
-When authoring skills for OS 2.0:
+When authoring skills for OS 2.2:
 
 1. **Start from concrete gaps**
    - Identify recurring tasks where agents repeat explanations or struggle
@@ -239,7 +239,7 @@ When authoring skills for OS 2.0:
    - If the skill expects running scripts or MCP tools, list them in
      `allowed-tools` and in the body with examples.
 
-5. **Align with OS 2.0 domains**
+5. **Align with OS 2.2 domains**
    - Use `metadata` to tag:
      - `os2_domain` (webdev/expo/ios/seo/design/brand/etc.).
      - `pipeline_phase` (if strongly tied to one phase).
@@ -270,5 +270,5 @@ Long-term:
 
 Until then, Skills are available as an **opt-in capability**: agents and pipelines
 can start using them where they clearly add value, without changing the core
-OS 2.0 architecture.
+OS 2.2 architecture.
 

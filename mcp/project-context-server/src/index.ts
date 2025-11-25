@@ -20,12 +20,11 @@ import {
 import type {
   ContextBundle,
   ContextQuery,
-  MemoryStore,
   SemanticSearch,
 } from './types.js';
-import { MemoryStoreImpl } from './memory.js';
 import { SemanticSearchImpl } from './semantic.js';
 import { ContextBundler } from './bundle.js';
+import { WorkshopClient } from './workshop.js';
 import { execSync } from 'child_process';
 
 /**
@@ -33,7 +32,6 @@ import { execSync } from 'child_process';
  */
 export class ProjectContextServer {
   private server: Server;
-  private memory: MemoryStore;
   private semantic: SemanticSearch;
   private bundler: ContextBundler;
 
@@ -41,7 +39,7 @@ export class ProjectContextServer {
     this.server = new Server(
       {
         name: 'project-context-server',
-        version: '2.0.0',
+        version: '2.1.0', // Upgraded: vibe.db code search + Workshop session memory
       },
       {
         capabilities: {
@@ -51,9 +49,10 @@ export class ProjectContextServer {
     );
 
     // Initialize subsystems
-    this.memory = new MemoryStoreImpl();
+    // Note: Session memory (decisions, standards, history) now uses Workshop
+    // Code search now uses vibe.db's hybrid search with fallback
     this.semantic = new SemanticSearchImpl();
-    this.bundler = new ContextBundler(this.memory, this.semantic);
+    this.bundler = new ContextBundler(this.semantic);
 
     this.setupHandlers();
   }
@@ -270,28 +269,48 @@ export class ProjectContextServer {
 
   private async handleSaveDecision(args: any) {
     const projectPath = this.detectProjectPath(args.projectPath);
-    await this.memory.initializeDb(projectPath);
-    await this.memory.saveDecision({ ...args, projectPath });
+    // Use Workshop for session memory (decisions, gotchas, learnings)
+    const workshop = new WorkshopClient(projectPath);
+    await workshop.saveDecision({
+      domain: args.domain,
+      decision: args.decision,
+      reasoning: args.reasoning,
+      context: args.context,
+      tags: args.tags,
+    });
     return {
-      content: [{ type: 'text', text: 'Decision saved to project memory' }],
+      content: [{ type: 'text', text: 'Decision saved to Workshop' }],
     };
   }
 
   private async handleSaveStandard(args: any) {
     const projectPath = this.detectProjectPath(args.projectPath);
-    await this.memory.initializeDb(projectPath);
-    await this.memory.saveStandard({ ...args, projectPath });
+    // Use Workshop for gotchas (standards/rules)
+    const workshop = new WorkshopClient(projectPath);
+    await workshop.saveGotcha({
+      what_happened: args.what_happened,
+      cost: args.cost,
+      rule: args.rule,
+      domain: args.domain,
+    });
     return {
-      content: [{ type: 'text', text: 'Standard saved and will be enforced' }],
+      content: [{ type: 'text', text: 'Standard saved to Workshop as gotcha' }],
     };
   }
 
   private async handleSaveTaskHistory(args: any) {
     const projectPath = this.detectProjectPath(args.projectPath);
-    await this.memory.initializeDb(projectPath);
-    await this.memory.saveTaskHistory({ ...args, projectPath });
+    // Use Workshop for task history
+    const workshop = new WorkshopClient(projectPath);
+    await workshop.saveTaskHistory({
+      domain: args.domain,
+      task: args.task,
+      outcome: args.outcome,
+      learnings: args.learnings,
+      files_modified: args.files_modified,
+    });
     return {
-      content: [{ type: 'text', text: 'Task history recorded' }],
+      content: [{ type: 'text', text: 'Task history saved to Workshop' }],
     };
   }
 
@@ -335,8 +354,9 @@ Cache updated at .claude/memory/state.json`;
   async run(): Promise<void> {
     const transport = new StdioServerTransport();
     await this.server.connect(transport);
-    console.error('ProjectContextServer v2.0 started');
-    console.error('Context is now MANDATORY for all operations');
+    console.error('ProjectContextServer v2.1 started');
+    console.error('Code search: vibe.db hybrid (semantic + symbol + fulltext)');
+    console.error('Session memory: Workshop (decisions, standards, history)');
   }
 }
 

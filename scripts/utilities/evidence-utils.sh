@@ -18,10 +18,10 @@ timestamp() {
 append_impl_log() {
   local line="$1"
   mkdir -p .orchestration
-  if [ -f .claude/orchestration/implementation-log.md ]; then
-    printf '%s\n' "$line" >> .claude/orchestration/implementation-log.md
+  if [ -f .claude/orchestration/temp/implementation-log.md ]; then
+    printf '%s\n' "$line" >> .claude/orchestration/temp/implementation-log.md
   else
-    printf '%s\n' "$line" >> .claude/orchestration/implementation-log.md
+    printf '%s\n' "$line" >> .claude/orchestration/temp/implementation-log.md
   fi
 }
 

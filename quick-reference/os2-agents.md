@@ -1,11 +1,11 @@
-# OS 2.1 Agents Quick Reference
+# OS 2.2 Agents Quick Reference
 
 **Last Updated:** 2025-11-24
-**Version:** OS 2.1 (v2.1)
+**Version:** OS 2.2 (v2.2)
 
 ---
 
-## What's New in OS 2.1
+## What's New in OS 2.2
 
 **Agent Architecture Changes:**
 - ✅ **Grand Architect Pattern** - Opus for coordination, Sonnet for implementation
@@ -21,9 +21,9 @@
 
 ---
 
-## Agent Architecture (OS 2.1)
+## Agent Architecture (OS 2.2)
 
-### Grand Architect Pattern (NEW in v2.1)
+### Grand Architect Pattern (NEW in v2.2)
 
 **Opus Agents (Coordination & Architecture):**
 - Complex planning and architecture decisions
@@ -42,7 +42,7 @@
 - Clear separation of concerns
 - Predictable behavior
 
-### Role Boundaries (NEW in v2.1)
+### Role Boundaries (NEW in v2.2)
 
 **Orchestrators (NEVER write code):**
 - Pure coordination via Task tool only
@@ -61,7 +61,7 @@
 - Anti-pattern detection
 - State preservation mechanisms
 
-### State Preservation (NEW in v2.1)
+### State Preservation (NEW in v2.2)
 
 All agents work with `phase_state.json`:
 - Current phase tracking
@@ -300,7 +300,7 @@ These agents work across multiple pipelines:
 
 ---
 
-## Agent Total Count (v2.1)
+## Agent Total Count (v2.2)
 
 | Domain | Opus | Sonnet | Total |
 |--------|------|--------|-------|
@@ -371,7 +371,7 @@ All pipelines enforce numerical quality gates:
 
 ---
 
-## Agent Patterns (v2.1)
+## Agent Patterns (v2.2)
 
 ### Constraint Framework Categories
 1. **Scope** - What the agent can/cannot do (explicit boundaries)
@@ -399,7 +399,7 @@ Phase 5: Verification (Build/Test) [Sonnet]
 Phase 6: Evidence Capture & Memory Update
 ```
 
-### Anti-Patterns (v2.1)
+### Anti-Patterns (v2.2)
 ❌ Orchestrator writing code directly
 ❌ Skipping ProjectContextServer query
 ❌ Bypassing team confirmation
@@ -407,7 +407,7 @@ Phase 6: Evidence Capture & Memory Update
 ❌ Skipping quality gates to move faster
 ❌ Not updating phase_state.json
 
-### Correct Patterns (v2.1)
+### Correct Patterns (v2.2)
 ✅ Orchestrator delegates via Task tool only
 ✅ Always query ProjectContextServer first
 ✅ Confirm team before execution
@@ -495,4 +495,4 @@ Phase 6: Evidence Capture & Memory Update
 
 ---
 
-_This reference covers OS 2.1 (v2.1) agents. Legacy v1 agents archived. OS 2.0 agents updated to v2.1 patterns._
+_This reference covers OS 2.2 (v2.2) agents. Legacy v1 agents archived. OS 2.2 agents updated to v2.2 patterns._

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# OS 2.0 Home Directory Cleanup Script
+# OS 2.2 Home Directory Cleanup Script
 # Removes Claude-related legacy files from ~/ that shouldn't be there
 
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
@@ -153,7 +153,7 @@ else
         echo "📦 Moved to ~/.claude/.deprecated-home/:"
         [ -d "$HOME/.claude/.deprecated-home/claude-archive" ] && echo "  • .claude-archive/"
         [ -d "$HOME/.claude/.deprecated-home/claude-self-reflect" ] && echo "  • .claude-self-reflect/"
-        [ -d "$HOME/.claude/.deprecated-home/workshop-from-home" ] && echo "  • .claude/memory/"
+        [ -d "$HOME/.claude/.deprecated-home/workshop-from-home" ] && echo "  • .workshop/"
         [ -d "$HOME/.claude/.deprecated-home/json-backups" ] && echo "  • .claude.json backups"
         [ -d "$HOME/.claude/.deprecated-home/session-files" ] && echo "  • Session context files"
         [ -d "$HOME/.claude/.deprecated-home/vibe" ] && echo "  • .vibe/"

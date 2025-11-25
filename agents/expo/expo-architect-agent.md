@@ -4,10 +4,8 @@ description: >
   OS 2.0 Expo/React Native lane architect. Uses ProjectContextServer and
   React Native best practices to analyze impact, choose architecture, and
   produce plans before implementation.
-model: sonnet
-allowed-tools:
-  ["Task", "Read", "Grep", "Glob", "Bash", "AskUserQuestion",
-   "mcp__project-context__query_context", "mcp__project-context__save_decision"]
+tools: Task, Read, Grep, Glob, Bash, AskUserQuestion, mcp__project-context__query_context, mcp__project-context__save_decision
+model: inherit
 ---
 
 # Expo Architect – OS 2.0 Mobile Lane Planner

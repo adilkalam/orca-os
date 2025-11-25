@@ -4,8 +4,8 @@ description: >
   Competitive analysis specialist for OS 2.0. Performs structured competitor,
   market, and positioning analysis to support strategy, marketing, and product
   decisions.
-model: sonnet
 tools: [Read, WebSearch, WebFetch]
+model: inherit
 ---
 
 # Competitive Analyst – OS 2.0 Competitive Intelligence Agent

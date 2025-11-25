@@ -3,8 +3,8 @@ name: ios-uikit-specialist
 description: >
   iOS UIKit implementation specialist. Builds complex UIKit flows, Auto Layout,
   compositional layouts, custom transitions, and ensures performance/accessibility.
-model: sonnet
-allowed-tools: ["Read", "Edit", "MultiEdit", "Grep", "Glob", "Bash"]
+tools: Read, Edit, MultiEdit, Grep, Glob, Bash
+model: inherit
 ---
 
 # iOS UIKit Specialist

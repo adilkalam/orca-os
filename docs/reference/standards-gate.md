@@ -1,23 +1,14 @@
 # Standards Gate
 
-**Version:** OS 2.1
-**Domain:** All domains (with domain-specific checks)
-**Last Updated:** 2025-11-24
+**Version:** 2.0.0
+**Domain:** webdev (applicable to all domains with domain-specific checks)
+**Last Updated:** 2025-11-19
 
 ## Overview
 
-The Standards Gate is a critical quality gate that enforces code quality standards compliance after implementation. It blocks progression if the standards score falls below the threshold (≥90/100).
+The Standards Gate is a critical quality gate that enforces code quality standards compliance after implementation. It blocks progression if the standards score falls below the threshold (default: 90/100).
 
 **Purpose:** Prevent code quality violations from reaching production by catching and fixing them during the implementation phase.
-
-### OS 2.1 Integration
-
-**What's New:**
-- **Team Confirmation:** Standards gate agents (standards-enforcer) confirmed via AskUserQuestion before execution
-- **Role Boundaries:** Orchestrators delegate to standards-enforcer agents via Task tool (never run checks directly)
-- **State Preservation:** Gate results stored in phase_state.json for resumption after interruptions
-- **Mandatory Enforcement:** Score ≥90 required to pass (no exceptions)
-- **Meta-Audit Integration:** `/audit` command analyzes gate bypass patterns and creates standards from failures
 
 ---
 

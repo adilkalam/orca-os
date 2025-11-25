@@ -1,5 +1,5 @@
 ---
-description: "Unified OS 2.0 planner – requirements + RA blueprint (no implementation)"
+description: "Unified OS 2.2 planner – requirements + RA blueprint (no implementation)"
 argument-hint: "<high-level task description>"
 allowed-tools:
   ["Task", "Read", "Write", "Edit", "Glob", "Grep",
@@ -11,7 +11,7 @@ allowed-tools:
 Use this command to produce a **blueprint-quality requirements spec** for a task
 before running any domain lane (`/orca-nextjs`, `/orca-ios`, `/orca-expo`, etc.).
 It combines:
-- The OS 2.0 **requirements pipeline** (requirements folder + docs),
+- The OS 2.2 **requirements pipeline** (requirements folder + docs),
 - **Response Awareness** tagging (RA tags as per `docs/reference/response-awareness.md`),
 - ProjectContextServer for context-aware analysis.
 

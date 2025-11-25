@@ -1,9 +1,9 @@
-# OS 2.1 Commands Quick Reference
+# OS 2.2 Commands Quick Reference
 
 **Last Updated:** 2025-11-24
-**Version:** OS 2.1
+**Version:** OS 2.2
 
-## What's New in OS 2.1
+## What's New in OS 2.2
 
 **Major Changes:**
 - ✅ Unified `/plan` command (replaces 8+ requirements commands)
@@ -18,12 +18,12 @@
 
 ---
 
-## Active Commands (OS 2.1)
+## Active Commands (OS 2.2)
 
 ### Planning Commands
 
 #### `/plan` - Unified Requirements + RA Blueprint
-**NEW in OS 2.1 - Replaces 8+ commands**
+**NEW in OS 2.2 - Replaces 8+ commands**
 
 - **Purpose:** Complete requirements gathering + Response Awareness planning
 - **Usage:** `/plan "feature description"`
@@ -62,7 +62,7 @@ requirements/2025-11-24-1430-user-profile-editing/06-requirements-spec.md
 - **Location:** `~/.claude/commands/orca.md`
 
 #### `/orca-nextjs` - Next.js Lane Orchestrator
-**UPDATED in OS 2.1 - Role boundaries enforced**
+**UPDATED in OS 2.2 - Role boundaries enforced**
 
 - **Purpose:** Next.js/React frontend implementation
 - **Usage:** `/orca-nextjs "implement requirement <id> using spec"`
@@ -82,7 +82,7 @@ requirements/2025-11-24-1430-user-profile-editing/06-requirements-spec.md
 - **Location:** `~/.claude/commands/orca-nextjs.md`
 
 #### `/orca-ios` - iOS Lane Orchestrator
-**UPDATED in OS 2.1 - Role boundaries enforced**
+**UPDATED in OS 2.2 - Role boundaries enforced**
 
 - **Purpose:** Native iOS (Swift/SwiftUI/UIKit) implementation
 - **Usage:** `/orca-ios "implement requirement <id> using spec"`
@@ -101,7 +101,7 @@ requirements/2025-11-24-1430-user-profile-editing/06-requirements-spec.md
 - **Location:** `~/.claude/commands/orca-ios.md`
 
 #### `/orca-expo` - Expo/React Native Lane Orchestrator
-**UPDATED in OS 2.1 - Role boundaries enforced**
+**UPDATED in OS 2.2 - Role boundaries enforced**
 
 - **Purpose:** Expo/React Native mobile implementation
 - **Usage:** `/orca-expo "implement requirement <id> using spec"`
@@ -123,7 +123,7 @@ requirements/2025-11-24-1430-user-profile-editing/06-requirements-spec.md
 - **Location:** `~/.claude/commands/orca-expo.md`
 
 #### `/orca-data` - Data/Analytics Lane Orchestrator
-**UPDATED in OS 2.1 - Role boundaries enforced**
+**UPDATED in OS 2.2 - Role boundaries enforced**
 
 - **Purpose:** Data analysis and insights
 - **Usage:** `/orca-data "implement requirement <id> using spec"`
@@ -141,7 +141,7 @@ requirements/2025-11-24-1430-user-profile-editing/06-requirements-spec.md
 ### Meta-Audit Command
 
 #### `/audit` - Response-Aware Behavior Review
-**NEW in OS 2.1**
+**NEW in OS 2.2**
 
 - **Purpose:** Meta-review of recent agent behavior
 - **Usage:** `/audit "last 10 tasks"` or `/audit "recent iOS work"`
@@ -203,7 +203,7 @@ requirements/2025-11-24-1430-user-profile-editing/06-requirements-spec.md
 - **Location:** `~/.claude/commands/seo.md`
 
 #### `/clone-website` - Website Cloning
-- **Purpose:** Clone website UI into OS 2.0 project structure
+- **Purpose:** Clone website UI into OS 2.2 project structure
 - **Usage:** `/clone-website <url>`
 - **Location:** `~/.claude/commands/clone-website.md`
 
@@ -227,7 +227,7 @@ requirements/2025-11-24-1430-user-profile-editing/06-requirements-spec.md
 
 ---
 
-## OS 2.1 Workflow Pattern
+## OS 2.2 Workflow Pattern
 
 ### Recommended Flow
 
@@ -257,7 +257,7 @@ requirements/2025-11-24-1430-user-profile-editing/06-requirements-spec.md
 ❌ /requirements-start → /requirements-status → /response-awareness-implement
 ```
 
-### New Workflow (OS 2.1)
+### New Workflow (OS 2.2)
 ```
 ✅ /plan → /orca-{domain} → /audit
 ```
@@ -266,7 +266,7 @@ requirements/2025-11-24-1430-user-profile-editing/06-requirements-spec.md
 
 ## Command Architecture
 
-### Role Boundaries (NEW in OS 2.1)
+### Role Boundaries (NEW in OS 2.2)
 
 **Orchestrators:**
 - NEVER write code
@@ -290,7 +290,7 @@ YOU ARE AN ORCHESTRATOR. YOU NEVER WRITE CODE.
 If you find yourself about to use Edit/Write tools: STOP. You've broken role.
 ```
 
-### Team Confirmation (NEW in OS 2.1)
+### Team Confirmation (NEW in OS 2.2)
 
 Before any pipeline executes:
 1. Orchestrator detects domain
@@ -304,7 +304,7 @@ Before any pipeline executes:
 - User controls scope
 - Clear expectations
 
-### State Preservation (NEW in OS 2.1)
+### State Preservation (NEW in OS 2.2)
 
 Orchestrators maintain state across interruptions:
 - Read `phase_state.json` after user input
@@ -350,7 +350,7 @@ phase_6_verification:
 
 ### Context Integration
 
-All OS 2.1 commands MUST:
+All OS 2.2 commands MUST:
 1. Query ProjectContextServer first (mandatory)
 2. Pass context to agents
 3. Maintain context through phases
@@ -477,18 +477,18 @@ START → Context Query → Team Confirm → Planning → Implementation → Gat
 
 ### Orchestrator Started Coding Directly
 **Problem:** Orchestrator used Edit/Write tools instead of delegating.
-**Fix:** OS 2.1 role boundaries should prevent this. If it happens:
+**Fix:** OS 2.2 role boundaries should prevent this. If it happens:
 1. Check phase_state.json
 2. Remind orchestrator of role
 3. Report as bug (shouldn't happen in 2.1)
 
 ### Agent Team Not Confirmed
 **Problem:** Pipeline started without team confirmation.
-**Fix:** OS 2.1 mandates AskUserQuestion before execution. Should not skip.
+**Fix:** OS 2.2 mandates AskUserQuestion before execution. Should not skip.
 
 ### State Lost After Interruption
 **Problem:** Orchestrator forgot what phase it was in.
-**Fix:** OS 2.1 state preservation should prevent this:
+**Fix:** OS 2.2 state preservation should prevent this:
 1. Check phase_state.json exists
 2. Orchestrator should read it automatically
 
@@ -498,4 +498,4 @@ START → Context Query → Team Confirm → Planning → Implementation → Gat
 
 ---
 
-_This reference covers OS 2.1 commands. Legacy v1 commands archived. OS 2.0 commands deprecated but backward compatible._
+_This reference covers OS 2.2 commands. Legacy v1 commands archived. OS 2.2 commands deprecated but backward compatible._

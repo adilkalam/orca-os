@@ -75,17 +75,5 @@ if [[ "${TOOL_NAME:-}" == "Write" || "${TOOL_NAME:-}" == "NotebookEdit" || "${TO
     fi
 fi
 
-# Check if this is from an agent creating files
-if [[ "${AGENT_NAME:-}" != "" ]]; then
-    echo -e "${RED}${BOLD}🤖 AGENT FILE CREATION DETECTED${NC}"
-    echo -e "Agent '${AGENT_NAME}' is trying to create files"
-    echo ""
-    echo -e "${YELLOW}Agents often place files in arbitrary locations.${NC}"
-    echo -e "${GREEN}Would you like to review file locations before creation?${NC}"
-    echo ""
-    echo "Reply: 'continue' to allow, or specify preferred locations"
-    exit 1
-fi
-
 # Allow operation to continue if not blocked
 exit 0

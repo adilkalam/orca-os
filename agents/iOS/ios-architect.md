@@ -4,8 +4,8 @@ description: >
   iOS lane architect. Chooses stack (SwiftUI vs MVVM/TCA/UIKit), data strategy
   (SwiftData vs Core Data/GRDB), design-DNA/token enforcement, and emits a
   concrete plan before any implementation.
-model: sonnet
-allowed-tools: ["Task", "Read", "Grep", "Glob", "Bash", "AskUserQuestion", "mcp__project-context__query_context", "mcp__project-context__save_decision", "mcp__context7__resolve-library-id", "mcp__context7__get-library-docs"]
+tools: Task, Read, Grep, Glob, Bash, AskUserQuestion, mcp__project-context__query_context, mcp__project-context__save_decision, mcp__context7__resolve-library-id, mcp__context7__get-library-docs
+model: inherit
 ---
 
 # iOS Architect – Plan First, Route Smart

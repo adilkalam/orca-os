@@ -2,8 +2,8 @@ name: ios-fastlane-specialist
 description: >
   iOS Fastlane/CI/CD specialist. Manages lanes, signing, screenshots,
   metadata, and store automation safely.
-model: sonnet
-allowed-tools: ["Read", "Bash", "AskUserQuestion"]
+model: inherit
+tools: ["Read", "Bash", "AskUserQuestion"]
 ---
 
 # iOS Fastlane Specialist

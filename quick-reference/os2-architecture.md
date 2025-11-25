@@ -1,11 +1,18 @@
-# OS 2.1 Architecture Quick Reference
+# OS 2.2 Architecture Quick Reference
 
 **Last Updated:** 2025-11-24
-**Version:** OS 2.1
+**Version:** OS 2.2
 
-## What's New in OS 2.1
+## What's New in OS 2.2
 
-**Architectural Changes:**
+**Memory Architecture (NEW):**
+- ✅ **Workshop** → Session memory (decisions, gotchas, learnings)
+- ✅ **vibe.db** → Code intelligence (chunks, symbols, hybrid search)
+- ✅ **project-meta** → Stable project metadata (MCP with versioning)
+- ✅ **ProjectContext v2.2** → Task bundler (queries all sources)
+- ✅ New commands: `/project-memory`, `/project-code`, `/project-meta`
+
+**From OS 2.2:**
 - ✅ Role boundary enforcement layer (orchestrators NEVER write code)
 - ✅ State preservation mechanism (phase_state.json)
 - ✅ Team confirmation layer (AskUserQuestion before execution)
@@ -15,7 +22,7 @@
 
 ---
 
-## Core Architecture (OS 2.1)
+## Core Architecture (OS 2.2)
 
 ### Foundation: Context-First Orchestration with Role Boundaries
 ```
@@ -72,7 +79,7 @@ Output + Learning
   6. Update memory systems
   7. Preserve state across interruptions
 
-#### Role Boundary Enforcement (NEW in OS 2.1)
+#### Role Boundary Enforcement (NEW in OS 2.2)
 ```
 🚨 CRITICAL: Orchestrators NEVER write code
 
@@ -95,7 +102,7 @@ If orchestrator uses Edit/Write → ROLE VIOLATION → Stop immediately
 
 ### 3. Agent Layer
 
-#### Grand Architect Pattern (NEW in OS 2.1)
+#### Grand Architect Pattern (NEW in OS 2.2)
 ```yaml
 Coordination Tier (Opus):
   - Grand Architects (ios-grand-architect, nextjs-grand-architect, expo-grand-orchestrator)
@@ -135,7 +142,7 @@ Verification Agents:
 - Evidence capture
 ```
 
-### 4. State Preservation (NEW in OS 2.1)
+### 4. State Preservation (NEW in OS 2.2)
 
 #### phase_state.json
 **Location:** `.claude/project/phase_state.json`
@@ -168,7 +175,7 @@ Verification Agents:
 **Usage:**
 Orchestrators read this file after ANY user input to determine where they were and what to do next.
 
-### 5. Team Confirmation (NEW in OS 2.1)
+### 5. Team Confirmation (NEW in OS 2.2)
 
 #### AskUserQuestion Integration
 Before pipeline execution, orchestrators MUST:
@@ -210,7 +217,7 @@ AskUserQuestion({
 
 ### 6. Quality Gates
 
-#### Gate Scoring (OS 2.1)
+#### Gate Scoring (OS 2.2)
 All gates use numerical scores with ≥90 threshold:
 
 **Standards Gate**
@@ -243,50 +250,92 @@ All gates use numerical scores with ≥90 threshold:
 - **Agent:** domain-verification
 - **Action:** Fail pipeline if build/tests fail
 
-### 7. Memory Systems
+### 7. Memory Systems (OS 2.2)
 
-#### ProjectContext (MCP)
-- **Type:** Persistent, project-scoped
-- **Location:** `<project>/.claude/project/vibe.db`
-- **Contents:**
-  - Architectural decisions
-  - Standards and rules
-  - Task history and learnings
-  - File structure and dependencies
-- **Access:** mcp__project-context__* tools
+The OS 2.2 memory architecture cleanly separates concerns:
 
-#### SharedContext (MCP)
-- **Type:** Persistent, cross-session
-- **Location:** `~/.claude/shared-context/`
-- **Contents:**
-  - Shared project context (versioned)
-  - Differential updates (20-30% token reduction)
-  - Cross-session continuity
-- **Access:** mcp__shared-context__* tools
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                    OS 2.2 MEMORY ARCHITECTURE                    │
+├─────────────────────────────────────────────────────────────────┤
+│                                                                  │
+│  ┌──────────────────┐  ┌──────────────────┐  ┌────────────────┐ │
+│  │    Workshop      │  │     vibe.db      │  │  project-meta  │ │
+│  │  (Session Mem)   │  │  (Code Intel)    │  │ (Stable Config)│ │
+│  ├──────────────────┤  ├──────────────────┤  ├────────────────┤ │
+│  │ • Decisions      │  │ • Code chunks    │  │ • Project type │ │
+│  │ • Gotchas        │  │ • Symbols        │  │ • Dependencies │ │
+│  │ • Learnings      │  │ • Embeddings     │  │ • Design tokens│ │
+│  │ • Task history   │  │ • Hybrid search  │  │ • Build config │ │
+│  └────────┬─────────┘  └────────┬─────────┘  └───────┬────────┘ │
+│           │                     │                     │          │
+│           └─────────────────────┼─────────────────────┘          │
+│                                 │                                │
+│                                 ▼                                │
+│              ┌──────────────────────────────────┐                │
+│              │    ProjectContext MCP v2.2       │                │
+│              │       (Task Bundler)             │                │
+│              │   Queries ALL sources for        │                │
+│              │   agent context bundles          │                │
+│              └──────────────────────────────────┘                │
+│                                                                  │
+└─────────────────────────────────────────────────────────────────┘
+```
 
-#### Workshop
-- **Type:** Persistent, institutional knowledge
+#### Workshop (Session Memory)
+- **Type:** Persistent, session/project-scoped
 - **Location:** `.claude/memory/workshop.db`
 - **Contents:**
-  - Decisions with reasoning
-  - Gotchas and antipatterns
+  - Decisions with reasoning (`workshop decision`)
+  - Gotchas and antipatterns (`workshop gotcha`)
   - Preferences and goals
   - Session summaries
-- **Access:** workshop CLI commands
+  - Task history
+- **Access:** `workshop` CLI or `/project-memory` command
+- **Queried by:** ProjectContext MCP (via WorkshopClient)
 
-#### AgentDB (Ephemeral)
-- **Type:** Session-scoped cache
-- **Purpose:** Cross-agent communication within pipeline
-- **Lifetime:** Cleared after pipeline completion
-- **Contents:** Phase outputs, intermediate results
+#### vibe.db (Code Intelligence)
+- **Type:** Persistent, project-scoped
+- **Location:** `.claude/memory/vibe.db`
+- **Contents:**
+  - Code chunks (functions, classes, methods)
+  - Symbols (extracted function/class names)
+  - Embeddings (semantic vectors when enabled)
+- **Search:** Hybrid (semantic 40% + symbol 35% + fulltext 25%)
+- **Access:** `vibe-sync.py` CLI or `/project-code` command
+- **Queried by:** ProjectContext MCP (via CodeSearch)
+
+#### project-meta (Stable Config)
+- **Type:** Persistent, rarely-changing
+- **Location:** MCP cache (versioned)
+- **Contents:**
+  - Project type (iOS, Next.js, Expo, etc.)
+  - Dependencies and versions
+  - Design system tokens
+  - Build configuration
+- **Features:** Differential updates (20-30% token reduction)
+- **Access:** `/project-meta` command or MCP tools
+
+#### ProjectContext MCP v2.2 (Task Bundler)
+- **Purpose:** Mandatory context provider for all agents
+- **Queries:** Workshop + vibe.db + project state
+- **Returns:** ContextBundle with files, decisions, standards, history
+- **Access:** `mcp__project-context__query_context`
+
+#### SharedContext (Cross-Session)
+- **Type:** Persistent, cross-session caching
+- **Location:** `~/.claude/shared-context/`
+- **Purpose:** Cache context bundles across sessions
+- **Features:** Versioning, differential updates
+- **Access:** `mcp__shared-context__*` tools
 
 ---
 
-## Directory Structure (OS 2.1)
+## Directory Structure (OS 2.2)
 
 ```
 ~/.claude/
-├── agents/                    # OS 2.1 agent definitions (57 total)
+├── agents/                    # OS 2.2 agent definitions (57 total)
 │   ├── ios/                   # iOS team (18 agents)
 │   ├── nextjs/                # Next.js team (13 agents)
 │   ├── expo/                  # Expo team (10 agents)
@@ -294,46 +343,56 @@ All gates use numerical scores with ≥90 threshold:
 │   ├── seo/                   # SEO team (4 agents)
 │   └── design/                # Design team (2 agents)
 ├── commands/                  # Orchestrator commands
-│   ├── plan.md                # NEW: Unified planner
-│   ├── audit.md               # NEW: Meta-audit
+│   ├── plan.md                # Unified planner
+│   ├── audit.md               # Meta-audit
+│   ├── project-memory.md      # NEW: Workshop interface
+│   ├── project-code.md        # NEW: vibe.db interface
+│   ├── project-meta.md        # NEW: project-meta interface
 │   ├── orca.md                # Main orchestrator
-│   ├── orca-ios.md            # iOS lane (role boundaries enforced)
-│   ├── orca-nextjs.md         # Next.js lane (role boundaries enforced)
-│   ├── orca-expo.md           # Expo lane (role boundaries enforced)
-│   └── orca-data.md           # Data lane (role boundaries enforced)
+│   ├── orca-ios.md            # iOS lane
+│   ├── orca-nextjs.md         # Next.js lane
+│   ├── orca-expo.md           # Expo lane
+│   └── orca-data.md           # Data lane
 ├── mcp/                       # MCP servers
-│   ├── project-context-server/
-│   ├── shared-context/
-│   └── sequential-thinking/
-├── docs/
-│   ├── reference/
-│   │   └── phase-configs/     # Pipeline configurations
-│   └── pipelines/             # Pipeline specifications
-└── memory/                    # Workshop database
-    └── workshop.db
+│   ├── project-context-server/ # v2.2 - queries Workshop + vibe.db
+│   ├── project-meta-server/   # NEW: Stable project metadata
+│   ├── shared-context/        # Cross-session caching
+│   └── sequential-thinking/   # Deep reasoning
+├── scripts/                   # Helper scripts
+│   ├── init-memory.sh         # Initialize OS 2.2 memory
+│   └── vibe-sync.py           # vibe.db management
+└── hooks/                     # Session hooks
+    ├── session-start.sh       # Load context
+    └── session-end.sh         # Save session summary
 
 <project>/.claude/
-├── project/
-│   ├── vibe.db                # ProjectContext database
-│   └── phase_state.json       # NEW: State preservation
+├── memory/                    # OS 2.2 MEMORY SYSTEM
+│   ├── workshop.db            # Session memory (decisions, gotchas)
+│   └── vibe.db                # Code intelligence (chunks, symbols)
 ├── orchestration/
 │   ├── evidence/              # Final artifacts
 │   └── temp/                  # Working files (clean up after session)
-└── requirements/              # NEW: Unified planning outputs
+├── cache/                     # Context caching
+│   └── .project-meta-init     # project-meta marker
+├── project/
+│   └── phase_state.json       # State preservation
+└── requirements/              # Planning outputs
     └── YYYY-MM-DD-HHMM-<slug>/
         └── 06-requirements-spec.md
 
 claude-vibe-config/            # This repo (mirror/record)
 ├── agents/                    # Agent records
 ├── commands/                  # Command records
+├── mcp/                       # Custom MCP records
+├── scripts/                   # Script records
 ├── docs/                      # Documentation
 ├── quick-reference/           # This reference
-└── .deprecated/               # Archived v1/v2.0 content
+└── .deprecated/               # Archived content
 ```
 
 ---
 
-## Phase Pipeline Pattern (OS 2.1)
+## Phase Pipeline Pattern (OS 2.2)
 
 ### Updated 6-Phase Structure
 ```yaml
@@ -380,7 +439,7 @@ Phase 6: Verification
 
 ---
 
-## Integration Flow (OS 2.1)
+## Integration Flow (OS 2.2)
 
 ### Complete Request Lifecycle
 ```
@@ -467,7 +526,7 @@ Later: /audit "last 5 tasks"
 
 ---
 
-## Role Boundary Enforcement (OS 2.1)
+## Role Boundary Enforcement (OS 2.2)
 
 ### The Problem (OS 2.0)
 ```
@@ -484,7 +543,7 @@ Planning phase (via agent)
 ❌ Entire agentic system bypassed
 ```
 
-### The Solution (OS 2.1)
+### The Solution (OS 2.2)
 ```
 User: "Add dark mode"
     ↓
@@ -564,7 +623,7 @@ File: `~/.claude.json`
 
 ---
 
-## Key Principles (OS 2.1)
+## Key Principles (OS 2.2)
 
 1. **Context is Mandatory** - No operation without ProjectContextServer query
 2. **Team Confirmation is Mandatory** - User approves agents before execution
@@ -578,9 +637,9 @@ File: `~/.claude.json`
 
 ---
 
-## OS 2.1 vs OS 2.0
+## OS 2.2 vs OS 2.2
 
-| Feature | OS 2.0 | OS 2.1 |
+| Feature | OS 2.2 | OS 2.2 |
 |---------|--------|--------|
 | Planning | 8+ fragmented commands | Unified /plan command |
 | Meta-Review | Manual | /audit command |
@@ -594,4 +653,4 @@ File: `~/.claude.json`
 
 ---
 
-_OS 2.1 represents a major evolution from OS 2.0: role boundaries prevent orchestration breakdown, state preservation survives interruptions, team confirmation provides transparency, and unified planning eliminates command sprawl._
+_OS 2.2 represents a major evolution from OS 2.2: role boundaries prevent orchestration breakdown, state preservation survives interruptions, team confirmation provides transparency, and unified planning eliminates command sprawl._

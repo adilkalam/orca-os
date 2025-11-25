@@ -1,7 +1,7 @@
-# Vibe Code OS 2.0 – Architecture Specification — 2025-11-17
+# Vibe Code OS 2.2 – Architecture Specification — 2025-11-17
 
 > This document promotes ideas from `vibe-code-os-v2-brainstorm.md` into a concrete, opinionated spec.
-> The brainstorm has been archived; this file is the source of truth for OS 2.0 behavior.
+> The brainstorm has been archived; this file is the source of truth for OS 2.2 behavior.
 
 ---
 
@@ -33,7 +33,7 @@
 
 ## 2. High‑Level Architecture
 
-At a high level, OS 2.0 is organized as:
+At a high level, OS 2.2 is organized as:
 
 ```text
 User Input
@@ -185,7 +185,7 @@ Orca can still use interactive `AskUserQuestion` for team selection and major tr
 
 **Purpose:** Turn external artifacts into structured requirements and UI context.
 
-OS 2.0 adds a coherent ingestion layer via commands:
+OS 2.2 adds a coherent ingestion layer via commands:
 
 - **Requirements from docs**
   - `commands/requirements-from-doc.md`:
@@ -353,7 +353,7 @@ This turns trust into a real constraint on behavior, not just logging.
 
 ## 11. Learning – Visual Preferences & Events
 
-**Purpose:** Let OS 2.0 adapt to user taste and capture lessons for future standards.
+**Purpose:** Let OS 2.2 adapt to user taste and capture lessons for future standards.
 
 - Visual preferences file:
   - `.claude/orchestration/learning/visual-preferences.json`
@@ -374,7 +374,7 @@ The learning layer is intentionally light in v2; its main job is to centralize p
 
 ## 12. Implementation Notes & Rollout
 
-This spec describes the target OS 2.0 behavior. Implementation can proceed module‑by‑module, but changes must respect this architecture:
+This spec describes the target OS 2.2 behavior. Implementation can proceed module‑by‑module, but changes must respect this architecture:
 
 - Orca 2.0 should:
   - Use the Phase/Task Engine.
@@ -385,5 +385,5 @@ This spec describes the target OS 2.0 behavior. Implementation can proceed modul
 - Agents revived from `.deprecated/agents_old` (planning/quality) must:
   - Fit into this orchestration model rather than reintroducing free‑form orchestration.
 
-As OS 2.0 is implemented, this spec should be updated when behavior changes materially; the brainstorm doc should remain the place for exploratory ideas and external pattern notes. 
+As OS 2.2 is implemented, this spec should be updated when behavior changes materially; the brainstorm doc should remain the place for exploratory ideas and external pattern notes. 
 

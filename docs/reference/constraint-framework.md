@@ -5,7 +5,7 @@
 
 ## Overview
 
-The Constraint Framework is OS 2.0's solution to v1's chaos problem. Instead of agents that "can do anything," every agent has explicit constraints defined as configuration.
+The Constraint Framework is OS 2.2's solution to v1's chaos problem. Instead of agents that "can do anything," every agent has explicit constraints defined as configuration.
 
 **Core Principle:** Constraints are first-class, documented, and enforced - not buried in prompts.
 

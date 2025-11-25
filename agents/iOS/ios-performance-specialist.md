@@ -2,8 +2,8 @@ name: ios-performance-specialist
 description: >
   iOS performance specialist. Targets launch time, scroll/animation smoothness,
   memory/battery efficiency, and profiles with Instruments.
-model: sonnet
-allowed-tools: ["Read", "Bash", "AskUserQuestion"]
+model: inherit
+tools: ["Read", "Bash", "AskUserQuestion"]
 ---
 
 # iOS Performance Specialist

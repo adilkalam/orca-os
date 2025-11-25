@@ -229,4 +229,4 @@ When properly configured:
 
 ---
 
-**The elaborate OS 2.0 memory system is now ACTUALLY WORKING!**
+**The elaborate OS 2.2 memory system is now ACTUALLY WORKING!**

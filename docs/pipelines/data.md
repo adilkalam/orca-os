@@ -1,6 +1,6 @@
-# Data & Analytics – OS 2.0 Overview
+# Data & Analytics – OS 2.2 Overview
 
-This doc is the **entrypoint** for the data/analytics lane in OS 2.0.
+This doc is the **entrypoint** for the data/analytics pipeline in OS 2.2.
 
 Use it when your task is primarily about **data understanding, analysis, or
 decision support**, rather than UI implementation or SEO/content.
@@ -14,7 +14,7 @@ decision support**, rather than UI implementation or SEO/content.
 
 - **Phase config:**  
   - `docs/reference/phase-configs/data-phases.yaml` – machine-readable phase
-    definitions for `/orca-data` and agents.
+    definitions for `/orca` and agents.
 
 - **Quality rubric:**  
   - `.claude/orchestration/reference/quality-rubrics/data-analytics-rubric.md`
@@ -37,11 +37,11 @@ decision support**, rather than UI implementation or SEO/content.
 
 ---
 
-## How to Use the Data Lane
+## How to Use the Data Pipeline
 
 For a data/analytics task:
 
-1. **Start with `/orca-data`**
+1. **Start with `/orca`**
    - It will:
      - Run the mandatory context query (`domain: "data"`).
      - Confirm questions/decisions and constraints via Q&A.
@@ -54,7 +54,7 @@ For a data/analytics task:
 
 3. **Check quality**
    - The verification phase scores the work against the data analytics rubric.
-   - `/orca-data` hands you:
+   - `/orca` hands you:
      - A findings report.
      - A summary brief.
      - A quality score and gate status (PASS/CAUTION/FAIL/BLOCK).
@@ -64,5 +64,5 @@ For a data/analytics task:
      - Make your decision, or
      - Request a refinement pass (e.g., more data, stronger implementation, clearer storytelling).
 
-The goal of this lane is to make data work **systematic, reproducible, and
+The goal of this pipeline is to make data work **systematic, reproducible, and
 decision-ready**, not a series of one-off notebooks.***

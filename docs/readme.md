@@ -1,13 +1,13 @@
-# OS 2.1 Documentation Index
+# OS 2.2 Documentation Index
 
-**Version:** OS 2.1
+**Version:** OS 2.2
 **Last Updated:** 2025-11-24
 
-This folder contains the documentation for the OS 2.1 orchestration system used by Claude Code. For the main overview, see the [project README](/README.md).
+This folder contains the documentation for the OS 2.2 orchestration system used by Claude Code. For the main overview, see the [project README](/README.md).
 
 ---
 
-## What's New in OS 2.1
+## What's New in OS 2.2
 
 **Major Changes:**
 - ✅ **Unified Planning** - `/plan` command replaces 8+ fragmented requirements commands
@@ -19,8 +19,8 @@ This folder contains the documentation for the OS 2.1 orchestration system used 
 
 **Workflow Evolution:**
 ```
-OS 2.0: requirements-start → requirements-status → response-awareness-plan → response-awareness-implement
-OS 2.1: /plan → /orca-{domain} → /audit
+OS 2.2: requirements-start → requirements-status → response-awareness-plan → response-awareness-implement
+OS 2.2: /plan → /orca-{domain} → /audit
 ```
 
 ---
@@ -28,16 +28,16 @@ OS 2.1: /plan → /orca-{domain} → /audit
 ## Quick Reference
 
 Start here for fast lookups:
-- [OS 2.1 Commands Reference](../quick-reference/os2-commands.md) - All commands with usage
-- [OS 2.1 Agents Reference](../quick-reference/os2-agents.md) - All 57 agents across 6 domains
-- [OS 2.1 Architecture Reference](../quick-reference/os2-architecture.md) - System architecture
+- [OS 2.2 Commands Reference](../quick-reference/os2-commands.md) - All commands with usage
+- [OS 2.2 Agents Reference](../quick-reference/os2-agents.md) - All 57 agents across 6 domains
+- [OS 2.2 Architecture Reference](../quick-reference/os2-architecture.md) - System architecture
 
 ---
 
-## Core OS 2.1 Docs (Canonical)
+## Core OS 2.2 Docs (Canonical)
 
 ### Architecture
-- `architecture/vibe-code-os-v2-spec.md` – Main OS 2.0 spec (being updated to 2.1)
+- `architecture/vibe-code-os-v2-spec.md` – Main OS 2.2 spec (being updated to 2.1)
 - `architecture/chaos-prevention.md` – File creation / chaos limits
 - `architecture/agents.md` – Agent system overview
 
@@ -88,12 +88,12 @@ Location: `reference/phase-configs/`
 
 ---
 
-## OS 2.1 Key Concepts
+## OS 2.2 Key Concepts
 
 ### 1. Role Boundary Enforcement (NEW)
 **Problem in OS 2.0:** Orchestrators would abandon their role and start coding directly when users interrupted with questions.
 
-**Solution in OS 2.1:** Explicit enforcement in all orca commands:
+**Solution in OS 2.2:** Explicit enforcement in all orca commands:
 ```markdown
 🚨 CRITICAL ROLE BOUNDARY 🚨
 YOU ARE AN ORCHESTRATOR. YOU NEVER WRITE CODE.
@@ -127,7 +127,7 @@ YOU ARE AN ORCHESTRATOR. YOU NEVER WRITE CODE.
 - /response-awareness-plan
 - /response-awareness-implement
 
-**New Way (OS 2.1):**
+**New Way (OS 2.2):**
 - `/plan "feature description"` → Creates blueprint at `requirements/<id>/06-requirements-spec.md`
 - `/orca-{domain} "implement requirement <id>"` → Executes with full pipeline
 - `/audit "last N tasks"` → Meta-review for continuous improvement
@@ -186,16 +186,16 @@ These are **older or exploratory** documents kept for context. They may still co
 - `architecture/configuration-record.md` – Background context
 - `architecture/data-analyst-team-guide.md` – Superseded by data-pipeline.md
 - `prompts-research/` – Prompt and quality research notes
-- `sessions/` – OS 2.0 session logs and reflections
+- `sessions/` – OS 2.2 session logs and reflections
 
 **When in doubt:**
-- Use the **Core OS 2.1 Docs** for behavior and implementation
+- Use the **Core OS 2.2 Docs** for behavior and implementation
 - Treat research/historical docs as inspiration, not contracts
-- Check the [main README](/README.md) for the authoritative OS 2.1 overview
+- Check the [main README](/README.md) for the authoritative OS 2.2 overview
 
 ---
 
-## Getting Started with OS 2.1
+## Getting Started with OS 2.2
 
 1. **Understand the workflow:**
    ```
@@ -216,10 +216,10 @@ These are **older or exploratory** documents kept for context. They may still co
 
 ## Version History
 
-- **OS 2.1** (2025-11-24): Role boundaries, state preservation, unified planning, meta-audit, team confirmation
+- **OS 2.2** (2025-11-24): Simplified memory architecture (Workshop + vibe.db), role boundaries, state preservation, unified planning, meta-audit, team confirmation
 - **OS 2.0** (2025-11): Context-first orchestration, agent system, quality gates
 - **OS 1.x** (archived): Reactive pattern system
 
 ---
 
-_For the comprehensive OS 2.1 overview, see the [main README](/README.md)._
+_For the comprehensive OS 2.2 overview, see the [main README](/README.md)._

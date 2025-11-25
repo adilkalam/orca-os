@@ -2,7 +2,7 @@
 name: design-token-guardian
 description: Finds hardcoded colors, spacing, fonts, typography, magic numbers, hardcoded values, styling inconsistencies, design token violations, theme violations, inline styles, styling issues, design system compliance, checks for hardcoded HEX colors, RGB values, pixel values in React Native/Expo components
 tools: Read, Grep, Glob, Edit
-model: sonnet
+model: inherit
 
 # OS 2.0 Constraint Framework
 required_context:
