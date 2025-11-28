@@ -1,7 +1,7 @@
 # SEO Domain Pipeline
 
-**Status:** OS 2.3 Pipeline (SEOPipeline)
-**Last Updated:** 2025-11-25
+**Status:** OS 2.4 Pipeline (SEOPipeline)
+**Last Updated:** 2025-11-27
 
 ## Overview
 
@@ -11,7 +11,7 @@ The SEO pipeline turns a target keyword + project context into:
 - A structured QA report with explicit gates.
 
 It combines:
-- OS 2.3 primitives (ProjectContextServer, `phase_state.json`, vibe.db, Workshop)
+- OS 2.4 primitives (ProjectContextServer, `phase_state.json`, vibe.db, Workshop)
 - Memory-first context (Workshop + vibe.db before ProjectContext)
 - SEO agents:
   - `seo-research-specialist` (lead)

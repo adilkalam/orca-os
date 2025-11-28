@@ -1,19 +1,20 @@
 # Requirements Domain Pipeline
 
-**Status:** OS 2.3 Core Requirements Pipeline
-**Last Updated:** 2025-11-25
+**Status:** OS 2.4 Core Requirements Pipeline
+**Last Updated:** 2025-11-27
 
 ## Overview
 
 The requirements pipeline turns fuzzy feature requests into **structured, code-aware specs** before any heavy implementation. It combines:
 
-- OS 2.3 primitives (ProjectContextServer, phase_state.json, vibe.db, Workshop)
+- OS 2.4 primitives (ProjectContextServer, phase_state.json, vibe.db, Workshop)
 - The Claude Requirements Builder workflow (00–06 docs)
 - Response Awareness tags for metacognitive tracking
+- **Three-tier planning depth** matching `/orca-*` execution tiers
 
 Output: a durable `06-requirements-spec.md` that upstreams into `/orca` domain pipelines.
 
-## Role in OS 2.3
+## Role in OS 2.4
 
 **The requirements pipeline is NOT a separate execution path.** It is:
 
@@ -23,7 +24,7 @@ Output: a durable `06-requirements-spec.md` that upstreams into `/orca` domain p
 
 ### When Requirements Are Created
 
-- **User runs `/plan <description>`** → Creates `requirements/<id>/06-requirements-spec.md`
+- **User runs `/plan <description>`** → Creates `.claude/requirements/<id>/06-requirements-spec.md`
 - **Complex task detected by `/orca-{domain}`** → User prompted to run `/plan` first
 
 ### When Requirements Are Consumed
@@ -32,7 +33,24 @@ Output: a durable `06-requirements-spec.md` that upstreams into `/orca` domain p
 - **Architects** (nextjs-architect, expo-architect-agent, ios-architect) read spec first
 - **Spec is authoritative** - constraints and acceptance criteria override analysis
 
-### Complexity Gating (OS 2.3)
+### Three-Tier Planning Depth (OS 2.4)
+
+`/plan` supports three planning depths that align with `/orca-*` execution tiers:
+
+| Flag | Planning Depth | Phases Used | Output |
+|------|----------------|-------------|--------|
+| `-tweak` | **Quick** | Skip discovery, 2-3 scope questions | Minimal spec |
+| (default) | **Standard** | Full 5+5 questions | Complete spec |
+| `-complex` | **Deep** | Full questions + risk analysis | Multi-phase spec |
+
+**Tier passthrough:** The spec's `tier` metadata tells `/orca-*` which execution depth to use:
+- `-tweak` spec → `-tweak` execution (light orchestrator, minimal gates)
+- Standard spec → Default execution (full pipeline)
+- `-complex` spec → `-complex` execution (extended gates, multi-phase)
+
+**Auto-detection:** If no flag is provided, `/plan` analyzes the task and recommends a tier. User can override.
+
+### Complexity Gating (OS 2.4)
 
 | Complexity | Spec Required | Behavior |
 |------------|---------------|----------|
@@ -47,7 +65,7 @@ Output: a durable `06-requirements-spec.md` that upstreams into `/orca` domain p
 Requirements live under:
 
 ```text
-requirements/
+.claude/requirements/
 ├── .current-requirement          # Name of active requirement folder (if any)
 ├── index.md                      # Summary of all requirements
 └── YYYY-MM-DD-HHMM-slug/         # Individual requirement folders
@@ -102,12 +120,12 @@ read the spec and map it into their own phases.
 
 Tasks:
 - Create timestamped requirement folder:
-  - `requirements/YYYY-MM-DD-HHMM-[slug]`
+  - `.claude/requirements/YYYY-MM-DD-HHMM-[slug]`
 - Write:
   - `00-initial-request.md` with user request.
   - `metadata.json` with:
     - `id`, `started`, `lastUpdated`, `status`, `phase`, `progress`, `contextFiles`.
-  - Update `requirements/.current-requirement` with folder name.
+  - Update `.claude/requirements/.current-requirement` with folder name.
 - Call `ProjectContextServer.query_context`:
   - `domain`: inferred from request (`webdev`, `expo`, etc.).
   - `task`: user request.
@@ -204,7 +222,7 @@ Tasks:
   - **Assumptions** for any unanswered questions (prefixed `ASSUMED:`).
 - Update `metadata.json.status` to `"complete"` or `"incomplete"` depending on user choice.
 - Clear or update `.current-requirement` (depending on end option).
-- Append/refresh entry in `requirements/index.md`.
+- Append/refresh entry in `.claude/requirements/index.md`.
 - Log a `save_decision` to `vibe.db` summarizing the requirement.
 - Update `phase_state.json`:
   - Mark `requirements` phase as `"completed"`.
@@ -228,4 +246,3 @@ All commands MUST:
 - Respect the 00–06 file structure.
 - Use ProjectContextServer for context-aware analysis.
 - Avoid implementation – they exist purely for requirements.
-

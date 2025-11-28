@@ -1,11 +1,11 @@
-# Visual Design Spec — Quick Reference (OS 2.2)
+# Visual Design Spec — Quick Reference (OS 2.4)
 
-**Version:** OS 2.2
+**Version:** OS 2.4
 **Last Updated:** 2025-11-24
 
-Use this template to define clear, testable acceptance criteria for visual work. In OS 2.2, design QA is **automated** within pipelines via design-reviewer agents.
+Use this template to define clear, testable acceptance criteria for visual work. In OS 2.4, design QA is **automated** within pipelines via design-reviewer agents.
 
-## OS 2.2 Integration
+## OS 2.4 Integration
 
 **Automatic Design QA:**
 - Design QA agents run automatically in Phase 5 (after implementation)
@@ -13,12 +13,12 @@ Use this template to define clear, testable acceptance criteria for visual work.
 - Evidence captured automatically in `.claude/orchestration/evidence/`
 - Design QA gate enforces ≥90 score
 
-**Related commands (OS 2.2):**
+**Related commands (OS 2.4):**
 - `/plan "feature"` → Include visual acceptance criteria in blueprint
 - `/orca-{domain} "implement"` → Design QA runs automatically
 - `/design-dna init/audit` → Initialize or audit design system
 
-**Evidence locations (OS 2.2):**
+**Evidence locations (OS 2.4):**
 - Screenshots: `.claude/orchestration/evidence/screenshots/`
 - Design QA reports: `.claude/orchestration/evidence/design-qa-*.md`
 - Gate scores: `.claude/orchestration/phase_state.json`
@@ -96,4 +96,3 @@ Generates screenshots and a structured findings summary.
 - Save “golden” target screenshots and link them for side‑by‑side comparison.
 - Prefer tokens and global classes over ad‑hoc styles; it makes iteration safer.
 - When blocked by auth/data, stub deterministic content and note it in iteration logs.
-

@@ -1,11 +1,15 @@
-# OS 2.2 Commands Quick Reference
+# OS 2.4 Commands Quick Reference
 
-**Last Updated:** 2025-11-24
-**Version:** OS 2.2
+**Last Updated:** 2025-11-27
+**Version:** OS 2.4
 
-## What's New in OS 2.2
+## What's New in OS 2.4
 
 **Major Changes:**
+- ✅ **Three-tier routing** (default/tweak/complex) replaces simple/medium/complex
+- ✅ **Default now runs gates** - light path includes quality checks
+- ✅ **-tweak flag** for pure speed (skips gates, user verifies)
+- ✅ **--complex flag** for full pipeline (requires spec)
 - ✅ Unified `/plan` command (replaces 8+ requirements commands)
 - ✅ New `/audit` command (meta-review with Response Awareness)
 - ✅ Role boundary enforcement (orchestrators NEVER write code)
@@ -18,7 +22,52 @@
 
 ---
 
-## Active Commands (OS 2.2)
+## Three-Tier Routing (OS 2.4)
+
+All `/orca-*` commands support three execution modes:
+
+| Mode | Flag | Path | Gates | Use Case |
+|------|------|------|-------|----------|
+| **Default** | (none) | Light + Gates | YES | Most work – fast with quality |
+| **Tweak** | `-tweak` | Light (pure) | NO | Speed iteration, user verifies |
+| **Complex** | `--complex` | Full pipeline | YES | Architecture, multi-file, specs |
+
+### Examples
+
+```bash
+# Default: Light path WITH gates (most work)
+/orca-nextjs "fix button spacing"
+/orca-ios "add haptic feedback"
+
+# Tweak: Light path WITHOUT gates (pure speed)
+/orca-nextjs -tweak "try different padding"
+/orca-ios -tweak "experiment with animation"
+
+# Complex: Full pipeline WITH spec (architecture work)
+/orca-nextjs --complex "implement auth flow"
+/orca-ios --complex "implement offline sync"
+```
+
+### Gate Behavior by Mode
+
+**Default Mode:**
+- Light orchestrator handles execution
+- Gates run after implementation (domain-specific)
+- Scores must pass (≥90 for most)
+
+**Tweak Mode:**
+- Same light orchestrator
+- Gates SKIPPED entirely
+- User responsible for verification
+
+**Complex Mode:**
+- Full pipeline with grand-architect
+- Spec REQUIRED (`.claude/requirements/<id>/06-requirements-spec.md`)
+- All gates run with full verification
+
+---
+
+## Active Commands (OS 2.4)
 
 ### Planning Commands
 
@@ -32,7 +81,7 @@
   - Context analysis (ProjectContextServer query)
   - 5 detail questions (specific, via AskUserQuestion)
   - RA tagging (#PATH_DECISION, #COMPLETION_DRIVE, etc.)
-  - Blueprint generation at `requirements/<id>/06-requirements-spec.md`
+  - Blueprint generation at `.claude/requirements/<id>/06-requirements-spec.md`
 - **Never implements** - only plans
 - **Location:** `~/.claude/commands/plan.md`
 
@@ -41,7 +90,7 @@
 /plan "Add user profile editing with avatar upload"
 
 # Creates:
-requirements/2025-11-24-1430-user-profile-editing/06-requirements-spec.md
+.claude/requirements/2025-11-24-1430-user-profile-editing/06-requirements-spec.md
 
 # Then implement:
 /orca-nextjs "Implement requirement 2025-11-24-1430-user-profile-editing using that spec"
@@ -62,62 +111,81 @@ requirements/2025-11-24-1430-user-profile-editing/06-requirements-spec.md
 - **Location:** `~/.claude/commands/orca.md`
 
 #### `/orca-nextjs` - Next.js Lane Orchestrator
-**UPDATED in OS 2.2 - Role boundaries enforced**
+**UPDATED in OS 2.4 - Three-tier routing**
 
 - **Purpose:** Next.js/React frontend implementation
-- **Usage:** `/orca-nextjs "implement requirement <id> using spec"`
-- **Recommended Flow:**
-  1. `/plan "feature"` → creates blueprint
-  2. `/orca-nextjs "implement requirement <id>"` → executes
-- **Team:**
+- **Usage:**
+  ```bash
+  /orca-nextjs "fix button spacing"                    # Default: light + gates
+  /orca-nextjs -tweak "try different padding"         # Tweak: light, no gates
+  /orca-nextjs --complex "implement auth flow"        # Complex: full pipeline
+  /orca-nextjs "implement requirement <id>"           # With spec
+  ```
+- **Three-Tier Routing:**
+  - **Default** (no flag): Light orchestrator WITH gates (`nextjs-standards-enforcer` + `nextjs-design-reviewer`)
+  - **-tweak**: Light orchestrator WITHOUT gates (user verifies)
+  - **--complex**: Full pipeline with grand-architect, spec required
+- **Team (Complex Mode):**
   - Grand Architect (Opus) - Architecture & coordination
-  - Architect (Sonnet) - Planning
-  - Layout Analyzer (Sonnet) - Structure analysis
-  - Builder (Sonnet) - Implementation
-  - 5 Specialists (TypeScript, Tailwind, layout, performance, a11y)
-  - 3 Gates (customization, standards ≥90, design QA ≥90)
+  - Layout Analyzer - Structure analysis
+  - Builder - Implementation
+  - 6 Specialists (CSS, TypeScript, layout, performance, a11y, + Tailwind if detected)
+  - 2 Gates (standards ≥90, design QA ≥90)
   - Verification Agent (build/test/lint)
 - **Role Boundaries:** ENFORCED (orchestrator never codes)
 - **State Preservation:** YES (survives interruptions)
 - **Location:** `~/.claude/commands/orca-nextjs.md`
 
 #### `/orca-ios` - iOS Lane Orchestrator
-**UPDATED in OS 2.2 - Role boundaries enforced**
+**UPDATED in OS 2.4 - Three-tier routing**
 
 - **Purpose:** Native iOS (Swift/SwiftUI/UIKit) implementation
-- **Usage:** `/orca-ios "implement requirement <id> using spec"`
-- **Recommended Flow:**
-  1. `/plan "feature"` → creates blueprint
-  2. `/orca-ios "implement requirement <id>"` → executes
-- **Team:**
+- **Usage:**
+  ```bash
+  /orca-ios "fix button padding"                       # Default: light + gates
+  /orca-ios -tweak "experiment with animation"        # Tweak: light, no gates
+  /orca-ios --complex "implement auth flow"           # Complex: full pipeline
+  /orca-ios "implement requirement <id>"              # With spec
+  ```
+- **Three-Tier Routing:**
+  - **Default** (no flag): Light orchestrator WITH gates (`ios-standards-enforcer` + `ios-ui-reviewer`)
+  - **-tweak**: Light orchestrator WITHOUT gates (user verifies)
+  - **--complex**: Full pipeline with grand-architect, spec required
+- **Team (Complex Mode):**
   - Grand Architect (Opus) - Architecture planning
-  - Architect (Sonnet) - Implementation planning
-  - Builder (Sonnet) - Implementation
+  - Architect - Implementation planning
+  - Builder - Implementation
   - 8 Specialists (SwiftUI, UIKit, persistence, networking, testing, performance, security, a11y)
-  - 4 Gates (architecture, standards ≥90, UI ≥90, build/test)
+  - 2 Gates (standards ≥90, UI review ≥90)
   - Verification Agent (xcodebuild/tests)
 - **Role Boundaries:** ENFORCED (orchestrator never codes)
 - **State Preservation:** YES (survives interruptions)
 - **Location:** `~/.claude/commands/orca-ios.md`
 
 #### `/orca-expo` - Expo/React Native Lane Orchestrator
-**UPDATED in OS 2.2 - Role boundaries enforced**
+**UPDATED in OS 2.4 - Three-tier routing**
 
 - **Purpose:** Expo/React Native mobile implementation
-- **Usage:** `/orca-expo "implement requirement <id> using spec"`
-- **Recommended Flow:**
-  1. `/plan "feature"` → creates blueprint
-  2. `/orca-expo "implement requirement <id>"` → executes
-- **Team:**
+- **Usage:**
+  ```bash
+  /orca-expo "fix button spacing"                      # Default: light + gates
+  /orca-expo -tweak "try different padding"           # Tweak: light, no gates
+  /orca-expo --complex "implement auth flow"          # Complex: full pipeline
+  /orca-expo "implement requirement <id>"             # With spec
+  ```
+- **Three-Tier Routing:**
+  - **Default** (no flag): Light orchestrator WITH gates (`design-token-guardian` + `expo-aesthetics-specialist`)
+  - **-tweak**: Light orchestrator WITHOUT gates (user verifies)
+  - **--complex**: Full pipeline with grand-orchestrator, spec required
+- **Team (Complex Mode):**
   - Grand Orchestrator (Opus) - For complex/high-risk work
-  - Architect (Sonnet) - Planning
-  - Builder (Sonnet) - Implementation
+  - Architect - Planning
+  - Builder - Implementation
   - Design Token Guardian - Token enforcement
   - A11y Enforcer - Accessibility checks
   - Performance Enforcer - Bundle/performance budgets
   - Security Specialist - Security checks
   - Verification Agent (build/test/expo doctor)
-- **Complexity Bands:** Low, medium, high, critical (determines delegation)
 - **Role Boundaries:** ENFORCED (orchestrator never codes)
 - **State Preservation:** YES (survives interruptions)
 - **Location:** `~/.claude/commands/orca-expo.md`
@@ -227,39 +295,56 @@ requirements/2025-11-24-1430-user-profile-editing/06-requirements-spec.md
 
 ---
 
-## OS 2.2 Workflow Pattern
+## OS 2.4 Workflow Patterns
 
-### Recommended Flow
+### Quick Tasks (Most Work)
+
+```bash
+# Default mode: Light path WITH quality gates
+/orca-nextjs "fix button spacing"
+/orca-ios "add haptic feedback"
+/orca-expo "update card styling"
+/orca-shopify "fix cart drawer"
+```
+
+### Rapid Iteration (-tweak)
+
+```bash
+# Tweak mode: Light path WITHOUT gates (you verify)
+/orca-nextjs -tweak "try different padding"
+/orca-ios -tweak "experiment with animation"
+```
+
+### Full Features (--complex or /plan)
+
+```bash
+# Complex work: Plan first, then full pipeline
+/plan "implement user authentication"
+/orca-nextjs --complex "implement requirement <id>"
+
+# Or explicitly request complex mode
+/orca-ios --complex "implement offline sync"
+```
+
+### Meta-Audit (Periodic)
+
+```bash
+/audit "last 10 tasks"
+# Creates standards from failures, learnings for future
+```
+
+### Workflow Summary
 
 ```
-1. PLANNING
-   /plan "feature description"
-   ↓
-   Creates: requirements/<id>/06-requirements-spec.md
-
-2. IMPLEMENTATION
-   /orca-nextjs "implement requirement <id> using that spec"
-   OR
-   /orca-ios "implement requirement <id> using that spec"
-   OR
-   /orca-expo "implement requirement <id> using that spec"
-   ↓
-   Executes: Context → Team Confirm → Plan → Implement → Gates → Verify
-
-3. META-AUDIT (periodically)
-   /audit "last 10 tasks"
-   ↓
-   Creates: Standards from failures, learnings for future
+✅ Quick fix      → /orca-{domain} "task"              → light + gates
+✅ Exploration    → /orca-{domain} -tweak "task"       → light, no gates
+✅ Features       → /plan → /orca-{domain} --complex   → full pipeline
+✅ Review         → /audit "scope"                      → meta-analysis
 ```
 
 ### Old Workflow (Deprecated)
 ```
 ❌ /requirements-start → /requirements-status → /response-awareness-implement
-```
-
-### New Workflow (OS 2.2)
-```
-✅ /plan → /orca-{domain} → /audit
 ```
 
 ---
@@ -330,11 +415,11 @@ phase_2_team_confirmation:
   mandatory: true
 
 phase_3_planning:
-  agent: grand-architect (Opus)
+  agent: grand-architect
   context_required: true
 
 phase_4_implementation:
-  agent: builder (Sonnet)
+  agent: builder
   dependencies: [phase_3]
 
 phase_5_gates:
@@ -429,7 +514,7 @@ START → Context Query → Team Confirm → Planning → Implementation → Gat
 # 1. Plan
 /plan "Add dark mode support with user preference persistence"
 
-# Output: requirements/2025-11-24-1500-dark-mode-support/06-requirements-spec.md
+# Output: .claude/requirements/2025-11-24-1500-dark-mode-support/06-requirements-spec.md
 
 # 2. Implement
 /orca-nextjs "Implement requirement 2025-11-24-1500-dark-mode-support using that spec"
@@ -477,18 +562,18 @@ START → Context Query → Team Confirm → Planning → Implementation → Gat
 
 ### Orchestrator Started Coding Directly
 **Problem:** Orchestrator used Edit/Write tools instead of delegating.
-**Fix:** OS 2.2 role boundaries should prevent this. If it happens:
+**Fix:** OS 2.4 role boundaries should prevent this. If it happens:
 1. Check phase_state.json
 2. Remind orchestrator of role
 3. Report as bug (shouldn't happen in 2.1)
 
 ### Agent Team Not Confirmed
 **Problem:** Pipeline started without team confirmation.
-**Fix:** OS 2.2 mandates AskUserQuestion before execution. Should not skip.
+**Fix:** OS 2.4 mandates AskUserQuestion before execution. Should not skip.
 
 ### State Lost After Interruption
 **Problem:** Orchestrator forgot what phase it was in.
-**Fix:** OS 2.2 state preservation should prevent this:
+**Fix:** OS 2.4 state preservation should prevent this:
 1. Check phase_state.json exists
 2. Orchestrator should read it automatically
 
@@ -498,4 +583,4 @@ START → Context Query → Team Confirm → Planning → Implementation → Gat
 
 ---
 
-_This reference covers OS 2.2 commands. Legacy v1 commands archived. OS 2.2 commands deprecated but backward compatible._
+_This reference covers OS 2.4 commands with three-tier routing. Legacy v1 commands archived. OS 2.2 commands deprecated but backward compatible._

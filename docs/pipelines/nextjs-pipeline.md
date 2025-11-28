@@ -1,17 +1,17 @@
 # Nextjs Domain Pipeline
 
-**Status:** OS 2.3 Core Pipeline
-**Last Updated:** 2025-11-25
+**Status:** OS 2.4 Core Pipeline
+**Last Updated:** 2025-11-27
 
 ## Overview
 
-The Nextjs pipeline handles **frontend/web development work** for Next.js apps with App Router, Tailwind, and shadcn/ui. It combines:
+The Nextjs pipeline handles **frontend/web development work** for Next.js apps. It is CSS-agnostic and adapts to the project's styling approach (semantic CSS, Tailwind, CSS Modules, etc.). It combines:
 
-- OS 2.3 primitives (ProjectContextServer, phase_state.json, vibe.db, Workshop, constraint framework)
+- OS 2.4 primitives (ProjectContextServer, phase_state.json, vibe.db, Workshop, constraint framework)
 - Memory-first context (Workshop + vibe.db before ProjectContext)
-- Complexity-based routing (simple → light orchestrator, medium/complex → full pipeline)
+- Three-tier routing (Default/Tweak/Complex with default running gates)
 - Spec gating (complex tasks require requirements spec)
-- Response Awareness tagging (RA tags surface assumptions and decisions)
+- Response Awareness tagging (RA tags surface assumptions and decisions as instrumentation)
 - Design DNA/token enforcement for all UI work
 - Full pipeline agents (`nextjs-grand-architect`, `nextjs-architect`, `nextjs-layout-analyzer`, `nextjs-builder`, `nextjs-standards-enforcer`, `nextjs-design-reviewer`, `nextjs-verification-agent`)
 
@@ -35,21 +35,76 @@ The Nextjs pipeline handles **frontend/web development work** for Next.js apps w
 
 ---
 
-## Complexity Tiers (OS 2.3)
+## Three-Tier Routing (OS 2.4)
 
-The Next.js pipeline routes tasks based on complexity:
+The Next.js pipeline uses three-tier routing (see `docs/concepts/complexity-routing.md` for details):
 
-| Tier | Routing | Spec Required | Gates | Example |
-|------|---------|---------------|-------|---------|
-| **Simple** | `nextjs-light-orchestrator` | No | No | Fix button spacing, change text |
-| **Medium** | Full pipeline | Recommended | Yes | New component, form validation |
-| **Complex** | Full pipeline | **Required** | Yes | Multi-page flow, auth UI, SEO-critical |
+| Mode | Flag | Path | Gates | Use Case |
+|------|------|------|-------|----------|
+| **Default** | (none) | Light + Gates | YES | Most work – fast with quality |
+| **Tweak** | `-tweak` | Light (pure) | NO | Speed iteration, user verifies |
+| **Complex** | `--complex` | Full pipeline | YES | Architecture, multi-file, specs |
 
-Use `-tweak` flag to force light path: `/orca-nextjs -tweak "fix padding"`
+### Default Mode (Light + Gates)
+
+Most tasks take this path. Fast execution with automated quality checks.
+
+```bash
+/orca-nextjs "fix button spacing"        # → light orchestrator → builder → gates
+/orca-nextjs "update header text"        # → light orchestrator → builder → gates
+```
+
+**Gates run:** `nextjs-standards-enforcer` + `nextjs-design-reviewer`
+
+### Tweak Mode (`-tweak`)
+
+Pure speed path. User explicitly accepts responsibility for verification.
+
+```bash
+/orca-nextjs -tweak "fix padding"        # → light orchestrator → builder → done
+```
+
+### Complex Mode (`--complex`)
+
+Full pipeline with grand-architect planning. Spec required.
+
+```bash
+/orca-nextjs --complex "implement checkout flow"   # → full pipeline
+/orca-nextjs "build multi-page auth"               # Auto-routes to --complex
+```
+
+| Tier | Files | Spec Required | Example |
+|------|-------|---------------|---------|
+| Default | 1-5 | No | Fix spacing, change text, add icon |
+| Tweak | 1-3 | No | Rapid iteration, exploring options |
+| Complex | 5+ | **Required** | Multi-page flow, auth UI, SEO-critical |
+
+### CSS Architecture Refactor Mode (OS 2.4)
+
+Some Next.js tasks are **structural CSS/layout refactors** rather than simple tweaks:
+
+- Cleaning up tangled CSS Modules or global styles
+- Migrating inline styles/utility classes to semantic CSS with design tokens
+- Consolidating duplicated layout logic across components/pages
+- Implementing proper @layer structure
+
+These tasks run under `--complex` but use a **CSS refactor sub-mode**:
+
+- The orchestrator explicitly classifies the task as a CSS/layout refactor (via `/orca-nextjs --complex ...` + clarification).
+- `nextjs-builder` is allowed to perform **targeted rewrites** of style/layout layers (CSS, module CSS, layout components) instead of strict edit-only changes.
+- A dedicated **CSS Architecture Gate** (`nextjs-css-architecture-gate`) runs after implementation to check structural quality:
+  - Global CSS minimized or reduced where planned
+  - All values use design tokens (CSS custom properties)
+  - Proper @layer declarations for cascade management
+  - Semantic class naming (page-prefixed: `.home-*`, `.pricing-*`)
+  - Duplicated layout/styles consolidated into shared components
+  - No inline styles or utility classes (unless project uses utility-first approach)
+
+If the CSS Architecture Gate fails, the task cannot be marked complete even if token/visual gates pass.
 
 ---
 
-## Standards Inputs (OS 2.3 Learning Loop)
+## Standards Inputs (OS 2.4 Learning Loop)
 
 Standards flow into and out of the Next.js pipeline:
 
@@ -267,9 +322,10 @@ Optional (for image/mockup-driven work):
 
 **Constraints (HARD):**
 1. **Use design-dna.json tokens exclusively** - No inline styles
-2. **Edit existing components** - Never rewrite
+2. **Edit existing components** - Never rewrite  
+   - **Exception:** In CSS Architecture Refactor Mode, targeted rewrites of style/layout layers (CSS modules, layout wrappers) are allowed when explicitly in scope.
 3. **Compose with primitives** - Use shadcn/ui + project components
-4. **Minimal changes only** - Scope strictly to request
+4. **Minimal changes only** - Scope strictly to request (or refactor scope)
 5. **Verification required** - Run lint/typecheck after changes
 
 **Tasks:**
@@ -303,11 +359,12 @@ Optional (for image/mockup-driven work):
 
 ---
 
-### Phase 5: Gate Checks (Standards & Design QA – Parallel Group)
+### Phase 5: Gate Checks (Standards, Design QA, CSS Architecture – Parallel Group)
 
 After Implementation Pass 1, the pipeline runs code-level standards and visual
 design checks as a **parallel gate group**. All gates read from the same
-ContextBundle and modified files; they do not modify code.
+ContextBundle and modified files; they do not modify code. In CSS refactor mode,
+an additional **CSS Architecture Gate** runs as well.
 
 #### 5a. Standards Enforcement
 
@@ -395,6 +452,33 @@ ContextBundle and modified files; they do not modify code.
 **Artifacts:**
 - Design QA report: `.claude/orchestration/evidence/design-qa-TIMESTAMP.md`
 - Update phase_state.json: design_qa_score, visual_issues
+
+#### 5c. CSS Architecture (Refactor Mode Only)
+
+**Agent:** `nextjs-css-architecture-gate`
+
+**Input:**
+- Files modified in Phase 4
+- Layout analysis outputs (layout_structure, style_sources)
+
+**Tasks:**
+1. Analyze CSS/layout structure for the refactored area
+2. Check structural criteria defined in planning, such as:
+   - Reduction of ad-hoc global CSS
+   - Consolidation of duplicated layout/styles
+   - Design token usage for all values
+   - Proper @layer structure and semantic class naming
+3. Flag any remaining architectural smells or partial migrations
+4. Produce a CSS Architecture Score (0-100) and recommendations
+
+**Output:**
+- CSS Architecture Score (0-100)
+- Gate label: PASS / CAUTION / FAIL
+- Structural issues list with locations and suggested fixes
+
+**Artifacts:**
+- CSS Architecture report: `.claude/orchestration/evidence/css-architecture-TIMESTAMP.md`
+- Update phase_state.json: css_architecture_score, css_issues
 
 ---
 
@@ -645,10 +729,21 @@ verification_required:
 stack:
   framework: "Next.js App Router"
   language: "TypeScript"
-  styling: "Tailwind CSS"
-  components: "shadcn/ui"
+  styling: "auto-detect"  # Detects: semantic CSS, Tailwind, CSS Modules, styled-components
   design_system: "design-dna.json"
 ```
+
+**Styling Auto-Detection:**
+The pipeline detects the project's styling approach by checking for:
+- `tailwind.config.*` → Tailwind CSS
+- `*.module.css` usage → CSS Modules
+- `@layer` declarations → Semantic CSS
+- `styled-components` / `@emotion` → CSS-in-JS
+
+The appropriate specialist is selected based on detection:
+- Semantic CSS / @layer → `nextjs-css-specialist`
+- Tailwind → `nextjs-tailwind-specialist`
+- CSS Modules → `nextjs-layout-specialist`
 
 ### File Limits
 
@@ -794,8 +889,8 @@ As the pipeline runs, it learns:
 - Recommendation: Replace with spacing tokens
 
 **Phase 4:** Implementation Pass 1
-- Edit: Replace `padding: 12px` with `className="p-sm"`
-- Edit: Replace `gap: 16px` with `className="gap-md"`
+- Edit: Replace `padding: 12px` with `padding: var(--space-3)`
+- Edit: Replace `gap: 16px` with `gap: var(--space-4)`
 - Verify: Lint passes, typecheck passes
 
 **Phase 5:** Standards Enforcement
@@ -827,5 +922,5 @@ As the pipeline runs, it learns:
 
 ---
 
-_Last updated: 2025-11-25_
-_Version: 2.3.0_
+_Last updated: 2025-11-27_
+_Version: 2.4.0_

@@ -15,9 +15,9 @@
         "path": "/Users/adilkalam/claude-vibe-config/CLAUDE.md.global-copy"
       },
       {
-        "name": "OSreadme.md",
+        "name": "README-old.md",
         "type": "file",
-        "path": "/Users/adilkalam/claude-vibe-config/OSreadme.md"
+        "path": "/Users/adilkalam/claude-vibe-config/README-old.md"
       },
       {
         "name": "README.md",
@@ -33,53 +33,6 @@
             "name": "Additional Response Awareness Tags.md",
             "type": "file",
             "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/Additional Response Awareness Tags.md"
-          },
-          {
-            "name": "Anthropic",
-            "type": "directory",
-            "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/Anthropic",
-            "children": [
-              {
-                "name": "best-practices-agentic-coding.md",
-                "type": "file",
-                "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/Anthropic/best-practices-agentic-coding.md"
-              },
-              {
-                "name": "building-agents-sdk.md",
-                "type": "file",
-                "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/Anthropic/building-agents-sdk.md"
-              },
-              {
-                "name": "building-effective-agents.md",
-                "type": "file",
-                "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/Anthropic/building-effective-agents.md"
-              },
-              {
-                "name": "context-editing.md",
-                "type": "file",
-                "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/Anthropic/context-editing.md"
-              },
-              {
-                "name": "equipping-agents-real-world.md",
-                "type": "file",
-                "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/Anthropic/equipping-agents-real-world.md"
-              },
-              {
-                "name": "json-output-consistency.md",
-                "type": "file",
-                "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/Anthropic/json-output-consistency.md"
-              },
-              {
-                "name": "model-context-protocol.md",
-                "type": "file",
-                "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/Anthropic/model-context-protocol.md"
-              },
-              {
-                "name": "writing-tools-for-ai-agents.md",
-                "type": "file",
-                "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/Anthropic/writing-tools-for-ai-agents.md"
-              }
-            ]
           },
           {
             "name": "Claude AI Response Awareness Early Slash Command Break Down v2.md",
@@ -151,9 +104,86 @@
             ]
           },
           {
+            "name": "Scaling Claude Code Skills without Burning Context.md",
+            "type": "file",
+            "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/Scaling Claude Code Skills without Burning Context.md"
+          },
+          {
             "name": "The Science of AI Internal State Awareness_ Two Papers That Validate Response-Awareness Methodology.md",
             "type": "file",
             "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/The Science of AI Internal State Awareness_ Two Papers That Validate Response-Awareness Methodology.md"
+          },
+          {
+            "name": "_Anthropic",
+            "type": "directory",
+            "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_Anthropic",
+            "children": [
+              {
+                "name": "best-practices-agentic-coding.md",
+                "type": "file",
+                "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_Anthropic/best-practices-agentic-coding.md"
+              },
+              {
+                "name": "building-agents-sdk.md",
+                "type": "file",
+                "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_Anthropic/building-agents-sdk.md"
+              },
+              {
+                "name": "building-effective-agents.md",
+                "type": "file",
+                "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_Anthropic/building-effective-agents.md"
+              },
+              {
+                "name": "context-editing.md",
+                "type": "file",
+                "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_Anthropic/context-editing.md"
+              },
+              {
+                "name": "equipping-agents-real-world.md",
+                "type": "file",
+                "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_Anthropic/equipping-agents-real-world.md"
+              },
+              {
+                "name": "json-output-consistency.md",
+                "type": "file",
+                "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_Anthropic/json-output-consistency.md"
+              },
+              {
+                "name": "model-context-protocol.md",
+                "type": "file",
+                "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_Anthropic/model-context-protocol.md"
+              },
+              {
+                "name": "multi-agent-research-architecture.png",
+                "type": "file",
+                "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_Anthropic/multi-agent-research-architecture.png"
+              },
+              {
+                "name": "multi-agent-research-process.png",
+                "type": "file",
+                "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_Anthropic/multi-agent-research-process.png"
+              },
+              {
+                "name": "multi-agent-research-system.md",
+                "type": "file",
+                "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_Anthropic/multi-agent-research-system.md"
+              },
+              {
+                "name": "multi-agent-research-system.png",
+                "type": "file",
+                "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_Anthropic/multi-agent-research-system.png"
+              },
+              {
+                "name": "subagents-documentation.md",
+                "type": "file",
+                "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_Anthropic/subagents-documentation.md"
+              },
+              {
+                "name": "writing-tools-for-ai-agents.md",
+                "type": "file",
+                "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_Anthropic/writing-tools-for-ai-agents.md"
+              }
+            ]
           },
           {
             "name": "_memory",
@@ -774,1772 +804,6 @@
                     "name": "...",
                     "type": "directory",
                     "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_memory/workshop/workshop"
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            "name": "_system-prompts",
-            "type": "directory",
-            "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts",
-            "children": [
-              {
-                "name": "ANTHROPIC",
-                "type": "directory",
-                "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/ANTHROPIC",
-                "children": [
-                  {
-                    "name": "Claude-4.1.txt",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/ANTHROPIC/Claude-4.1.txt"
-                  },
-                  {
-                    "name": "Claude_4.txt",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/ANTHROPIC/Claude_4.txt"
-                  },
-                  {
-                    "name": "Claude_Code_03-04-24.md",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/ANTHROPIC/Claude_Code_03-04-24.md"
-                  },
-                  {
-                    "name": "Claude_Sonnet-4.5_Sep-29-2025.txt",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/ANTHROPIC/Claude_Sonnet-4.5_Sep-29-2025.txt"
-                  },
-                  {
-                    "name": "Claude_Sonnet_3.5.md",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/ANTHROPIC/Claude_Sonnet_3.5.md"
-                  },
-                  {
-                    "name": "Claude_Sonnet_3.7_New.txt",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/ANTHROPIC/Claude_Sonnet_3.7_New.txt"
-                  },
-                  {
-                    "name": "UserStyle_Modes.md",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/ANTHROPIC/UserStyle_Modes.md"
-                  }
-                ]
-              },
-              {
-                "name": "Amp",
-                "type": "directory",
-                "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/Amp",
-                "children": [
-                  {
-                    "name": "README.md",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/Amp/README.md"
-                  },
-                  {
-                    "name": "claude-4-sonnet.yaml",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/Amp/claude-4-sonnet.yaml"
-                  },
-                  {
-                    "name": "gpt-5.yaml",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/Amp/gpt-5.yaml"
-                  },
-                  {
-                    "name": "view-thread-yaml.png",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/Amp/view-thread-yaml.png"
-                  }
-                ]
-              },
-              {
-                "name": "Augment Code",
-                "type": "directory",
-                "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/Augment Code",
-                "children": [
-                  {
-                    "name": "...",
-                    "type": "directory",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/Augment Code/Augment"
-                  },
-                  {
-                    "name": "claude-4-sonnet-agent-prompts.txt",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/Augment Code/claude-4-sonnet-agent-prompts.txt"
-                  },
-                  {
-                    "name": "claude-4-sonnet-tools.json",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/Augment Code/claude-4-sonnet-tools.json"
-                  },
-                  {
-                    "name": "gpt-5-agent-prompts.txt",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/Augment Code/gpt-5-agent-prompts.txt"
-                  },
-                  {
-                    "name": "gpt-5-tools.json",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/Augment Code/gpt-5-tools.json"
-                  }
-                ]
-              },
-              {
-                "name": "BOLT",
-                "type": "directory",
-                "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/BOLT",
-                "children": [
-                  {
-                    "name": "...",
-                    "type": "directory",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/BOLT/Bolt.new"
-                  },
-                  {
-                    "name": "Bolt.txt",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/BOLT/Bolt.txt"
-                  }
-                ]
-              },
-              {
-                "name": "BRAVE",
-                "type": "directory",
-                "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/BRAVE",
-                "children": [
-                  {
-                    "name": "LEO_Aug-31-2025",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/BRAVE/LEO_Aug-31-2025"
-                  }
-                ]
-              },
-              {
-                "name": "Blackbox.ai",
-                "type": "directory",
-                "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/Blackbox.ai",
-                "children": [
-                  {
-                    "name": "Blackbox-Agent.md",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/Blackbox.ai/Blackbox-Agent.md"
-                  },
-                  {
-                    "name": "Blackbox-Complete.ts",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/Blackbox.ai/Blackbox-Complete.ts"
-                  },
-                  {
-                    "name": "README.md",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/Blackbox.ai/README.md"
-                  },
-                  {
-                    "name": "...",
-                    "type": "directory",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/Blackbox.ai/extraction-scripts"
-                  }
-                ]
-              },
-              {
-                "name": "CL4R1T4S-main",
-                "type": "directory",
-                "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/CL4R1T4S-main",
-                "children": [
-                  {
-                    "name": "...",
-                    "type": "directory",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/CL4R1T4S-main/CL4R1T4S-main"
-                  }
-                ]
-              },
-              {
-                "name": "CURSOR",
-                "type": "directory",
-                "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/CURSOR",
-                "children": [
-                  {
-                    "name": "...",
-                    "type": "directory",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/CURSOR/Cursor Prompts"
-                  },
-                  {
-                    "name": "Cursor_2.0_Sys_Prompt.txt",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/CURSOR/Cursor_2.0_Sys_Prompt.txt"
-                  },
-                  {
-                    "name": "Cursor_Prompt.md",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/CURSOR/Cursor_Prompt.md"
-                  },
-                  {
-                    "name": "Cursor_Tools.md",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/CURSOR/Cursor_Tools.md"
-                  }
-                ]
-              },
-              {
-                "name": "Claude Code Internals_ Reverse Engineering Prompt Augmentation Mechanisms _ Agiflow Blog.md",
-                "type": "file",
-                "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/Claude Code Internals_ Reverse Engineering Prompt Augmentation Mechanisms _ Agiflow Blog.md"
-              },
-              {
-                "name": "Cline",
-                "type": "directory",
-                "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/Cline",
-                "children": [
-                  {
-                    "name": "Cline.md",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/Cline/Cline.md"
-                  },
-                  {
-                    "name": "system.ts",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/Cline/system.ts"
-                  }
-                ]
-              },
-              {
-                "name": "Cluely",
-                "type": "directory",
-                "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/Cluely",
-                "children": [
-                  {
-                    "name": "Cluely.mkd",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/Cluely/Cluely.mkd"
-                  },
-                  {
-                    "name": "Default Prompt.txt",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/Cluely/Default Prompt.txt"
-                  },
-                  {
-                    "name": "Enterprise Prompt.txt",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/Cluely/Enterprise Prompt.txt"
-                  },
-                  {
-                    "name": "default.md",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/Cluely/default.md"
-                  },
-                  {
-                    "name": "enterprise.md",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/Cluely/enterprise.md"
-                  }
-                ]
-              },
-              {
-                "name": "CodeBuddy Prompts",
-                "type": "directory",
-                "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/CodeBuddy Prompts",
-                "children": [
-                  {
-                    "name": "Chat Prompt.txt",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/CodeBuddy Prompts/Chat Prompt.txt"
-                  },
-                  {
-                    "name": "Craft Prompt.txt",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/CodeBuddy Prompts/Craft Prompt.txt"
-                  }
-                ]
-              },
-              {
-                "name": "Comet Assistant",
-                "type": "directory",
-                "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/Comet Assistant",
-                "children": [
-                  {
-                    "name": "System Prompt.txt",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/Comet Assistant/System Prompt.txt"
-                  }
-                ]
-              },
-              {
-                "name": "DEVIN",
-                "type": "directory",
-                "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/DEVIN",
-                "children": [
-                  {
-                    "name": "Devin2_09-08-2025.md",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/DEVIN/Devin2_09-08-2025.md"
-                  },
-                  {
-                    "name": "Devin_2.0.md",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/DEVIN/Devin_2.0.md"
-                  },
-                  {
-                    "name": "Devin_2.0_Commands.md",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/DEVIN/Devin_2.0_Commands.md"
-                  }
-                ]
-              },
-              {
-                "name": "Devin AI",
-                "type": "directory",
-                "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/Devin AI",
-                "children": [
-                  {
-                    "name": "DeepWiki Prompt.txt",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/Devin AI/DeepWiki Prompt.txt"
-                  },
-                  {
-                    "name": "...",
-                    "type": "directory",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/Devin AI/Devin"
-                  },
-                  {
-                    "name": "Prompt.txt",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/Devin AI/Prompt.txt"
-                  }
-                ]
-              },
-              {
-                "name": "Emergent",
-                "type": "directory",
-                "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/Emergent",
-                "children": [
-                  {
-                    "name": "Prompt.txt",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/Emergent/Prompt.txt"
-                  },
-                  {
-                    "name": "Tools.json",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/Emergent/Tools.json"
-                  }
-                ]
-              },
-              {
-                "name": "FACTORY",
-                "type": "directory",
-                "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/FACTORY",
-                "children": [
-                  {
-                    "name": "DROID.txt",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/FACTORY/DROID.txt"
-                  }
-                ]
-              },
-              {
-                "name": "Gemini",
-                "type": "directory",
-                "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/Gemini",
-                "children": [
-                  {
-                    "name": "AI Studio Vibe-Coder.txt",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/Gemini/AI Studio Vibe-Coder.txt"
-                  }
-                ]
-              },
-              {
-                "name": "Google",
-                "type": "directory",
-                "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/Google",
-                "children": [
-                  {
-                    "name": "Gemini-2.5-Pro-04-18-2025.md",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/Google/Gemini-2.5-Pro-04-18-2025.md"
-                  },
-                  {
-                    "name": "Gemini-cli system prompt.md",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/Google/Gemini-cli system prompt.md"
-                  },
-                  {
-                    "name": "Gemini_Diffusion.md",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/Google/Gemini_Diffusion.md"
-                  },
-                  {
-                    "name": "Gemini_Gmail_Assistant.txt",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/Google/Gemini_Gmail_Assistant.txt"
-                  },
-                  {
-                    "name": "...",
-                    "type": "directory",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/Google/Google-Jules"
-                  },
-                  {
-                    "name": "GoogleDiffusion.md",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/Google/GoogleDiffusion.md"
-                  },
-                  {
-                    "name": "gemini-2.0-flash-webapp.md",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/Google/gemini-2.0-flash-webapp.md"
-                  },
-                  {
-                    "name": "gemini-2.5-flash-image-preview.md",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/Google/gemini-2.5-flash-image-preview.md"
-                  },
-                  {
-                    "name": "gemini-2.5-pro-guided-learning.md",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/Google/gemini-2.5-pro-guided-learning.md"
-                  },
-                  {
-                    "name": "gemini-2.5-pro-webapp.md",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/Google/gemini-2.5-pro-webapp.md"
-                  },
-                  {
-                    "name": "gemini-diffusion.md",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/Google/gemini-diffusion.md"
-                  }
-                ]
-              },
-              {
-                "name": "Grok",
-                "type": "directory",
-                "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/Grok",
-                "children": [
-                  {
-                    "name": "Grok2.md",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/Grok/Grok2.md"
-                  },
-                  {
-                    "name": "Grok3.md",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/Grok/Grok3.md"
-                  },
-                  {
-                    "name": "Grok3withDeepSearch.md",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/Grok/Grok3withDeepSearch.md"
-                  },
-                  {
-                    "name": "GrokJailBreakPrompt.md",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/Grok/GrokJailBreakPrompt.md"
-                  },
-                  {
-                    "name": "ask_grok_summarizer.j2",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/Grok/ask_grok_summarizer.j2"
-                  },
-                  {
-                    "name": "default_deepsearch_final_summarizer_prompt.j2",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/Grok/default_deepsearch_final_summarizer_prompt.j2"
-                  },
-                  {
-                    "name": "grok3_official0330_p1.j2",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/Grok/grok3_official0330_p1.j2"
-                  },
-                  {
-                    "name": "grok_analyze_button.j2",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/Grok/grok_analyze_button.j2"
-                  }
-                ]
-              },
-              {
-                "name": "HUME",
-                "type": "directory",
-                "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/HUME",
-                "children": [
-                  {
-                    "name": "Hume_Voice_AI.md",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/HUME/Hume_Voice_AI.md"
-                  }
-                ]
-              },
-              {
-                "name": "Junie",
-                "type": "directory",
-                "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/Junie",
-                "children": [
-                  {
-                    "name": "Prompt.txt",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/Junie/Prompt.txt"
-                  }
-                ]
-              },
-              {
-                "name": "Kiro",
-                "type": "directory",
-                "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/Kiro",
-                "children": [
-                  {
-                    "name": "Mode_Clasifier_Prompt.txt",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/Kiro/Mode_Clasifier_Prompt.txt"
-                  },
-                  {
-                    "name": "Spec_Prompt.txt",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/Kiro/Spec_Prompt.txt"
-                  },
-                  {
-                    "name": "Vibe_Prompt.txt",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/Kiro/Vibe_Prompt.txt"
-                  }
-                ]
-              },
-              {
-                "name": "LOVABLE",
-                "type": "directory",
-                "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/LOVABLE",
-                "children": [
-                  {
-                    "name": "Lovable_2.0.txt",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/LOVABLE/Lovable_2.0.txt"
-                  },
-                  {
-                    "name": "...",
-                    "type": "directory",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/LOVABLE/Loveable"
-                  }
-                ]
-              },
-              {
-                "name": "Leap.new",
-                "type": "directory",
-                "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/Leap.new",
-                "children": [
-                  {
-                    "name": "Prompts.txt",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/Leap.new/Prompts.txt"
-                  },
-                  {
-                    "name": "tools.json",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/Leap.new/tools.json"
-                  }
-                ]
-              },
-              {
-                "name": "META",
-                "type": "directory",
-                "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/META",
-                "children": [
-                  {
-                    "name": "Llama4_WhatsApp.txt",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/META/Llama4_WhatsApp.txt"
-                  }
-                ]
-              },
-              {
-                "name": "MINIMAX",
-                "type": "directory",
-                "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/MINIMAX",
-                "children": [
-                  {
-                    "name": "MiniMax.txt",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/MINIMAX/MiniMax.txt"
-                  }
-                ]
-              },
-              {
-                "name": "MOONSHOT",
-                "type": "directory",
-                "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/MOONSHOT",
-                "children": [
-                  {
-                    "name": "Kimi_2_July-11-2025.txt",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/MOONSHOT/Kimi_2_July-11-2025.txt"
-                  },
-                  {
-                    "name": "Kimi_K2_Thinking.txt",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/MOONSHOT/Kimi_K2_Thinking.txt"
-                  }
-                ]
-              },
-              {
-                "name": "MULTION",
-                "type": "directory",
-                "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/MULTION",
-                "children": [
-                  {
-                    "name": "MultiOn.md",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/MULTION/MultiOn.md"
-                  }
-                ]
-              },
-              {
-                "name": "Manus",
-                "type": "directory",
-                "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/Manus",
-                "children": [
-                  {
-                    "name": "AgentLoop.txt",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/Manus/AgentLoop.txt"
-                  },
-                  {
-                    "name": "...",
-                    "type": "directory",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/Manus/Manus Agent Tools & Prompt"
-                  },
-                  {
-                    "name": "Manus-v2-agent-loop.txt",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/Manus/Manus-v2-agent-loop.txt"
-                  },
-                  {
-                    "name": "Manus_Functions.txt",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/Manus/Manus_Functions.txt"
-                  },
-                  {
-                    "name": "Manus_Modules-v2.txt",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/Manus/Manus_Modules-v2.txt"
-                  },
-                  {
-                    "name": "Manus_Prompt-v1.txt",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/Manus/Manus_Prompt-v1.txt"
-                  },
-                  {
-                    "name": "Manus_Prompt-v2.txt",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/Manus/Manus_Prompt-v2.txt"
-                  },
-                  {
-                    "name": "Manus_Prompt.txt",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/Manus/Manus_Prompt.txt"
-                  },
-                  {
-                    "name": "Manus_Tools-v2.json",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/Manus/Manus_Tools-v2.json"
-                  },
-                  {
-                    "name": "Modules.md",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/Manus/Modules.md"
-                  },
-                  {
-                    "name": "Prompt.md",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/Manus/Prompt.md"
-                  },
-                  {
-                    "name": "tools.json",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/Manus/tools.json"
-                  }
-                ]
-              },
-              {
-                "name": "MetaAI-Whatsapp",
-                "type": "directory",
-                "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/MetaAI-Whatsapp",
-                "children": [
-                  {
-                    "name": "LLama4.txt",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/MetaAI-Whatsapp/LLama4.txt"
-                  },
-                  {
-                    "name": "MetaAI.txt",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/MetaAI-Whatsapp/MetaAI.txt"
-                  },
-                  {
-                    "name": "Whatsapp-LLama4-Jul-19-2025.md",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/MetaAI-Whatsapp/Whatsapp-LLama4-Jul-19-2025.md"
-                  }
-                ]
-              },
-              {
-                "name": "Misc",
-                "type": "directory",
-                "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/Misc",
-                "children": [
-                  {
-                    "name": "Fellou-browser.md",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/Misc/Fellou-browser.md"
-                  },
-                  {
-                    "name": "Kagi Assistant.md",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/Misc/Kagi Assistant.md"
-                  },
-                  {
-                    "name": "Le-Chat.md",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/Misc/Le-Chat.md"
-                  },
-                  {
-                    "name": "Raycast-AI.md",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/Misc/Raycast-AI.md"
-                  },
-                  {
-                    "name": "Sesame-AI-Maya.md",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/Misc/Sesame-AI-Maya.md"
-                  }
-                ]
-              },
-              {
-                "name": "Mistral",
-                "type": "directory",
-                "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/Mistral",
-                "children": [
-                  {
-                    "name": "Le-Chat-2025-05-29.md",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/Mistral/Le-Chat-2025-05-29.md"
-                  },
-                  {
-                    "name": "LeChat.md",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/Mistral/LeChat.md"
-                  }
-                ]
-              },
-              {
-                "name": "NotionAi",
-                "type": "directory",
-                "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/NotionAi",
-                "children": [
-                  {
-                    "name": "Prompt.txt",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/NotionAi/Prompt.txt"
-                  },
-                  {
-                    "name": "...",
-                    "type": "directory",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/NotionAi/notion"
-                  },
-                  {
-                    "name": "tools.json",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/NotionAi/tools.json"
-                  }
-                ]
-              },
-              {
-                "name": "OPENAI",
-                "type": "directory",
-                "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/OPENAI",
-                "children": [
-                  {
-                    "name": "Atlas_10-21-25.txt",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/OPENAI/Atlas_10-21-25.txt"
-                  },
-                  {
-                    "name": "ChatGPT-4o_Sep-27-25.txt",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/OPENAI/ChatGPT-4o_Sep-27-25.txt"
-                  },
-                  {
-                    "name": "ChatGPT5-08-07-2025.mkd",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/OPENAI/ChatGPT5-08-07-2025.mkd"
-                  },
-                  {
-                    "name": "ChatGPT_4.1_05-15-2025.txt",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/OPENAI/ChatGPT_4.1_05-15-2025.txt"
-                  },
-                  {
-                    "name": "ChatGPT_4o_04-25-2025.txt",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/OPENAI/ChatGPT_4o_04-25-2025.txt"
-                  },
-                  {
-                    "name": "ChatGPT_Personality_v2_Change.md",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/OPENAI/ChatGPT_Personality_v2_Change.md"
-                  },
-                  {
-                    "name": "ChatGPT_o3_o4-mini_04-16-2025",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/OPENAI/ChatGPT_o3_o4-mini_04-16-2025"
-                  },
-                  {
-                    "name": "ChatKit_Docs__Oct-6-25.txt",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/OPENAI/ChatKit_Docs__Oct-6-25.txt"
-                  },
-                  {
-                    "name": "Codex.md",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/OPENAI/Codex.md"
-                  },
-                  {
-                    "name": "Codex_Sep-15-2025.md",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/OPENAI/Codex_Sep-15-2025.md"
-                  },
-                  {
-                    "name": "GPT-4.5_02-27-25.md",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/OPENAI/GPT-4.5_02-27-25.md"
-                  },
-                  {
-                    "name": "GPT-4o_Image_Gen_Postfill.txt",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/OPENAI/GPT-4o_Image_Gen_Postfill.txt"
-                  }
-                ]
-              },
-              {
-                "name": "Orchids",
-                "type": "directory",
-                "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/Orchids",
-                "children": [
-                  {
-                    "name": "...",
-                    "type": "directory",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/Orchids/Orchids.app"
-                  },
-                  {
-                    "name": "orchids-app-v1-decisions.txt",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/Orchids/orchids-app-v1-decisions.txt"
-                  },
-                  {
-                    "name": "orchids-app-v1.txt",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/Orchids/orchids-app-v1.txt"
-                  }
-                ]
-              },
-              {
-                "name": "PERPLEXITY",
-                "type": "directory",
-                "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/PERPLEXITY",
-                "children": [
-                  {
-                    "name": "Perplexity_Deep_Research.txt",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/PERPLEXITY/Perplexity_Deep_Research.txt"
-                  },
-                  {
-                    "name": "...",
-                    "type": "directory",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/PERPLEXITY/perplexity.ai"
-                  }
-                ]
-              },
-              {
-                "name": "Parahelp",
-                "type": "directory",
-                "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/Parahelp",
-                "children": [
-                  {
-                    "name": "manager.md",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/Parahelp/manager.md"
-                  },
-                  {
-                    "name": "planning.md",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/Parahelp/planning.md"
-                  }
-                ]
-              },
-              {
-                "name": "Poke",
-                "type": "directory",
-                "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/Poke",
-                "children": [
-                  {
-                    "name": "Poke agent.txt",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/Poke/Poke agent.txt"
-                  },
-                  {
-                    "name": "Poke_p1.txt",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/Poke/Poke_p1.txt"
-                  },
-                  {
-                    "name": "Poke_p2.txt",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/Poke/Poke_p2.txt"
-                  },
-                  {
-                    "name": "Poke_p3.txt",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/Poke/Poke_p3.txt"
-                  },
-                  {
-                    "name": "Poke_p4.txt",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/Poke/Poke_p4.txt"
-                  },
-                  {
-                    "name": "Poke_p5.txt",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/Poke/Poke_p5.txt"
-                  },
-                  {
-                    "name": "Poke_p6.txt",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/Poke/Poke_p6.txt"
-                  }
-                ]
-              },
-              {
-                "name": "Proton",
-                "type": "directory",
-                "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/Proton",
-                "children": [
-                  {
-                    "name": "Luma.md",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/Proton/Luma.md"
-                  },
-                  {
-                    "name": "lumo-2025-8-26.md",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/Proton/lumo-2025-8-26.md"
-                  }
-                ]
-              },
-              {
-                "name": "Qoder",
-                "type": "directory",
-                "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/Qoder",
-                "children": [
-                  {
-                    "name": "Quest Action.txt",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/Qoder/Quest Action.txt"
-                  },
-                  {
-                    "name": "Quest Design.txt",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/Qoder/Quest Design.txt"
-                  },
-                  {
-                    "name": "prompt.txt",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/Qoder/prompt.txt"
-                  }
-                ]
-              },
-              {
-                "name": "Replit",
-                "type": "directory",
-                "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/Replit",
-                "children": [
-                  {
-                    "name": "...",
-                    "type": "directory",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/Replit/2025-08-11"
-                  },
-                  {
-                    "name": "Prompt.txt",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/Replit/Prompt.txt"
-                  },
-                  {
-                    "name": "Replit_Agent.md",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/Replit/Replit_Agent.md"
-                  },
-                  {
-                    "name": "Replit_Functions.md",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/Replit/Replit_Functions.md"
-                  },
-                  {
-                    "name": "Replit_Initial_Code_Generation_Prompt.md",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/Replit/Replit_Initial_Code_Generation_Prompt.md"
-                  },
-                  {
-                    "name": "Tools.json",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/Replit/Tools.json"
-                  },
-                  {
-                    "name": "...",
-                    "type": "directory",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/Replit/before-2025-08-11"
-                  }
-                ]
-              },
-              {
-                "name": "SAMEDEV",
-                "type": "directory",
-                "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/SAMEDEV",
-                "children": [
-                  {
-                    "name": "Same_Dev.txt",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/SAMEDEV/Same_Dev.txt"
-                  },
-                  {
-                    "name": "...",
-                    "type": "directory",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/SAMEDEV/same.new"
-                  }
-                ]
-              },
-              {
-                "name": "Trae",
-                "type": "directory",
-                "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/Trae",
-                "children": [
-                  {
-                    "name": "Builder Prompt.txt",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/Trae/Builder Prompt.txt"
-                  },
-                  {
-                    "name": "Builder Tools.json",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/Trae/Builder Tools.json"
-                  },
-                  {
-                    "name": "Chat Prompt.txt",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/Trae/Chat Prompt.txt"
-                  },
-                  {
-                    "name": "...",
-                    "type": "directory",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/Trae/trae-agent"
-                  }
-                ]
-              },
-              {
-                "name": "Traycer AI",
-                "type": "directory",
-                "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/Traycer AI",
-                "children": [
-                  {
-                    "name": "phase_mode_prompts.txt",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/Traycer AI/phase_mode_prompts.txt"
-                  },
-                  {
-                    "name": "phase_mode_tools.json",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/Traycer AI/phase_mode_tools.json"
-                  },
-                  {
-                    "name": "plan_mode_prompts",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/Traycer AI/plan_mode_prompts"
-                  },
-                  {
-                    "name": "plan_mode_tools.json",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/Traycer AI/plan_mode_tools.json"
-                  }
-                ]
-              },
-              {
-                "name": "VERCEL V0",
-                "type": "directory",
-                "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/VERCEL V0",
-                "children": [
-                  {
-                    "name": "Vercel_v0.txt",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/VERCEL V0/Vercel_v0.txt"
-                  },
-                  {
-                    "name": "...",
-                    "type": "directory",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/VERCEL V0/v0"
-                  }
-                ]
-              },
-              {
-                "name": "VSCode Agent",
-                "type": "directory",
-                "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/VSCode Agent",
-                "children": [
-                  {
-                    "name": "Prompt.txt",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/VSCode Agent/Prompt.txt"
-                  },
-                  {
-                    "name": "chat-titles.txt",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/VSCode Agent/chat-titles.txt"
-                  },
-                  {
-                    "name": "claude-sonnet-4.txt",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/VSCode Agent/claude-sonnet-4.txt"
-                  },
-                  {
-                    "name": "gemini-2.5-pro.txt",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/VSCode Agent/gemini-2.5-pro.txt"
-                  },
-                  {
-                    "name": "gpt-4.1.txt",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/VSCode Agent/gpt-4.1.txt"
-                  },
-                  {
-                    "name": "gpt-4o.txt",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/VSCode Agent/gpt-4o.txt"
-                  },
-                  {
-                    "name": "gpt-5-mini.txt",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/VSCode Agent/gpt-5-mini.txt"
-                  },
-                  {
-                    "name": "gpt-5.txt",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/VSCode Agent/gpt-5.txt"
-                  },
-                  {
-                    "name": "nes-tab-completion.txt",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/VSCode Agent/nes-tab-completion.txt"
-                  }
-                ]
-              },
-              {
-                "name": "Warp.dev",
-                "type": "directory",
-                "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/Warp.dev",
-                "children": [
-                  {
-                    "name": "Prompt.txt",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/Warp.dev/Prompt.txt"
-                  },
-                  {
-                    "name": "WARP.md",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/Warp.dev/WARP.md"
-                  },
-                  {
-                    "name": "Warp-2.0-agent.md",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/Warp.dev/Warp-2.0-agent.md"
-                  }
-                ]
-              },
-              {
-                "name": "Xcode",
-                "type": "directory",
-                "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/Xcode",
-                "children": [
-                  {
-                    "name": "DocumentAction.txt",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/Xcode/DocumentAction.txt"
-                  },
-                  {
-                    "name": "ExplainAction.txt",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/Xcode/ExplainAction.txt"
-                  },
-                  {
-                    "name": "MessageAction.txt",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/Xcode/MessageAction.txt"
-                  },
-                  {
-                    "name": "PlaygroundAction.txt",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/Xcode/PlaygroundAction.txt"
-                  },
-                  {
-                    "name": "PreviewAction.txt",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/Xcode/PreviewAction.txt"
-                  },
-                  {
-                    "name": "System.txt",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/Xcode/System.txt"
-                  }
-                ]
-              },
-              {
-                "name": "Z.ai",
-                "type": "directory",
-                "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/Z.ai",
-                "children": [
-                  {
-                    "name": "...",
-                    "type": "directory",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/Z.ai/Z.ai Code"
-                  },
-                  {
-                    "name": "prompt.md",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/Z.ai/prompt.md"
-                  }
-                ]
-              },
-              {
-                "name": "_Anthropic",
-                "type": "directory",
-                "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/_Anthropic",
-                "children": [
-                  {
-                    "name": "...",
-                    "type": "directory",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/_Anthropic/Claude"
-                  },
-                  {
-                    "name": "Claude Code 2.0.txt",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/_Anthropic/Claude Code 2.0.txt"
-                  },
-                  {
-                    "name": "...",
-                    "type": "directory",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/_Anthropic/Claude-Code"
-                  },
-                  {
-                    "name": "Sonnet 4.5 Prompt.txt",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/_Anthropic/Sonnet 4.5 Prompt.txt"
-                  },
-                  {
-                    "name": "calude_code_cli_tools.md",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/_Anthropic/calude_code_cli_tools.md"
-                  },
-                  {
-                    "name": "claude-4.1-opus-thinking.md",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/_Anthropic/claude-4.1-opus-thinking.md"
-                  },
-                  {
-                    "name": "claude-4.5-sonnet-learning-style",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/_Anthropic/claude-4.5-sonnet-learning-style"
-                  },
-                  {
-                    "name": "claude-4.5-sonnet.md",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/_Anthropic/claude-4.5-sonnet.md"
-                  },
-                  {
-                    "name": "claude-ai-memory-system.md",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/_Anthropic/claude-ai-memory-system.md"
-                  },
-                  {
-                    "name": "claude-code-2025-11-1.md",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/_Anthropic/claude-code-2025-11-1.md"
-                  },
-                  {
-                    "name": "claude-code-plan-mode.md",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/_Anthropic/claude-code-plan-mode.md"
-                  },
-                  {
-                    "name": "claude-code.js",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/_Anthropic/claude-code.js"
-                  },
-                  {
-                    "name": "claude-code.md",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/_Anthropic/claude-code.md"
-                  },
-                  {
-                    "name": "claude-sonnet-4.md",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/_Anthropic/claude-sonnet-4.md"
-                  },
-                  {
-                    "name": "claude-sonnet-4.txt",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/_Anthropic/claude-sonnet-4.txt"
-                  },
-                  {
-                    "name": "claude.ai-injections.md",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/_Anthropic/claude.ai-injections.md"
-                  },
-                  {
-                    "name": "claude.txt",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/_Anthropic/claude.txt"
-                  },
-                  {
-                    "name": "docx.md",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/_Anthropic/docx.md"
-                  },
-                  {
-                    "name": "end-conversation-tool.md",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/_Anthropic/end-conversation-tool.md"
-                  },
-                  {
-                    "name": "...",
-                    "type": "directory",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/_Anthropic/old"
-                  },
-                  {
-                    "name": "past_chats_tools.md",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/_Anthropic/past_chats_tools.md"
-                  },
-                  {
-                    "name": "pdf.md",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/_Anthropic/pdf.md"
-                  },
-                  {
-                    "name": "pptx.md",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/_Anthropic/pptx.md"
-                  },
-                  {
-                    "name": "readme.md",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/_Anthropic/readme.md"
-                  },
-                  {
-                    "name": "xlsx.md",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/_Anthropic/xlsx.md"
-                  }
-                ]
-              },
-              {
-                "name": "_Open Source prompts",
-                "type": "directory",
-                "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/_Open Source prompts",
-                "children": [
-                  {
-                    "name": "...",
-                    "type": "directory",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/_Open Source prompts/Bolt"
-                  },
-                  {
-                    "name": "...",
-                    "type": "directory",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/_Open Source prompts/Cline"
-                  },
-                  {
-                    "name": "...",
-                    "type": "directory",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/_Open Source prompts/Codex CLI"
-                  },
-                  {
-                    "name": "...",
-                    "type": "directory",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/_Open Source prompts/Gemini CLI"
-                  },
-                  {
-                    "name": "...",
-                    "type": "directory",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/_Open Source prompts/Lumo"
-                  },
-                  {
-                    "name": "...",
-                    "type": "directory",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/_Open Source prompts/RooCode"
-                  }
-                ]
-              },
-              {
-                "name": "_OpenAI",
-                "type": "directory",
-                "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/_OpenAI",
-                "children": [
-                  {
-                    "name": "4o-2025-09-03-new-personality.md",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/_OpenAI/4o-2025-09-03-new-personality.md"
-                  },
-                  {
-                    "name": "...",
-                    "type": "directory",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/_OpenAI/API"
-                  },
-                  {
-                    "name": "...",
-                    "type": "directory",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/_OpenAI/ChatGPT"
-                  },
-                  {
-                    "name": "ChatGPT-GPT-5-Agent-mode-System-Prompt.md",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/_OpenAI/ChatGPT-GPT-5-Agent-mode-System-Prompt.md"
-                  },
-                  {
-                    "name": "Codex.md",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/_OpenAI/Codex.md"
-                  },
-                  {
-                    "name": "GPT-4.1-mini.md",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/_OpenAI/GPT-4.1-mini.md"
-                  },
-                  {
-                    "name": "GPT-4.1.md",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/_OpenAI/GPT-4.1.md"
-                  },
-                  {
-                    "name": "GPT-4.5.md",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/_OpenAI/GPT-4.5.md"
-                  },
-                  {
-                    "name": "GPT-4o-WhatsApp.md",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/_OpenAI/GPT-4o-WhatsApp.md"
-                  },
-                  {
-                    "name": "GPT-4o-advanced-voice-mode.md",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/_OpenAI/GPT-4o-advanced-voice-mode.md"
-                  },
-                  {
-                    "name": "GPT-4o-legacy-voice-mode.md",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/_OpenAI/GPT-4o-legacy-voice-mode.md"
-                  },
-                  {
-                    "name": "GPT-4o.md",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/_OpenAI/GPT-4o.md"
-                  },
-                  {
-                    "name": "Image safety policies.md",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/_OpenAI/Image safety policies.md"
-                  },
-                  {
-                    "name": "...",
-                    "type": "directory",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/_OpenAI/Old"
-                  },
-                  {
-                    "name": "Study and learn.md",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/_OpenAI/Study and learn.md"
-                  },
-                  {
-                    "name": "chatgpt-atlas.md",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/_OpenAI/chatgpt-atlas.md"
-                  },
-                  {
-                    "name": "codex-cli.md",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/_OpenAI/codex-cli.md"
-                  },
-                  {
-                    "name": "gpt-5-cynic-personality.md",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/_OpenAI/gpt-5-cynic-personality.md"
-                  },
-                  {
-                    "name": "gpt-5-listener-personality.md",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/_OpenAI/gpt-5-listener-personality.md"
-                  },
-                  {
-                    "name": "gpt-5-nerdy-personality.md",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/_OpenAI/gpt-5-nerdy-personality.md"
-                  },
-                  {
-                    "name": "gpt-5-robot-personality.md",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/_OpenAI/gpt-5-robot-personality.md"
-                  },
-                  {
-                    "name": "gpt-5-thinking.md",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/_OpenAI/gpt-5-thinking.md"
-                  },
-                  {
-                    "name": "gpt-5.1-candid.md",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/_OpenAI/gpt-5.1-candid.md"
-                  },
-                  {
-                    "name": "gpt-5.1-cynical.md",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/_OpenAI/gpt-5.1-cynical.md"
-                  },
-                  {
-                    "name": "gpt-5.1-default.md",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/_OpenAI/gpt-5.1-default.md"
-                  },
-                  {
-                    "name": "gpt-5.1-efficient.md",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/_OpenAI/gpt-5.1-efficient.md"
-                  },
-                  {
-                    "name": "gpt-5.1-friendly.md",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/_OpenAI/gpt-5.1-friendly.md"
-                  },
-                  {
-                    "name": "gpt-5.1-nerdy.md",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/_OpenAI/gpt-5.1-nerdy.md"
-                  },
-                  {
-                    "name": "gpt-5.1-professional.md",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/_OpenAI/gpt-5.1-professional.md"
-                  },
-                  {
-                    "name": "gpt-5.1-quirky.md",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/_OpenAI/gpt-5.1-quirky.md"
-                  },
-                  {
-                    "name": "o3.md",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/_OpenAI/o3.md"
-                  },
-                  {
-                    "name": "o4-mini-high.md",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/_OpenAI/o4-mini-high.md"
-                  },
-                  {
-                    "name": "o4-mini.md",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/_OpenAI/o4-mini.md"
-                  },
-                  {
-                    "name": "prompt-automation-context.md",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/_OpenAI/prompt-automation-context.md"
-                  },
-                  {
-                    "name": "prompt-image-safety-policies.md",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/_OpenAI/prompt-image-safety-policies.md"
-                  },
-                  {
-                    "name": "tool-advanced-memory.md",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/_OpenAI/tool-advanced-memory.md"
-                  },
-                  {
-                    "name": "tool-canvas-canmore.md",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/_OpenAI/tool-canvas-canmore.md"
-                  },
-                  {
-                    "name": "tool-create-image-image_gen.md",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/_OpenAI/tool-create-image-image_gen.md"
-                  },
-                  {
-                    "name": "tool-deep-research.md",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/_OpenAI/tool-deep-research.md"
-                  },
-                  {
-                    "name": "tool-file_search.md",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/_OpenAI/tool-file_search.md"
-                  },
-                  {
-                    "name": "tool-memory-bio.md",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/_OpenAI/tool-memory-bio.md"
-                  },
-                  {
-                    "name": "tool-python-code.md",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/_OpenAI/tool-python-code.md"
-                  },
-                  {
-                    "name": "tool-python.md",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/_OpenAI/tool-python.md"
-                  },
-                  {
-                    "name": "tool-web-search.md",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/_OpenAI/tool-web-search.md"
-                  }
-                ]
-              },
-              {
-                "name": "awesome-ai-system-prompts-main",
-                "type": "directory",
-                "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/awesome-ai-system-prompts-main",
-                "children": [
-                  {
-                    "name": "...",
-                    "type": "directory",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/awesome-ai-system-prompts-main/awesome-ai-system-prompts"
-                  }
-                ]
-              },
-              {
-                "name": "dia",
-                "type": "directory",
-                "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/dia",
-                "children": [
-                  {
-                    "name": "Dia_CodingSkill.txt",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/dia/Dia_CodingSkill.txt"
-                  },
-                  {
-                    "name": "Dia_DraftSkill.txt",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/dia/Dia_DraftSkill.txt"
-                  },
-                  {
-                    "name": "Prompt.txt",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/dia/Prompt.txt"
-                  }
-                ]
-              },
-              {
-                "name": "notte",
-                "type": "directory",
-                "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/notte",
-                "children": [
-                  {
-                    "name": "prompt.md",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/notte/prompt.md"
-                  }
-                ]
-              },
-              {
-                "name": "windsurf",
-                "type": "directory",
-                "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/windsurf",
-                "children": [
-                  {
-                    "name": "2025-08-11-wave11-tools.md",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/windsurf/2025-08-11-wave11-tools.md"
-                  },
-                  {
-                    "name": "2025-08-11-wave11.md",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/windsurf/2025-08-11-wave11.md"
-                  },
-                  {
-                    "name": "Prompt Wave 11.txt",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/windsurf/Prompt Wave 11.txt"
-                  },
-                  {
-                    "name": "Tools Wave 11.txt",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/windsurf/Tools Wave 11.txt"
-                  },
-                  {
-                    "name": "Windsurf_Prompt.md",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/windsurf/Windsurf_Prompt.md"
-                  },
-                  {
-                    "name": "Windsurf_Tools.md",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/windsurf/Windsurf_Tools.md"
-                  },
-                  {
-                    "name": "system-2025-04-20.md",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/windsurf/system-2025-04-20.md"
-                  }
-                ]
-              },
-              {
-                "name": "xAI",
-                "type": "directory",
-                "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/xAI",
-                "children": [
-                  {
-                    "name": "GROK-4-NEW_Jul-13-2025",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/xAI/GROK-4-NEW_Jul-13-2025"
-                  },
-                  {
-                    "name": "Grok-Code-Fast-1_Aug-26-2025.txt",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/xAI/Grok-Code-Fast-1_Aug-26-2025.txt"
-                  },
-                  {
-                    "name": "Grok3.md",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/xAI/Grok3.md"
-                  },
-                  {
-                    "name": "Grok3_updated_07-08-2025.md",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/xAI/Grok3_updated_07-08-2025.md"
-                  },
-                  {
-                    "name": "Grok4-July-10-2025.md",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/xAI/Grok4-July-10-2025.md"
-                  },
-                  {
-                    "name": "grok-3.md",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/xAI/grok-3.md"
-                  },
-                  {
-                    "name": "grok-4.md",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/xAI/grok-4.md"
-                  },
-                  {
-                    "name": "grok-personas.md",
-                    "type": "file",
-                    "path": "/Users/adilkalam/claude-vibe-config/_LLM-research/_system-prompts/xAI/grok-personas.md"
                   }
                 ]
               }
@@ -4973,6 +3237,1615 @@
             ]
           },
           {
+            "name": "_system-prompts",
+            "type": "directory",
+            "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts",
+            "children": [
+              {
+                "name": "ANTHROPIC",
+                "type": "directory",
+                "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/ANTHROPIC",
+                "children": [
+                  {
+                    "name": "Claude-4.1.txt",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/ANTHROPIC/Claude-4.1.txt"
+                  },
+                  {
+                    "name": "Claude_4.txt",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/ANTHROPIC/Claude_4.txt"
+                  },
+                  {
+                    "name": "Claude_Code_03-04-24.md",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/ANTHROPIC/Claude_Code_03-04-24.md"
+                  },
+                  {
+                    "name": "Claude_Sonnet-4.5_Sep-29-2025.txt",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/ANTHROPIC/Claude_Sonnet-4.5_Sep-29-2025.txt"
+                  },
+                  {
+                    "name": "Claude_Sonnet_3.5.md",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/ANTHROPIC/Claude_Sonnet_3.5.md"
+                  },
+                  {
+                    "name": "Claude_Sonnet_3.7_New.txt",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/ANTHROPIC/Claude_Sonnet_3.7_New.txt"
+                  },
+                  {
+                    "name": "UserStyle_Modes.md",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/ANTHROPIC/UserStyle_Modes.md"
+                  }
+                ]
+              },
+              {
+                "name": "Amp",
+                "type": "directory",
+                "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/Amp",
+                "children": [
+                  {
+                    "name": "README.md",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/Amp/README.md"
+                  },
+                  {
+                    "name": "claude-4-sonnet.yaml",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/Amp/claude-4-sonnet.yaml"
+                  },
+                  {
+                    "name": "gpt-5.yaml",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/Amp/gpt-5.yaml"
+                  },
+                  {
+                    "name": "view-thread-yaml.png",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/Amp/view-thread-yaml.png"
+                  }
+                ]
+              },
+              {
+                "name": "Augment Code",
+                "type": "directory",
+                "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/Augment Code",
+                "children": [
+                  {
+                    "name": "...",
+                    "type": "directory",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/Augment Code/Augment"
+                  },
+                  {
+                    "name": "claude-4-sonnet-agent-prompts.txt",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/Augment Code/claude-4-sonnet-agent-prompts.txt"
+                  },
+                  {
+                    "name": "claude-4-sonnet-tools.json",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/Augment Code/claude-4-sonnet-tools.json"
+                  },
+                  {
+                    "name": "gpt-5-agent-prompts.txt",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/Augment Code/gpt-5-agent-prompts.txt"
+                  },
+                  {
+                    "name": "gpt-5-tools.json",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/Augment Code/gpt-5-tools.json"
+                  }
+                ]
+              },
+              {
+                "name": "BOLT",
+                "type": "directory",
+                "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/BOLT",
+                "children": [
+                  {
+                    "name": "...",
+                    "type": "directory",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/BOLT/Bolt.new"
+                  },
+                  {
+                    "name": "Bolt.txt",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/BOLT/Bolt.txt"
+                  }
+                ]
+              },
+              {
+                "name": "BRAVE",
+                "type": "directory",
+                "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/BRAVE",
+                "children": [
+                  {
+                    "name": "LEO_Aug-31-2025",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/BRAVE/LEO_Aug-31-2025"
+                  }
+                ]
+              },
+              {
+                "name": "Blackbox.ai",
+                "type": "directory",
+                "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/Blackbox.ai",
+                "children": [
+                  {
+                    "name": "Blackbox-Agent.md",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/Blackbox.ai/Blackbox-Agent.md"
+                  },
+                  {
+                    "name": "Blackbox-Complete.ts",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/Blackbox.ai/Blackbox-Complete.ts"
+                  },
+                  {
+                    "name": "README.md",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/Blackbox.ai/README.md"
+                  },
+                  {
+                    "name": "...",
+                    "type": "directory",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/Blackbox.ai/extraction-scripts"
+                  }
+                ]
+              },
+              {
+                "name": "CL4R1T4S-main",
+                "type": "directory",
+                "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/CL4R1T4S-main",
+                "children": [
+                  {
+                    "name": "...",
+                    "type": "directory",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/CL4R1T4S-main/CL4R1T4S-main"
+                  }
+                ]
+              },
+              {
+                "name": "CURSOR",
+                "type": "directory",
+                "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/CURSOR",
+                "children": [
+                  {
+                    "name": "...",
+                    "type": "directory",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/CURSOR/Cursor Prompts"
+                  },
+                  {
+                    "name": "Cursor_2.0_Sys_Prompt.txt",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/CURSOR/Cursor_2.0_Sys_Prompt.txt"
+                  },
+                  {
+                    "name": "Cursor_Prompt.md",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/CURSOR/Cursor_Prompt.md"
+                  },
+                  {
+                    "name": "Cursor_Tools.md",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/CURSOR/Cursor_Tools.md"
+                  }
+                ]
+              },
+              {
+                "name": "Claude Code Internals_ Reverse Engineering Prompt Augmentation Mechanisms _ Agiflow Blog.md",
+                "type": "file",
+                "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/Claude Code Internals_ Reverse Engineering Prompt Augmentation Mechanisms _ Agiflow Blog.md"
+              },
+              {
+                "name": "Cline",
+                "type": "directory",
+                "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/Cline",
+                "children": [
+                  {
+                    "name": "Cline.md",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/Cline/Cline.md"
+                  },
+                  {
+                    "name": "system.ts",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/Cline/system.ts"
+                  }
+                ]
+              },
+              {
+                "name": "Cluely",
+                "type": "directory",
+                "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/Cluely",
+                "children": [
+                  {
+                    "name": "Cluely.mkd",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/Cluely/Cluely.mkd"
+                  },
+                  {
+                    "name": "Default Prompt.txt",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/Cluely/Default Prompt.txt"
+                  },
+                  {
+                    "name": "Enterprise Prompt.txt",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/Cluely/Enterprise Prompt.txt"
+                  },
+                  {
+                    "name": "default.md",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/Cluely/default.md"
+                  },
+                  {
+                    "name": "enterprise.md",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/Cluely/enterprise.md"
+                  }
+                ]
+              },
+              {
+                "name": "CodeBuddy Prompts",
+                "type": "directory",
+                "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/CodeBuddy Prompts",
+                "children": [
+                  {
+                    "name": "Chat Prompt.txt",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/CodeBuddy Prompts/Chat Prompt.txt"
+                  },
+                  {
+                    "name": "Craft Prompt.txt",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/CodeBuddy Prompts/Craft Prompt.txt"
+                  }
+                ]
+              },
+              {
+                "name": "Comet Assistant",
+                "type": "directory",
+                "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/Comet Assistant",
+                "children": [
+                  {
+                    "name": "System Prompt.txt",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/Comet Assistant/System Prompt.txt"
+                  }
+                ]
+              },
+              {
+                "name": "DEVIN",
+                "type": "directory",
+                "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/DEVIN",
+                "children": [
+                  {
+                    "name": "Devin2_09-08-2025.md",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/DEVIN/Devin2_09-08-2025.md"
+                  },
+                  {
+                    "name": "Devin_2.0.md",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/DEVIN/Devin_2.0.md"
+                  },
+                  {
+                    "name": "Devin_2.0_Commands.md",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/DEVIN/Devin_2.0_Commands.md"
+                  }
+                ]
+              },
+              {
+                "name": "Devin AI",
+                "type": "directory",
+                "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/Devin AI",
+                "children": [
+                  {
+                    "name": "DeepWiki Prompt.txt",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/Devin AI/DeepWiki Prompt.txt"
+                  },
+                  {
+                    "name": "...",
+                    "type": "directory",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/Devin AI/Devin"
+                  },
+                  {
+                    "name": "Prompt.txt",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/Devin AI/Prompt.txt"
+                  }
+                ]
+              },
+              {
+                "name": "Emergent",
+                "type": "directory",
+                "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/Emergent",
+                "children": [
+                  {
+                    "name": "Prompt.txt",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/Emergent/Prompt.txt"
+                  },
+                  {
+                    "name": "Tools.json",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/Emergent/Tools.json"
+                  }
+                ]
+              },
+              {
+                "name": "FACTORY",
+                "type": "directory",
+                "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/FACTORY",
+                "children": [
+                  {
+                    "name": "DROID.txt",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/FACTORY/DROID.txt"
+                  }
+                ]
+              },
+              {
+                "name": "Gemini",
+                "type": "directory",
+                "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/Gemini",
+                "children": [
+                  {
+                    "name": "AI Studio Vibe-Coder.txt",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/Gemini/AI Studio Vibe-Coder.txt"
+                  }
+                ]
+              },
+              {
+                "name": "Google",
+                "type": "directory",
+                "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/Google",
+                "children": [
+                  {
+                    "name": "Gemini-2.5-Pro-04-18-2025.md",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/Google/Gemini-2.5-Pro-04-18-2025.md"
+                  },
+                  {
+                    "name": "Gemini-cli system prompt.md",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/Google/Gemini-cli system prompt.md"
+                  },
+                  {
+                    "name": "Gemini_Diffusion.md",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/Google/Gemini_Diffusion.md"
+                  },
+                  {
+                    "name": "Gemini_Gmail_Assistant.txt",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/Google/Gemini_Gmail_Assistant.txt"
+                  },
+                  {
+                    "name": "...",
+                    "type": "directory",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/Google/Google-Jules"
+                  },
+                  {
+                    "name": "GoogleDiffusion.md",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/Google/GoogleDiffusion.md"
+                  },
+                  {
+                    "name": "gemini-2.0-flash-webapp.md",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/Google/gemini-2.0-flash-webapp.md"
+                  },
+                  {
+                    "name": "gemini-2.5-flash-image-preview.md",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/Google/gemini-2.5-flash-image-preview.md"
+                  },
+                  {
+                    "name": "gemini-2.5-pro-guided-learning.md",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/Google/gemini-2.5-pro-guided-learning.md"
+                  },
+                  {
+                    "name": "gemini-2.5-pro-webapp.md",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/Google/gemini-2.5-pro-webapp.md"
+                  },
+                  {
+                    "name": "gemini-diffusion.md",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/Google/gemini-diffusion.md"
+                  }
+                ]
+              },
+              {
+                "name": "Grok",
+                "type": "directory",
+                "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/Grok",
+                "children": [
+                  {
+                    "name": "Grok2.md",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/Grok/Grok2.md"
+                  },
+                  {
+                    "name": "Grok3.md",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/Grok/Grok3.md"
+                  },
+                  {
+                    "name": "Grok3withDeepSearch.md",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/Grok/Grok3withDeepSearch.md"
+                  },
+                  {
+                    "name": "GrokJailBreakPrompt.md",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/Grok/GrokJailBreakPrompt.md"
+                  },
+                  {
+                    "name": "ask_grok_summarizer.j2",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/Grok/ask_grok_summarizer.j2"
+                  },
+                  {
+                    "name": "default_deepsearch_final_summarizer_prompt.j2",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/Grok/default_deepsearch_final_summarizer_prompt.j2"
+                  },
+                  {
+                    "name": "grok3_official0330_p1.j2",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/Grok/grok3_official0330_p1.j2"
+                  },
+                  {
+                    "name": "grok_analyze_button.j2",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/Grok/grok_analyze_button.j2"
+                  }
+                ]
+              },
+              {
+                "name": "HUME",
+                "type": "directory",
+                "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/HUME",
+                "children": [
+                  {
+                    "name": "Hume_Voice_AI.md",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/HUME/Hume_Voice_AI.md"
+                  }
+                ]
+              },
+              {
+                "name": "Junie",
+                "type": "directory",
+                "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/Junie",
+                "children": [
+                  {
+                    "name": "Prompt.txt",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/Junie/Prompt.txt"
+                  }
+                ]
+              },
+              {
+                "name": "Kiro",
+                "type": "directory",
+                "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/Kiro",
+                "children": [
+                  {
+                    "name": "Mode_Clasifier_Prompt.txt",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/Kiro/Mode_Clasifier_Prompt.txt"
+                  },
+                  {
+                    "name": "Spec_Prompt.txt",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/Kiro/Spec_Prompt.txt"
+                  },
+                  {
+                    "name": "Vibe_Prompt.txt",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/Kiro/Vibe_Prompt.txt"
+                  }
+                ]
+              },
+              {
+                "name": "LOVABLE",
+                "type": "directory",
+                "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/LOVABLE",
+                "children": [
+                  {
+                    "name": "Lovable_2.0.txt",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/LOVABLE/Lovable_2.0.txt"
+                  },
+                  {
+                    "name": "...",
+                    "type": "directory",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/LOVABLE/Loveable"
+                  }
+                ]
+              },
+              {
+                "name": "Leap.new",
+                "type": "directory",
+                "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/Leap.new",
+                "children": [
+                  {
+                    "name": "Prompts.txt",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/Leap.new/Prompts.txt"
+                  },
+                  {
+                    "name": "tools.json",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/Leap.new/tools.json"
+                  }
+                ]
+              },
+              {
+                "name": "META",
+                "type": "directory",
+                "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/META",
+                "children": [
+                  {
+                    "name": "Llama4_WhatsApp.txt",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/META/Llama4_WhatsApp.txt"
+                  }
+                ]
+              },
+              {
+                "name": "MINIMAX",
+                "type": "directory",
+                "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/MINIMAX",
+                "children": [
+                  {
+                    "name": "MiniMax.txt",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/MINIMAX/MiniMax.txt"
+                  }
+                ]
+              },
+              {
+                "name": "MOONSHOT",
+                "type": "directory",
+                "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/MOONSHOT",
+                "children": [
+                  {
+                    "name": "Kimi_2_July-11-2025.txt",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/MOONSHOT/Kimi_2_July-11-2025.txt"
+                  },
+                  {
+                    "name": "Kimi_K2_Thinking.txt",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/MOONSHOT/Kimi_K2_Thinking.txt"
+                  }
+                ]
+              },
+              {
+                "name": "MULTION",
+                "type": "directory",
+                "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/MULTION",
+                "children": [
+                  {
+                    "name": "MultiOn.md",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/MULTION/MultiOn.md"
+                  }
+                ]
+              },
+              {
+                "name": "Manus",
+                "type": "directory",
+                "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/Manus",
+                "children": [
+                  {
+                    "name": "AgentLoop.txt",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/Manus/AgentLoop.txt"
+                  },
+                  {
+                    "name": "...",
+                    "type": "directory",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/Manus/Manus Agent Tools & Prompt"
+                  },
+                  {
+                    "name": "Manus-v2-agent-loop.txt",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/Manus/Manus-v2-agent-loop.txt"
+                  },
+                  {
+                    "name": "Manus_Functions.txt",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/Manus/Manus_Functions.txt"
+                  },
+                  {
+                    "name": "Manus_Modules-v2.txt",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/Manus/Manus_Modules-v2.txt"
+                  },
+                  {
+                    "name": "Manus_Prompt-v1.txt",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/Manus/Manus_Prompt-v1.txt"
+                  },
+                  {
+                    "name": "Manus_Prompt-v2.txt",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/Manus/Manus_Prompt-v2.txt"
+                  },
+                  {
+                    "name": "Manus_Prompt.txt",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/Manus/Manus_Prompt.txt"
+                  },
+                  {
+                    "name": "Manus_Tools-v2.json",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/Manus/Manus_Tools-v2.json"
+                  },
+                  {
+                    "name": "Modules.md",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/Manus/Modules.md"
+                  },
+                  {
+                    "name": "Prompt.md",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/Manus/Prompt.md"
+                  },
+                  {
+                    "name": "tools.json",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/Manus/tools.json"
+                  }
+                ]
+              },
+              {
+                "name": "MetaAI-Whatsapp",
+                "type": "directory",
+                "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/MetaAI-Whatsapp",
+                "children": [
+                  {
+                    "name": "LLama4.txt",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/MetaAI-Whatsapp/LLama4.txt"
+                  },
+                  {
+                    "name": "MetaAI.txt",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/MetaAI-Whatsapp/MetaAI.txt"
+                  },
+                  {
+                    "name": "Whatsapp-LLama4-Jul-19-2025.md",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/MetaAI-Whatsapp/Whatsapp-LLama4-Jul-19-2025.md"
+                  }
+                ]
+              },
+              {
+                "name": "Misc",
+                "type": "directory",
+                "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/Misc",
+                "children": [
+                  {
+                    "name": "Fellou-browser.md",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/Misc/Fellou-browser.md"
+                  },
+                  {
+                    "name": "Kagi Assistant.md",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/Misc/Kagi Assistant.md"
+                  },
+                  {
+                    "name": "Le-Chat.md",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/Misc/Le-Chat.md"
+                  },
+                  {
+                    "name": "Raycast-AI.md",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/Misc/Raycast-AI.md"
+                  },
+                  {
+                    "name": "Sesame-AI-Maya.md",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/Misc/Sesame-AI-Maya.md"
+                  }
+                ]
+              },
+              {
+                "name": "Mistral",
+                "type": "directory",
+                "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/Mistral",
+                "children": [
+                  {
+                    "name": "Le-Chat-2025-05-29.md",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/Mistral/Le-Chat-2025-05-29.md"
+                  },
+                  {
+                    "name": "LeChat.md",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/Mistral/LeChat.md"
+                  }
+                ]
+              },
+              {
+                "name": "NotionAi",
+                "type": "directory",
+                "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/NotionAi",
+                "children": [
+                  {
+                    "name": "Prompt.txt",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/NotionAi/Prompt.txt"
+                  },
+                  {
+                    "name": "...",
+                    "type": "directory",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/NotionAi/notion"
+                  },
+                  {
+                    "name": "tools.json",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/NotionAi/tools.json"
+                  }
+                ]
+              },
+              {
+                "name": "OPENAI",
+                "type": "directory",
+                "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/OPENAI"
+              },
+              {
+                "name": "Orchids",
+                "type": "directory",
+                "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/Orchids",
+                "children": [
+                  {
+                    "name": "...",
+                    "type": "directory",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/Orchids/Orchids.app"
+                  },
+                  {
+                    "name": "orchids-app-v1-decisions.txt",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/Orchids/orchids-app-v1-decisions.txt"
+                  },
+                  {
+                    "name": "orchids-app-v1.txt",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/Orchids/orchids-app-v1.txt"
+                  }
+                ]
+              },
+              {
+                "name": "PERPLEXITY",
+                "type": "directory",
+                "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/PERPLEXITY",
+                "children": [
+                  {
+                    "name": "Perplexity_Deep_Research.txt",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/PERPLEXITY/Perplexity_Deep_Research.txt"
+                  },
+                  {
+                    "name": "Prompt.txt",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/PERPLEXITY/Prompt.txt"
+                  },
+                  {
+                    "name": "regular.md",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/PERPLEXITY/regular.md"
+                  },
+                  {
+                    "name": "voice-assistant.md",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/PERPLEXITY/voice-assistant.md"
+                  }
+                ]
+              },
+              {
+                "name": "Parahelp",
+                "type": "directory",
+                "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/Parahelp",
+                "children": [
+                  {
+                    "name": "manager.md",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/Parahelp/manager.md"
+                  },
+                  {
+                    "name": "planning.md",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/Parahelp/planning.md"
+                  }
+                ]
+              },
+              {
+                "name": "Poke",
+                "type": "directory",
+                "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/Poke",
+                "children": [
+                  {
+                    "name": "Poke agent.txt",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/Poke/Poke agent.txt"
+                  },
+                  {
+                    "name": "Poke_p1.txt",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/Poke/Poke_p1.txt"
+                  },
+                  {
+                    "name": "Poke_p2.txt",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/Poke/Poke_p2.txt"
+                  },
+                  {
+                    "name": "Poke_p3.txt",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/Poke/Poke_p3.txt"
+                  },
+                  {
+                    "name": "Poke_p4.txt",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/Poke/Poke_p4.txt"
+                  },
+                  {
+                    "name": "Poke_p5.txt",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/Poke/Poke_p5.txt"
+                  },
+                  {
+                    "name": "Poke_p6.txt",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/Poke/Poke_p6.txt"
+                  }
+                ]
+              },
+              {
+                "name": "Proton",
+                "type": "directory",
+                "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/Proton",
+                "children": [
+                  {
+                    "name": "Luma.md",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/Proton/Luma.md"
+                  },
+                  {
+                    "name": "lumo-2025-8-26.md",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/Proton/lumo-2025-8-26.md"
+                  }
+                ]
+              },
+              {
+                "name": "Qoder",
+                "type": "directory",
+                "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/Qoder",
+                "children": [
+                  {
+                    "name": "Quest Action.txt",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/Qoder/Quest Action.txt"
+                  },
+                  {
+                    "name": "Quest Design.txt",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/Qoder/Quest Design.txt"
+                  },
+                  {
+                    "name": "prompt.txt",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/Qoder/prompt.txt"
+                  }
+                ]
+              },
+              {
+                "name": "Replit",
+                "type": "directory",
+                "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/Replit",
+                "children": [
+                  {
+                    "name": "...",
+                    "type": "directory",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/Replit/2025-08-11"
+                  },
+                  {
+                    "name": "Prompt.txt",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/Replit/Prompt.txt"
+                  },
+                  {
+                    "name": "Replit_Agent.md",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/Replit/Replit_Agent.md"
+                  },
+                  {
+                    "name": "Replit_Functions.md",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/Replit/Replit_Functions.md"
+                  },
+                  {
+                    "name": "Replit_Initial_Code_Generation_Prompt.md",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/Replit/Replit_Initial_Code_Generation_Prompt.md"
+                  },
+                  {
+                    "name": "Tools.json",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/Replit/Tools.json"
+                  },
+                  {
+                    "name": "...",
+                    "type": "directory",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/Replit/before-2025-08-11"
+                  }
+                ]
+              },
+              {
+                "name": "SAMEDEV",
+                "type": "directory",
+                "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/SAMEDEV",
+                "children": [
+                  {
+                    "name": "Same_Dev.txt",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/SAMEDEV/Same_Dev.txt"
+                  },
+                  {
+                    "name": "...",
+                    "type": "directory",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/SAMEDEV/same.new"
+                  }
+                ]
+              },
+              {
+                "name": "Trae",
+                "type": "directory",
+                "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/Trae",
+                "children": [
+                  {
+                    "name": "Builder Prompt.txt",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/Trae/Builder Prompt.txt"
+                  },
+                  {
+                    "name": "Builder Tools.json",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/Trae/Builder Tools.json"
+                  },
+                  {
+                    "name": "Chat Prompt.txt",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/Trae/Chat Prompt.txt"
+                  },
+                  {
+                    "name": "...",
+                    "type": "directory",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/Trae/trae-agent"
+                  }
+                ]
+              },
+              {
+                "name": "Traycer AI",
+                "type": "directory",
+                "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/Traycer AI",
+                "children": [
+                  {
+                    "name": "phase_mode_prompts.txt",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/Traycer AI/phase_mode_prompts.txt"
+                  },
+                  {
+                    "name": "phase_mode_tools.json",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/Traycer AI/phase_mode_tools.json"
+                  },
+                  {
+                    "name": "plan_mode_prompts",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/Traycer AI/plan_mode_prompts"
+                  },
+                  {
+                    "name": "plan_mode_tools.json",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/Traycer AI/plan_mode_tools.json"
+                  }
+                ]
+              },
+              {
+                "name": "VERCEL V0",
+                "type": "directory",
+                "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/VERCEL V0",
+                "children": [
+                  {
+                    "name": "Vercel_v0.txt",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/VERCEL V0/Vercel_v0.txt"
+                  },
+                  {
+                    "name": "...",
+                    "type": "directory",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/VERCEL V0/v0"
+                  }
+                ]
+              },
+              {
+                "name": "VSCode Agent",
+                "type": "directory",
+                "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/VSCode Agent",
+                "children": [
+                  {
+                    "name": "Prompt.txt",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/VSCode Agent/Prompt.txt"
+                  },
+                  {
+                    "name": "chat-titles.txt",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/VSCode Agent/chat-titles.txt"
+                  },
+                  {
+                    "name": "claude-sonnet-4.txt",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/VSCode Agent/claude-sonnet-4.txt"
+                  },
+                  {
+                    "name": "gemini-2.5-pro.txt",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/VSCode Agent/gemini-2.5-pro.txt"
+                  },
+                  {
+                    "name": "gpt-4.1.txt",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/VSCode Agent/gpt-4.1.txt"
+                  },
+                  {
+                    "name": "gpt-4o.txt",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/VSCode Agent/gpt-4o.txt"
+                  },
+                  {
+                    "name": "gpt-5-mini.txt",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/VSCode Agent/gpt-5-mini.txt"
+                  },
+                  {
+                    "name": "gpt-5.txt",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/VSCode Agent/gpt-5.txt"
+                  },
+                  {
+                    "name": "nes-tab-completion.txt",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/VSCode Agent/nes-tab-completion.txt"
+                  }
+                ]
+              },
+              {
+                "name": "Warp.dev",
+                "type": "directory",
+                "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/Warp.dev",
+                "children": [
+                  {
+                    "name": "Prompt.txt",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/Warp.dev/Prompt.txt"
+                  },
+                  {
+                    "name": "WARP.md",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/Warp.dev/WARP.md"
+                  },
+                  {
+                    "name": "Warp-2.0-agent.md",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/Warp.dev/Warp-2.0-agent.md"
+                  }
+                ]
+              },
+              {
+                "name": "Xcode",
+                "type": "directory",
+                "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/Xcode",
+                "children": [
+                  {
+                    "name": "DocumentAction.txt",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/Xcode/DocumentAction.txt"
+                  },
+                  {
+                    "name": "ExplainAction.txt",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/Xcode/ExplainAction.txt"
+                  },
+                  {
+                    "name": "MessageAction.txt",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/Xcode/MessageAction.txt"
+                  },
+                  {
+                    "name": "PlaygroundAction.txt",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/Xcode/PlaygroundAction.txt"
+                  },
+                  {
+                    "name": "PreviewAction.txt",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/Xcode/PreviewAction.txt"
+                  },
+                  {
+                    "name": "System.txt",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/Xcode/System.txt"
+                  }
+                ]
+              },
+              {
+                "name": "Z.ai",
+                "type": "directory",
+                "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/Z.ai",
+                "children": [
+                  {
+                    "name": "...",
+                    "type": "directory",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/Z.ai/Z.ai Code"
+                  },
+                  {
+                    "name": "prompt.md",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/Z.ai/prompt.md"
+                  }
+                ]
+              },
+              {
+                "name": "_Anthropic",
+                "type": "directory",
+                "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/_Anthropic",
+                "children": [
+                  {
+                    "name": "...",
+                    "type": "directory",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/_Anthropic/Claude"
+                  },
+                  {
+                    "name": "Claude Code 2.0.txt",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/_Anthropic/Claude Code 2.0.txt"
+                  },
+                  {
+                    "name": "...",
+                    "type": "directory",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/_Anthropic/Claude-Code"
+                  },
+                  {
+                    "name": "Sonnet 4.5 Prompt.txt",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/_Anthropic/Sonnet 4.5 Prompt.txt"
+                  },
+                  {
+                    "name": "calude_code_cli_tools.md",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/_Anthropic/calude_code_cli_tools.md"
+                  },
+                  {
+                    "name": "claude-4.1-opus-thinking.md",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/_Anthropic/claude-4.1-opus-thinking.md"
+                  },
+                  {
+                    "name": "claude-4.5-sonnet-learning-style",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/_Anthropic/claude-4.5-sonnet-learning-style"
+                  },
+                  {
+                    "name": "claude-4.5-sonnet.md",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/_Anthropic/claude-4.5-sonnet.md"
+                  },
+                  {
+                    "name": "claude-ai-memory-system.md",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/_Anthropic/claude-ai-memory-system.md"
+                  },
+                  {
+                    "name": "claude-code-2025-11-1.md",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/_Anthropic/claude-code-2025-11-1.md"
+                  },
+                  {
+                    "name": "claude-code-plan-mode.md",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/_Anthropic/claude-code-plan-mode.md"
+                  },
+                  {
+                    "name": "claude-code.js",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/_Anthropic/claude-code.js"
+                  },
+                  {
+                    "name": "claude-code.md",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/_Anthropic/claude-code.md"
+                  },
+                  {
+                    "name": "claude-sonnet-4.md",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/_Anthropic/claude-sonnet-4.md"
+                  },
+                  {
+                    "name": "claude-sonnet-4.txt",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/_Anthropic/claude-sonnet-4.txt"
+                  },
+                  {
+                    "name": "claude.ai-injections.md",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/_Anthropic/claude.ai-injections.md"
+                  },
+                  {
+                    "name": "claude.txt",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/_Anthropic/claude.txt"
+                  },
+                  {
+                    "name": "docx.md",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/_Anthropic/docx.md"
+                  },
+                  {
+                    "name": "end-conversation-tool.md",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/_Anthropic/end-conversation-tool.md"
+                  },
+                  {
+                    "name": "...",
+                    "type": "directory",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/_Anthropic/old"
+                  },
+                  {
+                    "name": "past_chats_tools.md",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/_Anthropic/past_chats_tools.md"
+                  },
+                  {
+                    "name": "pdf.md",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/_Anthropic/pdf.md"
+                  },
+                  {
+                    "name": "pptx.md",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/_Anthropic/pptx.md"
+                  },
+                  {
+                    "name": "readme.md",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/_Anthropic/readme.md"
+                  },
+                  {
+                    "name": "xlsx.md",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/_Anthropic/xlsx.md"
+                  }
+                ]
+              },
+              {
+                "name": "_Open Source prompts",
+                "type": "directory",
+                "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/_Open Source prompts",
+                "children": [
+                  {
+                    "name": "...",
+                    "type": "directory",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/_Open Source prompts/Bolt"
+                  },
+                  {
+                    "name": "...",
+                    "type": "directory",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/_Open Source prompts/Cline"
+                  },
+                  {
+                    "name": "...",
+                    "type": "directory",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/_Open Source prompts/Codex CLI"
+                  },
+                  {
+                    "name": "...",
+                    "type": "directory",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/_Open Source prompts/Gemini CLI"
+                  },
+                  {
+                    "name": "...",
+                    "type": "directory",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/_Open Source prompts/Lumo"
+                  },
+                  {
+                    "name": "...",
+                    "type": "directory",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/_Open Source prompts/RooCode"
+                  }
+                ]
+              },
+              {
+                "name": "_OpenAI",
+                "type": "directory",
+                "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/_OpenAI",
+                "children": [
+                  {
+                    "name": "Atlas_10-21-25.txt",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/_OpenAI/Atlas_10-21-25.txt"
+                  },
+                  {
+                    "name": "ChatGPT_Personality_v2_Change.md",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/_OpenAI/ChatGPT_Personality_v2_Change.md"
+                  },
+                  {
+                    "name": "ChatKit_Docs__Oct-6-25.txt",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/_OpenAI/ChatKit_Docs__Oct-6-25.txt"
+                  },
+                  {
+                    "name": "...",
+                    "type": "directory",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/_OpenAI/Codex"
+                  },
+                  {
+                    "name": "DALLE.md",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/_OpenAI/DALLE.md"
+                  },
+                  {
+                    "name": "...",
+                    "type": "directory",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/_OpenAI/GPT-5"
+                  },
+                  {
+                    "name": "Image safety policies.md",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/_OpenAI/Image safety policies.md"
+                  },
+                  {
+                    "name": "Study and learn.md",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/_OpenAI/Study and learn.md"
+                  },
+                  {
+                    "name": "...",
+                    "type": "directory",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/_OpenAI/_archive"
+                  },
+                  {
+                    "name": "chatgpt-atlas.md",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/_OpenAI/chatgpt-atlas.md"
+                  },
+                  {
+                    "name": "prompt-automation-context.md",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/_OpenAI/prompt-automation-context.md"
+                  },
+                  {
+                    "name": "prompt-image-safety-policies.md",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/_OpenAI/prompt-image-safety-policies.md"
+                  },
+                  {
+                    "name": "study-mode-2025-07-31.md",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/_OpenAI/study-mode-2025-07-31.md"
+                  },
+                  {
+                    "name": "system-2025-04-16.md",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/_OpenAI/system-2025-04-16.md"
+                  },
+                  {
+                    "name": "tool-advanced-memory.md",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/_OpenAI/tool-advanced-memory.md"
+                  },
+                  {
+                    "name": "tool-canvas-canmore.md",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/_OpenAI/tool-canvas-canmore.md"
+                  },
+                  {
+                    "name": "tool-create-image-image_gen.md",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/_OpenAI/tool-create-image-image_gen.md"
+                  },
+                  {
+                    "name": "tool-deep-research.md",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/_OpenAI/tool-deep-research.md"
+                  },
+                  {
+                    "name": "tool-file_search.md",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/_OpenAI/tool-file_search.md"
+                  },
+                  {
+                    "name": "tool-memory-bio.md",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/_OpenAI/tool-memory-bio.md"
+                  },
+                  {
+                    "name": "tool-python-code.md",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/_OpenAI/tool-python-code.md"
+                  },
+                  {
+                    "name": "tool-python.md",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/_OpenAI/tool-python.md"
+                  },
+                  {
+                    "name": "tool-web-search.md",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/_OpenAI/tool-web-search.md"
+                  }
+                ]
+              },
+              {
+                "name": "awesome-ai-system-prompts-main",
+                "type": "directory",
+                "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/awesome-ai-system-prompts-main",
+                "children": [
+                  {
+                    "name": "...",
+                    "type": "directory",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/awesome-ai-system-prompts-main/awesome-ai-system-prompts"
+                  }
+                ]
+              },
+              {
+                "name": "dia",
+                "type": "directory",
+                "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/dia",
+                "children": [
+                  {
+                    "name": "Dia_CodingSkill.txt",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/dia/Dia_CodingSkill.txt"
+                  },
+                  {
+                    "name": "Dia_DraftSkill.txt",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/dia/Dia_DraftSkill.txt"
+                  },
+                  {
+                    "name": "Prompt.txt",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/dia/Prompt.txt"
+                  }
+                ]
+              },
+              {
+                "name": "notte",
+                "type": "directory",
+                "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/notte",
+                "children": [
+                  {
+                    "name": "prompt.md",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/notte/prompt.md"
+                  }
+                ]
+              },
+              {
+                "name": "windsurf",
+                "type": "directory",
+                "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/windsurf",
+                "children": [
+                  {
+                    "name": "2025-08-11-wave11-tools.md",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/windsurf/2025-08-11-wave11-tools.md"
+                  },
+                  {
+                    "name": "2025-08-11-wave11.md",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/windsurf/2025-08-11-wave11.md"
+                  },
+                  {
+                    "name": "Prompt Wave 11.txt",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/windsurf/Prompt Wave 11.txt"
+                  },
+                  {
+                    "name": "Tools Wave 11.txt",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/windsurf/Tools Wave 11.txt"
+                  },
+                  {
+                    "name": "Windsurf_Prompt.md",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/windsurf/Windsurf_Prompt.md"
+                  },
+                  {
+                    "name": "Windsurf_Tools.md",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/windsurf/Windsurf_Tools.md"
+                  },
+                  {
+                    "name": "system-2025-04-20.md",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/windsurf/system-2025-04-20.md"
+                  }
+                ]
+              },
+              {
+                "name": "xAI",
+                "type": "directory",
+                "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/xAI",
+                "children": [
+                  {
+                    "name": "GROK-4-NEW_Jul-13-2025",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/xAI/GROK-4-NEW_Jul-13-2025"
+                  },
+                  {
+                    "name": "Grok-Code-Fast-1_Aug-26-2025.txt",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/xAI/Grok-Code-Fast-1_Aug-26-2025.txt"
+                  },
+                  {
+                    "name": "Grok3.md",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/xAI/Grok3.md"
+                  },
+                  {
+                    "name": "Grok3_updated_07-08-2025.md",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/xAI/Grok3_updated_07-08-2025.md"
+                  },
+                  {
+                    "name": "Grok4-July-10-2025.md",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/xAI/Grok4-July-10-2025.md"
+                  },
+                  {
+                    "name": "grok-3.md",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/xAI/grok-3.md"
+                  },
+                  {
+                    "name": "grok-4.md",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/xAI/grok-4.md"
+                  },
+                  {
+                    "name": "grok-personas.md",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/_system-prompts/xAI/grok-personas.md"
+                  }
+                ]
+              }
+            ]
+          },
+          {
             "name": "agent-fusion",
             "type": "directory",
             "path": "/Users/adilkalam/claude-vibe-config/_explore/agent-fusion",
@@ -5312,6 +5185,11 @@
                     "name": "README.md",
                     "type": "file",
                     "path": "/Users/adilkalam/claude-vibe-config/_explore/agentwise/docs-site/README.md"
+                  },
+                  {
+                    "name": "bun.lock",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/agentwise/docs-site/bun.lock"
                   },
                   {
                     "name": "components.json",
@@ -8886,6 +8764,95 @@
             ]
           },
           {
+            "name": "deep-research",
+            "type": "directory",
+            "path": "/Users/adilkalam/claude-vibe-config/_explore/deep-research",
+            "children": [
+              {
+                "name": "firesearch",
+                "type": "directory",
+                "path": "/Users/adilkalam/claude-vibe-config/_explore/deep-research/firesearch",
+                "children": [
+                  {
+                    "name": "README.md",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/deep-research/firesearch/README.md"
+                  },
+                  {
+                    "name": "...",
+                    "type": "directory",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/deep-research/firesearch/app"
+                  },
+                  {
+                    "name": "...",
+                    "type": "directory",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/deep-research/firesearch/components"
+                  },
+                  {
+                    "name": "components.json",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/deep-research/firesearch/components.json"
+                  },
+                  {
+                    "name": "eslint.config.mjs",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/deep-research/firesearch/eslint.config.mjs"
+                  },
+                  {
+                    "name": "...",
+                    "type": "directory",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/deep-research/firesearch/hooks"
+                  },
+                  {
+                    "name": "...",
+                    "type": "directory",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/deep-research/firesearch/lib"
+                  },
+                  {
+                    "name": "next.config.ts",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/deep-research/firesearch/next.config.ts"
+                  },
+                  {
+                    "name": "package.json",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/deep-research/firesearch/package.json"
+                  },
+                  {
+                    "name": "pnpm-lock.yaml",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/deep-research/firesearch/pnpm-lock.yaml"
+                  },
+                  {
+                    "name": "postcss.config.mjs",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/deep-research/firesearch/postcss.config.mjs"
+                  },
+                  {
+                    "name": "...",
+                    "type": "directory",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/deep-research/firesearch/public"
+                  },
+                  {
+                    "name": "tailwind.config.ts",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/deep-research/firesearch/tailwind.config.ts"
+                  },
+                  {
+                    "name": "tsconfig.json",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/deep-research/firesearch/tsconfig.json"
+                  },
+                  {
+                    "name": "vercel.json",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/_explore/deep-research/firesearch/vercel.json"
+                  }
+                ]
+              }
+            ]
+          },
+          {
             "name": "elements-of-style.md",
             "type": "file",
             "path": "/Users/adilkalam/claude-vibe-config/_explore/elements-of-style.md"
@@ -9539,6 +9506,33 @@
         "path": "/Users/adilkalam/claude-vibe-config/agents",
         "children": [
           {
+            "name": "OBDN",
+            "type": "directory",
+            "path": "/Users/adilkalam/claude-vibe-config/agents/OBDN",
+            "children": [
+              {
+                "name": "kg-answer-writer.md",
+                "type": "file",
+                "path": "/Users/adilkalam/claude-vibe-config/agents/OBDN/kg-answer-writer.md"
+              },
+              {
+                "name": "kg-lead-agent.md",
+                "type": "file",
+                "path": "/Users/adilkalam/claude-vibe-config/agents/OBDN/kg-lead-agent.md"
+              },
+              {
+                "name": "kg-mechanism-subagent.md",
+                "type": "file",
+                "path": "/Users/adilkalam/claude-vibe-config/agents/OBDN/kg-mechanism-subagent.md"
+              },
+              {
+                "name": "kg-query-subagent.md",
+                "type": "file",
+                "path": "/Users/adilkalam/claude-vibe-config/agents/OBDN/kg-query-subagent.md"
+              }
+            ]
+          },
+          {
             "name": "a11y-enforcer.md",
             "type": "file",
             "path": "/Users/adilkalam/claude-vibe-config/agents/a11y-enforcer.md"
@@ -9599,6 +9593,16 @@
                 "name": "nextjs-builder.md",
                 "type": "file",
                 "path": "/Users/adilkalam/claude-vibe-config/agents/dev/nextjs-builder.md"
+              },
+              {
+                "name": "nextjs-css-architecture-gate.md",
+                "type": "file",
+                "path": "/Users/adilkalam/claude-vibe-config/agents/dev/nextjs-css-architecture-gate.md"
+              },
+              {
+                "name": "nextjs-css-specialist.md",
+                "type": "file",
+                "path": "/Users/adilkalam/claude-vibe-config/agents/dev/nextjs-css-specialist.md"
               },
               {
                 "name": "nextjs-design-reviewer.md",
@@ -9855,6 +9859,53 @@
             "name": "performance-prophet.md",
             "type": "file",
             "path": "/Users/adilkalam/claude-vibe-config/agents/performance-prophet.md"
+          },
+          {
+            "name": "research",
+            "type": "directory",
+            "path": "/Users/adilkalam/claude-vibe-config/agents/research",
+            "children": [
+              {
+                "name": "research-answer-writer.md",
+                "type": "file",
+                "path": "/Users/adilkalam/claude-vibe-config/agents/research/research-answer-writer.md"
+              },
+              {
+                "name": "research-citation-gate.md",
+                "type": "file",
+                "path": "/Users/adilkalam/claude-vibe-config/agents/research/research-citation-gate.md"
+              },
+              {
+                "name": "research-consistency-gate.md",
+                "type": "file",
+                "path": "/Users/adilkalam/claude-vibe-config/agents/research/research-consistency-gate.md"
+              },
+              {
+                "name": "research-deep-writer.md",
+                "type": "file",
+                "path": "/Users/adilkalam/claude-vibe-config/agents/research/research-deep-writer.md"
+              },
+              {
+                "name": "research-fact-checker.md",
+                "type": "file",
+                "path": "/Users/adilkalam/claude-vibe-config/agents/research/research-fact-checker.md"
+              },
+              {
+                "name": "research-lead-agent.md",
+                "type": "file",
+                "path": "/Users/adilkalam/claude-vibe-config/agents/research/research-lead-agent.md"
+              },
+              {
+                "name": "research-site-crawler-subagent.md",
+                "type": "file",
+                "path": "/Users/adilkalam/claude-vibe-config/agents/research/research-site-crawler-subagent.md"
+              },
+              {
+                "name": "research-web-search-subagent.md",
+                "type": "file",
+                "path": "/Users/adilkalam/claude-vibe-config/agents/research/research-web-search-subagent.md"
+              }
+            ]
           },
           {
             "name": "security-specialist.md",
@@ -10169,9 +10220,29 @@
             "path": "/Users/adilkalam/claude-vibe-config/commands/design-review-from-screenshot.md"
           },
           {
+            "name": "design-review.md",
+            "type": "file",
+            "path": "/Users/adilkalam/claude-vibe-config/commands/design-review.md"
+          },
+          {
             "name": "enhance.md",
             "type": "file",
             "path": "/Users/adilkalam/claude-vibe-config/commands/enhance.md"
+          },
+          {
+            "name": "kg.md",
+            "type": "file",
+            "path": "/Users/adilkalam/claude-vibe-config/commands/kg.md"
+          },
+          {
+            "name": "list-skills.md",
+            "type": "file",
+            "path": "/Users/adilkalam/claude-vibe-config/commands/list-skills.md"
+          },
+          {
+            "name": "load-skill.md",
+            "type": "file",
+            "path": "/Users/adilkalam/claude-vibe-config/commands/load-skill.md"
           },
           {
             "name": "orca-expo.md",
@@ -10219,6 +10290,21 @@
             "path": "/Users/adilkalam/claude-vibe-config/commands/project-memory.md"
           },
           {
+            "name": "reflect.md",
+            "type": "file",
+            "path": "/Users/adilkalam/claude-vibe-config/commands/reflect.md"
+          },
+          {
+            "name": "reindex-skills.md",
+            "type": "file",
+            "path": "/Users/adilkalam/claude-vibe-config/commands/reindex-skills.md"
+          },
+          {
+            "name": "research.md",
+            "type": "file",
+            "path": "/Users/adilkalam/claude-vibe-config/commands/research.md"
+          },
+          {
             "name": "root-cause.md",
             "type": "file",
             "path": "/Users/adilkalam/claude-vibe-config/commands/root-cause.md"
@@ -10237,6 +10323,11 @@
             "name": "session-save.md",
             "type": "file",
             "path": "/Users/adilkalam/claude-vibe-config/commands/session-save.md"
+          },
+          {
+            "name": "skill-health.md",
+            "type": "file",
+            "path": "/Users/adilkalam/claude-vibe-config/commands/skill-health.md"
           },
           {
             "name": "ultra-think.md",
@@ -10291,6 +10382,11 @@
                 "path": "/Users/adilkalam/claude-vibe-config/docs/concepts/response-awareness.md"
               },
               {
+                "name": "self-improvement.md",
+                "type": "file",
+                "path": "/Users/adilkalam/claude-vibe-config/docs/concepts/self-improvement.md"
+              },
+              {
                 "name": "skills.md",
                 "type": "file",
                 "path": "/Users/adilkalam/claude-vibe-config/docs/concepts/skills.md"
@@ -10323,6 +10419,11 @@
                 "path": "/Users/adilkalam/claude-vibe-config/docs/pipelines/ios-pipeline.md"
               },
               {
+                "name": "kg-research-pipeline.md",
+                "type": "file",
+                "path": "/Users/adilkalam/claude-vibe-config/docs/pipelines/kg-research-pipeline.md"
+              },
+              {
                 "name": "nextjs-pipeline.md",
                 "type": "file",
                 "path": "/Users/adilkalam/claude-vibe-config/docs/pipelines/nextjs-pipeline.md"
@@ -10336,6 +10437,11 @@
                 "name": "requirements-pipeline.md",
                 "type": "file",
                 "path": "/Users/adilkalam/claude-vibe-config/docs/pipelines/requirements-pipeline.md"
+              },
+              {
+                "name": "research-pipeline.md",
+                "type": "file",
+                "path": "/Users/adilkalam/claude-vibe-config/docs/pipelines/research-pipeline.md"
               },
               {
                 "name": "seo-pipeline.md",
@@ -10370,6 +10476,11 @@
                     "path": "/Users/adilkalam/claude-vibe-config/docs/reference/phase-configs/ios-phase-config.yaml"
                   },
                   {
+                    "name": "kg-research-phase-config.yaml",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/docs/reference/phase-configs/kg-research-phase-config.yaml"
+                  },
+                  {
                     "name": "nextjs-phase-config.yaml",
                     "type": "file",
                     "path": "/Users/adilkalam/claude-vibe-config/docs/reference/phase-configs/nextjs-phase-config.yaml"
@@ -10385,11 +10496,33 @@
                     "path": "/Users/adilkalam/claude-vibe-config/docs/reference/phase-configs/requirements-phase-config.yaml"
                   },
                   {
+                    "name": "research-phase-config.yaml",
+                    "type": "file",
+                    "path": "/Users/adilkalam/claude-vibe-config/docs/reference/phase-configs/research-phase-config.yaml"
+                  },
+                  {
                     "name": "shopify-phase-config.yaml",
                     "type": "file",
                     "path": "/Users/adilkalam/claude-vibe-config/docs/reference/phase-configs/shopify-phase-config.yaml"
                   }
                 ]
+              }
+            ]
+          },
+          {
+            "name": "workflows",
+            "type": "directory",
+            "path": "/Users/adilkalam/claude-vibe-config/docs/workflows",
+            "children": [
+              {
+                "name": "deep-research-workflow.md",
+                "type": "file",
+                "path": "/Users/adilkalam/claude-vibe-config/docs/workflows/deep-research-workflow.md"
+              },
+              {
+                "name": "kg-research-workflow.md",
+                "type": "file",
+                "path": "/Users/adilkalam/claude-vibe-config/docs/workflows/kg-research-workflow.md"
               }
             ]
           }
@@ -10553,6 +10686,23 @@
             "name": "session-start.sh",
             "type": "file",
             "path": "/Users/adilkalam/claude-vibe-config/hooks/session-start.sh"
+          }
+        ]
+      },
+      {
+        "name": "logs",
+        "type": "directory",
+        "path": "/Users/adilkalam/claude-vibe-config/logs",
+        "children": [
+          {
+            "name": "Codex-OS2.4-Upgrade-NextjsCSS-2025-11-27.md",
+            "type": "file",
+            "path": "/Users/adilkalam/claude-vibe-config/logs/Codex-OS2.4-Upgrade-NextjsCSS-2025-11-27.md"
+          },
+          {
+            "name": "README.md",
+            "type": "file",
+            "path": "/Users/adilkalam/claude-vibe-config/logs/README.md"
           }
         ]
       },
@@ -10754,6 +10904,16 @@
             ]
           },
           {
+            "name": "analyze-patterns.py",
+            "type": "file",
+            "path": "/Users/adilkalam/claude-vibe-config/scripts/analyze-patterns.py"
+          },
+          {
+            "name": "apply-improvement.py",
+            "type": "file",
+            "path": "/Users/adilkalam/claude-vibe-config/scripts/apply-improvement.py"
+          },
+          {
             "name": "cleanup",
             "type": "file",
             "path": "/Users/adilkalam/claude-vibe-config/scripts/cleanup"
@@ -10860,6 +11020,16 @@
             "path": "/Users/adilkalam/claude-vibe-config/scripts/phase-state-delta.py"
           },
           {
+            "name": "reflect-analyze.py",
+            "type": "file",
+            "path": "/Users/adilkalam/claude-vibe-config/scripts/reflect-analyze.py"
+          },
+          {
+            "name": "reflect-apply.py",
+            "type": "file",
+            "path": "/Users/adilkalam/claude-vibe-config/scripts/reflect-apply.py"
+          },
+          {
             "name": "test-memory-integration.sh",
             "type": "file",
             "path": "/Users/adilkalam/claude-vibe-config/scripts/test-memory-integration.sh"
@@ -10949,10 +11119,47 @@
         "path": "/Users/adilkalam/claude-vibe-config/settings.local.json"
       },
       {
+        "name": "skill-catalog",
+        "type": "directory",
+        "path": "/Users/adilkalam/claude-vibe-config/skill-catalog",
+        "children": [
+          {
+            "name": "README.md",
+            "type": "file",
+            "path": "/Users/adilkalam/claude-vibe-config/skill-catalog/README.md"
+          },
+          {
+            "name": "config.json",
+            "type": "file",
+            "path": "/Users/adilkalam/claude-vibe-config/skill-catalog/config.json"
+          },
+          {
+            "name": "setup-skill-catalog.sh",
+            "type": "file",
+            "path": "/Users/adilkalam/claude-vibe-config/skill-catalog/setup-skill-catalog.sh"
+          },
+          {
+            "name": "skill-discovery.py",
+            "type": "file",
+            "path": "/Users/adilkalam/claude-vibe-config/skill-catalog/skill-discovery.py"
+          },
+          {
+            "name": "skill-index.py",
+            "type": "file",
+            "path": "/Users/adilkalam/claude-vibe-config/skill-catalog/skill-index.py"
+          }
+        ]
+      },
+      {
         "name": "skills",
         "type": "directory",
         "path": "/Users/adilkalam/claude-vibe-config/skills",
         "children": [
+          {
+            "name": "api-design.md",
+            "type": "file",
+            "path": "/Users/adilkalam/claude-vibe-config/skills/api-design.md"
+          },
           {
             "name": "article-extractor",
             "type": "directory",
@@ -11022,6 +11229,11 @@
                 "path": "/Users/adilkalam/claude-vibe-config/skills/frontend-aesthetics/SKILL.md"
               }
             ]
+          },
+          {
+            "name": "git-workflow.md",
+            "type": "file",
+            "path": "/Users/adilkalam/claude-vibe-config/skills/git-workflow.md"
           },
           {
             "name": "ios-knowledge-skill",
@@ -11240,6 +11452,16 @@
             ]
           },
           {
+            "name": "react-patterns.md",
+            "type": "file",
+            "path": "/Users/adilkalam/claude-vibe-config/skills/react-patterns.md"
+          },
+          {
+            "name": "security-basics.md",
+            "type": "file",
+            "path": "/Users/adilkalam/claude-vibe-config/skills/security-basics.md"
+          },
+          {
             "name": "ship-learn-next",
             "type": "directory",
             "path": "/Users/adilkalam/claude-vibe-config/skills/ship-learn-next",
@@ -11274,6 +11496,11 @@
                 "path": "/Users/adilkalam/claude-vibe-config/skills/tapestry/SKILL.md"
               }
             ]
+          },
+          {
+            "name": "testing-strategy.md",
+            "type": "file",
+            "path": "/Users/adilkalam/claude-vibe-config/skills/testing-strategy.md"
           },
           {
             "name": "using-loaded-knowledge",
@@ -11701,5 +11928,5 @@
   },
   "components": [],
   "dependencies": {},
-  "lastUpdated": "2025-11-25T19:21:46.207Z"
+  "lastUpdated": "2025-11-28T18:52:46.575Z"
 }

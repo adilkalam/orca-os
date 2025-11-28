@@ -1,5 +1,5 @@
 ---
-description: "OS 2.3 orchestrator entrypoint for Shopify theme tasks"
+description: "OS 2.4 orchestrator entrypoint for Shopify theme tasks"
 argument-hint: "[-tweak] <task description or requirement ID>"
 allowed-tools:
   - Task
@@ -13,15 +13,16 @@ allowed-tools:
   - Glob
 ---
 
-# /orca-shopify – Shopify Lane Orchestrator (OS 2.3)
+# /orca-shopify – Shopify Lane Orchestrator (OS 2.4)
 
 Use this command for Shopify theme work (Liquid, sections, CSS, JS components).
 
 ## Usage
 
 ```bash
-/orca-shopify "refactor header section CSS to use tokens"   # Auto-routes based on complexity
-/orca-shopify -tweak "fix button padding"                    # Force light path
+/orca-shopify "refactor header section CSS to use tokens"   # Default: light path + design gates
+/orca-shopify -tweak "fix button padding"                    # Fast: light path, no gates
+/orca-shopify --complex "cart & checkout redesign"           # Full: grand-architect + all gates
 /orca-shopify "implement requirement 2025-11-25-header-redesign"  # Full path with spec
 ```
 
@@ -39,15 +40,17 @@ Use this command for Shopify theme work (Liquid, sections, CSS, JS components).
 
 ## 0. Parse Arguments & Detect Mode
 
-**Check for `-tweak` flag:**
+**Check for flags:**
 ```
-$ARGUMENTS contains "-tweak" → FORCE light path (skip to Section 2)
+$ARGUMENTS contains "-tweak" → Fast path (light, no gates)
+$ARGUMENTS contains "--complex" → Full path (grand-architect, all gates)
+No flag → Default path (light + design gates)
 ```
 
 **Check for requirement ID:**
 ```
 $ARGUMENTS matches "requirement <id>" or "<YYYY-MM-DD-HHMM-*>"
-  → Look for requirements/<id>/06-requirements-spec.md
+  → Look for .claude/requirements/<id>/06-requirements-spec.md
   → If found, this is a SPEC-DRIVEN task (see Section 1.3)
 ```
 
@@ -239,7 +242,7 @@ If `complexity_tier == "complex"`:
 
 ```bash
 # Check for requirements spec
-ls requirements/*/06-requirements-spec.md 2>/dev/null | head -5
+ls .claude/requirements/*/06-requirements-spec.md 2>/dev/null | head -5
 ```
 
 **If NO spec exists:**
@@ -257,40 +260,144 @@ Then return with:
 
 ---
 
-## 2. Route by Complexity
+## 2. Flag Routing
 
-### Simple Tasks → Light Orchestrator
+### Default (no flag) - Light Path WITH Design Gates
 
 Delegate to `shopify-light-orchestrator`:
 
 ```
-Task: shopify-light-orchestrator
-Inputs:
-  - task: user request
-  - memory_hints: relevant Workshop/vibe.db hits
-Expected outputs:
-  - files_modified
-  - change_summary
-  - warnings (design token violations if any)
+Task({
+  subagent_type: 'shopify-light-orchestrator',
+  description: 'Shopify task with design verification',
+  prompt: `
+Handle this Shopify theme task via the light path WITH design verification gates.
+
+REQUEST: $ARGUMENTS
+
+MEMORY CONTEXT (if any):
+<memory hits from 1.1>
+
+ROUTING MODE: default (light + gates)
+- Run appropriate specialists (CSS, Liquid, Section, JS)
+- Run design verification (theme-checker, token compliance)
+- Ephemeral phase_state only (scores for this run, no ceremony)
+- NO grand-architect, NO spec requirement
+  `
+})
 ```
-
-**Skip** team confirmation, gates, and verification for simple tasks.
-Return light orchestrator's summary directly to user.
-
-### Medium/Complex Tasks → Full Pipeline
-
-Continue to Section 3 (Team Confirmation).
 
 ---
 
-## 3. Team Confirmation (Full Pipeline Only)
+### -tweak Flag - Light Path WITHOUT Gates (Pure Speed)
 
-Use `AskUserQuestion` to confirm the proposed agent team:
+1. Memory-first context only (skip ProjectContext)
+2. Delegate directly to appropriate specialist
+3. Basic verification (theme check if safe)
+4. NO design verification gates
+
+**Fallback:** If memory can't locate files, MAY use narrow ProjectContext (maxFiles: 3)
 
 ```
-Proposed Shopify Pipeline:
-- shopify-grand-architect (Opus) - coordination
-- Specialists as needed:
+Task({
+  subagent_type: 'shopify-css-specialist',  # or liquid/section/js based on task
+  description: 'Fast Shopify tweak (no gates)',
+  prompt: `
+Quick fix without design verification.
+
+REQUEST: $ARGUMENTS
+
+MEMORY CONTEXT (if any):
+<memory hits from 1.1>
+
+ROUTING MODE: tweak (pure speed)
+- Make the change
+- Basic verification only
+- NO gates, NO token compliance check
+  `
+})
+```
+
+---
+
+### --complex Flag - Full Pipeline (Grand-Architect + All Gates)
+
+Continue with full orchestration below (Section 3).
+
+---
+
+## 3. Full Pipeline Flow
+
+### 3.0 Complexity Detection (Effort Scaling)
+
+Before confirming the team, assess task complexity:
+
+#### Detection Heuristics
+
+**Count affected scope:**
+1. Estimate files likely to be created/modified
+2. Count distinct concerns (UI, data, auth, networking, etc.)
+3. Check for cross-cutting requirements
+
+**Assign complexity tier:**
+
+| Tier | Files | Concerns | Agents | Team Composition |
+|------|-------|----------|--------|------------------|
+| `simple` | 1-2 | 1 | 1-2 | Light orchestrator only (skip grand-architect) |
+| `medium` | 3-10 | 2-3 | 3-5 | Grand-architect + architect + builder + 1-2 specialists |
+| `complex` | 10+ | 4+ | 5-10 | Full team + all gates + verification |
+
+**Automatic tier detection:**
+- Single file change → `simple`
+- Feature touching one module → `medium`
+- Feature spanning multiple modules → `complex`
+- Any security/auth work → minimum `medium`
+- Performance optimization → minimum `medium`
+- Architecture changes → `complex`
+
+#### Team Size Scaling
+
+Based on `complexity_tier`, adjust the team presented for confirmation:
+
+**simple:**
+- Skip full pipeline
+- Use: `shopify-css-specialist` or `shopify-liquid-specialist` only
+- Skip: grand-architect, verification, most gates
+
+**medium:**
+- Standard pipeline
+- Use: grand-architect → specialists → theme-checker
+- Optional: verification (recommend but don't require)
+
+**complex:**
+- Full pipeline with all specialists
+- Use: grand-architect → ALL specialists → ALL gates → verification
+- Required: verification, all standards gates
+- Consider: parallel specialist execution
+
+Record `complexity_tier` in `phase_state.intake.complexity_tier` before proceeding.
+
+---
+
+### 3.1 Team Confirmation (MANDATORY - BLOCKING)
+
+**DO NOT PROCEED TO SECTION 3.2 WITHOUT USER CONFIRMATION**
+
+Use `AskUserQuestion` to confirm. **WAIT FOR RESPONSE.**
+
+```
+Detected: Shopify task (complexity: medium/complex)
+
+Proposed Pipeline:
+1. Context Query (ProjectContext)
+2. Grand Architect (shopify-grand-architect) - coordination
+3. Implementation (specialists based on task)
+4. Gates (shopify-theme-checker)
+5. Verification
+
+Proposed Agents:
+- shopify-grand-architect
+- Specialists as needed (see 3.1.1):
   - shopify-css-specialist - CSS/tokens
   - shopify-liquid-specialist - Liquid templates
   - shopify-section-builder - sections/schemas
@@ -300,12 +407,41 @@ Proposed Shopify Pipeline:
 Complexity: [simple/medium/complex]
 Spec: [linked/none]
 
-Proceed with this team?
+Options:
+- Proceed as planned
+- Adjust team/phases
+- Switch to light path (-tweak)
 ```
+
+**After presenting this:**
+1. STOP and wait for user response
+2. If user says "proceed" → continue to 3.2
+3. If user modifies team → update and re-confirm
+4. If user rejects → STOP pipeline
+
+**Anti-patterns (WRONG):**
+- Showing the team then immediately delegating to grand-architect
+- "I'll proceed with this team..." without waiting
+- Any delegation before explicit user confirmation
+
+#### 3.1.1 Intent-Aware Specialist Selection
+
+**Before proposing specialists, check task intent:**
+
+| Task Intent | EXCLUDE from team | USE instead |
+|-------------|-------------------|-------------|
+| "remove inline styles" | — | `shopify-css-specialist` |
+| "audit CSS/architecture" (not implement) | `shopify-section-builder` | `shopify-css-specialist` (audit mode) |
+| "audit/review" (not implement) | all builders | Appropriate specialists in audit mode |
+| "remove !important" | — | `shopify-css-specialist` |
+
+**Detection keywords:**
+- "remove", "eliminate", "get rid of", "migrate away from", "replace" → EXCLUDE that specialist
+- "audit", "review", "analyze", "check" → Use specialists in audit mode, NOT builders
 
 ---
 
-## 4. ProjectContext Query
+### 3.2 ProjectContext Query
 
 Call `mcp__project-context__query_context`:
 - domain: "shopify"
@@ -316,7 +452,7 @@ Call `mcp__project-context__query_context`:
 
 ---
 
-## 5. Delegate to Grand Architect
+### 3.3 Delegate to Grand Architect
 
 Delegate to `shopify-grand-architect`:
 - Inputs: ContextBundle, complexity_tier, spec_path (if present)
@@ -325,7 +461,7 @@ Delegate to `shopify-grand-architect`:
 
 ---
 
-## 6. Implementation (via Grand Architect)
+### 3.4 Implementation (via Grand Architect)
 
 Grand architect delegates to specialists:
 - CSS/Tokens: `shopify-css-specialist` (refactoring, !important cleanup, design tokens)
@@ -340,7 +476,7 @@ Grand architect delegates to specialists:
 
 ---
 
-## 7. Gates & Verification
+### 3.5 Gates & Verification
 
 Delegate to `shopify-theme-checker`:
 - Run `shopify theme check`
@@ -358,7 +494,7 @@ Delegate to `shopify-theme-checker`:
 
 ---
 
-## 8. Completion & Learning
+### 3.6 Completion & Learning
 
 1. Summarize:
    - Files modified
@@ -377,7 +513,7 @@ Delegate to `shopify-theme-checker`:
 
 ---
 
-## 🔄 State Preservation & Session Continuity
+## 4. State Preservation & Session Continuity
 
 **When the user interrupts (questions, clarifications, test results, pauses):**
 
@@ -388,22 +524,31 @@ Delegate to `shopify-theme-checker`:
 
 2. **Acknowledge the interruption** and process the new information
 
-3. **DO NOT ABANDON THE PIPELINE:**
+3. **RE-CONFIRM BEFORE RESUMING (MANDATORY):**
+   - Present updated plan based on feedback
+   - Use AskUserQuestion or orca-confirm skill
+   - Get explicit "proceed" before delegating
+   - **NEVER resume delegation without confirmation**
+
+4. **DO NOT ABANDON THE PIPELINE:**
    - You are STILL orchestrating the Shopify lane
    - You are STILL using shopify-grand-architect and specialists
    - The agent team doesn't disappear because the user asked a question
+   - Resume from current phase AFTER confirmation
 
-4. **Resume orchestration:**
+5. **Resume orchestration (after confirmation):**
    - If in Implementation phase → continue with shopify-grand-architect
    - If in Gates phase → continue with shopify-theme-checker
    - If in Verification → continue with shopify-theme-checker
    - Update phase_state.json with new information
    - Delegate to the appropriate agent via Task tool
 
-5. **Anti-Pattern Detection:**
-   - ❌ "Let me write this code for you" → **WRONG. Delegate to specialist**
-   - ❌ "I'll fix this directly" → **WRONG. Delegate to appropriate specialist**
-   - ❌ Using Edit/Write tools yourself → **WRONG. You're an orchestrator**
-   - ✅ "Based on your feedback, I'm delegating to shopify-css-specialist to..." → **CORRECT**
+6. **Anti-Pattern Detection:**
+   - "Let me write this code for you" → WRONG. Delegate to specialist
+   - "I'll fix this directly" → WRONG. Delegate to appropriate specialist
+   - Using Edit/Write tools yourself → WRONG. You're an orchestrator
+   - Resuming without confirmation → WRONG. Must re-confirm first
+   - "Based on feedback, re-confirming plan..." → CORRECT
+   - "Based on feedback, delegating to shopify-css-specialist..." → WRONG (skipped confirmation)
 
 **Orchestration mode persists across the ENTIRE task. User questions don't reset your role.**

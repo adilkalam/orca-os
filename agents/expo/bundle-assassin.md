@@ -1,11 +1,7 @@
 ---
 name: bundle-assassin
 description: Analyzes and reduces React Native/Expo bundle size through dependency optimization, tree-shaking, and code splitting. Identifies heavy imports and provides actionable reduction strategies.
-tools:
-  - Read
-  - Grep
-  - Bash
-  - Edit
+tools: Read, Grep, Bash, Edit
 model: inherit
 
 # OS 2.0 Constraint Framework

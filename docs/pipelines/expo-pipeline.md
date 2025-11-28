@@ -1,13 +1,13 @@
 # Expo / React Native Domain Pipeline
 
-**Status:** OS 2.3 Core Pipeline (ExpoPipeline)
-**Last Updated:** 2025-11-25
+**Status:** OS 2.4 Core Pipeline (ExpoPipeline)
+**Last Updated:** 2025-11-27
 
 ## Overview
 
 The Expo pipeline handles **React Native mobile development** for projects using Expo SDK 50+ / React Native 0.74+ with TypeScript. It combines:
 
-- OS 2.3 primitives (ProjectContextServer, phase_state.json, vibe.db, Workshop, constraint framework)
+- OS 2.4 primitives (ProjectContextServer, phase_state.json, vibe.db, Workshop, constraint framework)
 - Memory-first context (Workshop + vibe.db before ProjectContext)
 - Complexity-based routing (simple → light orchestrator, medium/complex → full pipeline)
 - Spec gating (complex tasks require requirements spec)
@@ -33,21 +33,53 @@ use the **iOS** pipeline.
 
 ---
 
-## Complexity Tiers (OS 2.3)
+## Three-Tier Routing (OS 2.4)
 
-The Expo pipeline routes tasks based on complexity:
+The Expo pipeline uses three-tier routing:
 
-| Tier | Routing | Spec Required | Gates | Example |
-|------|---------|---------------|-------|---------|
-| **Simple** | `expo-light-orchestrator` | No | No | Fix button spacing, change label |
-| **Medium** | Full pipeline | Recommended | Yes | New component, add validation |
-| **Complex** | Full pipeline | **Required** | Yes | Multi-screen flow, auth, offline |
+| Mode | Flag | Path | Gates | Use Case |
+|------|------|------|-------|----------|
+| **Default** | (none) | Light + Gates | YES | Most work – fast with quality |
+| **Tweak** | `-tweak` | Light (pure) | NO | Speed iteration, user verifies |
+| **Complex** | `--complex` | Full pipeline | YES | Architecture, multi-file, specs |
 
-Use `-tweak` flag to force light path: `/orca-expo -tweak "fix padding"`
+### Default Mode (Light + Gates)
+
+Most tasks take this path. Fast execution with automated quality checks.
+
+```bash
+/orca-expo "fix button spacing"        # → light orchestrator → builder → gates
+/orca-expo "change label text"         # → light orchestrator → builder → gates
+```
+
+**Gates run:** `design-token-guardian` + `expo-aesthetics-specialist`
+
+### Tweak Mode (`-tweak`)
+
+Pure speed path. User explicitly accepts responsibility for verification.
+
+```bash
+/orca-expo -tweak "fix padding"        # → light orchestrator → builder → done
+```
+
+### Complex Mode (`--complex`)
+
+Full pipeline with grand-orchestrator planning. Spec required.
+
+```bash
+/orca-expo --complex "implement auth flow"   # → full pipeline
+/orca-expo "build offline sync"              # Auto-routes to --complex
+```
+
+| Tier | Files | Spec Required | Example |
+|------|-------|---------------|---------|
+| Default | 1-5 | No | Fix spacing, change label, add haptic |
+| Tweak | 1-3 | No | Rapid iteration, exploring options |
+| Complex | 5+ | **Required** | Multi-screen flow, auth, offline |
 
 ---
 
-## Standards Inputs (OS 2.3 Learning Loop)
+## Standards Inputs (OS 2.4 Learning Loop)
 
 Standards flow into and out of the Expo pipeline:
 

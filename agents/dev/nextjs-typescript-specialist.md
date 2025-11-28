@@ -4,13 +4,7 @@ description: >
   TypeScript specialist for the Next.js pipeline. Ensures robust types for routes,
   components, server actions, and shared contracts without overcomplicating the
   type system.
-tools:
-  - Read
-  - Edit
-  - MultiEdit
-  - Grep
-  - Glob
-  - Bash
+tools: Read, Edit, MultiEdit, Grep, Glob, Bash
 model: inherit
 ---
 

@@ -1,12 +1,12 @@
-# Nextjs Pipeline Phase Configuration - OS 2.3
+# Nextjs Pipeline Phase Configuration - OS 2.4
 # Nextjs / Frontend Workflow
 
 pipeline:
   name: nextjs
   description: Nextjs frontend development pipeline with design-first approach
-  version: 2.3
+  version: 2.4
 
-# Phase State Schema (OS 2.3)
+# Phase State Schema (OS 2.4)
 phase_state:
   # Top-level fields
   domain: nextjs
@@ -28,34 +28,51 @@ phase_state:
     verification: object
     completion: object
 
-# Complexity Tiers (NEW in OS 2.3)
+# Three-Tier Routing (OS 2.4)
+# Default now runs gates. -tweak skips gates. --complex forces full pipeline.
 complexity_tiers:
-  simple:
-    description: Single file, minor tweaks, quick fixes
+  default:
+    description: Light path WITH quality gates (most work)
+    flag: "(none)"
     routing: nextjs-light-orchestrator
+    mode: default  # Runs gates
     spec_required: false
-    gates_required: false
+    gates_required: true   # DEFAULT NOW RUNS GATES
+    gates:
+      - nextjs-standards-enforcer
+      - nextjs-design-reviewer
     examples:
       - Fix button spacing
       - Change text label
       - Update color to token
       - Add icon
+      - Modify single component
 
-  medium:
-    description: Single page, modest styling, some logic
-    routing: full_pipeline
-    spec_required: recommended
-    gates_required: true
+  tweak:
+    description: Light path WITHOUT gates (pure speed)
+    flag: "-tweak"
+    routing: nextjs-light-orchestrator
+    mode: tweak  # Skips gates
+    spec_required: false
+    gates_required: false  # User verifies
     examples:
-      - Add new component
-      - Modify page layout
-      - Add form validation
+      - Rapid iteration
+      - Exploring options
+      - Quick experiments
 
   complex:
-    description: Multi-page, architecture, high-risk
+    description: Full pipeline with grand-architect (includes refactor mode)
+    flag: "--complex"
     routing: full_pipeline
+    mode: complex
     spec_required: true    # BLOCKS without spec
     gates_required: true
+    refactor_modes:
+      css_architecture:
+        description: Structural CSS/layout refactor (allows targeted rewrites)
+        allow_rewrites: true
+        extra_gates:
+          - nextjs-css-architecture-gate
     examples:
       - Multi-page flow
       - Authentication UI
@@ -98,9 +115,9 @@ phases:
     outputs:
       - implemented_code
       - changes_manifest
-      - ra_events          # OS 2.3: RA tags added during implementation
+      - ra_events          # OS 2.4: RA tags added during implementation
     constraints:
-      scope: Edit-not-rewrite, scoped diffs only
+      scope: Edit-not-rewrite, scoped diffs only  # CSS refactor mode may relax this for style/layout layers
       quality: design-dna.json enforcement
       integration: Lint and typecheck before gates
       resource: Token-conscious, no unnecessary refactors
@@ -139,7 +156,7 @@ phases:
       - standards_score
       - violations
       - gate_decision
-      - ra_audit           # OS 2.3: RA tag scan results
+      - ra_audit           # OS 2.4: RA tag scan results
     quality_gates:
       standards_score:
         threshold: 90
@@ -156,6 +173,11 @@ phases:
 
 # Additional Enforcers (Optional)
 optional_phases:
+  - name: css_architecture
+    agent: nextjs-css-architecture-gate
+    description: CSS/layout architecture quality gate for refactor mode
+    trigger: on_refactor   # Only when task is explicitly a CSS/layout refactor
+
   - name: accessibility
     agent: a11y-enforcer
     description: Accessibility compliance check

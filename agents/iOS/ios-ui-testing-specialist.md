@@ -1,17 +1,11 @@
+---
 name: ios-ui-testing-specialist
 description: >
   iOS XCUITest/UI automation specialist. Builds reliable UI tests with page
   objects, accessibility identifiers, screenshot/regression coverage, and
   async-safe waits.
 model: inherit
-tools:
-  - Read
-  - Edit
-  - MultiEdit
-  - Grep
-  - Glob
-  - Bash
-  - xcrun
+tools: Read, Edit, MultiEdit, Grep, Glob, Bash, xcrun
 ---
 
 # iOS UI Testing Specialist (XCUITest)

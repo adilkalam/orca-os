@@ -1,5 +1,5 @@
 ---
-description: "OS 2.3 Pure Orchestrator - Coordinates pipelines, never writes code"
+description: "OS 2.4 Pure Orchestrator - Coordinates pipelines, never writes code"
 argument-hint: "<task description or requirement ID>"
 allowed-tools:
   - Task
@@ -57,7 +57,7 @@ Your first tool call MUST NOT be:
 
 ---
 
-# /orca – OS 2.3 Pure Orchestrator
+# /orca – OS 2.4 Pure Orchestrator
 
 **Philosophy:** Orca is a pure coordinator. It NEVER writes code. It detects the pipeline type, queries context ONCE, integrates with /plan if needed, and delegates to domain orchestrators.
 
@@ -70,10 +70,13 @@ Your first tool call MUST NOT be:
 6. **Domain Routing** - Routes to `/orca-{domain}` commands for specialized handling
 7. **Never Codes** - Orchestrates agents, doesn't implement
 
-**OS 2.3 Updates:**
+**OS 2.4 Updates:**
 - Memory-first context (Workshop + vibe.db before ProjectContext)
-- Routes to domain-specific `/orca-{domain}` commands which handle complexity routing
-- Domain orchestrators handle `-tweak` flags and spec gating internally
+- Routes to domain-specific `/orca-{domain}` commands which handle three-tier flag routing
+- Three-tier structure:
+  - Default (no flag): Light path WITH design verification gates
+  - `-tweak`: Light path WITHOUT gates (pure speed)
+  - `--complex`: Full pipeline (grand-architect + all gates)
 
 ---
 
@@ -87,7 +90,7 @@ pwd
 
 ---
 
-### Step 1.5: Memory-First Context (OS 2.3)
+### Step 1.5: Memory-First Context (OS 2.4)
 
 **Before expensive ProjectContext queries, check local memory:**
 
@@ -112,13 +115,13 @@ Check if `/plan` has been run and load the spec:
 
 ```bash
 # Check for active requirement
-if [ -f requirements/.current-requirement ]; then
-  REQ_FOLDER=$(cat requirements/.current-requirement)
+if [ -f .claude/requirements/.current-requirement ]; then
+  REQ_FOLDER=$(cat .claude/requirements/.current-requirement)
   echo "Active requirement: $REQ_FOLDER"
 
   # Check for spec file
-  if [ -f "requirements/$REQ_FOLDER/06-requirements-spec.md" ]; then
-    echo "Spec found: requirements/$REQ_FOLDER/06-requirements-spec.md"
+  if [ -f ".claude/requirements/$REQ_FOLDER/06-requirements-spec.md" ]; then
+    echo "Spec found: .claude/requirements/$REQ_FOLDER/06-requirements-spec.md"
   fi
 fi
 ```
@@ -127,7 +130,7 @@ fi
 
 1. **READ THE SPEC** - This is your source of truth:
    ```bash
-   cat requirements/$REQ_FOLDER/06-requirements-spec.md
+   cat .claude/requirements/$REQ_FOLDER/06-requirements-spec.md
    ```
 
 2. **Extract RA tags** from the spec:
@@ -170,7 +173,7 @@ AskUserQuestion({
 **Process response:**
 
 - **"Start planning now"** → Execute `/plan` inline:
-  1. Create requirements folder: `requirements/YYYY-MM-DD-HHMM-[slug]/`
+  1. Create requirements folder: `.claude/requirements/YYYY-MM-DD-HHMM-[slug]/`
   2. Begin 5 discovery questions via AskUserQuestion
   3. After discovery, continue with 5 detail questions
   4. Generate spec file (`06-requirements-spec.md`)
@@ -184,7 +187,7 @@ AskUserQuestion({
       header: "Plan Path",
       multiSelect: false,
       options: [
-        { label: "requirements/ folder", description: "Check for existing requirement specs" },
+        { label: ".claude/requirements/ folder", description: "Check for existing requirement specs" },
         { label: "Provide path", description: "I'll tell you the file path" }
       ]
     }]
@@ -359,7 +362,7 @@ Create or update phase tracking:
     "has_design_system": true,
     "past_decisions_count": 5
   },
-  "plan_used": "requirements/2025-11-24-1730-add-dark-mode" || null,
+  "plan_used": ".claude/requirements/2025-11-24-1730-add-dark-mode" || null,
   "gates_passed": [],
   "gates_failed": [],
   "artifacts": []
@@ -368,9 +371,11 @@ Create or update phase tracking:
 
 ---
 
-### Step 6: Show Plan & Confirm (MANDATORY)
+### Step 6: Show Plan & Confirm (MANDATORY - BLOCKING)
 
-**CRITICAL: You MUST output the plan BEFORE asking for confirmation.**
+**DO NOT PROCEED TO STEP 7 WITHOUT USER CONFIRMATION**
+
+**CRITICAL: You MUST output the plan BEFORE asking for confirmation. Then WAIT FOR RESPONSE.**
 
 #### 6a: OUTPUT the plan (visible to user)
 
@@ -426,13 +431,20 @@ AskUserQuestion({
 })
 ```
 
-**Process response:**
-- "Yes, proceed" → Continue to Step 7
-- "Modify approach" → Ask what to change, update plan, re-confirm
+**After presenting the confirmation question:**
+1. STOP and wait for user response
+2. If user says "Yes, proceed" → continue to Step 7
+3. If user says "Modify approach" → update plan, re-confirm
+4. Do NOT proceed without explicit confirmation
+
+**Anti-patterns (WRONG):**
+- Showing the plan then immediately routing to domain orchestrator
+- "I'll proceed with this plan..." without waiting
+- Any routing before explicit user confirmation
 
 ---
 
-### Step 7: Route to Domain Orchestrator (OS 2.3)
+### Step 7: Route to Domain Orchestrator (OS 2.4)
 
 **For pipelines with domain-specific `/orca-{domain}` commands, route to them.**
 
@@ -455,7 +467,7 @@ Task({
   subagent_type: "nextjs-grand-architect",
   description: "Next.js pipeline coordination",
   prompt: `
-You are the Next.js Grand Architect for OS 2.3.
+You are the Next.js Grand Architect for OS 2.4.
 
 USER HAS ALREADY CONFIRMED THE PLAN. DO NOT ASK FOR CONFIRMATION AGAIN.
 EXECUTE IMMEDIATELY. NO QUESTIONS. DELEGATE TO SPECIALISTS NOW.
@@ -491,7 +503,7 @@ YOUR ROLE:
 - DELEGATE TO SPECIALISTS IMMEDIATELY:
   - nextjs-architect (planning)
   - nextjs-builder (implementation)
-  - nextjs-typescript-specialist, nextjs-tailwind-specialist, etc.
+  - nextjs-css-specialist, nextjs-typescript-specialist, etc. (per project's CSS approach)
   - nextjs-standards-enforcer, nextjs-design-reviewer (gates)
   - nextjs-verification-agent (build/test)
 - Enforce quality gates (≥90 scores)
@@ -525,7 +537,7 @@ Task({
   subagent_type: "ios-grand-architect",
   description: "iOS pipeline coordination",
   prompt: `
-You are the iOS Grand Architect for OS 2.3.
+You are the iOS Grand Architect for OS 2.4.
 
 USER HAS ALREADY CONFIRMED THE PLAN. DO NOT ASK FOR CONFIRMATION AGAIN.
 EXECUTE IMMEDIATELY. NO QUESTIONS. DELEGATE TO SPECIALISTS NOW.
@@ -595,7 +607,7 @@ Task({
   subagent_type: "expo-grand-orchestrator",
   description: "Expo pipeline coordination",
   prompt: `
-You are the Expo Grand Orchestrator for OS 2.3.
+You are the Expo Grand Orchestrator for OS 2.4.
 
 USER HAS ALREADY CONFIRMED THE PLAN. DO NOT ASK FOR CONFIRMATION AGAIN.
 EXECUTE IMMEDIATELY. NO QUESTIONS. DELEGATE TO SPECIALISTS NOW.
@@ -664,7 +676,7 @@ Task({
   subagent_type: "shopify-grand-architect",
   description: "Shopify theme pipeline coordination",
   prompt: `
-You are the Shopify Grand Architect for OS 2.3.
+You are the Shopify Grand Architect for OS 2.4.
 
 USER HAS ALREADY CONFIRMED THE PLAN. DO NOT ASK FOR CONFIRMATION AGAIN.
 EXECUTE IMMEDIATELY. NO QUESTIONS. DELEGATE TO SPECIALISTS NOW.
@@ -738,7 +750,7 @@ Task({
   subagent_type: "data-researcher",
   description: "Data analysis pipeline",
   prompt: `
-You are leading the Data pipeline for OS 2.3.
+You are leading the Data pipeline for OS 2.4.
 
 MEMORY CONTEXT:
 ${memorySummary || "No prior memory hits"}
@@ -786,7 +798,7 @@ Task({
   subagent_type: "seo-research-specialist",
   description: "SEO content pipeline",
   prompt: `
-You are leading the SEO pipeline for OS 2.3.
+You are leading the SEO pipeline for OS 2.4.
 
 MEMORY CONTEXT:
 ${memorySummary || "No prior memory hits"}
@@ -827,7 +839,7 @@ Task({
   subagent_type: "design-system-architect",
   description: "Design system pipeline",
   prompt: `
-You are leading the Design pipeline for OS 2.3.
+You are leading the Design pipeline for OS 2.4.
 
 MEMORY CONTEXT:
 ${memorySummary || "No prior memory hits"}
@@ -1015,23 +1027,32 @@ When recording outcomes:
 
 ## Anti-Patterns (What NOT to do)
 
-**❌ NEVER:**
+**NEVER:**
 1. Write code directly (you orchestrate only)
 2. Query context multiple times (once is enough!)
 3. Call intermediate "pipeline orchestrator" agents
-4. Skip team confirmation
+4. Skip team confirmation - MUST WAIT FOR USER RESPONSE
 5. Bypass quality gates
 6. Forget to pass ContextBundle to grand-architects
 7. Use `subagent_type: "general-purpose"` for domain work
+8. Proceed after showing plan without explicit user confirmation
+9. Resume after interruption without re-confirming with user
 
-**✅ ALWAYS:**
+**Confirmation Anti-Patterns (CRITICAL):**
+- "I'll proceed with this plan..." → WRONG. Wait for user response.
+- Showing team/plan then immediately delegating → WRONG. WAIT.
+- "Based on the context, delegating to..." → WRONG if no confirmation received.
+- Resuming work after user question without re-confirm → WRONG.
+
+**ALWAYS:**
 1. Check for /plan output first
 2. Query ProjectContextServer once
 3. Call grand-architects directly
 4. Pass full ContextBundle to grand-architects
-5. Confirm pipeline and team with user
+5. Confirm pipeline and team with user - AND WAIT FOR RESPONSE
 6. Update phase_state.json
 7. Record decisions and learnings to Workshop
+8. Re-confirm after ANY user interruption before resuming
 
 ---
 

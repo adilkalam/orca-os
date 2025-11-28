@@ -1,13 +1,13 @@
 # iOS Domain Pipeline
 
-**Status:** OS 2.3 Core Pipeline (Native iOS)
-**Last Updated:** 2025-11-25
+**Status:** OS 2.4 Core Pipeline (Native iOS)
+**Last Updated:** 2025-11-27
 
 ## Overview
 
 The iOS pipeline handles **native iOS app development** using Swift 6.x and modern Apple frameworks (SwiftUI, UIKit, Swift Concurrency). It combines:
 
-- OS 2.3 primitives (ProjectContextServer, phase_state.json, vibe.db, Workshop, constraint framework)
+- OS 2.4 primitives (ProjectContextServer, phase_state.json, vibe.db, Workshop, constraint framework)
 - Memory-first context (Workshop + vibe.db before ProjectContext)
 - Complexity-based routing (simple → light orchestrator, medium/complex → full pipeline)
 - Spec gating (complex tasks require requirements spec)
@@ -20,21 +20,53 @@ Goal: implement and evolve native iOS features with **architecture-aware plans**
 
 ---
 
-## Complexity Tiers (OS 2.3)
+## Three-Tier Routing (OS 2.4)
 
-The iOS pipeline routes tasks based on complexity:
+The iOS pipeline uses three-tier routing:
 
-| Tier | Routing | Spec Required | Gates | Example |
-|------|---------|---------------|-------|---------|
-| **Simple** | `ios-light-orchestrator` | No | No | Fix button padding, add haptic |
-| **Medium** | Full pipeline | Recommended | Yes | New component, single screen |
-| **Complex** | Full pipeline | **Required** | Yes | Multi-screen flow, architecture |
+| Mode | Flag | Path | Gates | Use Case |
+|------|------|------|-------|----------|
+| **Default** | (none) | Light + Gates | YES | Most work – fast with quality |
+| **Tweak** | `-tweak` | Light (pure) | NO | Speed iteration, user verifies |
+| **Complex** | `--complex` | Full pipeline | YES | Architecture, multi-file, specs |
 
-Use `-tweak` flag to force light path: `/orca-ios -tweak "fix padding"`
+### Default Mode (Light + Gates)
+
+Most tasks take this path. Fast execution with automated quality checks.
+
+```bash
+/orca-ios "fix button padding"        # → light orchestrator → builder → gates
+/orca-ios "add haptic feedback"       # → light orchestrator → builder → gates
+```
+
+**Gates run:** `ios-standards-enforcer` + `ios-ui-reviewer`
+
+### Tweak Mode (`-tweak`)
+
+Pure speed path. User explicitly accepts responsibility for verification.
+
+```bash
+/orca-ios -tweak "fix padding"        # → light orchestrator → builder → done
+```
+
+### Complex Mode (`--complex`)
+
+Full pipeline with grand-architect planning. Spec required.
+
+```bash
+/orca-ios --complex "implement auth flow"   # → full pipeline
+/orca-ios "build multi-screen onboarding"   # Auto-routes to --complex
+```
+
+| Tier | Files | Spec Required | Example |
+|------|-------|---------------|---------|
+| Default | 1-5 | No | Fix padding, add haptic, update color |
+| Tweak | 1-3 | No | Rapid iteration, exploring options |
+| Complex | 5+ | **Required** | Multi-screen flow, architecture |
 
 ---
 
-## Standards Inputs (OS 2.3 Learning Loop)
+## Standards Inputs (OS 2.4 Learning Loop)
 
 Standards flow into and out of the iOS pipeline:
 

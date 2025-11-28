@@ -1,0 +1,14 @@
+{
+  "enabled": true,
+  "relevance_threshold": 0.25,
+  "renotify_delta": 0.20,
+  "max_skills_per_notification": 3,
+  "hook_timeout_ms": 100,
+  "model_name": "all-MiniLM-L6-v2",
+  "skill_sources": [
+    "~/.claude/skills",
+    "<project>/.claude/skills"
+  ],
+  "precedence": "project-first",
+  "log_level": "info"
+}

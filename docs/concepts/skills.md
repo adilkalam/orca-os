@@ -69,7 +69,7 @@ When loaded, skill content appears in agent context alongside:
 - `ios-knowledge-skill` - iOS/Swift patterns and conventions
 - `nextjs-knowledge-skill` - Next.js patterns and conventions
 - `shopify-theme` - Shopify theme development expertise
-- `os-dev-knowledge-skill` - OS 2.3 configuration knowledge (LOCAL)
+- `os-dev-knowledge-skill` - OS 2.4 configuration knowledge (LOCAL)
 
 ### Quick Reference Skills
 - `liquid-quick` - Fast Liquid syntax reference

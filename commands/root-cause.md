@@ -12,7 +12,7 @@ allowed-tools:
   - Glob
 ---
 
-# /root-cause – Multi-Lane Root Cause Analysis (OS 2.3)
+# /root-cause – Multi-Lane Root Cause Analysis (OS 2.4)
 
 Use this command when **something is failing** and you want to understand
 *why* before you change anything:
@@ -107,7 +107,7 @@ Use the ContextBundle to identify:
   - Expo (React Native/Expo)
   - Shopify (Liquid/theme files)
   - Data / SEO (if mostly content/analysis)
-  - OS-Dev (if failure is coming from OS 2.3 tooling itself)
+  - OS-Dev (if failure is coming from OS 2.4 tooling itself)
 
 ### 1.3 Confirm Domain with User
 
@@ -251,7 +251,7 @@ For other domains:
 - SEO:
   - `seo-brief-strategist`, `seo-quality-guardian` for content/SEO issues.
 - OS-Dev:
-  - OS-Dev agents (`os-dev-architect`, `os-dev-builder`, `os-dev-standards-enforcer`) **in diagnostic mode** to analyze whether OS 2.3 config or hooks are causing failures.
+  - OS-Dev agents (`os-dev-architect`, `os-dev-builder`, `os-dev-standards-enforcer`) **in diagnostic mode** to analyze whether OS 2.4 config or hooks are causing failures.
 
 ---
 
@@ -301,4 +301,3 @@ Fixing the issue should be done via the appropriate pipeline:
 - Expo: `/plan` → `/orca` → `/orca-expo`
 - Shopify: `/plan` → `/orca` → `/orca-shopify`
 - OS-Dev: `/plan` → `/orca-os-dev`
-

@@ -1,11 +1,10 @@
-/opt/homebrew/Library/Homebrew/cmd/shellenv.sh: line 18: /bin/ps: Operation not permitted
-# OS 2.3 Expo Lane Readme
+# OS 2.4 Expo Lane Readme
 
 **Lane:** Expo / React Native  
 **Domain:** `expo`  
 **Entrypoints:** `/plan`, `/orca`, `/orca-expo`, `/project-memory`, `/project-code`
 
-This readme explains the Expo lane in Vibe OS 2.3:
+This readme explains the Expo lane in Vibe OS 2.4:
 
 - Planning & specs for Expo tasks
 - Orchestration via `/orca` and `/orca-expo`
@@ -38,7 +37,7 @@ Examples:
 
 For non‑trivial Expo tasks:
 
-- `/plan "..."` creates a spec under `requirements/`.
+- `/plan "..."` creates a spec under `.claude/requirements/`.
 - Complex flows (multi‑screen auth, offline, sensitive data) should
   have a spec before the full Expo lane runs.
 
@@ -64,22 +63,31 @@ File: `commands/orca-expo.md`
 - Accepts:
 
   ```bash
-  /orca-expo "add pull-to-refresh to product list"
-  /orca-expo -tweak "fix button spacing"
-  /orca-expo "implement requirement 2025-11-25-auth"
+  /orca-expo "fix button spacing"                      # Default: light + gates
+  /orca-expo -tweak "try different padding"           # Tweak: light, no gates
+  /orca-expo --complex "implement auth flow"          # Complex: full pipeline
+  /orca-expo "implement requirement <id>"             # With spec
   ```
+
+- **Three-Tier Routing (OS 2.4):**
+
+  | Mode | Flag | Path | Gates |
+  |------|------|------|-------|
+  | **Default** | (none) | Light + Gates | YES |
+  | **Tweak** | `-tweak` | Light (pure) | NO |
+  | **Complex** | `--complex` | Full pipeline | YES |
 
 - Behavior:
   1. **Memory‑first** – queries Workshop/vibe.db for relevant Expo incidents and patterns.
-  2. **Complexity classification**:
-     - `simple` – small tweak, single file → light path.
-     - `medium` – one screen/feature → full pipeline, spec optional.
-     - `complex` – multi‑screen/architecture/security → full pipeline, spec required.
+  2. **Flag detection**:
+     - No flag → **Default mode** (light path WITH gates)
+     - `-tweak` → **Tweak mode** (light path WITHOUT gates, user verifies)
+     - `--complex` → **Complex mode** (full pipeline, spec required)
   3. **Spec gating**:
-     - For `complex`, require `requirements/<id>/06-requirements-spec.md`.
+     - For `complex`, require `.claude/requirements/<id>/06-requirements-spec.md`.
   4. **Routing**:
-     - `simple` or `-tweak` → `expo-light-orchestrator`.
-     - `medium`/`complex` → full Expo pipeline with grand‑orchestrator and gates.
+     - Default/tweak → `expo-light-orchestrator` (gates on default only)
+     - Complex → full Expo pipeline with grand‑orchestrator and gates.
 
 ---
 
@@ -127,7 +135,10 @@ Specialists:
 Light lane agent:
 
 - `agents/expo/expo-light-orchestrator.md`
-  - Handles simple tweaks via direct delegation to `expo-builder-agent` plus at most one specialist.
+  - Handles **default** and **tweak** modes.
+  - Direct delegation to `expo-builder-agent` plus at most one specialist.
+  - **Default mode**: Runs gates (`design-token-guardian` + `expo-aesthetics-specialist`)
+  - **Tweak mode** (`-tweak`): Skips gates (user verifies)
 
 ---
 
@@ -162,6 +173,14 @@ Expo pipeline includes:
 
 ## 7. Mental Model
 
-- Quick tweak → `/orca-expo -tweak "..."` → `expo-light-orchestrator` → builder.
-- Serious feature → `/plan` → `/orca` → `/orca-expo` → full Expo pipeline.
+For Expo work in OS 2.4 (three-tier routing):
 
+| Mode | Command | Path |
+|------|---------|------|
+| **Default** | `/orca-expo "fix spacing"` | Light + gates |
+| **Tweak** | `/orca-expo -tweak "try padding"` | Light, no gates |
+| **Complex** | `/orca-expo --complex "auth flow"` | Full pipeline |
+
+- **Most work**: Default mode (light path WITH gates)
+- **Exploration**: Tweak mode (light path, no gates, you verify)
+- **Features**: Complex mode (full pipeline, spec required)

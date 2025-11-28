@@ -1,6 +1,6 @@
 # Pipeline Model
 
-OS 2.3 uses a **multi-lane pipeline architecture** to handle different types of development work. Each "lane" is a domain-specific pipeline with its own agents, phases, and gates.
+OS 2.4 uses a **multi-lane pipeline architecture** to handle different types of development work. Each "lane" is a domain-specific pipeline with its own agents, phases, and gates.
 
 ## Core Concepts
 
@@ -51,7 +51,7 @@ Request
 
 ### Agent Roles
 
-OS 2.3 enforces strict role separation:
+OS 2.4 enforces strict role separation:
 
 #### Orchestrators (Never Write Code)
 - **Commands**: `/orca`, `/orca-ios`, `/orca-nextjs`, etc.

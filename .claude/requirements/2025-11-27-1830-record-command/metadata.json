@@ -1,0 +1,22 @@
+{
+  "id": "record-command",
+  "started": "2025-11-27T18:30:00Z",
+  "lastUpdated": "2025-11-27T18:35:00Z",
+  "status": "complete",
+  "phase": "complete",
+  "progress": {
+    "discovery": { "answered": 5, "total": 5 },
+    "detail": { "answered": 5, "total": 5 }
+  },
+  "contextFiles": [
+    "commands/*.md",
+    "scripts/*.py",
+    ".claude/memory/workshop.db"
+  ],
+  "relatedFeatures": [
+    "Workshop CLI",
+    "ProjectContext MCP",
+    "Self-improvement system"
+  ],
+  "dependencies": []
+}

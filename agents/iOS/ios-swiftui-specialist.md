@@ -4,13 +4,7 @@ description: >
   iOS SwiftUI implementation specialist. Builds composable SwiftUI views with
   @Observable + Environment DI, token-only styling, and performance/accessibility
   baked in across Apple platforms.
-tools:
-  - Read
-  - Edit
-  - MultiEdit
-  - Grep
-  - Glob
-  - Bash
+tools: Read, Edit, MultiEdit, Grep, Glob, Bash
 model: inherit
 ---
 

@@ -1,16 +1,22 @@
-# OS 2.2 Architecture Quick Reference
+# OS 2.4 Architecture Quick Reference
 
-**Last Updated:** 2025-11-24
-**Version:** OS 2.2
+**Last Updated:** 2025-11-27
+**Version:** OS 2.4
 
-## What's New in OS 2.2
+## What's New in OS 2.4
 
-**Memory Architecture (NEW):**
+**Three-Tier Routing (NEW):**
+- ✅ **Default mode** now runs gates (inverted from OS 2.2)
+- ✅ **-tweak flag** for pure speed (skips gates, user verifies)
+- ✅ **--complex flag** for full pipeline (requires spec)
+- ✅ Light orchestrators handle BOTH default (with gates) AND tweak (no gates)
+
+**Memory Architecture:**
 - ✅ **Workshop** → Session memory (decisions, gotchas, learnings)
 - ✅ **vibe.db** → Code intelligence (chunks, symbols, hybrid search)
 - ✅ **project-meta** → Stable project metadata (MCP with versioning)
-- ✅ **ProjectContext v2.2** → Task bundler (queries all sources)
-- ✅ New commands: `/project-memory`, `/project-code`, `/project-meta`
+- ✅ **ProjectContext v2.3** → Task bundler (queries all sources)
+- ✅ Memory-first search (Workshop + vibe.db before ProjectContext)
 
 **From OS 2.2:**
 - ✅ Role boundary enforcement layer (orchestrators NEVER write code)
@@ -18,37 +24,92 @@
 - ✅ Team confirmation layer (AskUserQuestion before execution)
 - ✅ Unified planning command (/plan replaces 8+ commands)
 - ✅ Meta-audit system (/audit for behavior review)
-- ✅ Grand Architect Pattern (Opus for coordination, Sonnet for work)
+- ✅ All agents use Opus 4.5 (unified model)
 
 ---
 
-## Core Architecture (OS 2.2)
+## Three-Tier Routing (OS 2.4)
+
+All `/orca-*` commands support three execution modes:
+
+| Mode | Flag | Path | Gates | Use Case |
+|------|------|------|-------|----------|
+| **Default** | (none) | Light + Gates | YES | Most work – fast with quality |
+| **Tweak** | `-tweak` | Light (pure) | NO | Speed iteration, user verifies |
+| **Complex** | `--complex` | Full pipeline | YES | Architecture, multi-file, specs |
+
+### Routing Flow
+
+```
+/orca-{domain} "task"
+    ↓
+[Complexity Detection + Flag Check]
+    ↓
+├─ NO FLAG → Default Mode
+│     ↓
+│     [Light Orchestrator] → [Builder] → [Gates] → Done
+│
+├─ -tweak FLAG → Tweak Mode
+│     ↓
+│     [Light Orchestrator] → [Builder] → Done (no gates)
+│
+└─ --complex FLAG → Complex Mode
+      ↓
+      [Spec Required] → [Grand Architect] → [Full Pipeline] → Done
+```
+
+### Gate Behavior
+
+**Default Mode (most work):**
+- Light orchestrator coordinates
+- Gates run AFTER implementation
+- Domain-specific gates (standards + design/UI review)
+- Scores must pass (≥90)
+
+**Tweak Mode (pure speed):**
+- Same light orchestrator
+- Gates SKIPPED entirely
+- User explicitly accepts verification responsibility
+
+**Complex Mode (architecture):**
+- Requires spec: `.claude/requirements/<id>/06-requirements-spec.md`
+- Grand architect coordinates full pipeline
+- All gates run with verification
+
+---
+
+## Core Architecture (OS 2.4)
 
 ### Foundation: Context-First Orchestration with Role Boundaries
 ```
 User Request
     ↓
-/plan Command (unified planner)
+/plan Command (unified planner) [for complex work]
     ↓
-    Creates: requirements/<id>/06-requirements-spec.md
+    Creates: .claude/requirements/<id>/06-requirements-spec.md
     ↓
 /orca-{domain} Command (orchestrator)
     ↓
-ProjectContextServer Query [MANDATORY]
+[Three-Tier Routing] [NEW in 2.3]
+    ├─ Default → Light + Gates
+    ├─ -tweak → Light only
+    └─ --complex → Full pipeline
     ↓
-Team Confirmation (AskUserQuestion) [MANDATORY]
+Memory-First Search (Workshop + vibe.db) [MANDATORY]
     ↓
-Role Boundary Enforcement [NEW in 2.1]
+ProjectContextServer Query [MANDATORY for complex]
     ↓
-Pipeline Phases (Context → Planning → Implementation → Gates → Verify)
+Team Confirmation (AskUserQuestion) [for complex]
     ↓
-State Preservation (phase_state.json) [NEW in 2.1]
+Role Boundary Enforcement
     ↓
-Quality Gates (≥90 scores)
+Pipeline Phases (varies by mode)
+    ↓
+Quality Gates (≥90 scores) [default and complex only]
     ↓
 Output + Learning
     ↓
-/audit Command (periodic meta-review) [NEW in 2.1]
+/audit Command (periodic meta-review)
 ```
 
 ---
@@ -102,21 +163,17 @@ If orchestrator uses Edit/Write → ROLE VIOLATION → Stop immediately
 
 ### 3. Agent Layer
 
-#### Grand Architect Pattern (NEW in OS 2.2)
+#### All Agents Use Opus 4.5 (OS 2.4)
 ```yaml
-Coordination Tier (Opus):
+All Agent Roles:
   - Grand Architects (ios-grand-architect, nextjs-grand-architect, expo-grand-orchestrator)
-  - Purpose: High-level architecture, complex planning
-  - When: Large features, critical decisions, complex coordination
-  - Cost: High ($15/MTok input, $75/MTok output)
+  - Architects (planning and impact analysis)
+  - Builders (implementation)
+  - Specialists (domain-specific work)
+  - Gates (standards, design QA, verification)
 
-Implementation Tier (Sonnet):
-  - All other agents (builders, specialists, gates, verification)
-  - Purpose: Implementation, analysis, testing, enforcement
-  - When: All actual work
-  - Cost: Low ($3/MTok input, $15/MTok output)
-
-Benefit: Optimal model allocation (expensive for strategy, efficient for work)
+Model: Opus 4.5 (all agents)
+Benefit: Consistent quality, no model-selection overhead, unified capability
 ```
 
 #### Agent Types
@@ -213,7 +270,6 @@ AskUserQuestion({
 - No surprise agent teams
 - User controls scope before work starts
 - Clear expectations
-- Cost visibility (Opus vs Sonnet agents)
 
 ### 6. Quality Gates
 
@@ -391,7 +447,7 @@ claude-vibe-config/            # This repo (mirror/record)
 
 ---
 
-## Phase Pipeline Pattern (OS 2.2)
+## Phase Pipeline Pattern (OS 2.4)
 
 ### Updated 6-Phase Structure
 ```yaml
@@ -401,25 +457,25 @@ Phase 1: Context Query [MANDATORY]
   blocks_on_failure: true
   output: context bundle
 
-Phase 2: Team Confirmation [MANDATORY, NEW in 2.1]
+Phase 2: Team Confirmation [complex mode only]
   tool: AskUserQuestion
   purpose: User approves agent team
   blocks_on_failure: true
   output: confirmed team
 
 Phase 3: Planning
-  agent: grand-architect (Opus) OR architect (Sonnet)
+  agent: grand-architect OR architect
   purpose: Architecture decisions, approach selection
   context_required: true
   output: implementation plan
 
 Phase 4: Implementation
-  agent: builder (Sonnet)
+  agent: builder
   purpose: Core execution, building, creating
   dependencies: [phase_3]
   output: implemented feature
 
-Phase 5: Quality Gates
+Phase 5: Quality Gates [skipped in -tweak mode]
   agents: [standards-enforcer, design-reviewer, accessibility-specialist]
   purpose: Standards enforcement, quality validation
   gates:
@@ -430,11 +486,13 @@ Phase 5: Quality Gates
   output: gate scores
 
 Phase 6: Verification
-  agent: verification-agent (Sonnet)
+  agent: verification-agent
   purpose: Build/test/lint verification
   evidence_required: true
   output: verification evidence
 ```
+
+**Note:** All agents use Opus 4.5.
 
 ---
 
@@ -452,7 +510,7 @@ User Request: "Add dark mode support"
     → Response Awareness tagging (#PATH_DECISION, etc.)
     → Blueprint generation
     ↓
-    Output: requirements/2025-11-24-1430-dark-mode/06-requirements-spec.md
+    Output: .claude/requirements/2025-11-24-1430-dark-mode/06-requirements-spec.md
     ↓
 User: "/orca-nextjs implement requirement 2025-11-24-1430-dark-mode using that spec"
     ↓
@@ -471,7 +529,7 @@ Phase 2: Team Confirmation [MANDATORY, NEW in 2.1]
     ↓
 Phase 3: Planning (via Task tool)
     ↓
-    → Orchestrator delegates to nextjs-grand-architect (Opus)
+    → Orchestrator delegates to nextjs-grand-architect
     → Grand architect reads context, creates implementation plan
     → Updates phase_state.json: {"current_phase": "phase_3_planning", "agent": "nextjs-grand-architect"}
     ↓
@@ -486,7 +544,7 @@ Phase 3: Planning (via Task tool)
     ↓
 Phase 4: Implementation (via Task tool)
     ↓
-    → Orchestrator delegates to nextjs-builder (Sonnet)
+    → Orchestrator delegates to nextjs-builder
     → Builder implements dark mode with Tailwind
     → Updates phase_state.json: {"current_phase": "phase_4_implementation", "agent": "nextjs-builder"}
     ↓
@@ -629,27 +687,31 @@ File: `~/.claude.json`
 3. **Role Boundaries are Enforced** - Orchestrators NEVER write code
 4. **State Preservation is Automatic** - phase_state.json survives interruptions
 5. **Phases are Sequential** - Each builds on previous (except parallel gates)
-6. **Quality is Non-Negotiable** - Gates must pass (≥90 scores)
+6. **Quality is Non-Negotiable** - Gates must pass (≥90 scores) except -tweak mode
 7. **Memory is Multi-Layered** - Ephemeral (AgentDB), persistent (ProjectContext, Workshop), shared (SharedContext)
-8. **Grand Architects are Strategic** - Opus for coordination, Sonnet for implementation
+8. **All Agents Use Opus 4.5** - Unified model, no cost/quality tradeoffs
 9. **Continuous Improvement** - /audit creates standards from failures
 
 ---
 
-## OS 2.2 vs OS 2.2
+## OS 2.4 vs OS 2.2
 
-| Feature | OS 2.2 | OS 2.2 |
+| Feature | OS 2.2 | OS 2.4 |
 |---------|--------|--------|
-| Planning | 8+ fragmented commands | Unified /plan command |
-| Meta-Review | Manual | /audit command |
-| Role Boundaries | Implicit | Explicit enforcement |
-| Team Confirmation | None | Mandatory AskUserQuestion |
-| State Preservation | None | phase_state.json |
-| Interruption Handling | Pipeline abandoned | Pipeline continues |
-| Agent Count | ~30 | 57 (3 Opus, 54 Sonnet) |
-| Quality Gates | Pass/fail | Numerical scores ≥90 |
-| Workflow | Fragmented | /plan → /orca → /audit |
+| **Routing** | simple/medium/complex | **default/tweak/complex (three-tier)** |
+| **Default Gates** | Skip (light path) | **Run (inverted)** |
+| **Speed Mode** | None explicit | **-tweak flag** |
+| **Full Pipeline** | Implicit for complex | **--complex flag explicit** |
+| Planning | Unified /plan command | Same |
+| Meta-Review | /audit command | Same |
+| Role Boundaries | Explicit enforcement | Same |
+| Team Confirmation | Mandatory AskUserQuestion | Same (complex only in 2.3) |
+| State Preservation | phase_state.json | Same |
+| Agent Count | 57 | 82 |
+| Agent Model | Opus + Sonnet | Opus 4.5 (all) |
+| Quality Gates | Numerical scores ≥90 | Same |
+| Workflow | /plan → /orca → /audit | /orca (default) or /plan → /orca --complex |
 
 ---
 
-_OS 2.2 represents a major evolution from OS 2.2: role boundaries prevent orchestration breakdown, state preservation survives interruptions, team confirmation provides transparency, and unified planning eliminates command sprawl._
+_OS 2.4 inverts the default: quality gates now run by default on the light path. Use `-tweak` for pure speed when you'll verify manually. Use `--complex` for architecture work requiring specs and full pipeline coordination._

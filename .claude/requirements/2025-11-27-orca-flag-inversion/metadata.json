@@ -1,0 +1,30 @@
+{
+  "id": "2025-11-27-orca-flag-inversion",
+  "started": "2025-11-27T00:00:00Z",
+  "lastUpdated": "2025-11-27T00:00:00Z",
+  "status": "complete",
+  "phase": "complete",
+  "domain": "os-dev",
+  "progress": {
+    "discovery": { "answered": 5, "total": 5 },
+    "detail": { "answered": 5, "total": 5 }
+  },
+  "contextFiles": [
+    "commands/orca-nextjs.md",
+    "commands/orca-ios.md",
+    "commands/orca-expo.md",
+    "commands/orca-shopify.md",
+    "agents/dev/nextjs-light-orchestrator.md",
+    "agents/iOS/ios-light-orchestrator.md",
+    "agents/expo/expo-light-orchestrator.md",
+    "agents/shopify/shopify-light-orchestrator.md",
+    "agents/dev/nextjs-design-reviewer.md",
+    "agents/iOS/ios-ui-reviewer.md",
+    "agents/expo/expo-aesthetics-specialist.md"
+  ],
+  "relatedFeatures": [
+    "Visual Context Flow",
+    "Complexity Detection",
+    "Spec Gating"
+  ]
+}

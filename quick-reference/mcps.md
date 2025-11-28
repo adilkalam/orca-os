@@ -1,9 +1,9 @@
-# MCP Servers Reference (OS 2.2)
+# MCP Servers Reference (OS 2.4)
 
-**Version:** OS 2.2
+**Version:** OS 2.4
 **Last Updated:** 2025-11-24
 
-**Model Context Protocol (MCP) integrations for OS 2.2**
+**Model Context Protocol (MCP) integrations for OS 2.4**
 
 ---
 
@@ -11,7 +11,7 @@
 
 MCP servers provide structured tool interfaces for agents. All I/O goes through declared tools — this acts as a hard permission boundary.
 
-### OS 2.2 Integration
+### OS 2.4 Integration
 
 **What's New:**
 - **ProjectContextServer** (MCP) is now MANDATORY - all `/plan` and `/orca` commands query it first
@@ -20,7 +20,7 @@ MCP servers provide structured tool interfaces for agents. All I/O goes through 
 - **Role Boundaries** - orchestrators only use ProjectContext, agents use domain-specific MCPs
 - **State Preservation** - MCP results stored in phase_state.json for resumption
 
-**Key MCPs for OS 2.2:**
+**Key MCPs for OS 2.4:**
 1. **ProjectContextServer** - Mandatory context provider (Phase 1)
 2. **SharedContext** - Cross-session context (optional token optimization)
 3. **Sequential-thinking** - Deep reasoning (via `/ultra-think`)

@@ -3,11 +3,7 @@ name: shopify-theme-checker
 description: >
   Theme quality and linting specialist. Runs Shopify Theme Check, reports issues,
   suggests fixes, and validates best practices.
-tools:
-  - Read
-  - Bash
-  - Grep
-  - Glob
+tools: Read, Bash, Grep, Glob
 ---
 
 # Shopify Theme Checker

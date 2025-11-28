@@ -3,11 +3,7 @@ name: design-dna-guardian
 description: >
   Enforces presence and correct use of design DNA/tokens for iOS UI work.
   Blocks ad-hoc styling and ensures token-only colors/typography/spacing.
-tools:
-  - Read
-  - Grep
-  - Glob
-  - AskUserQuestion
+tools: Read, Grep, Glob, AskUserQuestion
 model: inherit
 ---
 

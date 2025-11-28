@@ -7,7 +7,7 @@ allowed-tools: [Bash, Write]
 
 **PURPOSE**: Capture current session state, tasks, and decisions for automatic loading on next session start.
 
-**EXPECTED OUTCOME**: Create `.claude-session-context.md` that SessionStart hook will auto-load.
+**EXPECTED OUTCOME**: Create `.claude/orchestration/temp/session-context.md` that SessionStart hook will auto-load.
 
 ---
 
@@ -81,7 +81,7 @@ basename $(git rev-parse --show-toplevel)
 
 ## Step 3: Generate Session Context File
 
-**Create `.claude-session-context.md`:**
+**Create `.claude/orchestration/temp/session-context.md`:**
 
 ```markdown
 # Session Context - [DATE]
@@ -140,7 +140,7 @@ _This file is automatically loaded by SessionStart hook_
 **Write the file:**
 
 ```bash
-Write(.claude-session-context.md, [generated content])
+Write(.claude/orchestration/temp/session-context.md, [generated content])
 ```
 
 ---
@@ -150,7 +150,7 @@ Write(.claude-session-context.md, [generated content])
 ```
 ✅ SESSION SAVED
 
-Context saved to: .claude-session-context.md
+Context saved to: .claude/orchestration/temp/session-context.md
 Auto-loads on: Next session start via SessionStart hook
 
 What was saved:

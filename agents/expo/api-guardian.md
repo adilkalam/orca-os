@@ -1,11 +1,7 @@
 ---
 name: api-guardian
 description: Validates API contracts and detects breaking changes in API responses/requests. Checks schema compliance, version compatibility, and prevents integration failures from API drift.
-tools:
-  - Read
-  - Grep
-  - Bash
-  - Edit
+tools: Read, Grep, Bash, Edit
 model: inherit
 
 # OS 2.0 Constraint Framework

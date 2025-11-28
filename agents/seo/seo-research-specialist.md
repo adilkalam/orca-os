@@ -1,14 +1,8 @@
 ---
 name: seo-research-specialist
 description: "SEO research specialist with SERP intelligence, KG deep reading, and ProjectContextServer integration"
-tools:
-  - Task
-  - Bash
-  - Read
-  - Write
-  - Grep
-  - mcp__ahrefs__doc
-  - mcp__ahrefs__keywords-explorer-overview
+tools: Task, Bash, Read, Write, Grep, mcp__ahrefs__doc, mcp__ahrefs__keywords
+-explorer-overview
   - mcp__ahrefs__keywords-explorer-related-terms
   - mcp__ahrefs__serp-overview-serp-overview
   - mcp__project-context__query_context

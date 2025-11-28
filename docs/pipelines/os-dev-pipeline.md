@@ -1,9 +1,8 @@
-/opt/homebrew/Library/Homebrew/cmd/shellenv.sh: line 18: /bin/ps: Operation not permitted
 # OS-Dev Domain Pipeline
 
-**Status:** OS 2.3 Core Pipeline
+**Status:** OS 2.4 Core Pipeline
 **Domain:** `os-dev`
-**Last Updated:** 2025-11-25
+**Last Updated:** 2025-11-27
 
 ## Overview
 
@@ -54,7 +53,7 @@ Request
   ↓
 [Phase 2: ProjectContext Query (cached)]
   ↓
-If complex → [Spec Required: requirements/<id>/06-requirements-spec.md]
+If complex → [Spec Required: .claude/requirements/<id>/06-requirements-spec.md]
   ↓
 [Phase 3: Planning (os-dev-architect)]
   ↓
@@ -155,7 +154,7 @@ Artifacts (phase_state.context_query):
 For `complex` changes:
 
 - Require a requirements spec:
-  - `requirements/<id>/06-requirements-spec.md`
+  - `.claude/requirements/<id>/06-requirements-spec.md`
 - `/orca-os-dev` must:
   - Resolve `requirement_id` and `requirements_spec_path`.
   - Refuse to continue if missing, and instruct the user to run `/plan`.
@@ -295,6 +294,11 @@ Tasks:
   - `mcp__project-context__save_task_history` with `domain: "os-dev"`.
 - Where recurring issues were solved, promote them to standards via:
   - `mcp__project-context__save_standard`.
+- **Session logging** (for significant changes):
+  - Create a log file in `logs/` with naming `Claude-Topic-YYYY-MM-DD.md`
+  - Include required frontmatter: Agent, Topic, Description, Files Edited, Date, Time
+  - Log complex changes, multi-file refactors, and architecture decisions
+  - See `logs/README.md` for full conventions
 
 ---
 
@@ -305,4 +309,3 @@ Tasks:
   - Always require a plan and rollback story.
   - Never default to dangerous flags or broad hooks.
   - Favor additive, opt-in behavior over implicit behavior changes.
-

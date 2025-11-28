@@ -1,5 +1,5 @@
 /opt/homebrew/Library/Homebrew/cmd/shellenv.sh: line 18: /bin/ps: Operation not permitted
-# OS 2.3 SEO Lane Readme
+# OS 2.4 SEO Lane Readme
 
 **Lane:** SEO Content  
 **Domain:** `seo`  
@@ -21,5 +21,4 @@ Memory:
 - `/project-memory` for SEO strategies, briefs, and standards.
 
 Consult the main `docs/readme.md` and this file together to understand
-how SEO work fits into the OS 2.3 orchestration system.
-
+how SEO work fits into the OS 2.4 orchestration system.

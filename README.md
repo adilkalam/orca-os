@@ -1,18 +1,51 @@
-/opt/homebrew/Library/Homebrew/cmd/shellenv.sh: line 18: /bin/ps: Operation not permitted
-# Vibe OS 2.3 – Architecture Overview
+```
+ __   __  _  _            ___   ___     ___    ____
+ \ \ / / (_)| |__   ___  / _ \ / __|   |_  )  |__ /
+  \ V /  | || '_ \ / -_)| (_) |\__ \    / /    |_ \
+   \_/   |_||_.__/ \___| \___/ |___/   /___|  |___/
 
-Vibe OS 2.3 is an orchestration layer for Claude Code.
+```
 
-It turns your `~/.claude` configuration into an operating system with:
+# A Context-Aware, Memory-Persistent OS for Claude Code
 
-- **Context** that is mandatory, not optional.
-- **Memory** that persists across sessions.
-- **Orchestration** that separates planning from implementation.
-- **Specialist agents** instead of a single do‑everything assistant.
-- **Gates and audits** that prevent “done” from meaning “compiles in my head”.
+```
++------------------------------------------------------------------+
+|                                                                  |
+|   Make Claude Code remember, stay disciplined, and finish work   |
+|                                                                  |
+|   - Memory-first architecture (local vectors + Workshop)         |
+|   - Response awareness (track assumptions, not just outputs)     |
+|   - Evidence-based completion (tests pass or it is not done)     |
+|   - Multi-lane orchestration (7 domains, 68 agents)              |
+|   - Complexity routing (simple tweaks to complex features)       |
+|   - Self-improvement (agents learn from execution history)       |
+|                                                                  |
++------------------------------------------------------------------+
+```
 
-This document explains that architecture in layers, starting from the
-default “just an agent and a repo” baseline.
+---
+
+## The Problem This Solves
+
+**Claude Code is powerful. But has the memory of a goldfish and declares success prematurely.**
+
+Without guardrails:
+
+- "Done" when the code does not compile, UX is broken, or tests fail
+- User defined concepts and systems hallucinated instead of followed
+- Context re-gathered every single session & no memory 
+- Zero improvement or tuning to user needs over time
+
+The result: endless iteration loops, human frustration, and outputs that fall short of expectations.
+
+**This system enforces discipline:**
+
+- Projects indexed locally with persistent vectors for fast semantic queries
+- An orchestration layer that coordinates specialists but never writes code itself
+- Agents operating in strict lanes with hard-scoped responsibilities
+- Memory persisting across sessions (no re-explaining decisions)
+- Quality gates catching issues before humans see them
+- Work not marked complete until evidence exists (tests, builds, screenshots)
 
 ---
 
@@ -21,24 +54,24 @@ default “just an agent and a repo” baseline.
 Most “agentic” setups look like this:
 
 ```text
-          (1) Single agent does everything
+          Single agent does everything
                      |
                      v
-+---------+        +-----------+
-|  You    | -----> | LLM Agent |
-+---------+        +-----------+
++---------+        +-------------+
+|  You    | -----> |  LLM Agent  |  (1) No persistent memory
++---------+        +-------------+
                         |
-                        | (2) Ad-hoc context loading
+                        |         
                         v
-                +---------------+
-                |  Files / Repo |
-                +---------------+
+                +----------------+
+                |  Project Files |  (2) Ad-hoc context loading
+                +----------------+
                         |
-                        | (3) Tools used without structure
+                        |         
                         v
-                 +-------------+
-                 |   Tools     |
-                 +-------------+
+                 +---------------+  (3) Single agent context drift
+                 | Execution     |   
+                 +---------------+
 ```
 
 Where it fails:
@@ -47,11 +80,11 @@ Where it fails:
    - Every session starts fresh.
    - Architectural decisions get re‑litigated.
 
-2. **No structural context**
+2. **Context must be reloaded every session**
    - The agent “discovers” the project anew every time by reading
      arbitrary files.
 
-3. **No orchestration or role separation**
+3. **Single Agent**
    - The same agent plans, implements, verifies, and self‑audits in one
      long stream.
    - Any interruption (“quick question?”) derails the plan.
@@ -62,14 +95,14 @@ Where it fails:
    - Assumptions, bias, and uncertainty are not surfaced or fed into
      gates.
 
-Vibe OS 2.3 answers: “What if context, memory, and orchestration were
-part of the architecture, not just the prompt?”
+Vibe OS 2.3.1 answers: "What if context, memory, and orchestration were
+part of the architecture, not just the prompt?"
 
 ---
 
 ## 2. High‑Level Architecture
 
-At a high level, Vibe OS 2.3 is defined first by its environment:
+At a high level, Vibe OS 2.3.1 is defined first by its environment:
 memory and context on your machine. Everything else – planning,
 orchestration, agents, and workflows – is layered on top of that
 baseline.
@@ -350,6 +383,45 @@ Skills are structured knowledge packs:
 Agents load skills as needed, not by default. This keeps prompts lean
 while still enabling deep domain expertise when required.
 
+### 6.3 Self-Improvement Loop (v2.3.1)
+
+Agents now learn from execution history:
+
+```text
+Execute Pipeline
+    |
+    v
+Grand-Architect Records Outcome
+    |
+    | workshop task_history add --domain <domain> --outcome <success|failure|partial>
+    v
+Workshop task_history Entry
+    |
+    v
+/audit Triggers Pattern Analysis
+    |
+    | scripts/analyze-patterns.py
+    v
+Identify Patterns (3+ occurrences)
+    |
+    v
+Generate Improvement Proposal
+    |
+    v
+User Approves/Rejects
+    |
+    | scripts/apply-improvement.py --deploy
+    v
+Apply to Agent Definition ("Learned Rules" section)
+```
+
+Key properties:
+
+- **Outcome recording** – Grand-architects record task results at pipeline end.
+- **Pattern detection** – Same issue from same agent 3+ times triggers proposal.
+- **User approval required** – Agents are never auto-modified.
+- **Learned Rules** – Applied improvements appear in agent YAML.
+
 ---
 
 ## 7. Example Workflows
@@ -368,7 +440,7 @@ You
   v
 /plan
   |
-  |  Creates requirements/<id>/06-requirements-spec.md
+  |  Creates .claude/requirements/<id>/06-requirements-spec.md
   v
   | 2) /orca "implement requirement <id>"
   v
@@ -474,7 +546,7 @@ standards and verification.
 
 ## 8. Design Decisions and Novelty
 
-Some of the key choices behind Vibe OS 2.3:
+Some of the key choices behind Vibe OS 2.3.1:
 
 1. **Context and memory as first‑class architecture**
    - ProjectContextServer MCP, Workshop, and `vibe.db` form a shared
@@ -518,10 +590,18 @@ Some of the key choices behind Vibe OS 2.3:
    - `/root-cause` to assemble lane‑specific diagnostic squads (e.g.,
      iOS testing + SPM config specialists) when things fail.
 
-Taken together, these decisions turn Vibe OS 2.3 from “a pile of
-prompts and agents” into a coherent, layered system:
+8. **Self‑improvement loop (v2.3.1)**
+   - Grand-architects record execution outcomes at pipeline end.
+   - Pattern detection identifies recurring issues (3+ occurrences).
+   - Improvement proposals generated in structured format.
+   - User approval required before applying changes to agents.
+   - Learned rules accumulate in agent definitions over time.
+
+Taken together, these decisions turn Vibe OS 2.3.1 from "a pile of
+prompts and agents" into a coherent, layered system:
 
 - Memory and context as the foundation.
 - Orchestration and pipelines as the control plane.
 - Agents and skills as the workers.
 - Audits and root‑cause workflows as the self‑reflection layer.
+- Self-improvement loop as the learning layer.

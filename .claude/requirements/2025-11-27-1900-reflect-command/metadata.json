@@ -1,0 +1,25 @@
+{
+  "id": "reflect-command",
+  "started": "2025-11-27T19:00:00Z",
+  "lastUpdated": "2025-11-27T19:00:00Z",
+  "status": "complete",
+  "phase": "complete",
+  "progress": {
+    "discovery": { "answered": 5, "total": 5 },
+    "detail": { "answered": 5, "total": 5 }
+  },
+  "contextFiles": [
+    "commands/audit.md",
+    "scripts/analyze-patterns.py",
+    "scripts/apply-improvement.py",
+    "agents/*/ios-grand-architect.md"
+  ],
+  "relatedFeatures": [
+    "Agent self-improvement system (v2.3.1)",
+    "Workshop CLI",
+    "CLAUDE.md configuration"
+  ],
+  "dependencies": [
+    "record-command"
+  ]
+}

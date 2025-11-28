@@ -1,7 +1,7 @@
 # Design Domain Pipeline
 
-**Status:** OS 2.3 Pipeline (DesignPipeline)
-**Last Updated:** 2025-11-25
+**Status:** OS 2.4 Pipeline (DesignPipeline)
+**Last Updated:** 2025-11-27
 
 The design pipeline handles design-first work: turning briefs and visual inputs
 into structured design artifacts (`design-dna.json`, component/layout specs,
@@ -9,7 +9,7 @@ and optional Figma/HTML exports) that downstream pipelines (webdev, brand)
 can implement.
 
 It combines:
-- OS 2.3 primitives (ProjectContextServer, `phase_state.json`, vibe.db, Workshop)
+- OS 2.4 primitives (ProjectContextServer, `phase_state.json`, vibe.db, Workshop)
 - Memory-first context (Workshop + vibe.db before ProjectContext)
 - Design agents:
   - `design-system-architect` (lead)
@@ -202,4 +202,3 @@ Design work is domain‑specific but still follows OS 2.2 principles:
 - Completed design phase, ready for webdev/brand pipelines to consume.  
 - Updated `phase_state.json` marking the design pipeline as `completed` or
   `completed_with_caveats`.
-

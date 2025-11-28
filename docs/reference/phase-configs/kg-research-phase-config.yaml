@@ -1,0 +1,214 @@
+# KG Research Phase Configuration (OBDN)
+# Knowledge Graph-augmented research pipeline
+
+pipeline:
+  name: kg-research
+  version: "1.0"
+  domain: kg-research
+  project: OBDN
+  project_path: /Users/adilkalam/Desktop/OBDN/obdn_site
+  entry_command: /kg
+
+context:
+  kg_path: docs/meta/kg.json
+  references_path: docs/meta/references.json
+  peptides_path: data/peptides/cards/
+  protocols_path: docs/protocols/
+  research_path: docs/research/
+
+kg_tools:
+  kg_query:
+    path: scripts/kg-query.mjs
+    commands:
+      - find
+      - show
+      - neighbors
+      - path
+      - mechpath
+  kg_brief:
+    path: scripts/kg-brief.mjs
+    commands:
+      - node
+      - topic
+
+complexity_tiers:
+  simple:
+    description: Single node lookup or direct neighbor query
+    routing: direct-answer
+    max_subquestions: 1
+    evidence_passes: 1
+    example: "What is peptide X?"
+
+  medium:
+    description: Multi-node queries, single mechanism path
+    routing: full-pipeline
+    max_subquestions: 5
+    evidence_passes: 2
+    example: "How does X affect condition Y?"
+
+  deep:
+    description: Comprehensive analysis, multiple mechanism paths
+    routing: full-pipeline
+    max_subquestions: 15
+    evidence_passes: 4
+    example: "Compare all healing protocols with mechanism analysis"
+
+phases:
+  - name: kg_eligibility
+    agent: null  # /kg command handles directly
+    description: Check if KG has relevant nodes via kg-brief topic
+    outputs:
+      - kg_mode
+      - kg_primary_node_id
+      - kg_candidate_nodes
+      - kg_topic_brief_path
+
+  - name: scoping
+    agent: kg-lead-agent
+    description: Clarify scope, classify complexity, plan tracks
+    outputs:
+      - question
+      - complexity_tier
+      - kg_subquestions
+      - web_subquestions
+
+  - name: kg_evidence_gathering
+    agent: kg-query-subagent  # or kg-mechanism-subagent
+    description: Execute KG queries, produce Evidence Notes
+    parallel: true
+    outputs:
+      - kg_evidence_notes
+      - nodes_used
+      - edges_used
+      - mechanism_paths
+
+  - name: web_evidence_gathering
+    agent: research-web-search-subagent
+    description: Fallback web research for KG gaps
+    optional: true
+    trigger: kg_coverage_gaps
+    outputs:
+      - web_evidence_notes
+
+  - name: synthesis
+    agent: kg-lead-agent
+    description: Synthesize KG and web evidence
+    outputs:
+      - kg_summary
+      - kg_coverage
+      - outline
+      - key_findings
+
+  - name: report_draft
+    agent: kg-answer-writer
+    description: Write KG-grounded report
+    outputs:
+      - report_path
+      - citations_pending
+
+  - name: citation_gate
+    agent: research-citation-gate
+    description: Validate and insert citations
+    outputs:
+      - citations_status
+      - report_with_citations
+
+  - name: consistency_gate
+    agent: research-consistency-gate
+    description: Validate mechanism path consistency
+    outputs:
+      - gate_decision
+      - quality_score
+      - issues
+
+  - name: completion
+    agent: kg-lead-agent
+    description: Finalize report, save task history
+    outputs:
+      - final_report_path
+      - outcome
+      - learnings
+
+optional_phases:
+  - name: fact_check_gate
+    agent: research-fact-checker
+    trigger: high_risk_topic OR user_requested
+    description: Optional fact validation for medical/safety claims
+
+agents:
+  obdn_specific:
+    - kg-lead-agent
+    - kg-query-subagent
+    - kg-mechanism-subagent
+    - kg-answer-writer
+
+  reused_from_research:
+    - research-web-search-subagent
+    - research-citation-gate
+    - research-consistency-gate
+    - research-fact-checker
+
+evidence_note_schema:
+  kg:
+    type: kg
+    fields:
+      - subquestion_id
+      - question
+      - nodes_used
+      - edges_used
+      - mechanism_paths
+      - source_files
+      - summary
+      - limitations
+      - ra_tags
+
+  kg_mechanism:
+    type: kg-mechanism
+    fields:
+      - peptide_id
+      - condition_id
+      - mechanism_path
+      - narrative
+      - confidence
+      - source_files
+      - ra_tags
+
+mechanism_path_config:
+  default_max_depth: 4
+  prefer_mechanism_nodes: true
+  confidence_levels:
+    high: "has_mechanism && depth <= 4"
+    medium: "(has_mechanism && depth > 4) || (!has_mechanism && depth <= 3)"
+    low: "!has_mechanism && depth > 3"
+    none: "no_path_found"
+
+ra_tags:
+  kg_specific:
+    - "#LOW_EVIDENCE"
+    - "#CONTEXT_DEGRADED"
+    - "#SOURCE_DISAGREEMENT"
+    - "#OUT_OF_DATE"
+  inherited:
+    - "#RATE_LIMITED"
+    - "#SCOPE_EXCEEDED"
+
+artifact_paths:
+  evidence: .claude/research/evidence/
+  reports: .claude/research/reports/
+  cache: .claude/research/cache/
+
+phase_state:
+  location: .claude/orchestration/phase_state.json
+  schema:
+    domain: kg-research
+    mode: string  # standard | deep
+    kg_mode: boolean
+    kg_primary_node_id: string
+    kg_candidate_nodes: array
+    current_phase: string
+    scoping: object
+    research_plan: object
+    kg_evidence: object
+    web_evidence: object
+    synthesis: object
+    gates: object

@@ -1,6 +1,6 @@
 ---
-description: "Unified OS 2.2 planner – requirements + RA blueprint (no implementation)"
-argument-hint: "<high-level task description>"
+description: "Unified OS 2.4 planner – requirements + RA blueprint (no implementation)"
+argument-hint: "[-tweak] [-complex] <high-level task description>"
 allowed-tools:
   ["Task", "Read", "Write", "Edit", "Glob", "Grep",
    "AskUserQuestion", "mcp__project-context__query_context", "mcp__project-context__save_decision"]
@@ -11,11 +11,63 @@ allowed-tools:
 Use this command to produce a **blueprint-quality requirements spec** for a task
 before running any domain lane (`/orca-nextjs`, `/orca-ios`, `/orca-expo`, etc.).
 It combines:
-- The OS 2.2 **requirements pipeline** (requirements folder + docs),
+- The OS 2.4 **requirements pipeline** (requirements folder + docs),
 - **Response Awareness** tagging (RA tags as per `docs/reference/response-awareness.md`),
 - ProjectContextServer for context-aware analysis.
 
 You never implement code from `/plan`; you only plan.
+
+---
+## 0. Three-Tier Planning Depth
+
+`/plan` supports three planning depths that match `/orca-*` execution tiers:
+
+| Flag | Planning Depth | Use Case |
+|------|----------------|----------|
+| (default) | **Standard** – Full discovery + detail questions, complete spec | Most features |
+| `-tweak` | **Quick** – 2-3 scope questions, minimal spec | Small changes, config updates |
+| `-complex` | **Deep** – Extended analysis, risk assessment, multi-phase breakdown | Architecture changes, refactors |
+
+### Behavior by Tier
+
+**Default (no flag):**
+- 5 discovery questions → context findings → 5 detail questions → spec
+- Standard `06-requirements-spec.md` output
+- Recommended for most feature work
+
+**`-tweak`:**
+- Skip discovery phase entirely
+- 2-3 quick scope confirmation questions only
+- Minimal spec focused on: what changes, where, acceptance criteria
+- Fast path: ~2 minutes to spec
+- Output: `06-requirements-spec.md` with `tier: tweak` in metadata
+
+**`-complex`:**
+- Full discovery + detail phases (10 questions total)
+- Extended context analysis with risk assessment
+- Multi-phase breakdown in spec (Phase 1, Phase 2, etc.)
+- Dependency mapping between phases
+- Output: `06-requirements-spec.md` with `tier: complex` in metadata
+- May recommend splitting into multiple requirements
+
+### Tier Detection
+
+If no flag is provided, `/plan` will analyze the task and **recommend** a tier:
+
+```
+Analyzing: "Add dark mode toggle to settings"
+→ Recommended tier: default (standard feature, clear scope)
+→ Proceeding with standard planning...
+```
+
+```
+Analyzing: "Refactor CSS architecture to use design tokens"
+→ Recommended tier: -complex (architectural change, multi-file impact)
+→ Suggest running: /plan -complex "Refactor CSS architecture..."
+→ Proceed with standard planning anyway? [y/n]
+```
+
+The user can override the recommendation.
 
 ---
 ## 1. Initialize or Reuse a Requirement
@@ -24,7 +76,7 @@ You never implement code from `/plan`; you only plan.
    - Behave like the old `/requirements-start $ARGUMENTS`:
      - Slugify the request (e.g. `"New onboarding flow"` → `new-onboarding-flow`).
      - Create a timestamped folder:
-       - `requirements/YYYY-MM-DD-HHMM-[slug]`
+       - `.claude/requirements/YYYY-MM-DD-HHMM-[slug]`
      - Inside that folder create:
        - `00-initial-request.md` – write the user’s request and any initial notes.
        - `metadata.json` with:
@@ -32,7 +84,7 @@ You never implement code from `/plan`; you only plan.
          - `progress.discovery: { answered: 0, total: 5 }`.
          - `progress.detail: { answered: 0, total: 5 }`.
          - `contextFiles: []`, `relatedFeatures: []`.
-     - Write the folder name to `requirements/.current-requirement`.
+     - Write the folder name to `.claude/requirements/.current-requirement`.
    - Call `mcp__project-context__query_context` with:
      - `domain`: inferred from the request (e.g. `"nextjs"`, `"ios"`, `"expo"`, `"data"`, `"seo"`, `"shopify"`),
      - `task`: `$ARGUMENTS`,
@@ -100,7 +152,7 @@ At the end of this phase, the requirements folder should contain:
 When enough questions are answered (or the user explicitly asks for a blueprint):
 
 1. Generate a blueprint-style spec file:
-   - Path: `requirements/<id>/06-requirements-spec.md`
+   - Path: `.claude/requirements/<id>/06-requirements-spec.md`
    - Contents:
      - Problem statement and solution overview,
      - Functional requirements,
@@ -116,7 +168,7 @@ When enough questions are answered (or the user explicitly asks for a blueprint)
    - `phase: "complete"`,
    - `lastUpdated`.
 
-3. Update `requirements/index.md` with an entry for this requirement.
+3. Update `.claude/requirements/index.md` with an entry for this requirement.
 
 4. Update `.claude/orchestration/phase_state.json.requirements`:
    - `status: "completed"`,
@@ -132,15 +184,27 @@ No production code should be written during `/plan`.
 ---
 ## 4. Next Steps – Execute with /orca
 
-After `/plan` completes, suggest:
+After `/plan` completes, suggest the matching `/orca-*` command with the **same tier**:
 
+| Plan Tier | Suggested Next Command |
+|-----------|------------------------|
+| `-tweak` | `/orca-{domain} -tweak Implement requirement <id>` |
+| (default) | `/orca-{domain} Implement requirement <id>` |
+| `-complex` | `/orca-{domain} -complex Implement requirement <id>` |
+
+Example output:
 ```
-/orca Implement requirement <id>
+✓ Spec complete: .claude/requirements/2025-11-27-1430-dark-mode/06-requirements-spec.md
+  Tier: default
+  Domain detected: nextjs
+
+Suggested next step:
+  /orca-nextjs Implement requirement dark-mode
 ```
 
-The unified `/orca` command will:
-1. Detect the spec at `requirements/<id>/06-requirements-spec.md`
-2. Auto-detect the pipeline (nextjs, ios, expo, shopify, etc.)
+The domain `/orca-*` command will:
+1. Detect the spec at `.claude/requirements/<id>/06-requirements-spec.md`
+2. Read the `tier` from spec metadata and match execution depth
 3. Pass the spec + RA tags to the grand architect
 4. Treat the spec as **source of truth** for requirements and planning
 

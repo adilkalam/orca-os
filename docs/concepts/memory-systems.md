@@ -1,6 +1,6 @@
 # Memory Systems
 
-OS 2.3 uses multiple memory systems to maintain context across sessions and provide relevant information to agents.
+OS 2.4 uses multiple memory systems to maintain context across sessions and provide relevant information to agents.
 
 ## Memory Architecture
 
@@ -97,7 +97,7 @@ mcp__project-context__query_context({
 
 ## Memory-First Pattern
 
-OS 2.3 checks fast, local memory before expensive queries:
+OS 2.4 checks fast, local memory before expensive queries:
 
 ```bash
 # Step 1: Check Workshop for relevant decisions/gotchas

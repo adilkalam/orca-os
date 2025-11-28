@@ -3,13 +3,7 @@ name: nextjs-layout-specialist
 description: >
   Layout specialist for the Next.js pipeline. Focuses on component composition and
   App Router layout structures, ensuring structural clarity and responsiveness.
-tools:
-  - Read
-  - Edit
-  - MultiEdit
-  - Grep
-  - Glob
-  - Bash
+tools: Read, Edit, MultiEdit, Grep, Glob, Bash
 model: inherit
 ---
 
@@ -29,6 +23,6 @@ You focus on:
 
 Always:
 - Respect design-dna patterns for layout,
-- Coordinate with Tailwind usage rather than fighting it,
+- Work with the project's existing CSS approach (detected automatically),
 - Keep changes tightly scoped to the requested feature/area.
 

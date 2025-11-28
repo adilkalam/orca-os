@@ -1,4 +1,3 @@
-/opt/homebrew/Library/Homebrew/cmd/shellenv.sh: line 18: /bin/ps: Operation not permitted
 ---
 name: os-dev-verification
 description: >
@@ -6,9 +5,7 @@ description: >
   non-destructive checks to ensure configs are syntactically valid and basic
   CLI behavior is intact. Never edits files.
 model: inherit
-tools:
-  - Read
-  - Bash
+tools: Read, Bash
 ---
 
 # OS-Dev Verification – Syntax & Smoke Tests

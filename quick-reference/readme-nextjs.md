@@ -1,11 +1,10 @@
-/opt/homebrew/Library/Homebrew/cmd/shellenv.sh: line 18: /bin/ps: Operation not permitted
-# OS 2.3 Next.js Lane Readme
+# OS 2.4 Next.js Lane Readme
 
 **Lane:** Next.js / Frontend  
 **Domain:** `nextjs`  
 **Entrypoints:** `/plan`, `/orca`, `/orca-nextjs`, `/project-memory`, `/project-code`
 
-This document explains how the Next.js lane works in Vibe OS 2.3:
+This document explains how the Next.js lane works in Vibe OS 2.4:
 
 - How planning and specs work (`/plan`)
 - How orchestration routes (`/orca`, `/orca-nextjs`)
@@ -39,7 +38,7 @@ Examples:
 For non‑trivial work, always start with `/plan`:
 
 - Creates a requirements folder:
-  - `requirements/YYYY-MM-DD-HHMM-<slug>/`
+  - `.claude/requirements/YYYY-MM-DD-HHMM-<slug>/`
 - Populates:
   - `00-initial-request.md`
   - Discovery & detail Q/A (`01–05-*`)
@@ -53,7 +52,7 @@ For **complex** Next.js tasks the spec is **required** before the full lane runs
 
 ### 2.2 Global Orchestrator – `/orca`
 
-`/orca` is the pure OS 2.3 orchestrator:
+`/orca` is the pure OS 2.4 orchestrator:
 
 - Checks Workshop + vibe.db first (memory‑first).
 - Checks for an active requirements spec.
@@ -74,22 +73,34 @@ File: `commands/orca-nextjs.md`
 - Accepts:
 
   ```bash
-  /orca-nextjs "add dark mode toggle"
-  /orca-nextjs -tweak "fix hero padding"
-  /orca-nextjs "implement requirement 2025-11-25-0930-dashboard"
+  /orca-nextjs "fix button spacing"                    # Default: light + gates
+  /orca-nextjs -tweak "try different padding"         # Tweak: light, no gates
+  /orca-nextjs --complex "implement auth flow"        # Complex: full pipeline
+  /orca-nextjs "implement requirement <id>"           # With spec
   ```
+
+- **Three-Tier Routing (OS 2.4):**
+
+  | Mode | Flag | Path | Gates |
+  |------|------|------|-------|
+  | **Default** | (none) | Light + Gates | YES |
+  | **Tweak** | `-tweak` | Light (pure) | NO |
+  | **Complex** | `--complex` | Full pipeline | YES |
 
 - Behavior:
   1. **Memory‑first context**: searches Workshop and unified memory for Next.js decisions and code.
-  2. **Complexity classification**:
-     - `simple` – one file, tiny tweak → light path.
-     - `medium` – single route/feature → full pipeline, spec recommended.
-     - `complex` – multi‑page/architecture/SEO/security → full pipeline, spec required.
+  2. **Flag detection**:
+     - No flag → **Default mode** (light path WITH gates)
+     - `-tweak` → **Tweak mode** (light path WITHOUT gates, user verifies)
+     - `--complex` → **Complex mode** (full pipeline, spec required)
   3. **Spec gating** (complex only):
-     - Requires `requirements/<id>/06-requirements-spec.md`.
+     - Requires `.claude/requirements/<id>/06-requirements-spec.md`.
   4. **Routing**:
-     - `simple` or `-tweak` → `nextjs-light-orchestrator`.
-     - `medium`/`complex` → full Next.js lane with grand‑architect and gates.
+     - Default/tweak → `nextjs-light-orchestrator` (gates on default only)
+     - Complex → full Next.js lane with grand‑architect and gates.
+       - In **CSS Architecture Refactor Mode**, complex runs an additional
+         `nextjs-css-architecture-gate` to score structural CSS/layout quality
+         (global vs local styles, @layer structure, design tokens, duplication).
 
 ---
 
@@ -127,10 +138,10 @@ Response Awareness:
 
 ### 4.1 Heavy Lane Agents (Full Pipeline)
 
-Core agents (all Sonnet except grand‑architect):
+Core agents (all Opus 4.5):
 
 - `agents/dev/nextjs-grand-architect.md`
-  - Opus, orchestrates the entire Next.js lane.
+  - Orchestrates the entire Next.js lane.
   - Chooses architecture path (App Router vs Pages, RSC vs client).
   - Assembles task force and coordinates phases.
 
@@ -146,7 +157,7 @@ Core agents (all Sonnet except grand‑architect):
 - `agents/dev/nextjs-builder.md`
   - Implements plan under constraints:
     - Edit‑not‑rewrite.
-    - Tailwind + design tokens; no inline styles.
+    - Design tokens; no inline styles. CSS-agnostic.
   - Emits `ra_events` during implementation.
 
 - `agents/dev/nextjs-standards-enforcer.md`
@@ -163,20 +174,21 @@ Core agents (all Sonnet except grand‑architect):
 
 Specialists:
 
-- `nextjs-tailwind-specialist`, `nextjs-layout-specialist`,
-  `nextjs-typescript-specialist`, `nextjs-performance-specialist`,
-  `nextjs-accessibility-specialist`, `nextjs-seo-specialist`
-  – all under `agents/dev/`.
+- `nextjs-css-specialist` (semantic CSS), `nextjs-tailwind-specialist` (if detected),
+  `nextjs-layout-specialist`, `nextjs-typescript-specialist`,
+  `nextjs-performance-specialist`, `nextjs-accessibility-specialist`,
+  `nextjs-seo-specialist` – all under `agents/dev/`.
 
 ### 4.2 Light Lane Agent
 
 - `agents/dev/nextjs-light-orchestrator.md`
-  - For `simple` / `-tweak` tasks.
+  - Handles **default** and **tweak** modes.
   - Simplified flow:
     - Minimal context (small ProjectContext or grep).
     - Route directly to `nextjs-builder` (+ at most one specialist).
-    - No phase_state, no gates, no verification agent.
-  - Escalates back to full `/orca-nextjs` when it detects hidden complexity.
+    - **Default mode**: Runs gates (`nextjs-standards-enforcer` + `nextjs-design-reviewer`)
+    - **Tweak mode** (`-tweak`): Skips gates (user verifies)
+  - Escalates back to full `/orca-nextjs --complex` when it detects hidden complexity.
 
 ---
 
@@ -211,7 +223,7 @@ Two primary commands:
 
 Unified memory search:
 
-- The OS 2.3 hooks and scripts provide a unified search that:
+- The OS 2.4 hooks and scripts provide a unified search that:
   - Queries Workshop and vibe.db together.
   - Is used by `/orca` and `/orca-nextjs` before ProjectContext.
 
@@ -234,11 +246,17 @@ promote new standards or adjust defaults.
 
 ## 8. Quick Mental Model
 
-For Next.js work in OS 2.3:
+For Next.js work in OS 2.4 (three-tier routing):
 
-- Small tweak → `/orca-nextjs -tweak "..."` → light orchestrator → builder.
-- Medium/complex → `/plan "..."` → `/orca "..."` → `/orca-nextjs` → grand‑architect → full pipeline.
+| Mode | Command | Path |
+|------|---------|------|
+| **Default** | `/orca-nextjs "fix spacing"` | Light + gates |
+| **Tweak** | `/orca-nextjs -tweak "try padding"` | Light, no gates |
+| **Complex** | `/orca-nextjs --complex "auth flow"` | Full pipeline |
+
+- **Most work**: Default mode (light path WITH gates)
+- **Exploration**: Tweak mode (light path, no gates, you verify)
+- **Features**: Complex mode (full pipeline, spec required)
 - Memory and RA run through everything:
   - Unified memory first.
   - Specs and RA tags guide architecture and gates.
-

@@ -1,35 +1,51 @@
-# Complexity Routing
+# Complexity Routing – OS 2.4 Three-Tier Structure
 
-OS 2.3 routes tasks based on complexity to optimize for speed (simple tasks) or thoroughness (complex tasks).
+OS 2.4 uses **three-tier routing** to optimize for speed while maintaining quality gates.
 
-## Complexity Tiers
+## Three-Tier Routing Table
 
-### Simple
-Single-file changes, minor tweaks, quick fixes.
+| Mode | Flag | Path | Gates | Use Case |
+|------|------|------|-------|----------|
+| **Default** | (none) | Light + Gates | YES | Most work – fast with quality |
+| **Tweak** | `-tweak` | Light (pure) | NO | Speed iteration, user verifies |
+| **Complex** | `--complex` | Full pipeline | YES | Architecture, multi-file, specs |
 
-**Indicators:**
-- Single file affected
-- Minor UI tweak (padding, color, text)
-- Small bugfix with obvious location
-- Copy/label changes
-- Keywords: "tweak", "fix", "adjust", "change" + single element
+**Key Inversion (v2.3):** Default now runs gates. Previous versions skipped them.
 
-**Route:** Light orchestrator → single specialist → done (skip gates)
+## Default Mode (Light + Gates)
 
-### Medium
-Modest changes across a few files, needs some verification.
+Most tasks take this path. Fast execution with automated quality checks.
 
 **Indicators:**
-- 2-5 files affected
+- 1-5 files affected
 - Single screen/section changes
-- New simple component
-- Some logic changes
-- Needs basic verification
+- UI tweaks, component updates
+- Copy/label changes
+- Simple logic changes
 
-**Route:** Full pipeline, spec recommended but not required
+**Route:** Light orchestrator → builder → gates → done
 
-### Complex
-Multi-file, architectural, or high-risk changes.
+**Gates run (domain-specific):**
+- Next.js: `nextjs-standards-enforcer` + `nextjs-design-reviewer`
+- iOS: `ios-standards-enforcer` + `ios-ui-reviewer`
+- Expo: `design-token-guardian` + `expo-aesthetics-specialist`
+- Shopify: `shopify-theme-checker`
+
+## Tweak Mode (`-tweak`)
+
+Pure speed path. User explicitly accepts responsibility for verification.
+
+**Use when:**
+- Rapid iteration
+- Exploring options
+- Minor adjustments
+- You'll verify yourself
+
+**Route:** Light orchestrator → builder → done (skip gates)
+
+## Complex Mode (`--complex`)
+
+Full pipeline with grand-architect planning.
 
 **Indicators:**
 - Multiple screens/flows
@@ -39,13 +55,44 @@ Multi-file, architectural, or high-risk changes.
 - Major refactoring
 - Keywords: "implement", "build", "create", "refactor" + feature/system
 
-**Route:** Full pipeline, spec REQUIRED
+**Route:** Full pipeline with spec requirement
 
-## Flags and Modes
+## Team Scaling by Mode
+
+Team size scales with routing mode:
+
+| Mode | Files | Agents | Team Composition |
+|------|-------|--------|------------------|
+| Default | 1-5 | 2-4 | Light orchestrator + builder + gates |
+| Tweak | 1-3 | 1-2 | Light orchestrator + builder only |
+| Complex | 5+ | 5-10 | Grand-architect + architect + builders + all gates |
+
+### Extended Thinking (Complex Mode)
+
+Grand-architects use thinking prompts for complex tasks:
+
+- "Let me think through the architecture and delegation strategy..."
+- "Think harder about the implications, dependencies, and potential failure modes..."
+
+This aligns with Anthropic best practices for complex reasoning tasks.
+
+## Flags Reference
+
+### No Flag (Default)
+
+Light path WITH quality gates:
+
+```bash
+/orca-ios "fix button padding"
+/orca-nextjs "update header text"
+/orca-shopify "adjust card spacing"
+```
+
+Fast execution + automated quality checks. Best for most work.
 
 ### `-tweak` Flag
 
-Force the light path regardless of classification:
+Light path WITHOUT gates (pure speed):
 
 ```bash
 /orca-ios -tweak "fix button padding"
@@ -53,11 +100,23 @@ Force the light path regardless of classification:
 /orca-shopify -tweak "adjust card spacing"
 ```
 
-Use when you know a task is simple and want to skip overhead.
+Use when iterating quickly and you'll verify yourself.
+
+### `--complex` Flag
+
+Force full pipeline with grand-architect:
+
+```bash
+/orca-ios --complex "implement new auth flow"
+/orca-nextjs --complex "build checkout module"
+/orca-shopify --complex "create new section type"
+```
+
+Auto-triggered for architectural/multi-file work. Requires spec.
 
 ### `--audit` Flag
 
-Enter deep audit mode - review without implementation:
+Review-only mode (no implementation):
 
 ```bash
 /orca-ios --audit              # Deep iOS codebase audit
@@ -73,7 +132,7 @@ Audit mode:
 - Suggests follow-up tasks
 - **Never modifies code**
 
-### Spec Gating
+### Spec Gating (Complex Mode)
 
 Complex tasks are blocked without a requirements spec:
 
@@ -87,7 +146,7 @@ Then return with:
   /orca-ios "implement requirement <id>"
 ```
 
-Specs live at: `requirements/<id>/06-requirements-spec.md`
+Specs live at: `.claude/requirements/<id>/06-requirements-spec.md`
 
 Created by `/plan`, consumed by domain orchestrators.
 
@@ -96,42 +155,42 @@ Created by `/plan`, consumed by domain orchestrators.
 ```
 Parse Arguments
     │
-    ├─ Contains "-tweak"? → Light Orchestrator
+    ├─ Contains "-tweak"? → Light Orchestrator (TWEAK MODE - no gates)
+    │
+    ├─ Contains "--complex"? → Grand-Architect (full pipeline)
     │
     ├─ Contains "--audit"? → Audit Mode
     │
-    └─ Otherwise:
+    └─ Otherwise (default):
         │
-        Classify Complexity
+        Assess Complexity
             │
-            ├─ SIMPLE → Light Orchestrator
+            ├─ SIMPLE/MEDIUM → Light Orchestrator (DEFAULT MODE - with gates)
             │
-            ├─ MEDIUM → Full Pipeline (spec recommended)
-            │
-            └─ COMPLEX:
+            └─ COMPLEX (detected):
                 │
-                ├─ Has spec? → Full Pipeline
+                ├─ Has spec? → Grand-Architect (full pipeline)
                 │
                 └─ No spec? → BLOCKED (run /plan first)
 ```
 
 ## Light Orchestrators
 
-Fast-path agents for simple tasks:
+Handle default and tweak modes:
 
-| Lane | Light Orchestrator |
-|------|-------------------|
-| iOS | `ios-light-orchestrator` |
-| Next.js | `nextjs-light-orchestrator` |
-| Expo | `expo-light-orchestrator` |
-| Shopify | `shopify-light-orchestrator` |
+| Lane | Light Orchestrator | Gates |
+|------|-------------------|-------|
+| iOS | `ios-light-orchestrator` | `ios-standards-enforcer`, `ios-ui-reviewer` |
+| Next.js | `nextjs-light-orchestrator` | `nextjs-standards-enforcer`, `nextjs-design-reviewer` |
+| Expo | `expo-light-orchestrator` | `design-token-guardian`, `expo-aesthetics-specialist` |
+| Shopify | `shopify-light-orchestrator` | `shopify-theme-checker` |
 
 Light orchestrators:
-- Skip team confirmation
+- **DEFAULT mode**: builder → gates → report
+- **TWEAK mode**: builder → report (skip gates)
 - Quick context (direct file read, minimal ProjectContext)
-- Single specialist delegation
-- Skip gates and verification
-- Return summary directly
+- Ephemeral phase_state (scores for current run only)
+- No team confirmation ceremony
 
 ## See Also
 

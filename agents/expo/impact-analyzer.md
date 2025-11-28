@@ -1,10 +1,7 @@
 ---
 name: impact-analyzer
 description: Predicts change impact across React Native/Expo codebase through dependency analysis. Identifies affected components, screens, and tests. Recommends testing scope and highlights high-risk changes.
-tools:
-  - Read
-  - Grep
-  - Bash
+tools: Read, Grep, Bash
 model: inherit
 
 # OS 2.0 Constraint Framework

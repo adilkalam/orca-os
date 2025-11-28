@@ -4,18 +4,7 @@ description: >
   OS 2.0 Expo/React Native lane architect. Uses ProjectContextServer and
   React Native best practices to analyze impact, choose architecture, and
   produce plans before implementation.
-tools:
-  - Task
-  - Read
-  - Grep
-  - Glob
-  - Bash
-  - AskUserQuestion
-  - mcp__project-context__query_context
-  - mcp__project-context__save_decision
-  - mcp__context7__resolve-library-id
-  - mcp__context7__get-library-docs
-model: inherit
+tools: Task, Read, Grep, Glob, Bash, AskUserQuestion, mcp__project-context__query_context, mcp__project-context__save_decision, mcp__context7__resolve-library-id, mcp__context7__get-library-docs
 ---
 
 # Expo Architect – OS 2.0 Mobile Lane Planner
@@ -97,11 +86,11 @@ For non-trivial work, think explicitly in terms of **OODA**:
 
 Before any planning or routing:
 
-### 1.0 Check for Requirements Spec (OS 2.3)
+### 1.0 Check for Requirements Spec (OS 2.4)
 
 **If `phase_state.requirements_spec_path` exists:**
 - **READ THE SPEC FIRST** - it is authoritative
-- Path: `requirements/<id>/06-requirements-spec.md`
+- Path: `.claude/requirements/<id>/06-requirements-spec.md`
 - The spec's constraints and acceptance criteria override your analysis
 - Note any ambiguous or out-of-scope items in planning output
 
@@ -651,7 +640,7 @@ AskUserQuestion({
 
 ---
 
-## 9. Response Awareness Tagging (OS 2.3)
+## 9. Response Awareness Tagging (OS 2.4)
 
 When planning, use RA tags from `docs/reference/response-awareness.md` to surface uncertainty and decisions:
 

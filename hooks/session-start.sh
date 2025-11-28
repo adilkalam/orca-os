@@ -198,6 +198,26 @@ if [ "$WORKSHOP_STATUS" = "loaded" ] && command -v workshop >/dev/null 2>&1; the
   echo ""
 fi
 
+# Architecture reminder for this repo
+echo ""
+echo "═══════════════════════════════════════════════════════════"
+echo "OS 2.4 ARCHITECTURE - ALWAYS CONSIDER ALL LAYERS"
+echo "═══════════════════════════════════════════════════════════"
+echo ""
+echo "When modifying orchestration behavior, you MUST update ALL affected layers:"
+echo ""
+echo "  1. commands/*.md          → Entry points (orca-*, plan, etc.)"
+echo "  2. agents/**/*.md         → Implementation (orchestrators, builders, reviewers)"
+echo "  3. docs/pipelines/*.md    → Pipeline documentation"
+echo "  4. docs/reference/phase-configs/*.yaml → Phase definitions"
+echo "  5. docs/concepts/*.md     → Conceptual docs (routing, RA, etc.)"
+echo ""
+echo "These are NOT independent. A routing change affects ALL layers."
+echo "Before finalizing any spec, enumerate EVERY file that needs updating."
+echo ""
+echo "═══════════════════════════════════════════════════════════"
+echo ""
+
 # Output CLAUDE.md contents so Claude actually reads and follows instructions
 if [ -n "$NATIVE_PATH" ]; then
   echo ""

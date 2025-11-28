@@ -1,13 +1,7 @@
 ---
 name: seo-brief-strategist
 description: "Transform research pack into production-ready SEO content brief with strategic refinement"
-tools:
-  - Read
-  - Write
-  - Edit
-  - mcp__project-context__query_context
-  - mcp__project-context__save_decision
-model: inherit
+tools: Read, Write, Edit, mcp__project-context__query_context, mcp__project-context__save_decision
 
 # OS 2.0 Constraint Framework
 required_context:

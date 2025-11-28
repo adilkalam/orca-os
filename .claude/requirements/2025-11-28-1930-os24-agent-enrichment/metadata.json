@@ -1,0 +1,42 @@
+{
+  "id": "os24-agent-enrichment",
+  "started": "2025-11-28T19:30:00Z",
+  "lastUpdated": "2025-11-28T19:45:00Z",
+  "status": "complete",
+  "phase": "complete",
+  "tier": "complex",
+  "specPath": ".claude/requirements/2025-11-28-1930-os24-agent-enrichment/06-requirements-spec.md",
+  "progress": {
+    "discovery": { "answered": 4, "total": 4 },
+    "detail": { "answered": 4, "total": 4 }
+  },
+  "contextFiles": [
+    ".claude/research/reports/local-research-catalog-2025-11-28.md",
+    "agents/dev/nextjs-builder.md",
+    "agents/iOS/ios-builder.md",
+    "agents/research/research-lead-agent.md",
+    "agents/data/data-researcher.md",
+    "skills/frontend-aesthetics/SKILL.md"
+  ],
+  "relatedFeatures": [
+    "Response Awareness tags",
+    "ProjectContext MCP",
+    "Agent tools format (comma-separated)",
+    "Design DNA skill"
+  ],
+  "researchSources": {
+    "systemPrompts": {
+      "v0": "_explore/_system-prompts/VERCEL V0/v0/2025-08-11-prompt.md",
+      "cursor": "_explore/_system-prompts/CURSOR/Cursor Prompts/Agent Prompt 2025-09-03.txt",
+      "lovable": "_explore/_system-prompts/LOVABLE/Loveable/Prompt.md",
+      "perplexity": "_explore/_system-prompts/PERPLEXITY/Perplexity_Deep_Research.txt",
+      "codex": "_explore/_system-prompts/_OpenAI/Codex/Codex_Sep-15-2025.md",
+      "devin": "_explore/_system-prompts/DEVIN/Devin_2.0.md",
+      "bolt": "_explore/_system-prompts/BOLT/Bolt.new/prompts.ts",
+      "replit": "_explore/_system-prompts/CL4R1T4S-main/CL4R1T4S-main/REPLIT/Replit_Agent.md"
+    },
+    "agents": {
+      "swiftAgents": "_explore/_AGENTS/iOS/swift-agents-plugin-main/"
+    }
+  }
+}

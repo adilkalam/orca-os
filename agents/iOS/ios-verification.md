@@ -3,10 +3,7 @@ name: ios-verification
 description: >
   Build/test gate. Runs xcodebuild (preferably via XcodeBuildMCP) for target
   scheme/device, captures build + test status, and reports succinctly.
-tools:
-  - Read
-  - Bash
-model: inherit
+tools: Read, Grep, Bash, mcp__XcodeBuildMCP__buildProject, mcp__XcodeBuildMCP__runTests, mcp__XcodeBuildMCP__listSimulators, mcp__XcodeBuildMCP__bootSimulator, mcp__XcodeBuildMCP__getSimulatorStatus, mcp__XcodeBuildMCP__listSchemes
 ---
 
 # iOS Verification – Build & Test Gate

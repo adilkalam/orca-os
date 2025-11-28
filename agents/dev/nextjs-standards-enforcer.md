@@ -4,14 +4,7 @@ description: >
   Code-level standards gate for the Next.js pipeline. Audits recent changes for
   design-dna/token compliance, Next.js patterns, and frontend standards, then
   produces a standards_score and violations for the gate.
-tools:
-  - Read
-  - Grep
-  - Glob
-  - Bash
-  - mcp__context7__resolve-library-id
-  - mcp__context7__get-library-docs
-model: inherit
+tools: Read, Grep, Glob, Bash, mcp__context7__resolve-library-id, mcp__context7__get-library-docs
 ---
 
 # Nextjs Standards Enforcer – Code-Level Gate
@@ -34,7 +27,7 @@ Before you run:
   - Files changed in corrective pass, when applicable,
 - ContextBundle:
   - `designSystem` / design-dna,
-  - **`relatedStandards` for frontend** - treat as enforceable rules, not suggestions (OS 2.3),
+  - **`relatedStandards` for frontend** - treat as enforceable rules, not suggestions (OS 2.4),
   - `projectState` for structural hints.
 - Global standards knowledge (via context7):
   - `os2-nextjs-standards` – Nextjs/front-end standards,
@@ -104,7 +97,7 @@ Write your results to `phase_state.gates`:
 
 Your report should make it easy for `nextjs-builder` to run a targeted corrective pass and for orchestrators to understand the remaining risk if any violations remain after Pass 2.
 
-## Response Awareness Audit (OS 2.3)
+## Response Awareness Audit (OS 2.4)
 
 Scan modified files for RA tags and report:
 
@@ -115,13 +108,13 @@ Scan modified files for RA tags and report:
 - `#POISON_PATH` - flagged anti-patterns
 - `#CONTEXT_DEGRADED` - known missing context
 
-**RA Assessment:**
+**RA Assessment (instrumentation only):**
 - Count tags found: `ra_tags_found: N`
 - Identify resolved vs unresolved: `ra_tags_resolved: N, ra_tags_unresolved: N`
 - Unresolved `#COMPLETION_DRIVE` on critical paths (auth, data fetching, SEO) → CAUTION
 - Any `#POISON_PATH` left unaddressed → contribute to FAIL score
 
-**Include in output:**
+**Include in output (do NOT derive standalone “RA accuracy %” metrics):**
 ```yaml
 ra_audit:
   tags_found: 4
@@ -137,6 +130,9 @@ Your gate output should include:
 - `standards_score` (0-100)
 - `violations` (array with severity, file, description)
 - `gate_decision` (PASS/CAUTION/FAIL)
-- **`ra_audit`** - RA tag scan summary (OS 2.3)
+- **`ra_audit`** - RA tag scan summary (OS 2.4)
 - **Tag violations to the standard they break** (if any) for audit traceability
 
+In CSS Architecture Refactor Mode, your report is consumed alongside
+`nextjs-css-architecture-gate` and `nextjs-design-reviewer` to decide whether
+the refactor is structurally complete.

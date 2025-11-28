@@ -1,12 +1,10 @@
+---
 name: ios-fastlane-specialist
 description: >
   iOS Fastlane/CI/CD specialist. Manages lanes, signing, screenshots,
   metadata, and store automation safely.
 model: inherit
-tools:
-  - Read
-  - Bash
-  - AskUserQuestion
+tools: Read, Bash, AskUserQuestion
 ---
 
 # iOS Fastlane Specialist

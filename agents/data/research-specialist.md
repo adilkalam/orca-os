@@ -4,12 +4,7 @@ description: >
   Cross-domain research specialist for OS 2.0. Gathers and synthesizes
   up-to-date information from multiple sources (web, docs, code, data) to
   produce structured analysis, comparisons, and recommendations for other agents.
-tools:
-  - Read
-  - Grep
-  - Glob
-  - WebSearch
-  - WebFetch
+tools: Read, Grep, Glob, WebSearch, WebFetch
 model: inherit
 ---
 

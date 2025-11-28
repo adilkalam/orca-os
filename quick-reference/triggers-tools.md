@@ -1,11 +1,11 @@
-# Natural Language Triggers and Tools (OS 2.2)
+# Natural Language Triggers and Tools (OS 2.4)
 
-**Version:** OS 2.2
+**Version:** OS 2.4
 **Last Updated:** 2025-11-24
 
 Say what you want; map to the right command.
 
-## Common Triggers → Actions (OS 2.2)
+## Common Triggers → Actions (OS 2.4)
 
 ### Planning & Implementation
 - "Plan this feature" → `/plan "feature description"`
@@ -34,12 +34,12 @@ Say what you want; map to the right command.
 - "Help me think this through" → `/ultra-think "problem description"`
 - "Analyze this data" → `/orca-data "analysis request"`
 
-## OS 2.2 Workflow Patterns
+## OS 2.4 Workflow Patterns
 
 ### Standard Feature Implementation
 ```
 1. /plan "feature description"
-   → Creates requirements/<id>/06-requirements-spec.md
+   → Creates .claude/requirements/<id>/06-requirements-spec.md
 
 2. /orca-nextjs "implement requirement <id>"
    OR /orca-ios "implement requirement <id>"
@@ -68,7 +68,7 @@ Say what you want; map to the right command.
    → Execution with awareness
 ```
 
-## Tips for OS 2.2
+## Tips for OS 2.4
 
 ### Do This
 - **Start with `/plan`** for any non-trivial feature
@@ -125,7 +125,7 @@ Say what you want; map to the right command.
 
 These old patterns now map to new commands:
 
-| Old Trigger | Old Command | New Command (OS 2.2) |
+| Old Trigger | Old Command | New Command (OS 2.4) |
 |-------------|-------------|----------------------|
 | "Plan this carefully first" | `/response-awareness-plan` | `/plan` |
 | "Implement the approved blueprint" | `/response-awareness-implement` | `/orca-{domain} "implement requirement <id>"` |
@@ -135,4 +135,4 @@ These old patterns now map to new commands:
 
 ---
 
-_OS 2.2 simplifies workflows: `/plan` → `/orca` → `/audit` replaces 8+ fragmented commands_
+_OS 2.4 simplifies workflows: `/plan` → `/orca` → `/audit` replaces 8+ fragmented commands_

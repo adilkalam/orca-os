@@ -1,10 +1,10 @@
-# Shopify Pipeline Phase Configuration - OS 2.3
+# Shopify Pipeline Phase Configuration - OS 2.4
 # Shopify Theme Development Workflow
 
 pipeline:
   name: shopify
   description: Shopify theme development pipeline with design token enforcement and RA integration
-  version: 2.3
+  version: 2.4
 
 # Context Integration (MANDATORY)
 context:
@@ -14,18 +14,48 @@ context:
   memory_first: true          # Check Workshop/vibe.db before ProjectContext
   domain: shopify
 
-# Complexity Routing
-complexity:
-  simple:
-    route: shopify-light-orchestrator
-    skip_gates: true
-    skip_verification: true
-  medium:
-    route: shopify-grand-architect
-    spec_recommended: true
+# Three-Tier Routing (OS 2.4)
+# Default now runs gates. -tweak skips gates. --complex forces full pipeline.
+complexity_tiers:
+  default:
+    description: Light path WITH quality gates (most work)
+    flag: "(none)"
+    routing: shopify-light-orchestrator
+    mode: default  # Runs gates
+    spec_required: false
+    gates_required: true   # DEFAULT NOW RUNS GATES
+    gates:
+      - shopify-theme-checker
+    examples:
+      - Fix card spacing
+      - Update button color
+      - Change text label
+      - Minor CSS tweaks
+
+  tweak:
+    description: Light path WITHOUT gates (pure speed)
+    flag: "-tweak"
+    routing: shopify-light-orchestrator
+    mode: tweak  # Skips gates
+    spec_required: false
+    gates_required: false  # User verifies
+    examples:
+      - Rapid iteration
+      - Exploring options
+      - Quick experiments
+
   complex:
-    route: shopify-grand-architect
-    spec_required: true        # Must have requirements/<id>/06-requirements-spec.md
+    description: Full pipeline with grand-architect
+    flag: "--complex"
+    routing: full_pipeline
+    mode: complex
+    spec_required: true    # BLOCKS without spec
+    gates_required: true
+    examples:
+      - New section with schema
+      - Cart drawer component
+      - Multi-file JS work
+      - Theme-wide changes
 
 # Pipeline Phases
 phases:

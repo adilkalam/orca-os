@@ -1,5 +1,5 @@
 /opt/homebrew/Library/Homebrew/cmd/shellenv.sh: line 18: /bin/ps: Operation not permitted
-# OS 2.3 OS-Dev Lane Readme
+# OS 2.4 OS-Dev Lane Readme
 
 **Lane:** OS / Tooling Configuration  
 **Domain:** `os-dev`  
@@ -7,7 +7,7 @@
 
 This readme explains the OS-Dev lane, which manages changes to:
 
-- Vibe OS 2.3 orchestration behavior
+- Vibe OS 2.4 orchestration behavior
 - Claude Code commands, agents, skills, MCPs, hooks
 - Memory integration behavior
 
@@ -21,7 +21,7 @@ application code:
 - Add/modify lanes and phase configs
 - Add or reconfigure MCPs
 - Add OS‑level skills or adjust their usage
-- Tweak hooks, scripts, and safety defaults for OS 2.3
+- Tweak hooks, scripts, and safety defaults for OS 2.4
 
 ---
 
@@ -77,4 +77,3 @@ For concrete usage, see:
 
 - `commands/orca-os-dev.md`
 - `docs/architecture/os-dev-standards.md`
-

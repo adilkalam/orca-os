@@ -4,10 +4,7 @@ description: >
   Competitive analysis specialist for OS 2.0. Performs structured competitor,
   market, and positioning analysis to support strategy, marketing, and product
   decisions.
-tools:
-  - Read
-  - WebSearch
-  - WebFetch
+tools: Read, WebSearch, WebFetch
 model: inherit
 ---
 

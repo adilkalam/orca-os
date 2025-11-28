@@ -1,0 +1,20 @@
+{
+  "domain": "os-dev",
+  "current_phase": "intake",
+  "requirement_id": "2025-11-27-orca-flag-inversion",
+  "requirements_spec_path": "requirements/2025-11-27-orca-flag-inversion/06-requirements-spec.md",
+  "intake": {
+    "task_summary": "Implement three-tier flag inversion for /orca-* commands (default=light+gates, -tweak=light-no-gates, --complex=full) plus verification enforcement (pixel measurement, explicit comparison, claim language) across ~30 files",
+    "complexity_tier": "complex",
+    "initial_risks": [
+      "Large scope (~30 files) increases coordination risk",
+      "Must update commands, agents, docs, and phase-configs in sync",
+      "Verification protocols must be consistent across all reviewer agents",
+      "Deploy to ~/.claude must include all changes"
+    ]
+  },
+  "team_confirmed": {
+    "pipeline": "full",
+    "agents": ["os-dev-grand-architect", "os-dev-architect", "os-dev-builder", "os-dev-standards-enforcer", "os-dev-verification"]
+  }
+}

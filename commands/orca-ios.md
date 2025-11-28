@@ -1,5 +1,5 @@
 ---
-description: "OS 2.3 orchestrator entrypoint for native iOS tasks"
+description: "OS 2.4 orchestrator entrypoint for native iOS tasks"
 argument-hint: "[-tweak] <task description or requirement ID>"
 allowed-tools:
   - Task
@@ -13,15 +13,16 @@ allowed-tools:
   - Glob
 ---
 
-# /orca-ios – iOS Lane Orchestrator (OS 2.3)
+# /orca-ios – iOS Lane Orchestrator (OS 2.4)
 
 Use this command for native iOS work (Swift/SwiftUI/UIKit, Xcode, device features).
 
 ## Usage
 
 ```bash
-/orca-ios "add haptic feedback to save button"       # Auto-routes based on complexity
-/orca-ios -tweak "fix button padding"                # Force light path
+/orca-ios "add haptic feedback to save button"       # Default: light path + design gates
+/orca-ios -tweak "fix button padding"                # Fast: light path, no gates
+/orca-ios --complex "multi-screen feature"           # Full: grand-architect + all gates
 /orca-ios "implement requirement 2025-11-25-0930-workspace-sharing"  # Full path with spec
 ```
 
@@ -39,15 +40,17 @@ Use this command for native iOS work (Swift/SwiftUI/UIKit, Xcode, device feature
 
 ## 0. Parse Arguments & Detect Mode
 
-**Check for `-tweak` flag:**
+**Check for flags:**
 ```
-$ARGUMENTS contains "-tweak" → FORCE light path (skip to Section 2)
+$ARGUMENTS contains "-tweak" → Fast path (light, no gates)
+$ARGUMENTS contains "--complex" → Full path (grand-architect, all gates)
+No flag → Default path (light + design gates)
 ```
 
 **Check for requirement ID:**
 ```
 $ARGUMENTS matches "requirement <id>" or "<YYYY-MM-DD-HHMM-*>"
-  → Look for requirements/<id>/06-requirements-spec.md
+  → Look for .claude/requirements/<id>/06-requirements-spec.md
   → If found, this is a SPEC-DRIVEN task (see Section 1.3)
 ```
 
@@ -60,6 +63,28 @@ $ARGUMENTS contains "--audit"
 
 If `--audit` is present, run the Deep Audit flow in Section 0.5 and then
 return a report instead of implementing changes.
+
+**Check for visual context (UI tasks):**
+```
+If task involves UI/UX (keywords: "UI", "layout", "styling", "broken", "fucked", "spacing", "visual"):
+  → Check if user attached screenshot/image
+  → If YES: record has_visual_reference: true
+  → If NO: record has_visual_reference: false (grand-architect will diagnose first)
+```
+
+Record in phase_state:
+```json
+{
+  "visual_context": {
+    "has_visual_reference": true|false,
+    "user_provided_screenshot": true|false,
+    "needs_diagnosis": true|false
+  }
+}
+```
+
+This is passed to grand-architect who uses it to decide whether to run
+ios-ui-reviewer in DIAGNOSE mode before implementation.
 
 ---
 
@@ -198,7 +223,7 @@ Options:
 **If complexity_tier == "complex":**
 
 1. Check if request references a requirement ID
-2. Look for `requirements/<id>/06-requirements-spec.md`
+2. Look for `.claude/requirements/<id>/06-requirements-spec.md`
 3. **If spec NOT found:**
    ```
    ⛔ BLOCKED: Complex task requires a spec.
@@ -216,47 +241,130 @@ Options:
 
 ---
 
-## 2. Routing Decision
+## 2. Flag Routing
 
-Based on complexity_tier:
-
-### Route A: Light Path (simple OR -tweak flag)
+### Default (no flag) - Light Path WITH Design Gates
 
 Delegate to `ios-light-orchestrator`:
 
 ```
 Task({
   subagent_type: "ios-light-orchestrator",
-  description: "Light iOS task: <short description>",
+  description: "iOS task with design verification",
   prompt: `
-Handle this simple iOS task via the light path.
+Handle this iOS task via the light path WITH design verification gates.
 
 REQUEST: $ARGUMENTS
 
 MEMORY CONTEXT (if any):
 <memory hits from 1.1>
 
-Skip heavy ceremony. Route to ios-builder + specialists as needed.
-Report what was changed and any follow-up notes.
+ROUTING MODE: default (light + gates)
+- Run ios-builder + specialists
+- Run design verification gates (standards-enforcer, ui-reviewer)
+- Ephemeral phase_state only (scores for this run, no ceremony)
+- NO grand-architect, NO spec requirement
   `
 })
 ```
 
-**Done.** Light orchestrator handles the rest. No phase_state, no gates.
+---
+
+### -tweak Flag - Light Path WITHOUT Gates (Pure Speed)
+
+1. Memory-first context only (skip ProjectContext)
+2. Delegate directly to `ios-builder`
+3. Basic verification (build/lint)
+4. NO design verification gates
+
+**Fallback:** If memory can't locate files, MAY use narrow ProjectContext (maxFiles: 3)
+
+```
+Task({
+  subagent_type: "ios-builder",
+  description: "Fast iOS tweak (no gates)",
+  prompt: `
+Quick fix without design verification.
+
+REQUEST: $ARGUMENTS
+
+MEMORY CONTEXT (if any):
+<memory hits from 1.1>
+
+ROUTING MODE: tweak (pure speed)
+- Make the change
+- Basic verification only
+- NO gates, NO UI review
+  `
+})
+```
 
 ---
 
-### Route B: Full Pipeline (medium/complex)
+### --complex Flag - Full Pipeline (Grand-Architect + All Gates)
 
-Continue with full orchestration below.
+Continue with full orchestration below (Section 3).
 
 ---
 
 ## 3. Full Pipeline Flow
 
-### 3.0 Team Confirmation (MANDATORY)
+### 3.0 Complexity Detection (Effort Scaling)
 
-Use AskUserQuestion to confirm:
+Before confirming the team, assess task complexity:
+
+#### Detection Heuristics
+
+**Count affected scope:**
+1. Estimate files likely to be created/modified
+2. Count distinct concerns (UI, data, auth, networking, etc.)
+3. Check for cross-cutting requirements
+
+**Assign complexity tier:**
+
+| Tier | Files | Concerns | Agents | Team Composition |
+|------|-------|----------|--------|------------------|
+| `simple` | 1-2 | 1 | 1-2 | Light orchestrator only (skip grand-architect) |
+| `medium` | 3-10 | 2-3 | 3-5 | Grand-architect + architect + builder + 1-2 specialists |
+| `complex` | 10+ | 4+ | 5-10 | Full team + all gates + verification |
+
+**Automatic tier detection:**
+- Single file change → `simple`
+- Feature touching one module → `medium`
+- Feature spanning multiple modules → `complex`
+- Any security/auth work → minimum `medium`
+- Performance optimization → minimum `medium`
+- Architecture changes → `complex`
+
+#### Team Size Scaling
+
+Based on `complexity_tier`, adjust the team presented for confirmation:
+
+**simple:**
+- Skip full pipeline
+- Use: `ios-builder` only
+- Skip: grand-architect, verification, most gates
+
+**medium:**
+- Standard pipeline
+- Use: grand-architect → architect → builder → standards-enforcer
+- Optional: verification (recommend but don't require)
+
+**complex:**
+- Full pipeline with all specialists
+- Use: grand-architect → architect → builder → ALL specialists → ALL gates → verification
+- Required: verification, all standards gates
+- Consider: parallel specialist execution
+
+Record `complexity_tier` in `phase_state.intake.complexity_tier` before proceeding.
+
+---
+
+### 3.1 Team Confirmation (MANDATORY - BLOCKING)
+
+**DO NOT PROCEED TO SECTION 3.2 WITHOUT USER CONFIRMATION**
+
+Use AskUserQuestion to confirm. **WAIT FOR RESPONSE.**
 
 ```
 Detected: iOS task (complexity: medium/complex)
@@ -270,10 +378,10 @@ Proposed Pipeline:
 6. Verification (ios-verification)
 
 Proposed Agents:
-- ios-grand-architect (Opus)
+- ios-grand-architect
 - ios-architect
 - ios-builder
-- [specialists based on task]
+- [specialists based on task - see 3.1.1]
 - ios-standards-enforcer
 - ios-ui-reviewer
 - ios-verification
@@ -284,7 +392,34 @@ Options:
 - Switch to light path (-tweak)
 ```
 
-### 3.1 Context Query
+**After presenting this:**
+1. STOP and wait for user response
+2. If user says "proceed" → continue to 3.2
+3. If user modifies team → update and re-confirm
+4. If user rejects → STOP pipeline
+
+**Anti-patterns (WRONG):**
+- Showing the team then immediately delegating to grand-architect
+- "I'll proceed with this team..." without waiting
+- Any delegation before explicit user confirmation
+
+#### 3.1.1 Intent-Aware Specialist Selection
+
+**Before proposing specialists, check task intent:**
+
+| Task Intent | EXCLUDE from team | USE instead |
+|-------------|-------------------|-------------|
+| "remove/migrate from UIKit" | `ios-uikit-specialist` | `ios-swiftui-specialist` |
+| "remove/eliminate Combine" | — | Use async/await patterns |
+| "audit/review" (not implement) | `ios-builder` | Appropriate reviewer/enforcer agents |
+| "security audit" | `ios-builder` | `ios-security-specialist` |
+| "performance audit" | `ios-builder` | `ios-performance-specialist` |
+
+**Detection keywords:**
+- "remove", "eliminate", "get rid of", "migrate away from", "replace" → EXCLUDE that specialist
+- "audit", "review", "analyze", "check" → Use reviewers, NOT builders
+
+### 3.2 Context Query
 
 Call ProjectContextServer (unless memory-first gave sufficient context):
 
@@ -314,7 +449,7 @@ Initialize phase_state.json:
 }
 ```
 
-### 3.2 Grand Architect (Opus)
+### 3.3 Grand Architect (Opus)
 
 Delegate to `ios-grand-architect`:
 
@@ -322,6 +457,13 @@ Inputs:
 - ContextBundle
 - Memory summary
 - Requirements spec (if complex)
+- **Visual context** (from Section 0):
+  - `has_visual_reference`: Did user provide screenshot?
+  - `needs_diagnosis`: Should reviewer diagnose first?
+
+**CRITICAL:** Grand-architect will use visual context to decide flow:
+- If `has_visual_reference: true` → Builder gets user's visual context directly
+- If `needs_diagnosis: true` → Run `ios-ui-reviewer` in DIAGNOSE mode first
 
 Outputs:
 - Architecture path (SwiftUI vs MVVM/TCA/UIKit)
@@ -332,7 +474,7 @@ Outputs:
 
 Save decision via `mcp__project-context__save_decision`.
 
-### 3.3 Planning (ios-architect)
+### 3.4 Planning (ios-architect)
 
 Delegate to `ios-architect`:
 
@@ -349,7 +491,7 @@ Outputs:
 
 Update phase_state.planning.
 
-### 3.4 Implementation (ios-builder + specialists)
+### 3.5 Implementation (ios-builder + specialists)
 
 Delegate to `ios-builder`:
 
@@ -363,7 +505,7 @@ Specialists as needed:
 
 Update phase_state.implementation_pass1.
 
-### 3.5 Gates
+### 3.6 Gates
 
 Run gate agents:
 
@@ -383,7 +525,7 @@ Update phase_state.gates.
 
 **If gates fail:** Allow one corrective pass (implementation_pass2) scoped to violations only.
 
-### 3.6 Completion
+### 3.7 Completion
 
 - Summarize gate scores, verification results, risks
 - Save task history via `mcp__project-context__save_task_history`
@@ -402,16 +544,24 @@ Update phase_state.gates.
 
 2. Acknowledge and process new information
 
-3. **DO NOT ABANDON PIPELINE:**
+3. **RE-CONFIRM BEFORE RESUMING (MANDATORY):**
+   - Present updated plan based on feedback
+   - Use AskUserQuestion or orca-confirm skill
+   - Get explicit "proceed" before delegating
+   - **NEVER resume delegation without confirmation**
+
+4. **DO NOT ABANDON PIPELINE:**
    - You are STILL orchestrating
-   - Resume from current phase
+   - Resume from current phase AFTER confirmation
    - Delegate to appropriate agent
 
-4. **Anti-Pattern Detection:**
+5. **Anti-Pattern Detection:**
    - "Let me write this code" → WRONG. Delegate to ios-builder
    - "I'll fix this directly" → WRONG. Delegate to specialist
    - Using Edit/Write tools → WRONG. You're an orchestrator
-   - "Based on feedback, delegating to ios-builder..." → CORRECT
+   - Resuming without confirmation → WRONG. Must re-confirm first
+   - "Based on feedback, re-confirming plan..." → CORRECT
+   - "Based on feedback, delegating to ios-builder..." → WRONG (skipped confirmation)
 
 ---
 
@@ -422,3 +572,5 @@ Update phase_state.gates.
 - Keep edits scoped; no scope creep
 - Complex tasks MUST have specs
 - Simple tasks use light path for speed
+- All agents use Opus 4.5 (default model)
+- **Visual Context Flow:** If UI task has no screenshot, diagnose before building

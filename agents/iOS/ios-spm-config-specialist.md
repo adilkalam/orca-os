@@ -4,12 +4,7 @@ description: >
   iOS Swift Package Manager and Xcode config specialist. Manages Package.swift,
   dependencies, Package.resolved hygiene, xcconfig/schemes/test plans.
 model: inherit
-tools:
-  - Read
-  - Edit
-  - Grep
-  - Glob
-  - Bash
+tools: Read, Edit, Grep, Glob, Bash
 ---
 
 # iOS SPM / Config Specialist

@@ -1,13 +1,13 @@
 # Shopify Domain Pipeline
 
-**Status:** OS 2.3 Core Pipeline
-**Last Updated:** 2025-11-25
+**Status:** OS 2.4 Core Pipeline
+**Last Updated:** 2025-11-27
 
 ## Overview
 
 The Shopify pipeline handles **Shopify theme development** using Liquid templating, CSS tokens, Web Components, and Online Store 2.0 patterns. It combines:
 
-- OS 2.3 primitives (ProjectContextServer, phase_state.json, Workshop, constraint framework)
+- OS 2.4 primitives (ProjectContextServer, phase_state.json, Workshop, constraint framework)
 - Memory-first context (Workshop + vibe.db checked before ProjectContext)
 - Complexity-based routing (simple → light orchestrator, medium/complex → full pipeline)
 - Shopify specialist agents (CSS, Liquid, sections, JS, verification)
@@ -32,7 +32,53 @@ If the request is for:
 
 ---
 
-## Pipeline Architecture
+## Three-Tier Routing (OS 2.4)
+
+The Shopify pipeline uses three-tier routing:
+
+| Mode | Flag | Path | Gates | Use Case |
+|------|------|------|-------|----------|
+| **Default** | (none) | Light + Gates | YES | Most work – fast with quality |
+| **Tweak** | `-tweak` | Light (pure) | NO | Speed iteration, user verifies |
+| **Complex** | `--complex` | Full pipeline | YES | Architecture, multi-file, specs |
+
+### Default Mode (Light + Gates)
+
+Most tasks take this path. Fast execution with automated quality checks.
+
+```bash
+/orca-shopify "fix card spacing"        # → light orchestrator → specialist → gates
+/orca-shopify "update button color"     # → light orchestrator → specialist → gates
+```
+
+**Gate run:** `shopify-theme-checker`
+
+### Tweak Mode (`-tweak`)
+
+Pure speed path. User explicitly accepts responsibility for verification.
+
+```bash
+/orca-shopify -tweak "fix padding"        # → light orchestrator → specialist → done
+```
+
+### Complex Mode (`--complex`)
+
+Full pipeline with grand-architect planning. Spec required.
+
+```bash
+/orca-shopify --complex "implement new section"   # → full pipeline
+/orca-shopify "build cart drawer component"       # Auto-routes to --complex
+```
+
+| Tier | Files | Spec Required | Example |
+|------|-------|---------------|---------|
+| Default | 1-3 | No | Fix spacing, update color, change text |
+| Tweak | 1-2 | No | Rapid iteration, exploring options |
+| Complex | 3+ | **Required** | New sections, JS components, cart work |
+
+---
+
+## Pipeline Architecture (Complex Mode)
 
 ```text
 Request (Shopify theme feature/bug/refactor)
@@ -41,11 +87,13 @@ Request (Shopify theme feature/bug/refactor)
     ↓
 [Phase 0.5: Complexity Classification]
     ↓
-├─ SIMPLE → [Light Orchestrator] → Done (skip gates)
+├─ DEFAULT → [Light Orchestrator] → Specialist → Theme Check Gate → Done
 │
-├─ MEDIUM/COMPLEX:
+├─ TWEAK → [Light Orchestrator] → Specialist → Done (skip gates)
+│
+├─ COMPLEX:
     ↓
-[Phase 1: Spec Check] ← Complex requires requirements/<id>/06-requirements-spec.md
+[Phase 1: Spec Check] ← Complex requires .claude/requirements/<id>/06-requirements-spec.md
     ↓
 [Phase 2: Team Confirmation] ← User approves agent team
     ↓
@@ -114,7 +162,7 @@ python3 ~/.claude/scripts/memory-search-unified.py "$TASK_KEYWORDS" --mode all -
 
 **Check:**
 ```bash
-ls requirements/*/06-requirements-spec.md 2>/dev/null | head -5
+ls .claude/requirements/*/06-requirements-spec.md 2>/dev/null | head -5
 ```
 
 **If complex and no spec:** Stop and instruct user to run `/plan` first.
@@ -499,5 +547,5 @@ Specialists should tag assumptions and decisions:
 
 ---
 
-_Last updated: 2025-11-25_
-_Version: 2.3.0_
+_Last updated: 2025-11-27_
+_Version: 2.4.0_

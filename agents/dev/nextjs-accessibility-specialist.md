@@ -3,13 +3,7 @@ name: nextjs-accessibility-specialist
 description: >
   Accessibility specialist for the Next.js pipeline. Focuses on WCAG-aligned
   improvements for components and flows, working alongside builders and gates.
-tools:
-  - Read
-  - Edit
-  - MultiEdit
-  - Grep
-  - Glob
-  - Bash
+tools: Read, Edit, MultiEdit, Grep, Glob, Bash
 model: inherit
 ---
 

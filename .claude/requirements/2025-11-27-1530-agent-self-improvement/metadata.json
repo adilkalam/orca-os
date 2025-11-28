@@ -1,0 +1,27 @@
+{
+  "id": "agent-self-improvement",
+  "started": "2025-11-27T15:30:00Z",
+  "lastUpdated": "2025-11-27T16:00:00Z",
+  "status": "complete",
+  "phase": "complete",
+  "progress": {
+    "discovery": { "answered": 0, "total": 5 },
+    "detail": { "answered": 0, "total": 5 }
+  },
+  "contextFiles": [
+    "_LLM-research/_memory/claude-self-reflect/",
+    "_explore/equilateral-agents-open-core/docs/guides/PAIN_TO_PATTERN.md",
+    "_explore/equilateral-agents-open-core/docs/guides/KNOWLEDGE_HARVEST.md",
+    "_explore/equilateral-agents-open-core/docs/development/AGENT_MEMORY_IMPLEMENTATION.md",
+    "_explore/claude-flow/docs/development/training-pipeline-demo.md",
+    "_LLM-research/pantheon-framework/pantheon/_templates/pantheon-teams/pantheon-dev/processes/update-retro-report/artifact/sections/agent_improvements.schema.jsonnet"
+  ],
+  "relatedFeatures": [
+    "agents/*/",
+    "commands/audit.md",
+    ".claude/memory/workshop.db"
+  ],
+  "dependencies": [
+    "audit-orchestration-anthropic-best-practices"
+  ]
+}

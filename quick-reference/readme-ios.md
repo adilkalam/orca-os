@@ -1,11 +1,10 @@
-/opt/homebrew/Library/Homebrew/cmd/shellenv.sh: line 18: /bin/ps: Operation not permitted
-# OS 2.3 iOS Lane Readme
+# OS 2.4 iOS Lane Readme
 
 **Lane:** iOS / Native Apple Platforms  
 **Domain:** `ios`  
 **Entrypoints:** `/plan`, `/orca`, `/orca-ios`, `/project-memory`, `/project-code`
 
-This document explains how the iOS lane works in Vibe OS 2.3:
+This document explains how the iOS lane works in Vibe OS 2.4:
 
 - Planning & specs (`/plan`)
 - Orchestration (`/orca`, `/orca-ios`)
@@ -39,7 +38,7 @@ Examples:
 For non‑trivial iOS work:
 
 - Run `/plan "..."` to create a spec:
-  - `requirements/YYYY-MM-DD-HHMM-<slug>/`
+  - `.claude/requirements/YYYY-MM-DD-HHMM-<slug>/`
   - Q/A files (`01–05-*`) and final spec `06-requirements-spec.md`
   - RA tags in the spec indicate important decisions and assumptions.
 
@@ -71,22 +70,31 @@ File: `commands/orca-ios.md`
 - Accepts:
 
   ```bash
-  /orca-ios "add haptic feedback to save button"
-  /orca-ios -tweak "fix button padding"
-  /orca-ios "implement requirement 2025-11-25-0930-workspace-sharing"
+  /orca-ios "fix button padding"                       # Default: light + gates
+  /orca-ios -tweak "experiment with animation"        # Tweak: light, no gates
+  /orca-ios --complex "implement auth flow"           # Complex: full pipeline
+  /orca-ios "implement requirement <id>"              # With spec
   ```
+
+- **Three-Tier Routing (OS 2.4):**
+
+  | Mode | Flag | Path | Gates |
+  |------|------|------|-------|
+  | **Default** | (none) | Light + Gates | YES |
+  | **Tweak** | `-tweak` | Light (pure) | NO |
+  | **Complex** | `--complex` | Full pipeline | YES |
 
 - Behavior:
   1. **Memory‑first** – searches Workshop and unified memory for `domain: "ios"` decisions and code.
-  2. **Complexity classification**:
-     - `simple` – one file, minor tweak → light path.
-     - `medium` – one screen/feature → full pipeline, spec recommended.
-     - `complex` – multi‑screen, architecture, security, offline, migrations → full pipeline, spec required.
+  2. **Flag detection**:
+     - No flag → **Default mode** (light path WITH gates)
+     - `-tweak` → **Tweak mode** (light path WITHOUT gates, user verifies)
+     - `--complex` → **Complex mode** (full pipeline, spec required)
   3. **Spec gating** (for `complex`):
-     - Requires `requirements/<id>/06-requirements-spec.md`.
+     - Requires `.claude/requirements/<id>/06-requirements-spec.md`.
   4. **Routing**:
-     - `simple` or `-tweak` → `ios-light-orchestrator`.
-     - `medium`/`complex` → full iOS lane with grand‑architect and gates.
+     - Default/tweak → `ios-light-orchestrator` (gates on default only)
+     - Complex → full iOS lane with grand‑architect and gates.
 
 ---
 
@@ -164,10 +172,11 @@ Specialists:
 ### 4.2 Light Lane Agent
 
 - `agents/iOS/ios-light-orchestrator.md`
-  - Coordinates simple tweaks.
+  - Handles **default** and **tweak** modes.
   - Minimal context (grep/quick reads or small ProjectContext query).
   - Routes directly to `ios-builder` (+ one specialist if needed).
-  - No phase_state, no heavy gates, no verification agent.
+  - **Default mode**: Runs gates (`ios-standards-enforcer` + `ios-ui-reviewer`)
+  - **Tweak mode** (`-tweak`): Skips gates (user verifies)
 
 ---
 
@@ -220,7 +229,14 @@ promote standards and refine lane behavior over time.
 
 ## 8. Mental Model
 
-- Small UI tweak → `/orca-ios -tweak "..."` → light orchestrator → builder.
-- Medium/complex feature → `/plan` → `/orca` → `/orca-ios`:
-  - memory → ProjectContext → spec gating (if complex) → grand‑architect → full pipeline with gates and verification.
+For iOS work in OS 2.4 (three-tier routing):
 
+| Mode | Command | Path |
+|------|---------|------|
+| **Default** | `/orca-ios "fix padding"` | Light + gates |
+| **Tweak** | `/orca-ios -tweak "try animation"` | Light, no gates |
+| **Complex** | `/orca-ios --complex "auth flow"` | Full pipeline |
+
+- **Most work**: Default mode (light path WITH gates)
+- **Exploration**: Tweak mode (light path, no gates, you verify)
+- **Features**: Complex mode (full pipeline, spec required)

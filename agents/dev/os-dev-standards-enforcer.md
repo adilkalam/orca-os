@@ -1,4 +1,3 @@
-/opt/homebrew/Library/Homebrew/cmd/shellenv.sh: line 18: /bin/ps: Operation not permitted
 ---
 name: os-dev-standards-enforcer
 description: >
@@ -6,12 +5,7 @@ description: >
   Code configuration changes for safety, scope, consistency, and unresolved RA
   issues. Never applies fixes.
 model: inherit
-tools:
-  - Read
-  - Grep
-  - Glob
-  - Bash
-  - mcp__project-context__query_context
+tools: Read, Grep, Glob, Bash, mcp__project-context__query_context
 ---
 
 # OS-Dev Standards Enforcer – Safety & Standards Gate

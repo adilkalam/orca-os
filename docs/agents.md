@@ -1,6 +1,6 @@
-# Agent Roster – OS 2.3
+# Agent Roster – OS 2.4
 
-**Total: 62 agents** across 7 domains + cross-cutting specialists.
+**Total: 82 agents** across 9 domains + cross-cutting specialists.
 
 ## iOS Lane (19 agents)
 
@@ -26,7 +26,7 @@
 | `ios-ui-reviewer` | UI/UX review |
 | `design-dna-guardian` | Design system compliance |
 
-## Next.js Lane (14 agents)
+## Next.js Lane (15 agents)
 
 | Agent | Role |
 |-------|------|
@@ -35,6 +35,7 @@
 | `nextjs-architect` | Planning and architecture |
 | `nextjs-builder` | Primary implementation |
 | `nextjs-standards-enforcer` | Standards gate |
+| `nextjs-css-architecture-gate` | CSS/layout architecture gate (refactor mode) |
 | `nextjs-verification-agent` | Verification gate |
 | `nextjs-typescript-specialist` | TypeScript patterns |
 | `nextjs-tailwind-specialist` | Tailwind CSS |
@@ -45,7 +46,7 @@
 | `nextjs-seo-specialist` | SEO optimization |
 | `nextjs-design-reviewer` | Design review |
 
-## Expo Lane (10 agents)
+## Expo Lane (11 agents)
 
 | Agent | Role |
 |-------|------|
@@ -94,6 +95,31 @@
 | `research-specialist` | General research |
 | `competitive-analyst` | Competitive analysis |
 
+## Research Lane (8 agents)
+
+| Agent | Role |
+|-------|------|
+| `research-lead-agent` | Lead researcher, plans multi-agent research |
+| `research-web-search-subagent` | Firecrawl-first web search & scraping |
+| `research-site-crawler-subagent` | Firecrawl site mapping & crawling |
+| `research-answer-writer` | Structured answer writer (standard mode) |
+| `research-deep-writer` | Long-form academic writer (deep mode) |
+| `research-citation-gate` | Citation insertion and audit |
+| `research-consistency-gate` | Consistency and limitations gate |
+| `research-fact-checker` | Optional fact validation gate |
+
+## OBDN Lane (4 agents) – KG Research
+
+| Agent | Role |
+|-------|------|
+| `kg-lead-agent` | Lead researcher, KG-first planning |
+| `kg-query-subagent` | KG tool queries (find, show, neighbors) |
+| `kg-mechanism-subagent` | Mechanism path mapping |
+| `kg-answer-writer` | KG-grounded report writing |
+
+**Note:** OBDN agents use the Knowledge Graph (`docs/meta/kg.json`) as primary
+evidence for peptide/protocol/mechanism research.
+
 ## SEO Lane (4 agents)
 
 | Agent | Role |
@@ -117,8 +143,8 @@
 ## Agent Roles
 
 ### Orchestrators (Never Write Code)
-- Grand architects (Opus model)
-- Light orchestrators (Sonnet model, fast path)
+- Grand architects (Opus 4.5)
+- Light orchestrators (Opus 4.5, fast path)
 - Coordinate via `Task` tool only
 - Classify complexity, gather context, delegate
 
@@ -144,6 +170,8 @@ agents/
 ├── dev/              # Next.js + OS-Dev
 ├── expo/             # Expo specialists
 ├── shopify/          # Shopify specialists
+├── research/         # Research specialists
+├── OBDN/             # KG research specialists
 ├── data/             # Data specialists
 ├── seo/              # SEO specialists
 └── *.md              # Cross-cutting specialists
@@ -154,13 +182,12 @@ Each agent is a markdown file with YAML frontmatter:
 ---
 name: agent-name
 description: What the agent does
-model: opus|sonnet|inherit
-tools:
-  - Tool1
-  - Tool2
+tools: Read, Edit, MultiEdit, Grep, Glob, Bash
 ---
 
 # Agent Title
 
 Agent instructions...
 ```
+
+**Note:** All agents use Opus 4.5 (default). No model line needed. Tools MUST be comma-separated strings, NOT YAML arrays.

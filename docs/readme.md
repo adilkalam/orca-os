@@ -1,4 +1,4 @@
-# OS 2.3 – Claude Code Orchestration System
+# OS 2.4 – Claude Code Orchestration System
 
 A multi-lane pipeline architecture for Claude Code that routes tasks to domain-specific agents, enforces role boundaries, and maintains context across sessions.
 
@@ -36,6 +36,7 @@ A multi-lane pipeline architecture for Claude Code that routes tasks to domain-s
 | [Complexity Routing](concepts/complexity-routing.md) | Simple/medium/complex tiers, `-tweak`, `--audit`, spec gating |
 | [Memory Systems](concepts/memory-systems.md) | Workshop, vibe.db, ProjectContext, memory-first pattern |
 | [Response Awareness](concepts/response-awareness.md) | RA tags, assumption tracking, audit loop |
+| [Self-Improvement](concepts/self-improvement.md) | Outcome recording, pattern analysis, agent learning loop |
 | [Skills](concepts/skills.md) | Reusable knowledge packages |
 
 ## Lanes (Domain Pipelines)
@@ -49,6 +50,8 @@ A multi-lane pipeline architecture for Claude Code that routes tasks to domain-s
 | Data | via `/orca` | Data analysis and research |
 | SEO | via `/orca` | SEO content pipeline |
 | Design | via `/orca` | Design system work |
+| Research | `/research` | Deep research and reporting (Firecrawl-first) |
+| OBDN | `/kg` | KG-augmented research (peptides, protocols, mechanisms) |
 | OS-Dev | `/orca-os-dev` | OS configuration (LOCAL only) |
 
 See [pipelines/](pipelines/) for detailed architecture of each lane.
@@ -60,6 +63,8 @@ See [pipelines/](pipelines/) for detailed architecture of each lane.
 | `/plan` | Create requirements spec for complex work |
 | `/orca` | Auto-route to domain orchestrator |
 | `/orca-{domain}` | Domain-specific orchestrator |
+| `/research` | Deep research (Firecrawl + multi-agent writers) |
+| `/kg` | KG-first research for OBDN (peptides, protocols) |
 | `/audit` | Retrospective RA analysis |
 | `/root-cause` | Diagnostic investigation |
 
@@ -81,6 +86,15 @@ Check local memory (Workshop + vibe.db) before expensive ProjectContext queries.
 ### Response Awareness
 Track assumptions with RA tags. Gates report RA status. `/audit` mines patterns.
 
+## Workflows
+
+User-facing guides for specific workflows:
+
+| Workflow | Guide |
+|----------|-------|
+| Deep Research | [workflows/deep-research-workflow.md](workflows/deep-research-workflow.md) |
+| KG Research (OBDN) | [workflows/kg-research-workflow.md](workflows/kg-research-workflow.md) |
+
 ## Directory Structure
 
 ```
@@ -89,7 +103,8 @@ docs/
 ├── changelog.md           # Version history
 ├── agents.md              # Agent roster
 ├── concepts/              # Core mental models
-├── pipelines/             # Lane architecture
+├── pipelines/             # Lane architecture (technical)
+├── workflows/             # User-facing workflow guides
 └── reference/             # Technical schemas
 
 quick-reference/           # Domain quick-reference guides
@@ -100,4 +115,4 @@ skills/                    # Skill definitions (runtime)
 
 ## Version
 
-**OS 2.3** | 2025-11-25 | [Changelog](changelog.md)
+**OS 2.4.0** | 2025-11-27 | [Changelog](changelog.md)

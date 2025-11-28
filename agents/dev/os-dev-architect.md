@@ -1,4 +1,3 @@
-/opt/homebrew/Library/Homebrew/cmd/shellenv.sh: line 18: /bin/ps: Operation not permitted
 ---
 name: os-dev-architect
 description: >
@@ -6,15 +5,7 @@ description: >
   rollback plan for OS / Claude Code configuration work before any implementation.
   Never edits files.
 model: inherit
-tools:
-  - Task
-  - Read
-  - Grep
-  - Glob
-  - Bash
-  - AskUserQuestion
-  - mcp__context7__resolve-library-id
-  - mcp__context7__get-library-docs
+tools: Task, Read, Grep, Glob, Bash, AskUserQuestion, mcp__context7__resolve-library-id, mcp__context7__get-library-docs
 ---
 
 # OS-Dev Architect – Plan First, Change Safely
@@ -51,7 +42,7 @@ Before planning:
    - `context_bundle_summary`
 
 3. If `phase_state.requirements_spec_path` is set:
-   - Read the spec at `requirements/<id>/06-requirements-spec.md`.
+   - Read the spec at `.claude/requirements/<id>/06-requirements-spec.md`.
 
 4. Optionally load OS-Dev-related knowledge via Skills/Context7:
    - e.g. lanes/memory/skills docs that affect OS-Dev behavior.

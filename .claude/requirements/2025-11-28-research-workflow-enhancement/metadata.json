@@ -1,0 +1,32 @@
+{
+  "id": "research-workflow-enhancement",
+  "started": "2025-11-28T12:00:00Z",
+  "lastUpdated": "2025-11-28T15:30:00Z",
+  "status": "complete",
+  "phase": "complete",
+  "tier": "default",
+  "domain": "os-dev",
+  "progress": {
+    "discovery": { "answered": 0, "total": 5 },
+    "detail": { "answered": 0, "total": 5 }
+  },
+  "contextFiles": [
+    "agents/research/research-lead-agent.md",
+    "agents/research/research-answer-writer.md",
+    "agents/research/research-deep-writer.md",
+    "agents/research/research-web-search-subagent.md",
+    "agents/research/research-site-crawler-subagent.md",
+    "agents/research/research-consistency-gate.md",
+    "agents/research/research-citation-gate.md",
+    "commands/research.md",
+    "docs/pipelines/research-pipeline.md"
+  ],
+  "relatedFeatures": [
+    "Perplexity format integration",
+    "Open Deep Research loop control"
+  ],
+  "externalReferences": [
+    "https://github.com/nickscamara/open-deep-research",
+    "Perplexity system prompt (provided by user)"
+  ]
+}

@@ -1,5 +1,5 @@
 /opt/homebrew/Library/Homebrew/cmd/shellenv.sh: line 18: /bin/ps: Operation not permitted
-# OS 2.3 Data Lane Readme
+# OS 2.4 Data Lane Readme
 
 **Lane:** Data / Analysis  
 **Domain:** `data`  
@@ -39,4 +39,3 @@ See `docs/pipelines/data-pipeline.md` for detailed phases.
 
 Refer to the Next.js/iOS readmes for a more detailed pattern; the same
 concepts (specs, RA, memory, gates) can be extended here as needed.
-

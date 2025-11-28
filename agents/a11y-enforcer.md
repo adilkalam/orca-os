@@ -1,11 +1,7 @@
 ---
 name: a11y-enforcer
 description: Checks accessibility compliance, validates WCAG 2.2, finds missing accessibility labels, validates screen reader support, checks touch target sizes, verifies color contrast, prevents App Store rejection, ensures a11y props, validates accessibilityLabel, accessibilityRole, accessibilityHint, checks for accessibility issues, finds accessibility violations in React Native/Expo apps
-tools:
-  - Read
-  - Grep
-  - Bash
-  - Edit
+tools: Read, Grep, Bash, Edit
 model: inherit
 
 # OS 2.0 Constraint Framework

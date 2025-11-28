@@ -1,5 +1,4 @@
-/opt/homebrew/Library/Homebrew/cmd/shellenv.sh: line 18: /bin/ps: Operation not permitted
-# OS 2.3 Shopify Lane Readme
+# OS 2.4 Shopify Lane Readme
 
 **Lane:** Shopify Themes  
 **Domain:** `shopify`  
@@ -31,7 +30,7 @@ Examples:
 ### 2.1 Planning – `/plan`
 
 - For larger theme changes:
-  - Use `/plan "..."` to create a spec under `requirements/`.
+  - Use `/plan "..."` to create a spec under `.claude/requirements/`.
   - Complex theme features should have specs.
 
 ### 2.2 Global Orchestrator – `/orca`
@@ -43,7 +42,23 @@ Examples:
 
 File: `commands/orca-shopify.md`
 
-- Routes theme work to `shopify-grand-architect` and specialists:
+- Accepts:
+
+  ```bash
+  /orca-shopify "fix card spacing"                     # Default: light + gates
+  /orca-shopify -tweak "try different padding"        # Tweak: light, no gates
+  /orca-shopify --complex "implement cart drawer"     # Complex: full pipeline
+  ```
+
+- **Three-Tier Routing (OS 2.4):**
+
+  | Mode | Flag | Path | Gates |
+  |------|------|------|-------|
+  | **Default** | (none) | Light + Gates | YES |
+  | **Tweak** | `-tweak` | Light (pure) | NO |
+  | **Complex** | `--complex` | Full pipeline | YES |
+
+- Routes to specialists:
   - `shopify-css-specialist`
   - `shopify-liquid-specialist`
   - `shopify-section-builder`
@@ -55,21 +70,26 @@ Pipeline doc:
 - `docs/pipelines/shopify-pipeline.md`
 - `docs/reference/phase-configs/shopify-phase-config.yaml`
 
-The Shopify lane is OS 2.2‑style (no light path yet) but still respects
-role boundaries and uses gates (theme check, design token warnings).
-
 ---
 
 ## 3. Agents and Skills
 
-Agents:
+### Heavy Lane Agents (Complex Mode)
 
-- `agents/shopify/shopify-grand-architect.md` (if present)
+- `agents/shopify/shopify-grand-architect.md` - Coordinates full pipeline
 - `agents/shopify/shopify-css-specialist.md`
 - `agents/shopify/shopify-liquid-specialist.md`
 - `agents/shopify/shopify-section-builder.md`
 - `agents/shopify/shopify-js-specialist.md`
 - `agents/shopify/shopify-theme-checker.md`
+
+### Light Lane Agent
+
+- `agents/shopify/shopify-light-orchestrator.md`
+  - Handles **default** and **tweak** modes.
+  - Direct delegation to specialists.
+  - **Default mode**: Runs gate (`shopify-theme-checker`)
+  - **Tweak mode** (`-tweak`): Skips gates (user verifies)
 
 Skills:
 
@@ -90,7 +110,14 @@ Skills:
 
 ## 5. Mental Model
 
-- Use Shopify lane when you’re touching Shopify theme files.
-- For deeper RA/gating behavior, refer to how Next.js/iOS lanes are
-  structured.
+For Shopify work in OS 2.4 (three-tier routing):
 
+| Mode | Command | Path |
+|------|---------|------|
+| **Default** | `/orca-shopify "fix spacing"` | Light + gates |
+| **Tweak** | `/orca-shopify -tweak "try color"` | Light, no gates |
+| **Complex** | `/orca-shopify --complex "new section"` | Full pipeline |
+
+- **Most work**: Default mode (light path WITH gates)
+- **Exploration**: Tweak mode (light path, no gates, you verify)
+- **Features**: Complex mode (full pipeline, spec required)

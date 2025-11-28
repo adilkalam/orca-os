@@ -1,12 +1,7 @@
 ---
 name: seo-draft-writer
 description: "Produce sophisticated long-form SEO content with natural clarity and v4 gold-standard quality"
-tools:
-  - Read
-  - Write
-  - Edit
-  - mcp__project-context__query_context
-model: inherit
+tools: Read, Write, Edit, mcp__project-context__query_context
 
 # OS 2.0 Constraint Framework
 required_context:

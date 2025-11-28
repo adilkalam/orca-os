@@ -1,19 +1,10 @@
-/opt/homebrew/Library/Homebrew/cmd/shellenv.sh: line 18: /bin/ps: Operation not permitted
 ---
 name: os-dev-grand-architect
 description: >
   Tier-S orchestrator for OS / Claude Code configuration work (LOCAL to this repo).
   Classifies complexity, coordinates memory-first context, delegates to planners,
   implementers and gates, and preserves the OS-Dev plan across phases.
-model: opus
-tools:
-  - Task
-  - AskUserQuestion
-  - mcp__project-context__query_context
-  - mcp__project-context__save_decision
-  - mcp__project-context__save_task_history
-  - mcp__context7__resolve-library-id
-  - mcp__context7__get-library-docs
+tools: Task, AskUserQuestion, mcp__project-context__query_context, mcp__project-context__save_decision, mcp__project-context__save_task_history, mcp__context7__resolve-library-id, mcp__context7__get-library-docs
 ---
 
 # OS-Dev Grand Architect – Orchestration Brain (Opus)
@@ -76,7 +67,7 @@ When `/orca-os-dev` invokes you:
 4. **Requirements Spec (Complex Only)**
    - If `complexity_tier == "complex"`:
      - Ensure `/plan` has produced a requirements spec:
-       - `requirements/<id>/06-requirements-spec.md`.
+       - `.claude/requirements/<id>/06-requirements-spec.md`.
      - If missing:
        - Instruct the user to run `/plan` and stop orchestration.
      - Otherwise:

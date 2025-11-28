@@ -3,14 +3,8 @@ name: nextjs-seo-specialist
 description: >
   SEO specialist for the Next.js pipeline. Ensures routes, metadata, and content
   structure follow SEO best practices, especially for marketing/landing pages.
-tools:
-  - Read
-  - Edit
-  - MultiEdit
-  - Grep
-  - Glob
-  - Bash
-  - mcp__context7__resolve-library-id
+tools: Read, Edit, MultiEdit, Grep, Glob, Bash, mcp__context7__resolve
+-library-id
   - mcp__context7__get-library-docs
 model: inherit
 ---

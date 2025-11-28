@@ -1,16 +1,16 @@
-# Expo Pipeline Phase Configuration - OS 2.3
+# Expo Pipeline Phase Configuration - OS 2.4
 # React Native / Expo Mobile Development Workflow
 
 pipeline:
   name: expo
   description: Expo/React Native mobile development with design tokens, a11y, perf, and security gates
-  version: 2.3
+  version: 2.4
   sdk_versions:
     expo: "50+"
     react_native: "0.74+"
     typescript: required
 
-# Phase State Schema (OS 2.3)
+# Phase State Schema (OS 2.4)
 phase_state:
   # Top-level fields
   domain: expo
@@ -32,32 +32,43 @@ phase_state:
     verification: object
     completion: object
 
-# Complexity Tiers (OS 2.3)
+# Three-Tier Routing (OS 2.4)
+# Default now runs gates. -tweak skips gates. --complex forces full pipeline.
 complexity_tiers:
-  simple:
-    description: Single file, minor tweaks, quick fixes
+  default:
+    description: Light path WITH quality gates (most work)
+    flag: "(none)"
     routing: expo-light-orchestrator
+    mode: default  # Runs gates
     spec_required: false
-    gates_required: false
+    gates_required: true   # DEFAULT NOW RUNS GATES
+    gates:
+      - design-token-guardian
+      - expo-aesthetics-specialist
     examples:
       - Fix button spacing
       - Change label text
       - Add haptic feedback
       - Update color to token
+      - Modify single component
 
-  medium:
-    description: Single screen, modest changes, some logic
-    routing: full_pipeline
-    spec_required: recommended
-    gates_required: true
+  tweak:
+    description: Light path WITHOUT gates (pure speed)
+    flag: "-tweak"
+    routing: expo-light-orchestrator
+    mode: tweak  # Skips gates
+    spec_required: false
+    gates_required: false  # User verifies
     examples:
-      - Add new component
-      - Modify screen layout
-      - Add form validation
+      - Rapid iteration
+      - Exploring options
+      - Quick experiments
 
   complex:
-    description: Multi-screen, architecture, high-risk
+    description: Full pipeline with grand-orchestrator
+    flag: "--complex"
     routing: full_pipeline
+    mode: complex
     spec_required: true    # BLOCKS without spec
     gates_required: true
     examples:
@@ -127,7 +138,7 @@ phases:
       - implemented_code
       - modified_files
       - test_coverage
-      - ra_events          # OS 2.3: RA tags added during implementation
+      - ra_events          # OS 2.4: RA tags added during implementation
     constraints:
       scope: Localized edits, no sweeping rewrites
       quality: TypeScript, Expo SDK 50+, Fabric architecture where applicable
@@ -214,7 +225,7 @@ phases:
       - perf_metrics
       - performance_issues
       - gate_decision
-      - ra_audit           # OS 2.3: RA tag scan results
+      - ra_audit           # OS 2.4: RA tag scan results
     quality_gates:
       budget_exceeded:
         threshold: false

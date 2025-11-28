@@ -1,5 +1,5 @@
 ---
-description: "OS 2.3 orchestrator entrypoint for OS / Claude Code configuration tasks (LOCAL to this repo)"
+description: "OS 2.4 orchestrator entrypoint for OS / Claude Code configuration tasks (LOCAL to this repo)"
 argument-hint: "[-tweak] <task description or requirement ID>"
 allowed-tools:
   - Task
@@ -13,7 +13,7 @@ allowed-tools:
   - Glob
 ---
 
-# /orca-os-dev – OS / Tooling Orchestrator (OS 2.3)
+# /orca-os-dev – OS / Tooling Orchestrator (OS 2.4)
 
 Use this command when the task is clearly OS / Claude Code / tooling
 configuration work for **Vibe OS 2.x**, not application code.
@@ -21,6 +21,14 @@ configuration work for **Vibe OS 2.x**, not application code.
 **IMPORTANT: This command is LOCAL to claude-vibe-config repo only.**
 It is NOT deployed to `~/.claude` global config. Use `/orca-os-dev` only
 when working in this repository to modify the OS itself.
+
+## Usage
+
+```bash
+/orca-os-dev "update nextjs pipeline config"            # Default: light path + design gates
+/orca-os-dev -tweak "fix command description"           # Fast: light path, no gates
+/orca-os-dev --complex "overhaul memory architecture"   # Full: grand-architect + all gates
+```
 
 Examples:
 
@@ -51,37 +59,126 @@ Your only job is to coordinate agents via `Task`.
 
 ---
 
-## Flow
+## 0. Parse Arguments & Detect Mode
 
-**0) Team Confirmation (MANDATORY)**
+**Check for flags:**
+```
+$ARGUMENTS contains "-tweak" → Fast path (light, no gates)
+$ARGUMENTS contains "--complex" → Full path (grand-architect, all gates)
+No flag → Default path (light + design gates)
+```
 
-Before proceeding:
+---
 
-- Use `AskUserQuestion` to:
-  - Confirm this is an OS-Dev task (tooling / OS / Claude Code config).
-  - Present the proposed OS-Dev pipeline phases and agents:
-    - `os-dev-grand-architect` (Opus)
-    - `os-dev-architect` (planning)
-    - `os-dev-builder` (implementation)
-    - `os-dev-standards-enforcer` (gates)
-    - `os-dev-verification` (verification)
-  - Allow the user to adjust priorities (e.g. skip verification for trivial tasks).
+## 1. Flag Routing
 
-Record the user’s approval in your reasoning and then continue.
+### Default (no flag) - Light Path WITH Standards Gate
+
+Delegate to `os-dev-builder` with standards check:
+
+```
+Task({
+  subagent_type: 'os-dev-builder',
+  description: 'OS-Dev task with standards verification',
+  prompt: `
+Handle this OS-Dev configuration task via the light path WITH standards gate.
+
+REQUEST: $ARGUMENTS
+
+ROUTING MODE: default (light + standards gate)
+- Plan and implement changes
+- Run os-dev-standards-enforcer gate
+- Ephemeral phase_state only (scores for this run, no ceremony)
+- NO grand-architect, NO spec requirement
+  `
+})
+```
+
+After builder completes, run `os-dev-standards-enforcer` to validate.
+
+---
+
+### -tweak Flag - Light Path WITHOUT Gates (Pure Speed)
+
+1. Memory-first context only
+2. Delegate directly to `os-dev-builder`
+3. Basic verification only
+4. NO standards gate
+
+```
+Task({
+  subagent_type: 'os-dev-builder',
+  description: 'Fast OS-Dev tweak (no gates)',
+  prompt: `
+Quick OS-Dev fix without standards verification.
+
+REQUEST: $ARGUMENTS
+
+ROUTING MODE: tweak (pure speed)
+- Make the change
+- Basic verification only
+- NO gates, NO standards check
+  `
+})
+```
+
+---
+
+### --complex Flag - Full Pipeline (Grand-Architect + All Gates)
+
+Continue with full orchestration below.
+
+**0) Team Confirmation (MANDATORY - BLOCKING)**
+
+**DO NOT PROCEED TO STEP 1 WITHOUT USER CONFIRMATION**
+
+Use `AskUserQuestion` to confirm. **WAIT FOR RESPONSE.**
+
+```
+Detected: OS-Dev task (complexity: complex)
+
+Proposed Pipeline:
+1. Intake & Complexity
+2. Memory-First Context
+3. ProjectContext Query
+4. Requirements Spec (if complex)
+5. Planning (os-dev-architect)
+6. Implementation (os-dev-builder)
+7. Standards Gate (os-dev-standards-enforcer)
+8. Verification (os-dev-verification)
+
+Proposed Agents:
+- os-dev-grand-architect
+- os-dev-architect (planning)
+- os-dev-builder (implementation)
+- os-dev-standards-enforcer (gates)
+- os-dev-verification (verification)
+
+Options:
+- Proceed as planned
+- Adjust team/phases
+- Switch to light path (-tweak)
+```
+
+**After presenting this:**
+1. STOP and wait for user response
+2. If user says "proceed" → continue to Step 1
+3. If user modifies team → update and re-confirm
+4. If user rejects → STOP pipeline
+
+**Anti-patterns (WRONG):**
+- Showing the team then immediately delegating to grand-architect
+- "I'll proceed with this team..." without waiting
+- Any delegation before explicit user confirmation
 
 ---
 
 ### 1) Intake & Complexity
 
-1. Ask the user a short classification question:
-   - “Is this a small tweak (1–2 files), a medium lane/config change, or a complex/global behavior change?”
-2. Set `complexity_tier`:
-   - `simple` – small, low-risk changes (1–2 files).
-   - `medium` – changes to a lane, single MCP/Skill, multiple related files.
-   - `complex` – hooks, global safety defaults, phase config rewrites.
-3. Write `phase_state.intake` in `.claude/orchestration/phase_state.json`:
+1. Set `complexity_tier`: `complex`
+2. Write `phase_state.intake` in `.claude/orchestration/phase_state.json`:
    - `task_summary`: short description
-   - `complexity_tier`
+   - `complexity_tier`: "complex"
    - `initial_risks`: brief notes on perceived risk
 
 Then delegate to `os-dev-grand-architect` via `Task` with current `phase_state`.
@@ -133,7 +230,7 @@ For `complex` changes:
    - Otherwise, ask via `AskUserQuestion` whether there is an existing requirement spec.
 2. Look for:
 
-   - `requirements/<id>/06-requirements-spec.md`
+   - `.claude/requirements/<id>/06-requirements-spec.md`
 
 3. If not found:
    - Explain that complex OS-Dev work requires a spec.
@@ -273,7 +370,7 @@ Return a concise report to the user emphasizing:
 
 ---
 
-## 🔄 State Preservation & Session Continuity
+## 4. State Preservation & Session Continuity
 
 When the user interrupts (questions, clarifications, test results, pauses):
 
@@ -284,16 +381,63 @@ When the user interrupts (questions, clarifications, test results, pauses):
    ```
 
 2. Acknowledge the interruption and process the new information.
-3. **Do NOT abandon the OS-Dev pipeline**:
+
+3. **RE-CONFIRM BEFORE RESUMING (MANDATORY):**
+   - Present updated plan based on feedback
+   - Use AskUserQuestion or orca-confirm skill
+   - Get explicit "proceed" before delegating
+   - **NEVER resume delegation without confirmation**
+
+4. **Do NOT abandon the OS-Dev pipeline**:
    - You are STILL orchestrating the OS-Dev lane.
    - You are STILL using `os-dev-grand-architect`, `os-dev-architect`,
      `os-dev-builder`, and gates.
-4. Resume from the appropriate phase:
+   - Resume from current phase AFTER confirmation
+
+5. Resume from the appropriate phase (after confirmation):
    - If planning incomplete → continue with `os-dev-architect`.
    - If in implementation → continue with `os-dev-builder`.
    - If in gates → continue with `os-dev-standards-enforcer`.
    - If in verification → continue with `os-dev-verification`.
-5. Update `phase_state` as new information arrives.
+   - Update `phase_state` as new information arrives.
+
+6. **Anti-Pattern Detection:**
+   - "Let me edit this config" → WRONG. Delegate to os-dev-builder
+   - "I'll fix this directly" → WRONG. Delegate to appropriate agent
+   - Using Edit/Write tools → WRONG. You're an orchestrator
+   - Resuming without confirmation → WRONG. Must re-confirm first
+   - "Based on feedback, re-confirming plan..." → CORRECT
+   - "Based on feedback, delegating to os-dev-builder..." → WRONG (skipped confirmation)
 
 User questions **do not** reset your role or the pipeline.
 
+---
+
+## 📝 Session Logging
+
+For significant OS-Dev sessions, create a log file in `logs/`:
+
+**Location:** `logs/`
+**Naming:** `Claude-Topic-YYYY-MM-DD.md`
+**Frontmatter required:**
+
+```markdown
+---
+Agent: Claude
+Topic: Short title for the session
+Description: 1-2 sentence summary
+Files Edited:
+  - path/to/file1.md
+  - path/to/file2.yaml
+Date: YYYY-MM-DD
+Time: HH:MM TZ
+---
+```
+
+**When to log:**
+- Complex OS-Dev changes (--complex mode)
+- Multi-file refactors
+- Architecture decisions
+- Any work that might need future reference
+
+**Example:** `logs/Claude-ThreeTierRoutingSpec-2025-11-27.md`

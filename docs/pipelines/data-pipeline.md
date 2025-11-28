@@ -1,7 +1,7 @@
 # Data / Analytics Domain Pipeline
 
-**Status:** OS 2.3 Pipeline (DataPipeline)
-**Last Updated:** 2025-11-25
+**Status:** OS 2.4 Pipeline (DataPipeline)
+**Last Updated:** 2025-11-27
 
 ---
 
@@ -13,7 +13,7 @@ The data/analytics pipeline handles work where the primary output is:
 - Decision-support artifacts (briefs, dashboards, metrics, reports).
 
 It combines:
-- OS 2.3 primitives (ProjectContextServer, `phase_state.json`, vibe.db, Workshop)
+- OS 2.4 primitives (ProjectContextServer, `phase_state.json`, vibe.db, Workshop)
 - Memory-first context (Workshop + vibe.db before ProjectContext)
 - Data/analytics agents:
   - `data-researcher` (lead)
@@ -295,4 +295,3 @@ Tasks:
 Artifacts:
 - Task history entry in `vibe.db`.
 - Final summary for the user and future context.
-

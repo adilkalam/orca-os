@@ -1,17 +1,17 @@
-# OS 2.2 Agents Quick Reference
+# OS 2.4 Agents Quick Reference
 
-**Last Updated:** 2025-11-24
-**Version:** OS 2.2 (v2.2)
+**Last Updated:** 2025-11-27
+**Version:** OS 2.4 (v2.4)
 
 ---
 
-## What's New in OS 2.2
+## What's New in OS 2.4
 
 **Agent Architecture Changes:**
-- ✅ **Grand Architect Pattern** - Opus for coordination, Sonnet for implementation
+- ✅ **All Agents Use Opus 4.5** - Unified model across all agents
 - ✅ **Role Boundaries Enforced** - Clear separation between orchestrators and workers
 - ✅ **State Preservation** - Agents survive interruptions across sessions
-- ✅ **50+ Specialized Agents** - Comprehensive coverage across 6 domains
+- ✅ **82 Specialized Agents** - Comprehensive coverage across 9 domains
 
 **Key Improvements:**
 - Orchestrators NEVER write code (only coordinate via Task tool)
@@ -21,25 +21,20 @@
 
 ---
 
-## Agent Architecture (OS 2.2)
+## Agent Architecture (OS 2.4)
 
-### Grand Architect Pattern (NEW in v2.2)
+### Agent Model (OS 2.4)
 
-**Opus Agents (Coordination & Architecture):**
-- Complex planning and architecture decisions
-- Pipeline coordination and synthesis
-- Strategic decision-making
-- Examples: `ios-grand-architect`, `nextjs-grand-architect`, `expo-grand-orchestrator`
-
-**Sonnet Agents (Implementation & Verification):**
-- Code implementation
-- Quality gates and verification
-- Specialized tasks
-- Examples: `ios-builder`, `nextjs-builder`, `standards-enforcer`, `design-reviewer`
+**All Agents Use Opus 4.5:**
+- Grand architects (coordination & architecture)
+- Builders (implementation)
+- Specialists (domain-specific work)
+- Gates (verification & enforcement)
 
 **Benefits:**
-- Optimal cost/performance (expensive model for strategy, efficient for work)
-- Clear separation of concerns
+- Consistent quality across all agents
+- No model-selection overhead
+- Unified capability level
 - Predictable behavior
 
 ### Role Boundaries (NEW in v2.2)
@@ -76,31 +71,28 @@ All agents work with `phase_state.json`:
 
 ### iOS Pipeline (18 Agents)
 
-#### Grand Architect (Opus)
+#### Grand Architect
 **`ios-grand-architect`**
 - **Purpose:** High-level architecture planning and coordination
 - **Phase:** Architecture (Phase 1)
 - **Key Features:** SwiftUI vs UIKit decision, SwiftData vs Core Data/GRDB choice, risk assessment, task force assembly
-- **Model:** Opus (coordination)
 - **Location:** `~/.claude/agents/iOS/ios-grand-architect.md`
 
-#### Architect (Sonnet)
+#### Architect
 **`ios-architect`**
 - **Purpose:** Implementation planning and impact analysis
 - **Phase:** Planning (Phase 2)
 - **Key Features:** ProjectContextServer integration, detailed plan generation, constraint mapping
-- **Model:** Sonnet (planning)
 - **Location:** `~/.claude/agents/iOS/ios-architect.md`
 
-#### Builder (Sonnet)
+#### Builder
 **`ios-builder`**
 - **Purpose:** iOS implementation specialist
 - **Phase:** Implementation (Phase 3)
 - **Key Features:** Swift/SwiftUI/UIKit implementation, follows architecture plan, prepares for gates
-- **Model:** Sonnet (implementation)
 - **Location:** `~/.claude/agents/iOS/ios-builder.md`
 
-#### Specialists (8 agents, Sonnet)
+#### Specialists (8 agents)
 1. **`ios-swiftui-specialist`** - SwiftUI-specific features and best practices
 2. **`ios-uikit-specialist`** - UIKit implementation for legacy/complex UI
 3. **`ios-persistence-specialist`** - SwiftData/Core Data/GRDB data layer
@@ -110,93 +102,87 @@ All agents work with `phase_state.json`:
 7. **`ios-security-specialist`** - Keychain, biometrics, secure storage
 8. **`ios-accessibility-specialist`** - VoiceOver, accessibility compliance
 
-#### Gates (4 agents, Sonnet)
+#### Gates (4 agents)
 1. **`ios-standards-enforcer`** - Code standards, Swift 6 concurrency (≥90)
 2. **`ios-ui-reviewer`** - UI/interaction quality gate (≥90)
 3. **`ios-verification`** - Build/test verification (xcodebuild)
 4. **Architecture review** - Embedded in ios-grand-architect
 
-**Total iOS Team:** 18 agents (1 Opus + 17 Sonnet)
+**Total iOS Team:** 18 agents (all Opus 4.5)
 
 ---
 
-### Next.js Pipeline (13 Agents)
+### Next.js Pipeline (15 Agents)
 
-#### Grand Architect (Opus)
+#### Grand Architect
 **`nextjs-grand-architect`**
 - **Purpose:** Next.js architecture coordination and planning
 - **Phase:** Architecture (Phase 1)
 - **Key Features:** App Router vs Pages Router, RSC strategy, coordination of planning phase
-- **Model:** Opus (coordination)
-- **Location:** `~/.claude/agents/nextjs/nextjs-grand-architect.md`
+- **Location:** `~/.claude/agents/dev/nextjs-grand-architect.md`
 
-#### Architect (Sonnet)
+#### Architect
 **`nextjs-architect`**
 - **Purpose:** Implementation planning
 - **Phase:** Planning (Phase 2)
 - **Key Features:** Detailed plan with constraints, file-level changes, integration points
-- **Model:** Sonnet (planning)
-- **Location:** `~/.claude/agents/nextjs/nextjs-architect.md`
+- **Location:** `~/.claude/agents/dev/nextjs-architect.md`
 
-#### Layout Analyzer (Sonnet)
+#### Layout Analyzer
 **`nextjs-layout-analyzer`**
 - **Purpose:** Structure-first layout analysis
 - **Phase:** Analysis (Phase 2.5)
 - **Key Features:** Component hierarchy mapping, CSS/token analysis, no code changes
-- **Model:** Sonnet (analysis)
-- **Location:** `~/.claude/agents/nextjs/nextjs-layout-analyzer.md`
+- **Location:** `~/.claude/agents/dev/nextjs-layout-analyzer.md`
 
-#### Builder (Sonnet)
+#### Builder
 **`nextjs-builder`**
 - **Purpose:** Next.js implementation specialist
 - **Phase:** Implementation (Phase 3)
 - **Key Features:** React/Next.js implementation, design-dna enforcement, scoped changes
-- **Model:** Sonnet (implementation)
-- **Location:** `~/.claude/agents/nextjs/nextjs-builder.md`
+- **Location:** `~/.claude/agents/dev/nextjs-builder.md`
 
-#### Specialists (5 agents, Sonnet)
-1. **`nextjs-typescript-specialist`** - TypeScript best practices, type safety
-2. **`nextjs-tailwind-specialist`** - Tailwind + design token integration
-3. **`nextjs-layout-specialist`** - Complex layout implementation
-4. **`nextjs-performance-specialist`** - Bundle optimization, lazy loading
-5. **`nextjs-accessibility-specialist`** - WCAG compliance, semantic HTML
+#### Specialists (6 agents)
+1. **`nextjs-css-specialist`** - Semantic CSS, @layer, design tokens (CSS-agnostic)
+2. **`nextjs-typescript-specialist`** - TypeScript best practices, type safety
+3. **`nextjs-tailwind-specialist`** - Tailwind projects (when auto-detected)
+4. **`nextjs-layout-specialist`** - Complex layout implementation
+5. **`nextjs-performance-specialist`** - Bundle optimization, lazy loading
+6. **`nextjs-accessibility-specialist`** - WCAG compliance, semantic HTML
 
-#### Gates (3 agents, Sonnet)
+#### Gates (3 agents)
 1. **`nextjs-standards-enforcer`** - Code standards, token usage (≥90)
 2. **`nextjs-design-reviewer`** - Design QA, visual compliance (≥90)
 3. **`nextjs-verification-agent`** - Build/test/lint verification
 
-**Total Next.js Team:** 13 agents (1 Opus + 12 Sonnet)
+**Total Next.js Team:** 16 agents (all Opus 4.5)
 
 ---
 
-### Expo Pipeline (10 Agents)
+### Expo Pipeline (11 Agents)
 
-#### Grand Orchestrator (Opus)
+#### Grand Orchestrator
 **`expo-grand-orchestrator`**
 - **Purpose:** Expo/React Native high-complexity coordinator
 - **Phase:** Architecture (Phase 1, complex tasks only)
-- **Key Features:** Complexity-based delegation, risk assessment, coordinates Opus planning when needed
-- **Model:** Opus (coordination)
+- **Key Features:** Complexity-based delegation, risk assessment, coordinates planning when needed
 - **Location:** `~/.claude/agents/expo/expo-grand-orchestrator.md`
 
-#### Architect (Sonnet)
+#### Architect
 **`expo-architect-agent`**
 - **Purpose:** Expo planning and impact analysis
 - **Phase:** Planning (Phase 2)
 - **Key Features:** React Native best practices, architecture choice, impact mapping
-- **Model:** Sonnet (planning)
 - **Location:** `~/.claude/agents/expo/expo-architect-agent.md`
 
-#### Builder (Sonnet)
+#### Builder
 **`expo-builder-agent`**
 - **Purpose:** Expo/React Native implementation
 - **Phase:** Implementation (Phase 3)
 - **Key Features:** Mobile-first implementation, design token respect, local checks
-- **Model:** Sonnet (implementation)
 - **Location:** `~/.claude/agents/expo/expo-builder-agent.md`
 
-#### Specialists (6 agents, Sonnet)
+#### Specialists (6 agents)
 1. **`design-token-guardian`** - Design token enforcement, no hardcoded values
 2. **`a11y-enforcer`** - Accessibility compliance (WCAG 2.2, screen readers)
 3. **`performance-enforcer`** - Bundle size, performance budgets
@@ -204,24 +190,24 @@ All agents work with `phase_state.json`:
 5. **`security-specialist`** - OWASP Mobile Top 10, secure storage
 6. **`expo-aesthetics-specialist`** - Visual polish and interaction design
 
-#### Verification (1 agent, Sonnet)
+#### Verification (1 agent)
 1. **`expo-verification-agent`** - Build/test/expo doctor verification
 
-**Total Expo Team:** 10 agents (1 Opus + 9 Sonnet)
+**Total Expo Team:** 11 agents (all Opus 4.5)
 
 **Complexity Bands:**
 - **Low/Medium:** expo-architect → expo-builder → gates
-- **High/Critical:** expo-grand-orchestrator → expo-architect (Opus) → expo-builder → gates
+- **High/Critical:** expo-grand-orchestrator → expo-architect → expo-builder → gates
 
 ---
 
 ### Data Pipeline (4 Agents)
 
-#### Researchers (2 agents, Sonnet)
+#### Researchers (2 agents)
 1. **`data-researcher`** - Data discovery, exploration, question formulation
 2. **`research-specialist`** - Deep research, context gathering, hypothesis generation
 
-#### Analysts (2 agents, Sonnet)
+#### Analysts (2 agents)
 1. **`python-analytics-expert`** - Python-based data analysis, pandas, numpy
 2. **`competitive-analyst`** - Market analysis, competitor research
 
@@ -229,61 +215,61 @@ All agents work with `phase_state.json`:
 - Data quality verification
 - Narrative coherence check
 
-**Total Data Team:** 4 agents (all Sonnet)
+**Total Data Team:** 4 agents (all Opus 4.5)
 
 ---
 
 ### Design Pipeline (2 Agents)
 
-#### Design System (1 agent, Sonnet)
+#### Design System (1 agent)
 **`design-system-architect`**
 - **Purpose:** Design token and component system design
 - **Phase:** System Design
 - **Key Features:** Token generation, component specs, global class systems
 - **Location:** `~/.claude/agents/design-system-architect.md`
 
-#### Design Guardian (1 agent, Sonnet)
+#### Design Guardian (1 agent)
 **`design-dna-guardian`**
 - **Purpose:** Design system compliance enforcement
 - **Phase:** Quality Gate
 - **Key Features:** Token usage verification, no magic numbers, grid compliance
-- **Location:** `~/.claude/agents/design-dna-guardian.md`
+- **Location:** `~/.claude/agents/iOS/design-dna-guardian.md`
 
-**Total Design Team:** 2 agents (all Sonnet)
+**Total Design Team:** 2 agents (all Opus 4.5)
 
 ---
 
 ### SEO Pipeline (4 Agents)
 
-#### Research (1 agent, Sonnet)
+#### Research (1 agent)
 **`seo-research-specialist`**
 - **Purpose:** SERP analysis, keyword research, knowledge graph reading
 - **Phase:** Research (Phase 1)
 - **Key Features:** ProjectContextServer integration, competitive analysis
 - **Location:** `~/.claude/agents/seo/seo-research-specialist.md`
 
-#### Strategy (1 agent, Sonnet)
+#### Strategy (1 agent)
 **`seo-brief-strategist`**
 - **Purpose:** Content strategy and brief generation
 - **Phase:** Strategy (Phase 2)
 - **Key Features:** MECE analysis, semantic frameworks, H1-H6 structure
 - **Location:** `~/.claude/agents/seo/seo-brief-strategist.md`
 
-#### Writing (1 agent, Sonnet)
+#### Writing (1 agent)
 **`seo-draft-writer`**
 - **Purpose:** Long-form SEO content creation
 - **Phase:** Writing (Phase 3)
 - **Key Features:** E-E-A-T compliance, adaptive tone, structured content
 - **Location:** `~/.claude/agents/seo/seo-draft-writer.md`
 
-#### Quality (1 agent, Sonnet)
+#### Quality (1 agent)
 **`seo-quality-guardian`**
 - **Purpose:** SEO content quality assurance
 - **Phase:** Quality (Phase 4)
 - **Key Features:** Clarity gates (≥70), compliance checks, readability
 - **Location:** `~/.claude/agents/seo/seo-quality-guardian.md`
 
-**Total SEO Team:** 4 agents (all Sonnet)
+**Total SEO Team:** 4 agents (all Opus 4.5)
 
 ---
 
@@ -300,20 +286,24 @@ These agents work across multiple pipelines:
 
 ---
 
-## Agent Total Count (v2.2)
+## Agent Total Count (v2.4)
 
-| Domain | Opus | Sonnet | Total |
-|--------|------|--------|-------|
-| iOS | 1 | 17 | 18 |
-| Next.js | 1 | 12 | 13 |
-| Expo | 1 | 9 | 10 |
-| Data | 0 | 4 | 4 |
-| Design | 0 | 2 | 2 |
-| SEO | 0 | 4 | 4 |
-| Cross-Cutting | 0 | 6 | 6 |
-| **TOTAL** | **3** | **54** | **57** |
+| Domain | Total |
+|--------|-------|
+| iOS | 19 |
+| Next.js | 15 |
+| Expo | 11 |
+| Shopify | 7 |
+| OS-Dev | 5 |
+| Data | 4 |
+| Design | 2 |
+| SEO | 4 |
+| Research | 8 |
+| OBDN | 4 |
+| Cross-Cutting | 6 |
+| **TOTAL** | **82** |
 
-**Note:** Cross-cutting agents counted separately but used within pipelines.
+**Note:** All agents use Opus 4.5. Cross-cutting agents counted separately but used within pipelines.
 
 ---
 
@@ -371,7 +361,7 @@ All pipelines enforce numerical quality gates:
 
 ---
 
-## Agent Patterns (v2.2)
+## Agent Patterns (v2.4)
 
 ### Constraint Framework Categories
 1. **Scope** - What the agent can/cannot do (explicit boundaries)
@@ -384,35 +374,37 @@ All pipelines enforce numerical quality gates:
 ```
 ProjectContextServer Query (MANDATORY)
     ↓
-Team Confirmation (AskUserQuestion - MANDATORY)
+Team Confirmation (AskUserQuestion - complex only)
     ↓
-Phase 1: Grand Architect (Architecture & Coordination) [Opus]
+Phase 1: Grand Architect (Architecture & Coordination)
     ↓
-Phase 2: Architect (Planning & Impact Analysis) [Sonnet]
+Phase 2: Architect (Planning & Impact Analysis)
     ↓
-Phase 3: Implementation (Builder + Specialists) [Sonnet]
+Phase 3: Implementation (Builder + Specialists)
     ↓
-Phase 4: Quality Gates (Standards, Design QA, A11y, Performance) [Sonnet]
+Phase 4: Quality Gates (Standards, Design QA, A11y, Performance)
     ↓
-Phase 5: Verification (Build/Test) [Sonnet]
+Phase 5: Verification (Build/Test)
     ↓
 Phase 6: Evidence Capture & Memory Update
 ```
 
-### Anti-Patterns (v2.2)
+**Note:** All agents use Opus 4.5. No model-based phase distinctions.
+
+### Anti-Patterns (v2.4)
 ❌ Orchestrator writing code directly
 ❌ Skipping ProjectContextServer query
-❌ Bypassing team confirmation
+❌ Bypassing team confirmation (for complex mode)
 ❌ Abandoning pipeline on interruption
-❌ Skipping quality gates to move faster
+❌ Skipping quality gates (unless -tweak mode)
 ❌ Not updating phase_state.json
 
-### Correct Patterns (v2.2)
+### Correct Patterns (v2.4)
 ✅ Orchestrator delegates via Task tool only
 ✅ Always query ProjectContextServer first
-✅ Confirm team before execution
+✅ Confirm team before execution (complex mode)
 ✅ Read phase_state.json after interruptions
-✅ All gates must pass (≥90 scores)
+✅ All gates must pass (≥90 scores) except -tweak mode
 ✅ Update phase_state.json at each phase
 
 ---
@@ -425,16 +417,16 @@ Phase 6: Evidence Capture & Memory Update
 /plan "Add biometric authentication"
 
 # 2. Implement (orchestrator coordinates agents)
-/orca-ios "Implement requirement <id> using spec"
+/orca-ios --complex "Implement requirement <id> using spec"
 
-# Agents used:
-- ios-grand-architect (Opus) - Architecture planning
-- ios-architect (Sonnet) - Implementation plan
-- ios-builder (Sonnet) - Implementation
-- ios-security-specialist (Sonnet) - Biometric integration
-- ios-standards-enforcer (Sonnet) - Standards gate (≥90)
-- ios-ui-reviewer (Sonnet) - UI gate (≥90)
-- ios-verification (Sonnet) - Build/test verification
+# Agents used (all Opus 4.5):
+- ios-grand-architect - Architecture planning
+- ios-architect - Implementation plan
+- ios-builder - Implementation
+- ios-security-specialist - Biometric integration
+- ios-standards-enforcer - Standards gate (≥90)
+- ios-ui-reviewer - UI gate (≥90)
+- ios-verification - Build/test verification
 ```
 
 ### Next.js UI Work
@@ -443,18 +435,18 @@ Phase 6: Evidence Capture & Memory Update
 /plan "Add dark mode with user preference persistence"
 
 # 2. Implement (orchestrator coordinates agents)
-/orca-nextjs "Implement requirement <id> using spec"
+/orca-nextjs --complex "Implement requirement <id> using spec"
 
-# Agents used:
-- nextjs-grand-architect (Opus) - Coordination
-- nextjs-architect (Sonnet) - Planning
-- nextjs-layout-analyzer (Sonnet) - Layout analysis
-- nextjs-builder (Sonnet) - Implementation
-- nextjs-tailwind-specialist (Sonnet) - Styling
-- design-token-guardian (Sonnet) - Token enforcement
-- nextjs-standards-enforcer (Sonnet) - Standards gate (≥90)
-- nextjs-design-reviewer (Sonnet) - Design QA gate (≥90)
-- nextjs-verification-agent (Sonnet) - Build/test
+# Agents used (all Opus 4.5):
+- nextjs-grand-architect - Coordination
+- nextjs-architect - Planning
+- nextjs-layout-analyzer - Layout analysis
+- nextjs-builder - Implementation
+- nextjs-css-specialist - CSS (auto-selects based on project)
+- design-token-guardian - Token enforcement
+- nextjs-standards-enforcer - Standards gate (≥90)
+- nextjs-design-reviewer - Design QA gate (≥90)
+- nextjs-verification-agent - Build/test
 ```
 
 ### Expo Mobile Feature
@@ -463,17 +455,17 @@ Phase 6: Evidence Capture & Memory Update
 /plan "Add offline mode with sync"
 
 # 2. Implement (orchestrator coordinates agents)
-/orca-expo "Implement requirement <id> using spec"
+/orca-expo --complex "Implement requirement <id> using spec"
 
-# Agents used (complexity: high):
-- expo-grand-orchestrator (Opus) - High-level coordination
-- expo-architect-agent (Sonnet with Opus oversight) - Planning
-- expo-builder-agent (Sonnet) - Implementation
-- design-token-guardian (Sonnet) - Token gate
-- a11y-enforcer (Sonnet) - Accessibility gate (≥90)
-- performance-enforcer (Sonnet) - Performance gate (≥90)
-- security-specialist (Sonnet) - Security gate
-- expo-verification-agent (Sonnet) - Build/test
+# Agents used (all Opus 4.5):
+- expo-grand-orchestrator - High-level coordination
+- expo-architect-agent - Planning
+- expo-builder-agent - Implementation
+- design-token-guardian - Token gate
+- a11y-enforcer - Accessibility gate (≥90)
+- performance-enforcer - Performance gate (≥90)
+- security-specialist - Security gate
+- expo-verification-agent - Build/test
 ```
 
 ---
@@ -495,4 +487,4 @@ Phase 6: Evidence Capture & Memory Update
 
 ---
 
-_This reference covers OS 2.2 (v2.2) agents. Legacy v1 agents archived. OS 2.2 agents updated to v2.2 patterns._
+_This reference covers OS 2.4 agents. All 82 agents use Opus 4.5. Legacy v1/v2 agents archived._

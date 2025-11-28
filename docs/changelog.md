@@ -1,5 +1,116 @@
 # Changelog
 
+## v2.4.0 (2025-11-27)
+
+### Response Awareness Simplification
+
+**RA is Instrumentation, Not Scoring**
+- Clarified that RA tags are diagnostic breadcrumbs, not compliance metrics
+- Gates MAY downgrade to CAUTION/FAIL for high-risk unresolved tags
+- Gates MUST NOT derive standalone "RA accuracy percentages"
+- Final quality comes from tests, builds, measurements—not tag counts
+
+**Core RA Tags Defined**
+- `#COMPLETION_DRIVE` - assumed behavior without confirmation
+- `#PATH_DECISION` / `#PATH_RATIONALE` - architectural choices with reasoning
+- `#POISON_PATH` - flagged anti-patterns or unsafe framing
+- `#Potential_Issue` - out-of-scope problems noticed
+- Additional tags documented for lane-specific use
+
+### Next.js CSS Architecture Refactor Mode
+
+**New Sub-Mode Under `--complex`**
+- Structural CSS/layout refactors now have a dedicated mode
+- Relaxes "edit, don't rewrite" for style/layout layers when refactoring
+- Allows targeted rewrites of CSS modules, layout components, global styles
+
+**New Gate: `nextjs-css-architecture-gate`**
+- Scores structural CSS quality (0-100)
+- Checks: global CSS minimization, Tailwind/shadcn adoption, duplication, naming
+- Runs alongside standards-enforcer and design-reviewer in refactor mode
+
+### Three-Tier Planning (`/plan`)
+
+**Flags Added to `/plan`**
+- `-tweak`: Quick planning (2-3 scope questions, minimal spec)
+- (default): Standard planning (5+5 questions, full spec)
+- `-complex`: Deep planning (extended analysis, risk assessment, multi-phase)
+
+**Tier Passthrough**
+- Spec metadata includes `tier` field
+- `/orca-*` reads tier and matches execution depth
+- Symmetry: `-tweak` plan → `-tweak` execution
+
+**Auto-Detection**
+- `/plan` analyzes task and recommends tier
+- User can override recommendation
+
+### Documentation Updates
+
+- Updated all pipeline docs to v2.4
+- Updated all phase-configs to reflect three-tier routing
+- Clarified RA instrumentation vs scoring throughout
+
+---
+
+## v2.3.1 (2025-11-27)
+
+### Anthropic Best Practices Alignment
+
+**Extended Thinking Triggers**
+- Grand-architects now use thinking prompts for complex decisions
+- Medium tasks: "Let me think through the architecture..."
+- Complex tasks: "Think harder about implications, dependencies..."
+- Added to: `ios-grand-architect`, `nextjs-grand-architect`, `expo-grand-orchestrator`, `shopify-grand-architect`
+
+**Complexity Detection Heuristics**
+- `/orca-{domain}` commands now detect task complexity before delegation
+- Heuristics: file count estimates, scope indicators, concern count
+- Team size scales with complexity tier (1-2 → 3-5 → 5-10 agents)
+- Added to: `orca-ios`, `orca-nextjs`, `orca-expo`, `orca-shopify`
+
+### Agent Self-Improvement System
+
+**Outcome Recording**
+- Grand-architects record task outcomes at pipeline end
+- Schema: `{task_id, domain, agents_used, outcome, issues, files_modified}`
+- Storage: Workshop `task_history` entries
+- Enables pattern recognition across executions
+
+**Pattern Analysis**
+- `/audit` now includes self-improvement analysis
+- Identifies recurring issues (3+ occurrences same agent + issue type)
+- Generates improvement proposals in Pantheon-inspired schema
+- User approval required before applying changes
+
+**New Scripts**
+- `scripts/analyze-patterns.py` - Query Workshop, identify patterns, generate proposals
+- `scripts/apply-improvement.py` - Apply approved improvements to agent YAML
+
+**Self-Improvement Loop**
+```
+Execute → Record Outcome → Analyze Patterns → Propose Improvement
+    → User Approves → Apply to Agent → Measure Impact
+```
+
+See [Self-Improvement](concepts/self-improvement.md) for details.
+
+### Bug Fixes
+
+**Critical: Agent Tools Format**
+- Fixed silent failure where agents completed with 0 tool uses
+- Root cause: YAML array format (`tools:\n  - Task`) doesn't work
+- Fix: Comma-separated strings (`tools: Task, Read, Edit`)
+- Applied to all 68 agents
+
+### Documentation
+
+- New: `docs/concepts/self-improvement.md`
+- Updated: `docs/concepts/complexity-routing.md` (team scaling)
+- Updated: `docs/changelog.md` (this file)
+
+---
+
 ## v2.3 (2025-11-25)
 
 ### New Features
@@ -22,7 +133,7 @@
 
 **Spec Gating**
 - Complex tasks blocked without requirements spec
-- Spec created by `/plan`, stored at `requirements/<id>/06-requirements-spec.md`
+- Spec created by `/plan`, stored at `.claude/requirements/<id>/06-requirements-spec.md`
 - Medium tasks: spec recommended
 - Simple tasks: spec not needed
 
@@ -65,7 +176,7 @@
 - Light orchestrators added (4 new agents)
 - RA tagging added to all specialists
 - RA status checking added to all gates
-- Agent tools format standardized to YAML arrays
+- Agent tools format standardized (comma-separated strings)
 
 ### Technical Changes
 

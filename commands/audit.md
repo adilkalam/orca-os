@@ -107,14 +107,14 @@ Where appropriate:
    - `learnings`: summary of key RA findings
    - `files_modified`: include the audit report path
 
-**Critical for Learning Loop (OS 2.3):**
+**Critical for Learning Loop (OS 2.4):**
 - Standards saved with `domain: "ios"` will appear in `relatedStandards` for future iOS tasks
 - Gate agents (`ios-standards-enforcer`) will enforce these standards
 - This closes the loop: violation → audit → standard → future enforcement
 
 ---
 
-## 6. RA Event Mining (OS 2.3)
+## 6. RA Event Mining (OS 2.4)
 
 With v2.3, `phase_state` now contains `ra_events` from each phase. When auditing:
 
@@ -140,6 +140,83 @@ With v2.3, `phase_state` now contains `ra_events` from each phase. When auditing
 
 ---
 
+## 7. Self-Improvement Analysis (Agent Learning Loop)
+
+After completing the standard audit, run the self-improvement analysis:
+
+### Step 1: Pattern Recognition
+
+Run the pattern analysis script:
+
+```bash
+python3 scripts/analyze-patterns.py --days 30 --threshold 3
+```
+
+This will:
+- Query Workshop for task_history entries from the last 30 days
+- Identify recurring issues (3+ occurrences of same issue type from same agent)
+- Generate improvement proposals at `.claude/orchestration/temp/improvement-proposals.json`
+
+### Step 2: Review Proposals
+
+If proposals were generated, present them to the user:
+
+For each proposal, use `AskUserQuestion` with:
+- **Question**: "Improvement proposal for {agent_name}: {issue_description}. Recommended change: {recommended_changes}. Approve this improvement?"
+- **Options**:
+  - "Approve" - Apply the improvement to the agent
+  - "Reject" - Skip this improvement
+  - "Modify" - Let me suggest different wording
+
+Update proposal status based on user response:
+- Approved → status: "approved"
+- Rejected → status: "rejected"
+
+### Step 3: Apply Approved Improvements
+
+For approved proposals:
+
+```bash
+python3 scripts/apply-improvement.py --deploy
+```
+
+This will:
+- Add "Learned Rules" section to agent markdown files
+- Deploy updated agents to ~/.claude/agents/
+- Update proposal status to "applied"
+
+### Step 4: Record Learning
+
+After applying improvements, record to Workshop:
+
+```bash
+workshop --workspace .claude/memory decision "Applied {N} agent improvements from self-improvement analysis" \
+  -r "Patterns identified: {pattern_count}. Approved: {approved_count}. Agents updated: {agents_list}" \
+  -t self-improvement -t audit
+```
+
+### Step 5: Generate Metrics Report
+
+Create a brief report summarizing:
+- Total task_history entries analyzed
+- Patterns identified (count and list)
+- Proposals generated vs approved vs rejected
+- Agents updated
+- Estimated improvement impact
+
+Store the report at `.claude/orchestration/temp/self-improvement-report-{date}.md`
+
+### When to Skip
+
+Skip self-improvement analysis if:
+- User explicitly requests `--skip-self-improvement`
+- Less than 10 task_history entries exist
+- No patterns meet the threshold
+
+Always inform the user that self-improvement analysis was skipped and why.
+
+---
+
 ## v2.4 Roadmap: Automatic Escalation
 
 **Not yet implemented** - future evolution:
@@ -149,4 +226,3 @@ With v2.3, `phase_state` now contains `ra_events` from each phase. When auditing
   - Adjust complexity thresholds if assumptions indicate underestimated complexity
 - Requires: RA event aggregation across sessions, frequency analysis, threshold triggers
 - This is where RA runtime research is headed
-
