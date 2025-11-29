@@ -1,7 +1,7 @@
-# MCP Servers Reference (OS 2.4)
+# MCP Servers Reference (OS 2.4.1)
 
-**Version:** OS 2.4
-**Last Updated:** 2025-11-24
+**Version:** OS 2.4.1
+**Last Updated:** 2025-11-29
 
 **Model Context Protocol (MCP) integrations for OS 2.4**
 
@@ -20,13 +20,15 @@ MCP servers provide structured tool interfaces for agents. All I/O goes through 
 - **Role Boundaries** - orchestrators only use ProjectContext, agents use domain-specific MCPs
 - **State Preservation** - MCP results stored in phase_state.json for resumption
 
-**Key MCPs for OS 2.4:**
+**Key MCPs for OS 2.4.1:**
 1. **ProjectContextServer** - Mandatory context provider (Phase 1)
 2. **SharedContext** - Cross-session context (optional token optimization)
 3. **Sequential-thinking** - Deep reasoning (via `/ultra-think`)
-4. **Context7** - Library documentation
-5. **Playwright** - Browser automation (design QA)
-6. **XcodeBuildMCP** - iOS development (ios-verification)
+4. **Clear-thought** - 38 reasoning operations (via `/clear-thought`)
+5. **Stochastic-thinking** - Probabilistic algorithms (MDPs, MCTS, Bandits)
+6. **Context7** - Library documentation
+7. **Playwright** - Browser automation (design QA)
+8. **XcodeBuildMCP** - iOS development (ios-verification)
 
 MCP servers provide structured tool interfaces for agents. All I/O goes through declared tools — this acts as a hard permission boundary.
 
@@ -111,6 +113,83 @@ MCP servers provide structured tool interfaces for agents. All I/O goes through 
 ---
 
 ## External MCP Servers
+
+### clear-thought
+
+**Purpose:** 38 structured reasoning operations for enhanced problem-solving
+
+**Package:** `@waldzellai/clear-thought-onepointfive`
+
+**Configuration:** Global in `~/.claude.json`:
+
+```json
+{
+  "mcpServers": {
+    "clear-thought": {
+      "command": "node",
+      "args": ["/path/to/clearthought-onepointfive/dist/cli/stdio-server.js"]
+    }
+  }
+}
+```
+
+**Single Tool:** `clear_thought` with `operation` parameter
+
+**Operations by Category:**
+- **Core:** `sequential_thinking`, `mental_model`, `debugging_approach`, `creative_thinking`, `visual_reasoning`, `metacognitive_monitoring`, `scientific_method`
+- **Collaborative:** `collaborative_reasoning`, `decision_framework`, `socratic_method`, `structured_argumentation`
+- **Analysis:** `systems_thinking`, `analogical_reasoning`, `causal_analysis`, `statistical_reasoning`, `simulation`, `optimization`, `ethical_analysis`
+- **Patterns:** `tree_of_thought`, `beam_search`, `mcts`, `graph_of_thought`
+- **Strategic:** `ooda_loop`, `ulysses_protocol`
+- **Session:** `session_info`, `session_export`, `session_import`
+
+**Usage:**
+- Via `/clear-thought` command with flags (`--seq`, `--model`, `--debug`, etc.)
+- Via `/think` command for strategy recommendations
+- Direct MCP call: `mcp__clear-thought__clear_thought`
+
+**See:** `quick-reference/readme-clear-thought.md` for full flag reference
+
+---
+
+### stochastic-thinking
+
+**Purpose:** Probabilistic algorithms for decision-making under uncertainty
+
+**Package:** `@waldzellai/stochasticthinking`
+
+**Configuration:** Global in `~/.claude.json`:
+
+```json
+{
+  "mcpServers": {
+    "stochastic-thinking": {
+      "command": "npx",
+      "args": ["-y", "@waldzellai/stochasticthinking"]
+    }
+  }
+}
+```
+
+**Tool:** `stochasticalgorithm` with `algorithm` parameter
+
+**Algorithms:**
+| Algorithm | Use Case |
+|-----------|----------|
+| `mdp` | Sequential decisions with rewards (Markov Decision Process) |
+| `mcts` | Game trees, strategic planning (Monte Carlo Tree Search) |
+| `bandit` | A/B testing, exploration vs exploitation |
+| `bayesian` | Optimization under uncertainty |
+| `hmm` | Pattern inference, time series (Hidden Markov Model) |
+
+**When to Use:**
+- `bandit` - A/B testing, ad placement, resource allocation
+- `mdp` - Robot navigation, long-term policy optimization
+- `mcts` - Game playing, strategic planning
+- `bayesian` - Hyperparameter tuning, expensive experiments
+- `hmm` - Weather patterns, state inference from sequences
+
+---
 
 ### playwright
 

@@ -1,5 +1,51 @@
 # Changelog
 
+## v2.4.2 (2025-11-29) – Clear Thought Integration
+
+### Reasoning MCPs
+
+**Clear Thought MCP Added:**
+- 38 structured reasoning operations via single `clear_thought` tool
+- Operations: sequential thinking, mental models, debugging, creative, visual, systems thinking, causal analysis, OODA loop, Ulysses protocol, and more
+- Session management (export/import) for long-running reasoning
+
+**Stochastic Thinking MCP Added:**
+- Probabilistic algorithms: MDPs, MCTS, Multi-Armed Bandits, Bayesian optimization, HMMs
+- Decision-making under uncertainty
+
+### New Commands
+
+**`/clear-thought` - Unified Reasoning:**
+- 27 flags organized by category (core, collaborative, analysis, patterns, strategic, session)
+- `--help` displays full flag reference
+- Examples: `--seq`, `--model`, `--debug`, `--collab`, `--decide`, `--tree`, `--ooda`, `--ulysses`
+
+**`/think` - Reasoning Strategy Advisor:**
+- Analyzes problems and recommends which thinking tools to use
+- Provides multi-phase reasoning sequences with ready-to-copy prompts
+- Suggests stochastic tools when probability/uncertainty is involved
+
+### Quick References
+
+- `quick-reference/readme-clear-thought.md` - Full flag reference
+- `quick-reference/readme-research.md` - Research lane (8 agents)
+- Expanded `readme-data.md` and `readme-seo.md`
+
+### Next.js Verification Update
+
+- ESLint-based TypeScript style gate now explicit in `nextjs-verification-agent`
+- Lint command resolution: `npm run lint` → `npx eslint` → not configured
+- Order enforced: lint → tests → build
+
+### Documentation Sync
+
+- README.md updated: 85 agents, v2.4.1 references
+- docs/readme.md: Added `/think` and `/clear-thought` commands
+- quick-reference/os2-commands.md: New Reasoning Commands section
+- quick-reference/mcps.md: Clear Thought + Stochastic MCPs documented
+
+---
+
 ## v2.4.1 (2025-11-28) – Agent Enrichment
 
 ### Universal Skills

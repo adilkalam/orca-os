@@ -68,6 +68,8 @@ See [pipelines/](pipelines/) for detailed architecture of each lane.
 | `/kg` | KG-first research for OBDN (peptides, protocols) |
 | `/audit` | Retrospective RA analysis |
 | `/root-cause` | Diagnostic investigation |
+| `/think` | Reasoning strategy advisor (recommends thinking tools) |
+| `/clear-thought` | Unified reasoning operations (38 tools via Clear Thought MCP) |
 
 ## Key Principles
 

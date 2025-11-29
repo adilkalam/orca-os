@@ -17,7 +17,7 @@
 |   - Response awareness (track assumptions, not just outputs)     |
 |   - Evidence-based completion (tests pass or it is not done)     |
 |   - Programmatic gate enforcement (hooks tied to artifacts)      |
-|   - Multi-lane orchestration (7 domains, 68 agents)              |
+|   - Multi-lane orchestration (9 domains, 85 agents)              |
 |   - Complexity routing (simple tweaks to complex features)       |
 |   - Self-improvement (agents learn from execution history)       |
 |                                                                  |
@@ -98,14 +98,14 @@ Where it fails:
    - Assumptions, bias, and uncertainty are not surfaced or fed into
      gates.
 
-Vibe OS 2.3.1 answers: "What if context, memory, and orchestration were
+Vibe OS 2.4.1 answers: "What if context, memory, and orchestration were
 part of the architecture, not just the prompt?"
 
 ---
 
 ## 2. High‑Level Architecture
 
-At a high level, Vibe OS 2.3.1 is defined first by its environment:
+At a high level, Vibe OS 2.4.1 is defined first by its environment:
 memory and context on your machine. Everything else – planning,
 orchestration, agents, and workflows – is layered on top of that
 baseline.
@@ -386,7 +386,7 @@ Skills are structured knowledge packs:
 Agents load skills as needed, not by default. This keeps prompts lean
 while still enabling deep domain expertise when required.
 
-### 6.3 Self-Improvement Loop (v2.3.1)
+### 6.3 Self-Improvement Loop (v2.4.1)
 
 Agents now learn from execution history:
 
@@ -549,7 +549,7 @@ standards and verification.
 
 ## 8. Design Decisions and Novelty
 
-Some of the key choices behind Vibe OS 2.3.1:
+Some of the key choices behind Vibe OS 2.4.1:
 
 1. **Context and memory as first‑class architecture**
    - ProjectContextServer MCP, Workshop, and `vibe.db` form a shared
@@ -593,14 +593,14 @@ Some of the key choices behind Vibe OS 2.3.1:
    - `/root-cause` to assemble lane‑specific diagnostic squads (e.g.,
      iOS testing + SPM config specialists) when things fail.
 
-8. **Self‑improvement loop (v2.3.1)**
+8. **Self‑improvement loop (v2.4.1)**
    - Grand-architects record execution outcomes at pipeline end.
    - Pattern detection identifies recurring issues (3+ occurrences).
    - Improvement proposals generated in structured format.
    - User approval required before applying changes to agents.
    - Learned rules accumulate in agent definitions over time.
 
-Taken together, these decisions turn Vibe OS 2.3.1 from "a pile of
+Taken together, these decisions turn Vibe OS 2.4.1 from "a pile of
 prompts and agents" into a coherent, layered system:
 
 - Memory and context as the foundation.

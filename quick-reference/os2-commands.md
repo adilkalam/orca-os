@@ -1,7 +1,7 @@
 # OS 2.4 Commands Quick Reference
 
-**Last Updated:** 2025-11-27
-**Version:** OS 2.4
+**Last Updated:** 2025-11-29
+**Version:** OS 2.4.1
 
 ## What's New in OS 2.4
 
@@ -236,6 +236,49 @@ All `/orca-*` commands support three execution modes:
 - New standards from failures
 - Learnings for future tasks
 ```
+
+---
+
+### Reasoning Commands
+
+#### `/think` - Reasoning Strategy Advisor
+**NEW in OS 2.4.1**
+
+- **Purpose:** Analyze a problem and recommend which thinking tools to use
+- **Usage:** `/think "problem or scenario"`
+- **What it does:**
+  - Classifies problem type (architecture, debugging, decision, planning, etc.)
+  - Recommends Clear Thought operations in optimal sequence
+  - Provides ready-to-copy prompts for each phase
+  - Suggests stochastic tools when probability/uncertainty is involved
+- **Example:**
+  ```bash
+  /think Should we use microservices or monolith?
+  /think How do I debug this intermittent failure?
+  /think Plan migration from Expo to Swift iOS
+  ```
+- **Location:** `~/.claude/commands/think.md`
+
+#### `/clear-thought` - Unified Reasoning Operations
+**NEW in OS 2.4.1**
+
+- **Purpose:** Access 38 reasoning operations via Clear Thought MCP
+- **Usage:** `/clear-thought <flag> <prompt>` or `/clear-thought --help`
+- **Flags by Category:**
+  - **Core:** `--seq`, `--model`, `--debug`, `--creative`, `--visual`, `--meta`, `--science`
+  - **Collaborative:** `--collab`, `--decide`, `--socratic`, `--argue`
+  - **Analysis:** `--systems`, `--analogy`, `--causal`, `--stats`, `--optimize`, `--ethics`
+  - **Patterns:** `--tree`, `--beam`, `--mcts`, `--graph`
+  - **Strategic:** `--ooda`, `--ulysses`
+  - **Session:** `--info`, `--export`, `--import`
+- **Examples:**
+  ```bash
+  /clear-thought --seq How should I refactor auth?
+  /clear-thought --decide Postgres vs MongoDB?
+  /clear-thought --ulysses critical Checkout broken
+  ```
+- **Location:** `~/.claude/commands/clear-thought.md`
+- **Quick Reference:** `quick-reference/readme-clear-thought.md`
 
 ---
 

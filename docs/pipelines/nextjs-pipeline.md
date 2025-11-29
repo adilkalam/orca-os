@@ -586,7 +586,7 @@ an additional **CSS Architecture Gate** runs as well.
 
 ---
 
-### Phase 8: Verification (Build + Test)
+### Phase 8: Verification (Lint + Build + Test)
 
 **Agent:** `nextjs-verification-agent`
 
@@ -595,21 +595,27 @@ an additional **CSS Architecture Gate** runs as well.
 - ContextBundle
 
 **Tasks:**
-1. Run build: `npm run build` (or project equivalent)
-2. Capture build output
-3. Run tests (if they exist): `npm test`
-4. Capture test output
-5. Check for warnings/errors
+1. Resolve commands from `package.json` and project structure:
+   - Lint (TS style gate): prefer `npm run lint` (ESLint), or `npx eslint . --ext .ts,.tsx,.js,.jsx` when no script exists.
+   - Tests: `npm test`, `npm run test`, `next test`, Playwright scripts, etc.
+   - Build: `npm run build` or project equivalent.
+2. Run verification in this order:
+   - Lint (ESLint-based TS style gate),
+   - Tests (if configured),
+   - Build.
+3. Capture exit codes and high-level summaries for each command.
+4. Classify `verification_status` and record `commands_run` in `phase_state.verification`.
 
 **Output:**
-- Build status (success/failure)
-- Build output
+- Lint summary (errors/warnings, key rules broken) when lint is configured
+- Build status (success/failure) and brief output summary
 - Test results (if run)
 
 **Success Criteria:**
+- Lint (if configured) succeeds (ESLint TS style gate passes)
 - Build succeeds with no errors
-- Tests pass (if run)
-- No new warnings introduced
+- Tests pass when a test script exists
+- No new high-severity warnings introduced
 
 **Artifacts:**
 - Build log: `.claude/orchestration/evidence/build-TIMESTAMP.log`
