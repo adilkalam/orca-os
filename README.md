@@ -92,7 +92,7 @@ An orchestration and memory layer that transforms Claude Code from a developer c
 
 ## The Foundation
 
-**Memory persists.**
+### Memory persists
 One of the most frustrating things about AI tools is that conversations exist in isolation—Claude in particular has the memory of a goldfish. No history, no continuity, no evolution. You explain the same context every time.
 
 ORCA builds a working relationship. The more you work together on a project, the more the system understands - your standards, your preferences, why you made past decisions, what's been tried and failed. Like any good collaboration, it gets better over time.
@@ -101,7 +101,7 @@ Decisions are captured with their reasoning. Ask "why did we set it up this way?
 
 'Gotchas' and failures are captured too - **when something goes wrong, it's remembered so it doesn't happen again.** Agents learn from your project's history, not just generic training data.
 
-**Reasoning is structured—and incredibly powerful.**
+### Reasoning is structured—and incredibly powerful
 Complex problems get dedicated thinking tools. While a typical AI can brainstorm with a user when prompted, ORCA's `/think` command analyzes your problem and recommends which reasoning approach to use. Clear Thought MCP provides 38 reasoning operations:
 
   | Flag       | Purpose                                                        |
@@ -117,7 +117,7 @@ Complex problems get dedicated thinking tools. While a typical AI can brainstorm
 
 The Sequential Thinking MCP enables multi-step reasoning with revision - hypotheses can be generated, tested, and backtracked when needed. This isn't "AI winging it." It's structured problem-solving with explicit methodology.
 
-**Requirements before code.**
+### Requirements before code
 The most frustrating AI failures aren't bugs - it's confident execution in the wrong direction. The AI fills in gaps with assumptions and defaults its trained on— and by the time you see the output, you're three layers deep into something you didn't want. **This is the failure mode that makes people give up on AI tools entirely.**
 
 ORCA structurally prevents this. Complex tasks start with questions that surface the assumptions you didn't know were being made. "What's the target audience for this?" "Should this match existing brand guidelines?" "What happens if this fails halfway through?" "Does this need to work offline?" The blind spots that would send the work veering off course get caught upfront.
@@ -126,7 +126,7 @@ This is what makes the orchestration actually work. Without requirements gatheri
 
 By the time execution starts, you're aligned on what "done" actually looks like.
 
-**Awareness during execution.**
+### Awareness during execution 
 AI models have internal states that normally stay hidden. Uncertainty about whether a method exists. The pull to generate output because 'this patterns usually expects this output.' The gradual degradation of earlier context as the response gets longer. These aren't anthropomorphism - research shows they're measurable dimensions in how models process information.
 
 The problem: these states drive behavior but remain invisible. The model fills a gap with an assumption, and you don't know until something breaks. It generates boilerplate because the pattern "feels complete" that way, not because you needed it. Earlier context fades, and the model reconstructs what "seems right" instead of what was actually said.
@@ -163,11 +163,14 @@ The solution isn't better prompts. It's architecture.
 
 ORCA has 85 agents, but the number doesn't matter. What matters is that they have roles that can't bleed into each other.
 
-**Orchestrators** coordinate. They classify tasks, query memory, delegate work, track progress. They never touch files. The moment an orchestrator starts editing code, it stops being able to see the whole picture - it gets lost in implementation details, context fills with diffs, and the workflow loses coherence.
+### Orchestrators coordinate
+They classify tasks, query memory, delegate work, track progress. They never touch files. The moment an orchestrator starts editing code, it stops being able to see the whole picture - it gets lost in implementation details, context fills with diffs, and the workflow loses coherence.
 
-**Specialists** implement. A SwiftUI specialist knows SwiftUI. A CSS specialist knows design tokens. They receive scoped tasks, do the work, report back. They don't decide what to build next.
+### Specialists implement:
+A SwiftUI specialist knows SwiftUI. A CSS specialist knows design tokens. They receive scoped tasks, do the work, report back. They don't decide what to build next.
 
-**Gates** validate. They run the build, check the tests, measure against standards. A gate scores work 0-100 and reports PASS, CAUTION, or FAIL. Gates never fix anything. They report. The orchestrator decides what to do with that information.
+### Gates validate
+They run the build, check the tests, measure against standards. A gate scores work 0-100 and reports PASS, CAUTION, or FAIL. Gates never fix anything. They report. The orchestrator decides what to do with that information.
 
 This isn't bureaucracy. It's the only way multi-step autonomous workflows stay coherent—and resembles how actual human teams work.
 
@@ -329,7 +332,7 @@ Memory isn't one system—it's three, each solving a different retrieval problem
         not a blank slate.
 ```
 
-**Why three layers instead of one?**
+### Why three layers instead of one?
 
 | Layer | Optimized For | Trade-off |
 |-------|---------------|-----------|
