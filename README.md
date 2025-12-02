@@ -1,21 +1,5 @@
-```
-                                                                        
-      ___           ___           ___           ___     
-     /\  \         /\  \         /\  \         /\  \    
-    /::\  \       /::\  \       /::\  \       /::\  \   
-   /:/\:\  \     /:/\:\  \     /:/\:\  \     /:/\:\  \  
-  /:/  \:\  \   /::\~\:\  \   /:/  \:\  \   /::\~\:\  \ 
- /:/__/ \:\__\ /:/\:\ \:\__\ /:/__/ \:\__\ /:/\:\ \:\__\
- \:\  \ /:/  / \/_|::\/:/  / \:\  \  \/__/ \/__\:\/:/  /
-  \:\  /:/  /     |:|::/  /   \:\  \            \::/  / 
-   \:\/:/  /      |:|\/__/     \:\  \           /:/  /  
-    \::/  /       |:|  |        \:\__\         /:/  /   
-     \/__/         \|__|         \/__/         \/__/    
-
-```                                   
----
-
 # Orchestrated Response Coordination Architecture (ORCA OS)
+---
 
 An orchestration and memory layer that transforms Claude Code from a developer companion tool into a multi-agent development environment with persistent memory, domain pipelines, and commercial-grade prompting—allowing Claude Code to run autonomously for hours, with iterative loops on output.
 
