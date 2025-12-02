@@ -4,7 +4,7 @@ An orchestration and memory layer that transforms Claude Code from a developer c
 
 ---
 
-## How It Works
+## HOW IT WORKS
 
 ```text
                                                    +-------------------------+
@@ -73,7 +73,7 @@ An orchestration and memory layer that transforms Claude Code from a developer c
 
 ---
 
-## The Foundation
+## THE FOUNDATION
 
 ### Memory persists
 One of the most frustrating things about AI tools is that conversations exist in isolation—Claude in particular has the memory of a goldfish. No history, no continuity, no evolution. You explain the same context every time.
@@ -122,7 +122,7 @@ The problem: these states drive behavior but remain invisible. The model fills a
 These aren't just comments - they're checkpoints. Verification agents review every tag, confirm or correct the assumption, and document the resolution. What would silently compound into bugs gets caught, examined, and resolved. Planning catches what you can anticipate. Response Awareness catches what you can't.
 ---
 
-## Why Agent Definitions Matter
+## WHY AGENT DEFINITIONS MATTER
 
 Most agent frameworks define agents like this:
 
@@ -190,7 +190,7 @@ The agents remember what your project taught them.
 
 ---
 
-## How Good Results Are Produced
+## HOW GOOD RESULTS ARE PRODUCED
 
 ORCA OS produces consistent results through a structured process:
 
@@ -251,7 +251,7 @@ ORCA OS produces consistent results through a structured process:
 
 ---
 
-## How Memory Works
+## MEMORY ARCHITECTURE
 
 Memory isn't one system—it's three, each solving a different retrieval problem.
 
@@ -327,7 +327,7 @@ Most questions hit Workshop and stop—past decisions answer most "why" question
 
 ---
 
-## Agents by Domain—Examples
+## DOMAIN SPECIFIC AGENTS
 
 ORCA OS includes 85+ agents across multiple domains.
 
