@@ -120,6 +120,7 @@ The problem: these states drive behavior but remain invisible. The model fills a
 - #CONTEXT_DEGRADED: Reconstructing the auth flow from partial recall
 
 These aren't just comments - they're checkpoints. Verification agents review every tag, confirm or correct the assumption, and document the resolution. What would silently compound into bugs gets caught, examined, and resolved. Planning catches what you can anticipate. Response Awareness catches what you can't.
+
 ---
 
 ## WHY AGENT DEFINITIONS MATTER
